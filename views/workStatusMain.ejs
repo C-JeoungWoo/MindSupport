@@ -1,0 +1,1972 @@
+<div class="inner">
+  <div class="topBar"><!-- 상단 로그아웃 div start -->
+    <div class="rSideNav"><!-- rSideNav div start -->
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_name %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li>
+            <a href='#' onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a>
+          </li>
+        </ul>
+      </div>
+    </div><!-- rSideNav div end -->
+  </div><!-- topBar div end -->
+
+  <!-- 20240821 최정우 연구원 새로고침 버튼을 위한 UI 배치 및 CSS 변경  -->
+  <div class="mainTitle flex"><!-- 근무현황, 감성코칭이 필요한 상담사 div start-->
+    <h2>근무 현황</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">새로고침<span></span></button>
+    <!-- <a class="clickReload"><img src="../images/free_reload.png" alt="페이지 새로고침"></a> -->
+  </div><!-- mainTitle gap div end -->
+  <div class="mainTitle gap">
+    <h3 class="grey gap">감성코칭이 필요한 상담원</h3>
+  </div>
+  <div class="itemWrap titlegap"><!-- itemWrap div start -->
+    <div class="slick-wrap">
+      <button class="btnPrev" type="button" name="이전 슬라이드 버튼"></button>
+      <button class="btnNext" type="button" name="다음 슬라이드 버튼"></button>
+      <div class="slickWrap">
+        <div class="slick-list">
+          <% if (needed_coaching.length === 0) { %>
+            <div class="item"></div>
+          <% } else { %>
+            <% for(var i=0; i<needed_coaching.length; i++) {
+              let data = needed_coaching[i]; %>
+              <% if ((data.agent_anger > data.auto_over_anger) && (data.agent_sad > data.auto_over_sad)) { %>
+                <div class="item" data-agent-id="<%= i %>">
+                  <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
+                    <% if (data.agent_anger > data.agent_sad) { %>
+                      <div class="imgArea angry">
+                        <img src="../images/ic_angry.svg" alt="화남" data-auto-calltime="<%= data.call_time %>" data-auto-standard="<%= data.auto_standard %>" data-auto-seq="<%= data.auto_seq %>" class="standard_img">
+                      </div>
+                      <div class="textArea">
+                        <p class="state angry" data-agent-sad="<%= data.agent_sad %>" data-agent-angry="<%= data.agent_anger %>">화남</p>
+                        <p class="agents agent-name" data-login-id="<%= data.login_id %>" data-agent-oversad="<%= data.agent_over_sad %>" data-agent-overangry="<%= data.agent_over_anger %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+                      </div>
+                    <% } else { %>
+                      <div class="imgArea sad">
+                        <img src="../images/ic_sad.svg" alt="슬픔" data-auto-calltime="<%= data.call_time %>" data-auto-standard="<%= data.auto_standard %>" data-auto-seq="<%= data.auto_seq %>" class="standard_img">
+                      </div>
+                      <div class="textArea">
+                        <p class="state sad" data-agent-sad="<%= data.agent_sad %>" data-agent-angry="<%= data.agent_anger %>">슬픔</p>
+                        <p class="agents agent-name" data-login-id="<%= data.login_id %>" data-agent-oversad="<%= data.agent_over_sad %>" data-agent-overangry="<%= data.agent_over_anger %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+                      </div>
+                    <% } %>
+                  </a>
+                </div>
+              <% } else if ((data.agent_anger > data.auto_over_anger) && (data.agent_sad < data.auto_over_sad)) { %>
+                <div class="item" data-agent-id="<%= i %>">
+                  <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
+                    <div class="imgArea angry">
+                      <img src="../images/ic_angry.svg" alt="화남" data-auto-calltime="<%= data.call_time %>" data-auto-standard="<%= data.auto_standard %>" data-auto-seq="<%= data.auto_seq %>" class="standard_img">
+                    </div>
+                    <div class="textArea">
+                      <p class="state angry" data-agent-sad="<%= data.agent_sad %>" data-agent-angry="<%= data.agent_anger %>">화남</p>
+                      <p class="agents agent-name" data-login-id="<%= data.login_id %>" data-agent-oversad="<%= data.agent_over_sad %>" data-agent-overangry="<%= data.agent_over_anger %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+                    </div>
+                  </a>
+                </div>
+              <% } else if ((data.agent_anger < data.auto_over_anger) && (data.agent_sad > data.auto_over_sad)) { %>
+                <div class="item" data-agent-id="<%= i %>">
+                  <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
+                    <div class="imgArea sad">
+                      <img src="../images/ic_sad.svg" alt="슬픔" data-auto-calltime="<%= data.call_time %>" data-auto-standard="<%= data.auto_standard %>" data-auto-seq="<%= data.auto_seq %>" class="standard_img">
+                    </div>
+                    <div class="textArea">
+                      <p class="state sad" data-agent-sad="<%= data.agent_sad %>" data-agent-angry="<%= data.agent_anger %>">슬픔</p>
+                      <p class="agents agent-name" data-login-id="<%= data.login_id %>" data-agent-oversad="<%= data.agent_over_sad %>" data-agent-overangry="<%= data.agent_over_anger %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+                    </div>
+                  </a>
+                </div>
+              <% } else { %>
+                <div class="item" data-agent-id="<%= i %>">
+                  <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
+                    <% if (data.agent_anger > data.agent_sad) { %>
+                      <div class="imgArea angry">
+                        <img src="../images/ic_angry.svg" alt="화남" data-auto-calltime="<%= data.call_time %>" data-auto-standard="<%= data.auto_standard %>" data-auto-seq="<%= data.auto_seq %>" class="standard_img">
+                      </div>
+                      <div class="textArea">
+                        <p class="state angry" data-agent-sad="<%= data.agent_sad %>" data-agent-angry="<%= data.agent_anger %>">화남</p>
+                        <p class="agents agent-name" data-login-id="<%= data.login_id %>" data-agent-oversad="<%= data.agent_over_sad %>" data-agent-overangry="<%= data.agent_over_anger %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+                      </div>
+                    <% } else { %>
+                      <div class="imgArea sad">
+                        <img src="../images/ic_sad.svg" alt="슬픔" data-auto-calltime="<%= data.call_time %>" data-auto-standard="<%= data.auto_standard %>" data-auto-seq="<%= data.auto_seq %>" class="standard_img">
+                      </div>
+                      <div class="textArea">
+                        <p class="state sad" data-agent-sad="<%= data.agent_sad %>" data-agent-angry="<%= data.agent_anger %>">슬픔</p>
+                        <p class="agents agent-name" data-login-id="<%= data.login_id %>" data-agent-oversad="<%= data.agent_over_sad %>" data-agent-overangry="<%= data.agent_over_anger %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+                      </div>
+                    <% } %>
+                  </a>
+                </div>
+              <% } %>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div><!-- itemWrap div end -->
+  
+  <!-- 상담원 근무현황 div start -->
+  <div class="mainTitle gap flex">
+    <h3 class="grey gap">상담원 현황</h3>
+    <div class="status">
+      <span class="happy">행복</span>
+      <span class="calm">평온</span>
+      <span class="angry">화남</span>
+      <span class="sad">슬픔</span>
+      <span class="offline">기타</span>
+      <span style="margin-right: 25px;">|</span>
+      <span class="calling">통화중</span>
+      <span class="notcalling">대기중</span>
+    </div>
+  </div>
+
+  <div class="mainTitle gap flex" style="margin-top: 3%; color: #667085;">
+    <h4 class="grey gap">현재 접속 인원</h4>
+  </div>
+
+  <!-- 접속 인원 div start -->
+  <div class="itemWrap titlegap faceItem" id="presentAgents">
+    <% if (present_agent.length == 0) { %> 
+      <div class="item"></div>
+    <% } else { %>
+      <% for(var i=0; i<present_agent.length; i++) {
+        let data = present_agent[i]; 
+        let borderClass = data.last_call_status === 1 ? 'border-purple' : 'border-gray';
+        %>
+        <% if (data.emotion_type === '6') { %>
+          <div class="item <%= borderClass %>">
+            <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+              <div class="imgArea happy">
+                <img src="../images/ic_happy.svg" alt="기쁨">
+              </div>
+              <div class="textArea">
+                <p class="agents agents2" data-username="<%= data.emo_user_name %>" data-loginid="<%= data.login_id %>"><%= data.emo_user_name %>(<%= data.login_id %>)</p>
+              </div>
+            </a>
+          </div>
+        <% } else if (data.emotion_type === '7') { %>
+          <div class="item <%= borderClass %>">
+            <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+              <div class="imgArea sad">
+                <img src="../images/ic_sad.svg" alt="슬픔">
+              </div>
+              <div class="textArea">
+                <p class="agents agents2" data-username="<%= data.emo_user_name %>" data-loginid="<%= data.login_id %>"><%= data.emo_user_name %>(<%= data.login_id %>)</p>
+              </div>
+            </a>
+          </div>
+        <% } else if (data.emotion_type === '8') { %>
+          <div class="item <%= borderClass %>">
+            <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+              <div class="imgArea angry">
+                <img src="../images/ic_angry.svg" alt="화남">
+              </div>
+              <div class="textArea">
+                <p class="agents agents2" data-username="<%= data.emo_user_name %>" data-loginid="<%= data.login_id %>"><%= data.emo_user_name %>(<%= data.login_id %>)</p>
+              </div>
+            </a>
+          </div>
+        <% } else if (data.emotion_type === '11') { %>
+          <div class="item <%= borderClass %>">
+            <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+              <div class="imgArea calm">
+                <img src="../images/ic_calm.svg" alt="평온">
+              </div>
+              <div class="textArea">
+                <p class="agents agents2" data-username="<%= data.emo_user_name %>" data-loginid="<%= data.login_id %>"><%= data.emo_user_name %>(<%= data.login_id %>)</p>
+              </div>
+            </a>
+          </div>
+        <% } else { %>
+          <div class="item <%= borderClass %>">
+            <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+              <div class="imgArea offline" style="background-color: lightgray;"></div>
+              <div class="textArea">
+                <p class="agents agents2" data-username="<%= data.emo_user_name %>" data-loginid="<%= data.login_id %>"><%= data.emo_user_name %>(<%= data.login_id %>)</p>
+              </div>
+            </a>
+          </div>
+        <% } %>
+      <% } %>
+    <% } %>
+  </div>
+  <!-- 접속 인원 div end -->
+
+  <!-- 비접속 인원 div start -->
+  <div class="mainTitle gap flex topMargin" style="margin-top: 3%; color: #667085;">
+    <h4 class="grey gap">비접속 인원</h4>
+  </div>
+
+  <div class="itemWrap titlegap faceItem" id="not_presentAgents">
+    <% if (notPresent_agent.length == 0) { %> 
+      <div class="item"></div>
+    <% } else { %>
+      <% for(var i=0; i<notPresent_agent.length; i++) {
+        let data = notPresent_agent[i]; %>
+        <div class="item">
+          <a href="#" role="button" title="상담원 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents3').dataset)">
+            <div class="imgArea offline" style="background-color: lightgray;">
+            </div>
+            <div class="textArea">
+              <p class="agents agents3" data-username="<%= data.user_name %>" data-loginid="<%= data.login_id %>"><%= data.user_name %>(<%= data.login_id %>)</p>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    <% } %>
+  </div>
+
+  <!-- 비접속 인원 div end -->
+</div>
+<!-- inner end -->
+
+<!-- 상담원 상세 근무현황 div -->
+<div class="baseModals">
+  <div class="modal-content oneDepth">
+    <div class="modalTitle spaceBtwn">
+      <h4><!-- AJAX로 데이터 채움 --></h4>
+      <div>
+        <div class="searchArea">
+          <input type="search" name="상담원명 검색" placeholder="상담원 명" aria-label="상담사명 검색">
+          <button type="button" class="searchBtn" aria-label="검색버튼"><img src="../images/ic_search_w.svg" alt="검색"></button>
+        </div>
+        <button type="button" class="modal-close" onclick="baseModalClose()" aria-label="근무현황 모달 닫기"></button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <h5>금일 감성상태</h5>
+      <div class="facialItemList borderGrey"><!-- AJAX로 데이터 채움 --></div>
+      <div class="gridWrap topMargin">
+        <div class="boxWrap">
+          <div class="gap" style="margin-top: 1rem;"></div>
+          <div class="gap" style="font-size:1.5rem;">고객</div>
+          <div class="gap" style="font-size:1.3rem;">통화상태</div>
+          <div class="gap" style="font-size:1.5rem;">상담원</div>
+        </div>
+        <div class="chartContainer" style="width:100%; overflow-x: scroll; white-space: nowrap;">
+          <!-- 한 화면에 1시간 정도만 보이게 해놓음 밑에 width값 조정해서 변경 가능 -->
+          <div class="chartWrap" style=" width:850%;">
+            <div class="timeStamp">
+              <ul id="timeList"></ul>
+            </div>
+            <div class="cvWrap" style="border:none;"> <!-- 고객의 통화 감정 상태-->
+              <canvas id="customerStatus" height="60"></canvas>
+            </div>
+            <div class="cvWrap gap" style="border:none;"> <!-- 고객과 상담원의 통화 상태(통화중 = 보라색, 그 외 = 회색)-->
+              <canvas id="callStatus" height="15"></canvas>
+            </div>
+            <div class="cvWrap gap" style="border:none;"><!-- 상담원의 통화 감정 상태-->
+              <canvas id="counselorStatus" height="60" style="margin-bottom:1rem"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 상담원 통화 이력 -->
+      <div class="sectionHeader">
+        <strong>최근 상담 이력</strong>
+        <div class="selectWrap">
+            <div class="btnWrap gap">
+              <ul>
+                <li><button type="button" class="singleBtn" onclick="smallModalOpen()"  aria-label="검색 버튼">조회</button></li>
+              </ul>
+            </div>
+        </div>
+      </div>
+      <!-- 페이지네이션 -->
+
+      <div class="pagelist">
+      <table class="history">
+        <colgroup>
+          <col style="width:3%;">
+          <col style="width:3%;">
+          <col style="width:20%;">
+          <col style="width:8%;">
+          <col style="width:8%;">
+          <col style="width:6%;">
+          <col style="width:6%;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+        </colgroup>
+        <thead> 
+          <tr>
+            <!-- rowspan은 태그의 숫자만큼 행을 합친다. -->
+            <!-- colspan은 태그의 숫자만큼 행을 합친다. -->
+            <th rowspan="2"><input type="checkbox" name="all" onclick="allselect(this.checked)" style="width: 1.4em; height: 1.4em;"></th>
+            <th rowspan="2">No.</th>
+            <th rowspan="2">Call ID</th>
+            <th rowspan="2">날짜</th>
+            <th rowspan="2">시간</th>
+            <th rowspan="2">고객번호</th>
+            <th rowspan="2">상담유형</th>
+            <th rowspan="2">통화시간</th>
+            <th colspan="5" class="nonBorder" style="padding-bottom: 1%;">감성(고객)</th>
+            <th colspan="5" class="nonBorder" style="padding-bottom: 1%;">감성(상담원)</th>
+            <th colspan="5" class="nonBorder" style="padding-bottom: 1%;">코칭(유형별)</th>
+          </tr>
+          <tr>
+            <th class="bottom">행복</th>
+            <th class="bottom">평온</th>
+            <th class="bottom">화남</th>
+            <th class="bottom">슬픔</th>
+            <th class="bottom">무응답</th>
+            <th class="bottom">행복</th>
+            <th class="bottom">평온</th>
+            <th class="bottom">화남</th>
+            <th class="bottom">슬픔</th>
+            <th class="bottom">무응답</th>
+            <th class="bottom">자동</th>
+            <th class="bottom">수동</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
+            <td scope="row">1</td>
+            <td scope="row">20240828091052473_A_2502</td>
+            <td scope="row">2024 10-22</td>
+            <td scope="row">09시10분</td>
+            <td scope="row">1000</td>
+            <td scope="row">민원접수</td>
+            <td scope="row">2분 10초</td>
+            <!-- 고객 -->
+            <td scope="row">0</td>
+            <td scope="row">10</td>
+            <td scope="row">15</td>
+            <td scope="row">1</td>
+            <td scope="row">24</td>
+            <!-- 상담원 -->
+            <td scope="row">0</td>
+            <td scope="row">12</td>
+            <td scope="row">6</td>
+            <td scope="row">3</td>
+            <td scope="row">29</td>
+            <!-- 자동 / 수동 -->
+            <td scope="row">6</td>
+            <td scope="row">3</td>
+          </tr>
+
+          <tr>
+            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
+            <td scope="row">2</td>
+            <td scope="row">20240828104527670_B_2502</td>
+            <td scope="row">2024 10-22</td>
+            <td scope="row">11시 01분</td>
+            <td scope="row">3874</td>
+            <td scope="row">일반문의</td>
+            <td scope="row">1분 4초</td>
+            <!-- 고객 -->
+            <td>8</td>
+            <td>6</td>
+            <td>0</td>
+            <td>0</td>
+            <td>7</td>
+            <!-- 상담원 -->
+            <td>5</td>
+            <td>8</td>
+            <td>0</td>
+            <td>0</td>
+            <td>8</td>
+            <!-- 자동 / 수동 -->
+            <td>0</td>
+            <td>0</td>
+          </tr>
+
+          <tr>
+            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
+            <td scope="row">3</td>
+            <td scope="row">20240828132635892_C_2502</td>
+            <td scope="row">2024 10-22</td>
+            <td scope="row">13시 26분</td>
+            <td scope="row">2000</td>
+            <td scope="row">일반문의</td>
+            <td scope="row">2분 46초</td>
+            <!-- 고객 -->
+            <td>0</td>
+            <td>37</td>
+            <td>0</td>
+            <td>0</td>
+            <td>18</td>
+            <!-- 상담원 -->
+            <td>3</td>
+            <td>39</td>
+            <td>4</td>
+            <td>1</td>
+            <td>8</td>
+            <!-- 자동 / 수동 -->
+            <td>4</td>
+            <td>0</td>
+          </tr>
+
+          <tr>
+            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
+            <td scope="row">3</td>
+            <td scope="row">20241016132635892_D_2502</td>
+            <td scope="row">2024 10-22</td>
+            <td scope="row">13시 26분</td>
+            <td scope="row">2000</td>
+            <td scope="row">일반문의</td>
+            <td scope="row">2분 46초</td>
+            <!-- 고객 -->
+            <td>0</td>
+            <td>37</td>
+            <td>0</td>
+            <td>0</td>
+            <td>18</td>
+            <!-- 상담원 -->
+            <td>3</td>
+            <td>39</td>
+            <td>4</td>
+            <td>1</td>
+            <td>8</td>
+            <!-- 자동 / 수동 -->
+            <td>4</td>
+            <td>0</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- 나중에 실제 데이터를 삽입할경우 페이지네이션 기능 추가. 지금 넣을 경우 쓸때없이 스크롤만 생김 -->
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+
+    </div><!-- 페이지네이션 끝 -->
+  </div>
+  </div>
+</div><!-- 상담원 상세 근무현황 end -->
+
+<!-- 상세 통화이력 div -->
+<div class="secondModals">
+  <div class="modal-content secondDepth" style="border-radius: 15px;">
+    <div class="modalTitle">
+      <h4>상세 통화이력</h4>
+        <button type="button" class="modal-close" onclick="smallModalClose()"  aria-label="상세 통화 이력 조회 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <h5>CALL ID: 
+        <span id="callIdSpan"><!-- AJAX 데이터--></span>
+        <audio id="audioPlayer"></audio>
+      </h5>
+      <div class="gridWrap">
+        <div></div>
+        <div class="timeStamp" id="timeStampDiv"><!-- AJAX 데이터--></div>
+      </div>
+      <div class="gridWrap">
+        <div class="boxWrap">
+          <div class="gap" style="margin-top:10px">고객</div>
+          <div class="gap" style="margin-top:10px">상담원</div>
+        </div>
+        <div class="chartWrap" style="width: 100%;">
+          <div class="cvWrap gap" style="width:100%; height:auto">
+            <canvas id="counselorStatusDetail"></canvas>
+          </div>
+          <div class="cvWrap topMargin" style="width:100%; height:auto">
+            <canvas id="customerStatusDetail"></canvas>
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+    <div class="buttonsetting">
+      <button type="button" class="primaryBtn playBtn">재생</button>
+      <button type="button" class="primaryBtn pauseBtn" disabled>일시정지</button>
+      <button type="button" class="dangerBtn stopBtn" disabled>정지</button>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 상세 통화이력 end -->
+
+<!-- 코칭이 필요한 상담원 모달 div -->
+<div class="modals" id="coachingModal">
+  <div class="modal-content ">
+    <div class="modalTitle">
+      <h4>감성코칭 메세지 작성</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>상담원 명</label>
+            <input type="text" name="" id="getAgentName2" value="상담사3" disabled  aria-label="상담사 아이디"/>
+          </div>
+          <div>
+            <label>기준시간(초)</label>
+            <input type="text" name="" id="getAutoStandard2" value="" disabled  aria-label="기준시간"/>
+          </div>
+          <div>
+            <label>감성(화남) 횟수</label>
+            <input type="text"  aria-label="화남 횟수" id="getAngry2" name="" value="3회" disabled/>
+          </div>
+          <div>
+            <label>감성(슬픔) 횟수</label>
+            <input type="text"  aria-label="슬픔 횟수" id="getSad2" name="" value="3회" disabled/>
+          </div>
+        </div>
+        <div>
+          <label>코칭내용</label>
+          <textarea name="" aria-label="코칭내용 입력" id="getMsgDetail2" cols="30" rows="10"></textarea>
+        </div>
+      </div>
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" onclick=""  aria-label="코칭하기 버튼" id="submitCoaching">코칭하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()"  aria-label="모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 코칭이 필요한 상담원 모달 end -->
+
+<!-- 상세 근무현황 페이지에서 관리자 코칭 페이지로 이동 모달 div -->
+<div class="modals_move" id="coachingModal_move">
+  <div class="modal-content" style="border-radius: 15px; text-align: center; min-height: auto;">
+    <div class="modalTitle">
+      <h4>관리자 코칭 페이지로 이동하시겠습니까?</h4>
+    </div>
+
+    <div class="modal-body">
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" data-username="" data-loginid=""  aria-label="코칭하기 버튼" id="moveTocoachingAdmin" onclick="moveTocoachingAdmin()">이동하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingMoveModalClose()"  aria-label="모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 코칭이 필요한 상담원 모달 end -->
+
+<!-------------- SOCKET.IO CLIENT, AJAX 통신 -------------->
+<script src = "https://cdn.socket.io/4.6.1/socket.io.min.js" type="text/javascript"></script>
+
+<!-- 상담원 근무현황 시간 바 script -->
+<script>
+  let pausedTime =0;
+  // 감정 및 상태 정의
+  const emotions = {
+    // FF0000-빨강(화남), 0FB300-초록(평온), 0047FF-파랑(슬픔), FFFF00-노랑(기쁨), DEDEDE-회색(중립, 무반응)
+    customer: ['rgba(255, 0, 0, 1)', 'rgba(34, 139, 34, 1)', 'rgba(65, 105, 225, 1)', 'rgba(255, 255, 0, 1)', 'rgba(180, 180, 180, 1)'],
+    // A400BA-보라(통화중), 757575-짙은회색(통화X)
+    call: ['rgba(180, 85, 162, 1)', 'rgba(255, 255, 255, 1)' ],
+    counselor: ['rgba(255, 0, 0, 1)', 'rgba(34, 139, 34, 1)', 'rgba(65, 105, 225, 1)', 'rgba(255, 255, 0, 1)', 'rgba(180, 180, 180, 1)']
+  };
+
+  // 20240906 최정우 연구원 수정
+  // 처음에는 현재시간을 기준으로만 보이게 차트를 생성하려하였으나
+  // 차트를 넓게 표시하면서 전체시간을 기본적으로 넣어놓는게 더 보기좋을것같음
+  // 또한 차트 범위가 넓어지면서 공백이 허전해보여 30분단위로 시간 차트를 생성하는 것으로 코드를 수정하였음
+  function createTimeListAndLabels() {
+    const timeList = document.getElementById('timeList');
+    timeList.innerHTML = '';
+
+    const labels = [];
+
+    // 9시부터 18시까지 30분 단위로 시간 라벨 생성
+    for (let hour = 9; hour <= 18; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+            // 현재 시간 이후로는 라벨을 생성하지 않음
+            if (hour === 18 && minute > 0) break; // 18:30 이후는 생성하지 않음
+            
+            const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+            labels.push(timeString);
+        }
+    }
+
+    // 시간 표시는 30분 단위로 유지 (time 태그 생성)
+    for (let hour = 9; hour <= 18; hour++) {
+        // 00분 표시
+        let span = document.createElement('span');
+        let time = document.createElement('time');
+        time.setAttribute('datetime', `${hour.toString().padStart(2, '0')}:00`);
+
+        let displayHour = hour > 12 ? hour - 12 : hour;  // 12시간 형식으로 표시
+        let amPm = hour >= 12 ? '오후' : '오전';
+        let timeString = `${amPm} ${displayHour}:00`;
+
+        time.textContent = timeString;
+        span.appendChild(time);
+        timeList.appendChild(span);
+
+        // 30분 표시
+        if (hour < 18) { // 마지막 시간 이후에는 30분을 추가하지 않음
+            span = document.createElement('span');
+            time = document.createElement('time');
+            time.setAttribute('datetime', `${hour.toString().padStart(2, '0')}:30`);
+
+            timeString = `${amPm} ${displayHour}:30`;
+
+            time.textContent = timeString;
+            span.appendChild(time);
+            timeList.appendChild(span);
+        }
+    }
+
+    return labels;
+}
+</script>
+<!-- 근무현황 시간 바 script end -->
+
+<!-- Document.ready script start -->
+<script>
+  $(document).ready(() => {
+    let tdArr = {};
+    let tdArr2 = {};
+
+    //  시간 바 생성 및 스크롤 이동 적용
+    document.addEventListener('DOMContentLoaded', function() {
+      const chartWrap = document.querySelector('.chartWrap');
+      const timeStamp = document.querySelector('.timeStamp');
+      const cvWrap = document.querySelector('.cvWrap');
+    
+      if (chartWrap && timeStamp && cvWrap) {
+        // cvWrap의 너비를 timeStamp와 동일하게 설정
+        const setWidth = () => {
+          const cvWrapWidth = Math.max(chartWrap.scrollWidth, chartWrap.clientWidth);
+          timeStamp.style.width = `${cvWrapWidth}px`;
+          cvWrap.style.width = `${cvWrapWidth}px`;
+        };
+    
+        // 초기 너비 설정
+        setWidth();
+
+        cvWrap.addEventListener('scroll', () => {
+          timeStamp.scrollLeft = cvWrap.scrollLeft;
+        });
+    
+        // 스크롤 동기화
+        const syncScroll = () => {
+          timeStamp.scrollLeft = chartWrap.scrollLeft;
+        };
+    
+        chartWrap.addEventListener('scroll', syncScroll);
+    
+        // 창 크기 변경 시 너비 재설정
+        window.addEventListener('resize', setWidth);
+      } else {
+        console.error('필요한 요소를 찾을 수 없습니다.');
+      }
+    });
+    createTimeListAndLabels();
+
+    //  특정 상담원 코칭 모달 창 열기
+    $(document).on('click', '.beforeSendingCoach', function(e) {
+      e.preventDefault(); // 기본 링크 동작 방지
+
+      const item = $(this).closest('.item');
+
+      tdArr = {
+        getAutoStandard: item.find('.standard_img').attr('data-auto-standard'),
+        getAutoSeq: item.find('.standard_img').attr('data-auto-seq'),
+        getCallTime: item.find('.standard_img').attr('data-auto-calltime'),
+        getAgentAngry: item.find('.state').attr('data-agent-angry'),
+        getAgentSad: item.find('.state').attr('data-agent-sad'),
+        getAgentOverSad: item.find('.state').attr('data-agent-oversad'),
+        getAgentOverAnger: item.find('.state').attr('data-agent-overangry'),
+        getAgentName: item.find('.agent-name').text(),
+        getLoginId:item.find('.agent-name').attr('data-login-id')
+      }
+      console.log('Extracted data:', tdArr);
+
+      coachingModalOpen(tdArr);
+    });
+    
+
+    //  상담원 상세 근무현황 코칭 모달 창 열기
+    $(document).on('click', '.beforeSendingCoach2', function(e) {
+      e.preventDefault(); // 기본 링크 동작 방지
+
+      const item = $(this).closest('.item');
+      const user_name = item.find('.sendData').attr('data-user-name'); // 상담원 이름
+      const user_loginid = item.find('.sendData').attr('data-login-id'); // 로그인 ID
+
+      tdArr2 = {
+        getLoginId:item.find('.sendData').attr('data-login-id')
+      }
+
+      coachingModalOpen2(tdArr2);
+    });
+
+    //  감성코칭이 필요한 상담원 코칭 리스트 슬라이드
+    $('.slick-list').slick({
+      arrows:true, // next, prev 이동 버튼
+      dots: false,
+      customPaging: function(slider, i) {
+          return '<button style:"">' + '</button>'; // 숫자 대신 원하는 요소로 변경
+      },
+      infinite: false,
+      slidesToShow :5,  // 한번에 5개 슬라이드 표시
+      slidesToScroll: 5,  // 한번에 5개 슬라이드 스크롤
+      draggable:true,
+      prevArrow : $('.btnPrev'),        
+      nextArrow : $('.btnNext'),
+      responsive:[{
+        settings:{
+          slidesToShow :5,
+          slidesToScroll: 5,
+          row:1
+        }
+      }]
+    });
+
+    // - 맨 앞과 맨 뒤에서 버튼 비활성화
+    $('.slick-list').on('afterChange', function(event, slick, currentSlide) {
+      var totalSlides = slick.slideCount; // 슬라이드 총 개수
+
+      // 맨 처음 슬라이드일 때 Prev 버튼 비활성화
+      if (currentSlide === 0) {
+        $('.btnPrev').addClass('disabled'); // 비활성화 스타일 추가
+      } else {
+        $('.btnPrev').removeClass('disabled'); // 비활성화 스타일 제거
+      }
+
+      // 맨 마지막 슬라이드일 때 Next 버튼 비활성화
+      if (currentSlide >= totalSlides - slick.options.slidesToShow) {
+        $('.btnNext').addClass('disabled'); // 비활성화 스타일 추가
+      } else {
+        $('.btnNext').removeClass('disabled'); // 비활성화 스타일 제거
+      }
+    });
+    
+    //  코칭하기 버튼 클릭시
+    $("#submitCoaching").click(() => {
+      var msg =document.getElementById('getMsgDetail2').value // 코칭내용
+      tdArr.getMsgDetail = msg;
+
+      $.ajax({
+        url: '/workStatusMain/sendMsg',
+        dataType: 'JSON',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(tdArr),
+        success: result => {
+          if (result.message === 'success') {
+            alert(`정상적으로 전송되었습니다.`);
+
+            coachingModalClose();
+            location.reload();
+          } else {
+            alert(`현재 접속중인 상담원이 아닙니다`);
+            coachingModalClose();
+          }
+        },
+        error: (xhr, status, error) => {
+          console.error('Error:', xhr.responseText);
+          alert('전송중 오류가 발생했습니다: ' + xhr.responseText);
+        }
+      });
+    });
+    
+   // 재생 버튼 클릭 시 ---------20240905 최정우 연구원 수정
+    $(".playBtn").click(function() {
+        // 파일 명에 따라 src 경로를 동적으로 할당하기 위하여 코드 추가
+        const callid = $('#callIdSpan').text().trim();
+
+        // 파일 경로 설정
+        if (callid === '20240828091052473_A_2502.wav') {
+            document.getElementById('audioPlayer').src = "/music/부정(1).mp3";
+        } else if (callid === '20240828104527670_B_2502.wav') {
+            document.getElementById('audioPlayer').src = "/music/행복(3).mp3";
+        } else if (callid === '20240828132635892_C_2502.wav') {
+            document.getElementById('audioPlayer').src = "/music/긍정_중립(2).mp3";
+        }
+        
+        // 오디오 메타데이터가 로드될 때까지 대기
+        // audioPlayer.duration 값이 업데이트 되기전에 오디오 파일이 실행될경우
+        // audioPlayer.duration 값이 0으로 남아있는 상태에서 시작되기 때문에
+        // 차트가 생성되지 않는 에러가 발생했었음.
+        // 이를 방지하기 위해 메타데이터가 완전히 로드된 후, duration값이 매핑된 이후 파일 재생
+        audioPlayer.onloadedmetadata = function() {
+            if (startBtn.textContent === '재생') {
+                reRenderFetch($('#callIdSpan').text().trim());
+            }else if (startBtn.textContent === '이어서 재생'){
+                audioPlayer.currentTime = pausedTime;
+                resumeAudio($('#callIdSpan').text().trim());
+            }
+        };
+    });
+
+    //일시 정지 버튼 클릭시
+    $('.pauseBtn').click(function(){
+      pausedTime = audioPlayer.currentTime;
+      pauseAudio($('#callIdSpan').text().trim());
+      $('.playBtn').prop('disabled', false);
+      $('.pauseBtn').prop('disabled', true);
+    });
+
+    //  정지 버튼 클릭시
+    $('.stopBtn').click(function() {
+      resetButtons($('#callIdSpan').text().trim());
+      $('.playBtn').prop('disabled', false);
+      $('.pauseBtn').prop('disabled', true);
+    });
+
+    audioPlayer.onended = function() {
+      updateButtonStates(false);
+      clearInterval(renderInterval);
+    };
+  });
+
+  const startBtn = document.querySelector('.primaryBtn.playBtn');
+  const stopBtn = document.querySelector('.stopBtn');
+  let fullDataSet = [];
+  let renderInterval;
+  let abortController;
+  let currentIndex = 0;
+
+  // 시간 흐름 순 감성 표출
+  //  - 차트 인스턴스를 저장할 객체
+  let charts = {
+    customerStatus: null,
+    callStatus: null,
+    counselorStatus: null,
+    customerStatusDetail: null,
+    counselorStatusDetail: null
+  };
+
+  //  - 감성 구분
+  const emotionTypes = {
+    '0': { name: '기타', color: 'rgba(119, 136, 153, 1)'},
+    '1': { name: '중립', color: 'rgba(128, 128, 128, 1)' },
+    '6': { name: '행복', color: 'rgba(255, 255, 0, 1)' },
+    '7': { name: '슬픔', color: 'rgba(65, 105, 225, 1)' },
+    '8': { name: '화남', color: 'rgba(255, 0, 0, 1)' },
+    '11': { name: '평온', color: 'rgba(34, 139, 34, 1)' },
+    '99': { name: '대기중', color: 'rgba(255, 255, 255, 1)' },
+  };
+
+  //  - 통화 상태 구분
+  const callTypes = {
+    '0': { name: '대기중', color: 'rgba(255, 255, 255, 1)' },
+    '1': { name: '통화중', color: 'rgba(180, 85, 162, 1)' }
+  };
+
+  //  각 요소 선택
+  const audioPlayer = document.getElementById('audioPlayer');
+
+  //  3초 인터벌
+  function startRenderInterval(callid) {
+    clearInterval(renderInterval);  // 기존 인터벌 제거
+    abortController = new AbortController();
+
+    // 캔버스 리셋 (대기중 상태의 차트 표시)
+    renderEmptyCharts();
+
+    const audioLength = audioPlayer.duration;
+    const totalIntervals = Math.ceil(audioLength / 3);
+
+    // 오디오 재생 종료 이벤트 리스너 추가
+    audioPlayer.addEventListener('ended', handleAudioEnd);
+  }
+
+  // 오디오 재생과 함께 3초에 한번 데이터 렌더링
+  function reRenderFetch(callid) {
+    if (!callid) {
+      console.error('Call ID is empty or not found');
+      return;
+    }
+
+    //  파일 재생
+    audioPlayer.play();
+    console.log('오디오 재생 시작');
+
+    updateButtonStates('playing');
+
+    // 3초마다 차트 업데이트
+    startRenderInterval(callid);
+  }
+
+  //  빈 캔버스 작업
+  function renderEmptyCharts() {
+    const waitingColor = emotionTypes['99'].color;
+    const emptyConfig = {
+      type: 'bar',
+      data: {
+          labels: Array(fullDataSet.length).fill(''),
+          datasets: [{
+              data: Array(fullDataSet.length).fill(1),  // 모든 데이터 포인트를 1로 설정
+              backgroundColor: Array(fullDataSet.length).fill(waitingColor),
+              borderWidth: 0,
+              barPercentage: 1,
+              categoryPercentage: 1.01
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'x',
+          scales: {
+              x: { stacked: true, display: false, grid: { display: false } },
+              y: { display: false, grid: { display: false }, min: 0, max: 1 }
+          },
+          plugins: {
+              legend: { display: false },
+              tooltip: {
+                  enabled: false,
+                  callbacks: {
+                      title: () => '',
+                      label: () => '대기중'
+                  }
+              },
+              title: { display: false }
+          },
+          animation: false,
+          layout: { padding: 0 }
+      }
+    };
+
+    createOrUpdateChart('customerStatusDetail', {...emptyConfig});
+    createOrUpdateChart('counselorStatusDetail', {...emptyConfig});
+  }
+
+  function handleAudioEnd() {
+    $('.playBtn').prop('disabled', false);
+    $('.pauseBtn').prop('disabled', true);
+    clearInterval(renderInterval);
+    updateButtonStates('stopped');
+    console.log('오디오 재생 종료');
+    currentIndex=0;
+  }
+
+  //  '일시정지' 버튼일 때, 함수
+  function pauseAudio(callid) {
+    if (audioPlayer) {
+      console.log('오디오 일시정지');
+      audioPlayer.pause();
+    }
+
+    clearInterval(renderInterval);
+
+    if (abortController) {
+      abortController.abort();
+    }
+
+    updateButtonStates('paused');
+  }
+
+  // '이어서 재생' 버튼일 때 함수
+  function resumeAudio() {
+      console.log('이어서 재생 시작');
+      audioPlayer.play();
+      updateButtonStates('playing');  // 상태를 재생중으로 변경
+      startRenderInterval($('#callIdSpan').text().trim());  // 3초마다 차트 업데이트 시작
+  }
+  
+ // 버튼 상태 업데이트
+  function updateButtonStates(state) {
+      switch(state) {
+          case 'playing':
+              startBtn.textContent = '이어서 재생';  // 재생 중일 때 '일시정지'로 표시
+              startBtn.classList.remove('active');
+              stopBtn.disabled = false;
+              stopBtn.classList.add('active');
+              $('.playBtn').prop('disabled',true);
+              $('.pauseBtn').prop('disabled', false);
+              break;
+          case 'stopped':
+              startBtn.textContent = '재생';  // 재생 중이 아닐 때 '재생'으로 표시
+              startBtn.classList.add('active');
+              stopBtn.disabled = true;
+              stopBtn.classList.remove('active');
+              break;
+      }
+  }
+
+  // '정지' 버튼 클릭 시 초기 전체 데이터 표출
+  function resetButtons(callid) {
+    if (audioPlayer) {
+      console.log('오디오 재생 종료');
+      audioPlayer.pause();
+      audioPlayer.currentTime=0;
+    }
+
+    clearInterval(renderInterval);
+    
+    if (abortController) {
+        abortController.abort();
+    }
+
+    currentIndex = 0;
+    updateButtonStates('stopped');
+    
+    // 본 데이터 API 호출
+    let getCallId = { getCallId:callid.toString().replace(".wav", "") }
+    $.ajax({
+      url: '/workStatusMain/getTodayEmo/getCallHistory',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(getCallId),
+      success: response => {
+        // data가 이미 객체라면 파싱 불필요
+        const { data } = response;
+        let html = '';
+
+        if (data.length === 0) {
+          alert(`[ MindSupport ] 데이터 불러오기 오류`);
+        } else {
+          // Call id 채우기
+          $('#callIdSpan').text(data[0].file_name);
+
+          //  Timestamp 채우기
+          const startTime = data[0].send_dt;
+          const endTime = data[data.length - 1].send_dt;
+
+          const startDate = parseTime(startTime);
+          const endDate = parseTime(endTime);
+
+          const middleTime = (startDate.getTime() + endDate.getTime()) / 2;
+          const middleDate = new Date(middleTime);
+
+          html += `<ul id="timeList">
+            <span>${data[0].send_dt.replace(".000", "")}</span>
+            <span>${formatTime(middleDate)}</span>
+            <span>${data[data.length -1].send_dt.replace(".000", "")}</span>
+          </ul>`;
+
+          //  생성된 HTML을 페이지에 삽입
+          $('#timeStampDiv').html(html);
+          renderDetailCallHistory(data);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR, textStatus, errorThrown);
+        alert(`데이터를 불러오는데 실패했습니다.`);
+      }
+    });
+  }
+
+  // 특정 상담원 모달 창 열기
+  function baseModalopen(data) {
+    $('.baseModals').stop().fadeIn();
+    $('body').attr('style','overflow-y:hidden');
+
+    //  선택한 상담원 ID, 이름 전달(중복가능성 배제)
+    const agentsElement = data;
+    console.log(JSON.stringify(data));
+
+    ///////////////특정 상담원에 대한 모달을 열때 상담원 명과
+    ///////////////로그인 아이디를 추출하여 관리자 코칭 페이지로 이동할 때
+    ///////////////기본 검색 조건에 넣기위하여 moveTocoachingAdmin에 데이터 추가
+    const userName = agentsElement.username;
+    const loginId = agentsElement.loginid;
+
+    $('#moveTocoachingAdmin')
+      .attr('data-username', userName)
+      .attr('data-loginid', loginId);
+    ////////////////////////////////////////////
+
+    console.log('관리자 코칭 페이지 이동시 검색 조건을 위한 데이터 전달 :', { userName, loginId });
+
+    // API 호출
+    $.ajax({
+      url: '/workStatusMain/getTodayEmo',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ loginId: loginId, userName:userName }),
+      success: function(response) {
+        // data가 이미 객체라면 파싱 불필요
+        const { data, counselData, customData, callRecords } = response;
+        var obj = data;
+
+        console.log('Object keys:', Object.keys(obj));
+        console.log('Object values:', Object.values(obj));
+
+        let html2 = "";
+        html2 += `${userName} 상담원 근무현황`;
+
+        //  테스트 시 acr_v4.t_rec_data* 테이블의 통화 데이터 날짜 금일로 수정 필수
+        if (data.length === 0) {
+          let html = '';
+
+          html += `
+            <div class="facialItem">
+              <img src="../images/ic_angry@2x.png" alt="화남">
+              <div class="textArea">
+                <strong>화남</strong>
+                <p>0</p>
+                <p class="compare"><span class="status same">0</span><span class="grey">(전일대비)</span></p>
+              </div>
+            </div>
+
+            <div class="facialItem">
+              <img src="../images/ic_sad@2x.png" alt="슬픔">
+              <div class="textArea">
+                <strong>슬픔</strong>
+                <p>0</p>
+                <p class="compare"><span class="status same">0</span><span class="grey">(전일대비)</span></p>
+              </div>
+            </div>
+            
+            <div class="facialItem">
+              <img src="../images/ic_happy@2x.png" alt="행복">
+              <div class="textArea">
+                <strong>행복</strong>
+                <p>0</p>
+                <p class="compare"><span class="status same">0</span><span class="grey">(전일대비)</span></p>
+              </div>
+            </div>
+
+            <div class="facialItem">
+              <img src="../images/ic_calm@2x.png" alt="평온">
+              <div class="textArea">
+                <strong>평온</strong>
+                <p>0</p>
+                <p class="compare"><span class="status same">0</span><span class="grey">(전일대비)</span></p>
+              </div>
+            </div>
+          `;
+
+          html += `<a href="#" class="coachingBtn beforeSendingCoach2" role="button" aria-label="감성코칭 모달 열기">
+            <img src="../images/ic_coaching.svg" alt="감성코칭">
+            <span class="sendData">감성 코칭</span>
+          </a>`;
+      
+          //  생성된 HTML을 페이지에 삽입
+          $('.modal-body .facialItemList').html(html);
+          
+          // h4 요소 선택
+          const h4Element = document.querySelector('.modalTitle h4');
+
+          // h4 요소의 내용 업데이트
+          h4Element.innerHTML = html2;
+
+            // 모달이 완전히 열린 후 alert 실행
+          setTimeout(function() {
+            alert("[ MindSupport ] 금일 데이터는 없습니다.");
+          }, 400);
+        } else {
+          renderModalContent(obj, userName);
+          renderModalTimeGraph(counselData, customData, callRecords);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR, textStatus, errorThrown);
+        alert(`데이터를 불러오는데 실패했습니다.`);
+      }
+    });
+  }
+
+  //검색 조건을 전달하여 관리자 코칭 페이지로 이동하기 버튼
+  function moveTocoachingAdmin() {
+    const buttonElement = document.getElementById('moveTocoachingAdmin');
+
+    // Extract username and login ID
+    const userLoginId = buttonElement.getAttribute('data-loginid');
+    const userName = buttonElement.getAttribute('data-username');
+
+    // Send data via POST using fetch API
+    fetch('/coachingAdmin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_loginid: userLoginId,
+            user_name: userName,
+        }),
+    })
+    .then(response => response.json()) // JSON 응답 처리
+    .then(data => {
+        if (data.success) {
+            // Redirect to the new page
+            window.location.href = '/coachingAdmin';
+        } else {
+            console.error('Error:', data.message || 'Unknown error');
+            alert(data.message || '페이지 이동 중 오류가 발생했습니다.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+  //  - 기존 차트가 있다면 제거 후 새로 생성
+  function createOrUpdateChart(chartId, config) {
+    const ctx = document.getElementById(chartId).getContext('2d');
+
+    document.getElementById(chartId).style.width = '100%';
+    
+    if (charts[chartId]) {
+      charts[chartId].destroy();
+    }
+    charts[chartId] = new Chart(ctx, config);
+  }
+
+  //  고객, 통화흐름, 상담원 감성 차트
+  function renderModalTimeGraph(counselData, customData, callRecords) {
+    //  빈 배열 생성(3초 단위의 총 근무 시간)
+    const callData = Array(10800).fill(0); // 0: 대기중, 1: 통화중
+    const cliData = Array(10800).fill(99) // 99: 대기중
+    const worData = Array(10800).fill(99) // 99: 대기중
+
+    console.log(`조회된 감성 건수: ${customData.length}건`);
+    console.log(`조회된 통화 건수: ${callRecords.length}건`);
+
+    //  각 감성 데이터를 배열에 배열에 반영
+    customData.forEach(record => {
+      // send_dt를 Date 객체로 변환
+      const sendTime = new Date(`1970-01-01T${record.send_dt}`);
+
+      // 날짜 객체인지 확인
+      if (!(sendTime instanceof Date) || isNaN(sendTime)) {
+        console.error("Invalid record format:", record);
+        return;  // 이 record는 건너뜁니다
+      }
+
+      // 9시부터의 밀리초 단위로 인덱스 계산
+      const sendIndex = (
+        (sendTime.getHours() - 9) * 3600000 + 
+        sendTime.getMinutes() * 60000 + 
+        sendTime.getSeconds() * 1000 + 
+        sendTime.getMilliseconds()
+      ) / 3000; // 3초 간격으로 나눔
+
+      const validSendIndex = Math.floor(sendIndex);
+
+      // 범위 체크 (9시 이전이나 18시 이후 시간을 건너뜁니다)
+      if (validSendIndex < 0 || validSendIndex >= cliData.length) {
+        console.warn("Time out of range:", record);
+        return;
+      }
+
+      // 해당 시점의 데이터를 설정
+      cliData[validSendIndex] = record.client;
+      worData[validSendIndex] = record.worker;
+    });
+
+    // 각 통화 기록을 callData 배열에 반영
+    callRecords.forEach(record => {
+      // call_start와 call_end를 Date 객체로 변환
+      const startTime = new Date(`1970-01-01T${record.call_start}`);
+      const endTime = new Date(`1970-01-01T${record.call_end}`);
+    
+      // 날짜 객체인지 확인
+      if (!(startTime instanceof Date) || !(endTime instanceof Date) || isNaN(startTime) || isNaN(endTime)) {
+        console.error("Invalid record format:", record);
+        return;  // 이 record는 건너뜁니다
+      }
+    
+      // 통화 시작 시간
+      const startHour = startTime.getHours();
+      const startMin = startTime.getMinutes();
+      const startSec = startTime.getSeconds();
+    
+      // 통화 종료 시간
+      const endHour = endTime.getHours();
+      const endMin = endTime.getMinutes();
+      const endSec = endTime.getSeconds();
+    
+      // 9시부터의 3초 단위로 인덱스 계산
+      const startIndex = ((startHour - 9) * 3600 + startMin * 60 + startSec) / 3;
+      const endIndex = ((endHour - 9) * 3600 + endMin * 60 + endSec) / 3;
+    
+      // startIndex와 endIndex가 0 이상이고 callData 배열의 길이를 넘지 않도록 조정
+      const validStartIndex = Math.max(0, Math.floor(startIndex));
+      const validEndIndex = Math.min(callData.length, Math.ceil(endIndex));
+    
+      // 범위 체크 (9시 이전이나 18시 이후 시간을 건너뜁니다)
+      if (validStartIndex >= callData.length || validEndIndex <= 0) {
+        console.warn("Time out of range:", record);
+        return;
+      }
+    
+      // 통화 중 구간을 1로 설정 (보라색으로 표시)
+      callData.fill(1, validStartIndex, validEndIndex);
+    });
+
+    // 고객 상태 차트
+    const customerConfig = {
+      type: 'bar',
+      data: {
+        labels: Array(10800).fill('99'),  // cliData의 길이만큼 빈 라벨 생성
+        datasets: [{
+          data: cliData.map(type => type !== 99 ? 1 : 0),  // 99(대기중)가 아니면 1, 아니면 0
+          backgroundColor: cliData.map(type => {
+            if (type === null || type === undefined) {
+              return emotionTypes['99'].color; // 데이터가 없으면 '대기중' 색상
+            } else if (emotionTypes.hasOwnProperty(type)) {
+              return emotionTypes[type].color; // 매칭되는 감정 타입의 색상
+            } else {
+              return emotionTypes['0'].color; // 매칭되는 타입이 없으면 '기타' 색상
+            }
+          }),
+          borderWidth: 0,
+          barPercentage: 1,
+          categoryPercentage: 1
+        }]
+      },
+      options: {
+        animation: false,
+        responsive: false,
+        maintainAspectRatio: false,
+        indexAxis: 'x',
+        scales: {
+          x: { stacked: true, display: false, grid: { display: false } },
+          y: { display: false, grid: { display: false }, min: 0, max: 1 }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              title: () => '',  // 타이틀은 표시하지 않음
+              label: (context) => {
+                const typeValue = cliData[context.dataIndex];
+                if (typeValue !== null && typeValue !== undefined) {
+                  return emotionTypes[typeValue]?.name || '기타';
+                }
+                return '대기중';
+              }
+            }
+          },
+          title: { display: false }
+        },
+        layout: { padding: 0 }
+      }
+    };
+    createOrUpdateChart('customerStatus', customerConfig);
+
+    // 상담원 상태 차트
+    const counselorConfig = {
+      type: 'bar',
+      data: {
+        labels: Array(10800).fill('99'),
+        datasets: [{
+          data: worData.map(type => type !== 99 ? 1 : 0),  // 99(대기중)가 아니면 1, 아니면 0
+          backgroundColor: worData.map(type => {
+            if (type === null || type === undefined) {
+              return emotionTypes['99'].color; // 데이터가 없으면 '대기중' 색상
+            } else if (emotionTypes.hasOwnProperty(type)) {
+              return emotionTypes[type].color; // 매칭되는 감정 타입의 색상
+            } else {
+              return emotionTypes['0'].color; // 매칭되는 타입이 없으면 '기타' 색상
+            }
+          }),
+          borderWidth: 0,
+          borderSkipped: false,
+          barPercentage: 1,
+          categoryPercentage: 1
+        }]
+      },
+      options: {
+        animation: false,
+        responsive: false,
+        maintainAspectRatio: false,
+        indexAxis: 'x',
+        scales: {
+          x: { stacked: true, display: false, grid: { display: false } },
+          y: { display: false, grid: { display: false }, min: 0, max: 1 }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: true },
+          title: { display: false }
+        },
+        animation: false,
+        layout: { padding: 0 }
+      }
+    };
+    createOrUpdateChart('counselorStatus', counselorConfig);
+
+    // 통화 상태 차트
+    const callConfig = {
+      type: 'bar',
+      data: {
+        labels: Array(10800).fill('0'),
+        datasets: [{
+          data: callData,
+          backgroundColor: callData.map(type => type === 1 ? callTypes['1'].color : callTypes['0'].color),
+          borderWidth: 0,
+          barPercentage: 1.01,  // 약간 겹치게 하여 간격을 없앱니다
+          categoryPercentage: 1.01
+        }]
+      },
+      options: {
+        animation: false,
+        responsive: false,
+        maintainAspectRatio: false,
+        indexAxis: 'x',
+        scales: {
+          x: { 
+            stacked: true, 
+            display: false, 
+            grid: { display: false },
+            ticks: { display: false }  // x축 눈금 숨기기
+          },
+          y: { 
+            display: false, 
+            grid: { display: false }, 
+            min: 0, 
+            max: 1 
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+          title: { display: false }
+        },
+        layout: { padding: 0 }
+      }
+    };
+    createOrUpdateChart('callStatus', callConfig);
+  }
+
+  //  특정 상담원의 금일 감성현황 표출
+  //   - 20240909 최정우 연구원 수정
+  function renderModalContent(data, name) {
+    let html = '';
+    let html2 = `${name} 상담원 근무현황`;
+
+    //  감정 타입별 정보
+    const emotionTypes = {
+      '6': { name: '행복', img: '../images/ic_happy@2x.png', alt: '기쁨' },
+      '7': { name: '슬픔', img: '../images/ic_sad@2x.png', alt: '슬픔' },
+      '8': { name: '화남', img: '../images/ic_angry@2x.png', alt: '화남' },
+      '11': { name: '평온', img: '../images/ic_calm@2x.png', alt: '평온' }
+    };
+
+    const orderedEmotionTypes = ['8', '7', '6', '11']; // 원하는 순서
+    //화남 > 슬픔 > 행복 > 평온 순서대로 나타내기 위함
+    //  각 감정 타입에 대해 div 생성
+    orderedEmotionTypes.forEach(emotionType => {
+      const item = data.find(d => d.emotion_type === emotionType);
+      const emotion = emotionTypes[emotionType];
+
+      const count = item ? item.today_count : 0;
+      const countChange = item ? item.count_change : 0;
+      const statusClass = countChange > 0 ? 'up' : (countChange < 0 ? 'down' : 'same');
+
+      html += `
+        <div class="facialItem">
+          <img src="${emotion.img}" alt="${emotion.alt}">
+          <div class="textArea">
+            <strong>${emotion.name}</strong>
+            <p>${count}</p>
+            <p class="compare"><span class="status ${statusClass}">${Math.abs(countChange)}</span><span class="grey">(전일대비)</span></p>
+          </div>
+        </div>
+      `;
+    });
+
+    const item_id = data[0].login_id;
+
+    html += `<a href="#" class="coachingBtn beforeSendingCoach2" role="button" aria-label="감성코칭 모달 열기"  onclick="coachingModalOpen2()">
+      <img src="../images/ic_coaching.svg" alt="감성코칭">
+      <span class="sendData" data-login-id="${item_id}">관리자 코칭 페이지로 이동</span>
+    </a>`;
+
+    //  생성된 HTML을 페이지에 삽입
+    $('.modal-body .facialItemList').html(html);
+
+    // h4 요소 선택
+    const h4Element = document.querySelector('.modalTitle h4');
+
+    // h4 요소의 내용 업데이트
+    h4Element.innerHTML = html2;
+  }
+
+  function baseModalClose() {
+    $('.baseModals').stop().fadeOut();
+    $('body').attr('style','');
+  }
+
+  //  특정 통화 이력 데이터 렌더링
+  // 체크박스 여러개 선택시 유효성 검사 실시 20240909 최정우 연구원 수정
+  function smallModalOpen() {
+    const selected = $('input[name="row_CheckBox"]:checked');
+    const callHistoryHeadNums = [];
+
+    if(selected.length === 1){
+      selected.each(i => {
+        // checkbox.parent()                : checkbox의 부모는 <td>
+        // checkbox.parent().parent()   : <td>의 부모이므로 <tr>
+        let tr = selected.parent().parent().eq(i);
+        let td = tr.children();
+
+        td.each((i) => { callHistoryHeadNums.push(td.eq(i+1).text()); });
+        selectSmallModalOpen(callHistoryHeadNums);
+
+        resetCheckboxes();
+      });
+    }
+    else if (selected.length === 0) {
+      alert('선택된 이력이 없습니다.');
+    } else {
+      alert('하나의 데이터만 선택해주세요.');
+    }
+  }
+
+  // 체크박스 리셋 함수
+  function resetCheckboxes() {
+    $('input[name="row_CheckBox"]').prop('checked', false);
+  }
+
+  //  AJAX로 통화 이력 데이터 가져오기
+  function selectSmallModalOpen(callid) {
+    $('.secondModals').stop().fadeIn();
+    $('body').attr('style','overflow-y:hidden');
+
+    let getCallId = JSON.stringify(callid);
+
+    // API 호출
+    $.ajax({
+      url: '/workStatusMain/getTodayEmo/getCallHistory',
+      method: 'POST',
+      contentType: 'application/json',
+      data: getCallId,
+      success: response => {
+        // data가 이미 객체라면 파싱 불필요
+        const { data } = response;
+
+        if (data.length === 0) {
+          alert(`[ MindSupport ] 데이터 불러오기 오류`);
+        } else {
+          fullDataSet = data;  // 전체 데이터 저장
+
+          updateUIWithData(data);
+
+          renderDetailCallHistory(data);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR, textStatus, errorThrown);
+        alert(`데이터를 불러오는데 실패했습니다.`);
+      }
+    });
+  }
+
+  function updateUIWithData(data) {
+    // Call id 채우기
+    $('#callIdSpan').text(data[0].file_name);
+
+    let html = '';
+
+    //  Timestamp 채우기
+    const startTime = data[0].send_dt;
+    const endTime = data[data.length - 1].send_dt;
+
+    const startDate = parseTime(startTime);
+    const endDate = parseTime(endTime);
+
+    const middleTime = (startDate.getTime() + endDate.getTime()) / 2;
+    const middleDate = new Date(middleTime);
+
+    html += `<ul id="timeList">
+      <span>${data[0].send_dt.replace(".000", "")}</span>
+      <span>${formatTime(middleDate)}</span>
+      <span>${data[data.length -1].send_dt.replace(".000", "")}</span>
+    </ul>`;
+
+    //  생성된 HTML을 페이지에 삽입
+    $('#timeStampDiv').html(html);
+  }
+
+  function renderDetailCallHistory(data) {
+    // 시작 시간과 끝 시간 찾기
+    const startTime = new Date(`1970-01-01T${data[0].send_dt}`);
+    const endTime = new Date(`1970-01-01T${data[data.length - 1].send_dt}`);
+
+    // 시작 시간과 끝 시간 사이의 총 3초 간격 개수 계산
+    const totalIntervals = Math.ceil((endTime - startTime) / 3000);
+
+    // cliData와 worData 배열 초기화
+    const cliData = new Array(totalIntervals).fill(null);
+    const worData = new Array(totalIntervals).fill(null);
+
+    //  각 감성 데이터를 배열에 반영
+    data.forEach(record => {
+      // send_dt를 Date 객체로 변환
+      const sendTime = new Date(`1970-01-01T${record.send_dt}`);
+
+      // 날짜 객체인지 확인
+      if (!(sendTime instanceof Date) || isNaN(sendTime)) {
+        console.error("Invalid record format:", record);
+        return;
+      }
+
+      // 시작 시간으로부터의 밀리초 단위로 인덱스 계산
+      const validSendIndex = Math.floor((sendTime - startTime) / 3000); // 3초 간격으로 나눔
+
+      // 범위 체크
+      if (validSendIndex < 0 || validSendIndex > totalIntervals) {
+        console.warn("Time out of range:", record);
+        return;
+      }
+
+      // 해당 시점의 데이터를 설정
+      cliData[validSendIndex] = record.client;
+      worData[validSendIndex] = record.worker;
+    });
+
+    console.log("통화 시작 시간:", formatTime(startTime));
+    console.log("통화 종료 시간:", formatTime(endTime));
+    console.log("총 데이터 포인트 수:", totalIntervals);
+    console.log("마지막 데이터포인트:", data[data.length - 1]);
+
+    // 고객 상태 차트
+    const customerConfig = {
+      type: 'bar',
+      data: {
+        labels: Array(cliData.length).fill(''),  // 실제 데이터 길이만큼 빈 라벨 생성
+        datasets: [{
+          data: cliData.map(type => type !== null ? 1 : 0),  // null이 아니면 1, 아니면 0
+          backgroundColor: cliData.map(type => {
+            if (type === null) {
+              return emotionTypes['99'].color; // 데이터가 없으면 '대기중' 색상
+            } else if (emotionTypes.hasOwnProperty(type)) {
+              return emotionTypes[type].color; // 매칭되는 감정 타입의 색상
+            } else {
+              return emotionTypes['0'].color; // 매칭되는 타입이 없으면 '기타' 색상
+            }
+          }),
+          borderWidth: 0,
+          barPercentage: 1,
+          categoryPercentage: 1.01
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'x',
+        scales: {
+          x: { stacked: true, display: false, grid: { display: false } },
+          y: { display: false, grid: { display: false }, min: 0, max: 1 }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: false,
+            callbacks: {
+              title: () => '',  // 타이틀은 표시하지 않음
+              label: (context) => {
+                const typeValue = cliData[context.dataIndex];
+                if (typeValue !== null) {
+                  return emotionTypes[typeValue]?.name || '기타';
+                }
+                return '대기중';
+              }
+            }
+          },
+          title: { display: false }
+        },
+        layout: { padding: 0 }
+      }
+    };
+  
+    // 상담원 상태 차트
+    const counselorConfig = {
+      type: 'bar',
+      data: {
+        labels:  Array(worData.length).fill(''),
+        datasets: [{
+          data: worData.map(type => type !== 99 ? 1 : 0),  // 99(대기중)가 아니면 1, 아니면 0
+          backgroundColor: worData.map(type => {
+            if (type === null || type === undefined) {
+              return emotionTypes['99'].color; // 데이터가 없으면 '대기중' 색상
+            } else if (emotionTypes.hasOwnProperty(type)) {
+              return emotionTypes[type].color; // 매칭되는 감정 타입의 색상
+            } else {
+              return emotionTypes['0'].color; // 매칭되는 타입이 없으면 '기타' 색상
+            }
+          }),
+          borderWidth: 0,
+          borderSkipped: false,
+          barPercentage: 1,
+          categoryPercentage: 1.01
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'x',
+        scales: {
+          x: { stacked: true, display: false, grid: { display: false } },
+          y: { display: false, grid: { display: false }, min: 0, max: 1 }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+          title: { display: false }
+        },
+        animation: false,
+        layout: { padding: 0 }
+      }
+    };
+    
+    createOrUpdateChart('customerStatusDetail', counselorConfig);
+    createOrUpdateChart('counselorStatusDetail', customerConfig);
+  }
+
+  //  상담원 상세근무현황에서 최근 상담 이력 상세 모달을 닫아도 오디오 파일이 계속 재생되고
+  //  차트가 지속적으로 랜더링 되는 오류가 있었음. 이를 해결하기 위한 코드 추가
+  function smallModalClose() {
+    $('.secondModals').stop().fadeOut();
+    $('body').attr('style','overflow-y:hidden');
+    audioPlayer.pause();
+    clearInterval(renderInterval);
+    $('.playBtn').prop('disabled', false);
+    $('.pauseBtn').prop('disabled', true);
+
+    if (abortController) {
+        abortController.abort();
+    }
+
+    currentIndex = 0;
+    updateButtonStates('stopped');
+  }
+
+  //  코칭 모달창 열기(감성코칭이 필요한 상담원)
+  function coachingModalOpen(tdArr) {
+    // 모달 창 항목들에 값 설정
+    $("#getAgentName2").val(tdArr.getAgentName);
+    $("#getAutoStandard2").val(tdArr.getAutoStandard);
+    $("#getAngry2").val(tdArr.getAgentAngry || '');  // 값이 없을 경우 빈 문자열 설정
+    $("#getSad2").val(tdArr.getAgentSad || '');  // 값이 없을 경우 빈 문자열 설정
+
+    // 모달 열기
+    $('.modals').stop().fadeIn();
+
+    // 콘솔에 데이터 출력 (디버깅용, 나중에 제거 가능)
+    console.log("Modal opened with data:", tdArr);
+  }
+
+  //  코칭 모달창 열기(특정 상담원 코칭 원할시-상세 근무현황)
+  function coachingModalOpen2(tdArr2) {
+    // 모달 창 항목들에 값 설정
+    // $(".sendData").val(tdArr2.getAgentName);
+    // $("#getAgentId2").val(tdArr2.getAgentId);
+
+    // 모달 열기
+    $('.modals_move').stop().fadeIn();
+  }
+
+  //  코칭 모달창 닫기
+  function coachingModalClose() {
+    //  초기화
+    tdArr = {};
+
+    $('.modals').stop().fadeOut();
+  }
+
+  //  코칭 모달창 닫기
+  function coachingMoveModalClose() {
+   //  초기화
+   tdArr = {};
+
+    $('.modals_move').stop().fadeOut();
+  }
+
+  //  체크박스 전체 선택
+  function allselect(bool) {
+    let chks = document.getElementsByName("row_CheckBox");
+    
+    for(let i = 0; i < chks.length; i++){
+      chks[i].checked = bool;
+    }
+  }
+
+  //  send_dt 변환 함수
+  function parseTime(timeString) {
+    const [hours, minutes, seconds] = timeString.split(':');
+    const [secs, millisecs] = seconds.split('.');
+    const date = new Date();
+
+    date.setHours(parseInt(hours, 10));
+    date.setMinutes(parseInt(minutes, 10));
+    date.setSeconds(parseInt(secs, 10));
+    date.setMilliseconds(parseInt(millisecs, 10));
+    return date;
+  }
+
+  function formatTime(date) {
+      // 밀리초를 고려하여 초 단위 올림 처리
+      const roundedDate = new Date(date.getTime() + 500); // 500ms 더하여 올림 처리
+      return roundedDate.toTimeString().split(' ')[0]; // 'HH:MM:SS' 형식
+  }
+
+  // 화면 자동 새로고침
+  function refreshPageAuto(){
+    window.location.reload();
+  }
+
+</script>
+
+<!-- 근무 현황 페이지 2초마다 AJAX를 이용하여 화면 깜빡임 없이 데이터 재 랜더링하여 표출하기 -->
+<script>
+// 데이터를 렌더링하는 함수
+// 데이터를 렌더링하는 함수
+function renderAgents(data) {
+  // 감성코칭이 필요한 상담원
+  const needcoachingAgentsDiv = $('.slick-list');
+
+  // 현재 근무 중인 상담원
+  const presentAgentsDiv = $('#presentAgents');
+  // 비접속 인원
+  const not_presentAgentsDiv = $('#not_presentAgents');
+
+  // 현재 슬라이더의 현재 슬라이드 인덱스 저장
+  let currentSlide = needcoachingAgentsDiv.length > 0 && 
+                     needcoachingAgentsDiv.hasClass('slick-initialized') 
+                     ? needcoachingAgentsDiv.slick('slickCurrentSlide') 
+                     : 0;
+
+  // 슬라이더가 초기화된 경우에만 unslick 호출 (안전하게 체크)
+  if (needcoachingAgentsDiv.length > 0 && needcoachingAgentsDiv.hasClass('slick-initialized')) {
+    try {
+      needcoachingAgentsDiv.slick('unslick');
+    } catch (error) {
+      
+    }
+  }
+
+  // 기존 데이터 초기화
+  needcoachingAgentsDiv.empty();
+  presentAgentsDiv.empty();
+  not_presentAgentsDiv.empty();
+
+  // 현재 접속 인원 렌더링
+  data.present_agent.forEach(agent => {
+    presentAgentsDiv.append(`
+      <div class="item ${agent.last_call_status === 1 ? 'border-purple' : 'border-gray'}">
+        <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+          <div class="imgArea ${
+            agent.emotion_type === '6' ? 'happy' :
+            agent.emotion_type === '7' ? 'sad' :
+            agent.emotion_type === '8' ? 'angry' :
+            agent.emotion_type === '11' ? 'calm' : 'offline'
+          }">
+            ${
+              agent.emotion_type === '6' ? '<img src="../images/ic_happy.svg">' :
+              agent.emotion_type === '7' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '8' ? '<img src="../images/ic_angry.svg">' :
+              agent.emotion_type === '11' ? '<img src="../images/ic_calm.svg">' : ''
+            }
+          </div>
+          <div class="textArea">
+            <p class="agents agents2" data-username="${agent.emo_user_name}" data-loginid="${agent.login_id}">
+              ${agent.emo_user_name}(${agent.login_id})
+            </p>
+          </div>
+        </a>
+      </div>
+    `);
+  });
+
+  // 비접속 인원 렌더링
+  data.notPresent_agent.forEach(agent => {
+    not_presentAgentsDiv.append(`
+      <div class="item">
+        <a href="#" role="button" title="상담원 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents3').dataset)">
+          <div class="imgArea offline" style="background-color: lightgray;"></div>
+          <div class="textArea">
+            <p class="agents agents3" data-username="${agent.user_name}" data-loginid="${agent.login_id}">
+              ${agent.user_name}(${agent.login_id})
+            </p>
+          </div>
+        </a>
+      </div>
+    `);
+  });
+
+  // 감성코칭이 필요한 상담원 렌더링
+  data.needed_coaching.forEach(agent => {
+    const emotion = agent.agent_anger > agent.agent_sad ? 'angry' : 'sad';
+    const emotionimg = agent.agent_anger > agent.agent_sad ? 'ic_angry.svg' : 'ic_sad.svg';
+    const emotionText = agent.agent_anger > agent.agent_sad ? '화남' : '슬픔';
+
+    needcoachingAgentsDiv.append(`
+      <div class="item slick-slide" data-agent-id="${agent.login_id}">
+        <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
+          <div class="imgArea ${emotion}">
+            <img src="../images/${emotionimg}" alt="${emotionText}" 
+              data-auto-calltime="${agent.call_time}" 
+              data-auto-standard="${agent.auto_standard}" 
+              data-auto-seq="${agent.auto_seq}" 
+              class="standard_img">
+          </div>
+          <div class="textArea">
+            <p class="state ${emotion}" data-agent-sad="${agent.agent_sad}" data-agent-angry="${agent.agent_anger}">
+              ${emotionText}
+            </p>
+            <p class="agents agent-name" data-login-id="${agent.login_id}" data-agent-oversad="${agent.agent_over_sad}" data-agent-overangry="${agent.agent_over_anger}">
+              ${agent.user_name}(${agent.login_id})
+            </p>
+          </div>
+        </a>
+      </div>
+    `);
+  });
+
+  if (data.needed_coaching.length > 0) {
+  try {
+    const $slider = needcoachingAgentsDiv.slick({
+      arrows: true,
+      dots: false,
+      infinite: false,
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      draggable: true,
+      prevArrow: $('.btnPrev'),    // jQuery 객체로 변경
+      nextArrow: $('.btnNext'),    // jQuery 객체로 변경
+      responsive: [{
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3
+        }
+      }]
+    });
+
+    // 이전 슬라이드 위치로 복귀
+    if (currentSlide < data.needed_coaching.length) {
+      needcoachingAgentsDiv.slick('slickGoTo', currentSlide, true);
+    }
+
+    // 버튼 클릭 이벤트 직접 바인딩
+    $('.btnPrev').on('click', function() {
+      needcoachingAgentsDiv.slick('slickPrev');
+    });
+
+    $('.btnNext').on('click', function() {
+      needcoachingAgentsDiv.slick('slickNext');
+    });
+
+  } catch (error) {
+    console.error('Slick 초기화 중 오류:', error);
+  }
+}
+}
+
+// 2초마다 데이터 요청
+function fetchData() {
+  $.ajax({
+    url: '/workStatusMain',
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+      renderAgents(response); // 데이터 렌더링
+    },
+    error: function (err) {
+      console.error('데이터 로드 중 오류 발생:', err);
+    }
+  });
+}
+
+// 2초마다 데이터 가져오기
+$(document).ready(function () {
+  fetchData(); // 초기 데이터 로드
+  setInterval(fetchData, 2000); // 2초마다 갱신
+});
+
+</script>

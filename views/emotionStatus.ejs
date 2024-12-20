@@ -1,0 +1,589 @@
+<div class="inner">
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_id %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="mainTitle flex gap">
+
+    <h2>감성 현황</h2>
+
+    <div class="refreshntoggle">
+
+      <div class="toggleWrap">
+        <ul>
+          <li>
+            <button type="button" class="toggleTabBtn active" aria-label="전체그룹 감성현황 확인">전체</button>
+          </li>
+          <li>
+            <button type="button" class="toggleTabBtn" aria-label="그룹 감성현황 확인">관리그룹</button>
+          </li>
+        </ul>
+      </div>
+
+      <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">
+        새로고침
+        <span></span>
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="itemWrap grid gap">
+    <!-- 근무 현황 div start -->
+    <div class="item">
+      <div class="title"><h4 class="grey">근무 현황</h4></div>
+      <div class="pieWrap" style="padding-top: 50px;">
+        <%
+          let valCount = 0;
+          let circumference = 0;
+          let offset = 0;
+          
+          if (result_totGroup[0].tot_user > 0) {
+            valCount = ((result_nowCount[0].logged_user / result_totGroup[0].tot_user) * 100).toFixed(1);
+            circumference = 2 * Math.PI * 45;
+            offset = circumference - (valCount / 100) * circumference;
+          }
+        %>
+        <div class="circle_wrap yellow">
+          <div class="circle on">
+            <div class="pie">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#e0e0e0" stroke-width="10"/>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="10"
+                  stroke-dasharray="<%= circumference %>"
+                  stroke-dashoffset="<%= offset %>"
+                  transform="rotate(-90 50 50)"/>
+              </svg>
+            </div>
+            <div class="wrap_txt counter">
+              <strong class="val"><%= valCount %>%</strong>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p style="font-weight: bold;">현재 근무인원(명)</p>
+          <p class="values">
+            <span><%= result_nowCount[0].logged_user %></span>
+            <span class="total">/ <%= result_totGroup[0].tot_user %></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 근무 현황 div end -->
+
+    <!-- 감성 현황 div start -->
+    <!-- 감성 현황 표출 순서 변경 20240909 최정우 연구원 -->
+    <div class="item">
+      <div class="title"><h4 class="grey">감성 현황</h4></div>
+      <div class="facialItemList">
+        <% if (result_todayEmo.length === 0) { %>
+          <div>데이터 불러오기 오류. 관리자에게 문의하세요.</div>
+        <% } else { %>
+          <% 
+          // 감정 타입을 원하는 순서로 변경
+          const emotionTypes = ['8', '11', '6', '7']; 
+          const emotionNames = {
+            '8': '화남',
+            '11': '슬픔',
+            '6': '행복',
+            '7': '평온'
+          };
+
+          const emotionIcons = {
+            '8': 'ic_angry@2x.png',
+            '11': 'ic_sad@2x.png',
+            '6': 'ic_happy@2x.png',
+            '7': 'ic_calm@2x.png'
+          };
+
+          emotionTypes.forEach(type => {
+            const data = result_todayEmo.find(item => item.emotion_type === type) || { emotion_type: type, today_count: 0, count_change: 0 };
+          %>
+          <div class="facialItem" style="grid-template-columns: 25%;">
+            <img src="../images/<%= emotionIcons[type] %>" alt="<%= emotionNames[type] %>" style="width: 200%;">
+            <div class="textArea">
+              <strong><%= emotionNames[type] %></strong>
+              <p><%= data.today_count %>회</p>
+              <% if (data.count_change > 0) { %>
+                <p class="compare"><span class="status up"><%= data.count_change %></span><span class="grey">(전일대비)</span></p>
+              <% } else if (data.count_change === 0) { %>
+                <p class="compare"><span class="status same">0</span><span class="grey">(전일대비)</span></p>
+              <% } else { %>
+                <p class="compare"><span class="status down"><%= data.count_change %></span><span class="grey">(전일대비)</span></p>
+              <% } %>
+            </div>
+          </div>
+        <% }); %>
+        <% } %>
+      </div>
+    </div>
+    <!-- 감성 현황 div end -->
+  </div>
+  
+  <div class="itemWrap twin titlegap ">
+    <!-- 시간 별 감성 현황 그래프 div start -->
+    <div class="item borderGrey">
+      <div class="title">
+        <h4 class="grey">시간 별 감성 현황</h4>
+        <p class="smallGap">
+          <span class="dot red">화남</span>
+          <span class="dot blue">슬픔</span>
+          <span class="dot yellow">행복</span>
+          <span class="dot green">평온</span>
+          <span>(단위: 건)</span>
+        </p>
+      </div>
+      <div class="cvWrap">
+        <div class="smlGap">
+          <canvas id="emotionalStatus" width="650" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- 시간 별 감성 현황 그래프 div end -->
+
+    <div class="twinWrap">
+      <!-- 금일 누적 부정 감성횟수 div start -->
+      <div class="item borderGrey">
+        <div class="title">
+          <h4 class="grey">누적 부정 감성 현황</h4>
+        </div>
+        <div class="listWrap">
+          <% var maxCount = Math.max(...result_negativeCount.map(item => item.negative_emotion_count), 1); %>
+          <ul>
+            <% if (result_negativeCount.length === 0) { %>
+              <div>데이터 불러오기 오류. 관리자에게 문의하세요.</div>
+            <% } else { %>
+              <% for(var i=0; i<result_negativeCount.length; i++) { %>
+                <% const data = result_negativeCount[i]; %>
+                <% let percentage = 0;
+                  if (maxCount > 0) {
+                    percentage = (data.negative_emotion_count / maxCount) * 100;
+                    percentage = Math.min(Math.max(percentage, 0), 100);
+                    percentage = percentage.toFixed(2); // Round to 2 decimal places
+                  }
+                %>
+                <% const colorClass = i % 2 === 0 ? 'green' : 'blue'; %>
+                <li>
+                  <p><span class="grey"><%= i+1 %>등</span><%= data.user_name %></p>
+                  <div class="progress-bar">
+                    <div class="line <%= colorClass %>" style="--target-width: <%= percentage %>%;"></div>
+                  </div>
+                  <span class="alignRight"><%= data.negative_emotion_count %>건</span>
+                </li>
+              <% } %>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <!-- 금일 누적 부정 감성횟수 div end -->
+
+      <!-- 금일 개인 상담 건수 div start -->
+      <div class="item borderGrey">
+        <div class="title">
+          <h4 class="grey">개인 상담 현황</h4>
+        </div>
+        <div class="listWrap">
+          <% var maxCount = Math.max(...result_todayCallCount.map(item => item.RECORD_COUNT), 1); %>
+          <ul>
+            <% if (result_todayEmo.length === 0) { %>
+              <div>데이터 불러오기 오류. 관리자에게 문의하세요.</div>
+            <% } else { %>
+              <% for(var i=0; i<result_todayCallCount.length; i++) { %>
+                <% const data = result_todayCallCount[i]; %>
+                <% let percentage = 0;
+                  if (maxCount > 0) {
+                    percentage = (data.RECORD_COUNT / maxCount) * 100;
+                    percentage = Math.min(Math.max(percentage, 0), 100);
+                    percentage = percentage.toFixed(2);
+                  }
+                %>
+                <% const colorClass = i % 2 === 0 ? 'green' : 'blue'; %>
+                <li>
+                  <p><span class="grey"><%= i+1 %>등</span><%= data.user_name %></p>
+                  <div class="progress-bar">
+                    <div class="line <%= colorClass %>" style="--target-width: <%= percentage %>%;"></div>
+                  </div>
+                  <span class="alignRight"><%= data.RECORD_COUNT %>건</span>
+                </li>
+              <% } %>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <!-- 금일 개인 상담 건수 div end -->
+    </div>
+  </div>
+  <div class="itemWrap twin titlegap ">
+    <!-- 상담 그룹 별 감성 div start -->
+    <div class="item borderGrey">
+      <div class="title">
+        <h4 class="grey">상담 그룹 별 감성 현황</h4>
+        <p class="smallGap">
+          <span class="dot yellow">행복</span>
+          <span class="dot green">평온</span>
+          <span class="dot red">화남</span>
+          <span class="dot blue">슬픔</span>
+          <span>(단위: 건)</span>
+        </p>
+      </div>
+      <div class="cvWrap">
+        <div class="smlGap">
+          <canvas id="counselingGroup" width="650" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- 상담 그룹 별 감성 div end -->
+
+    <!-- 연령 별 감성 div start -->
+    <div class="item borderGrey">
+      <div class="title">
+        <h4 class="grey">연령 별 감성 현황</h4>
+        <p class="smallGap">
+          <span class="dot yellow">행복</span>
+          <span class="dot green">평온</span>
+          <span class="dot red">화남</span>
+          <span class="dot blue">슬픔</span>
+          <span>(단위: 건)</span>
+        </p>
+      </div>
+      <div class="cvWrap">
+        <div class="smlGap">
+          <canvas id="positionGroup" width="650" height="250"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 전체 div end-->
+<!-- 시간 별 감성 그래프-->
+<script>
+  // EJS를 통해 서버에서 전달받은 데이터
+  var emotionData = <%- JSON.stringify(result_hourEmo) %>;
+  document.addEventListener('DOMContentLoaded', function() {
+    //chart js
+    Chart.register(ChartDataLabels);
+    var ctx = document.getElementById('emotionalStatus').getContext('2d');
+
+    // 감정 유형
+    const emotionTypes = [1, 6, 7, 8, 11];
+
+    // 감정 유형 설명
+    const emotionLabels = {
+      1: '중립',
+      6: '기쁨',
+      7: '슬픔',
+      8: '화남',
+      11: '평온'
+    };
+
+    // 색상 매핑
+    const colors = {
+      1: 'rgba(180, 180, 180, 1)',
+      6: 'rgba(255, 255, 0, 1)', 
+      7: 'rgba(65, 105, 225, 1)', 
+      8: 'rgba(255, 0, 0, 1)', 
+      11: 'rgba(34, 139, 34, 1)',
+    };
+
+    // 시간 라벨 (9시부터 18시까지)
+    const timeLabels = Array.from({length: 10}, (_, i) => `${i + 9}:00`);
+    
+    // 데이터 처리
+    var datasets = emotionTypes.map(type => {
+      var data = timeLabels.map((_, index) => {
+          var hour = index + 9;
+          var item = emotionData.find(d => Number(d.hour) === hour && Number(d.emotion_type) === type);
+          var count = item ? Number(item.count) : 0;
+
+          return count;
+      });
+      
+      return {
+          label: `${emotionLabels[type]}`,
+          data: data,
+          borderColor: colors[type],
+          backgroundColor: colors[type],
+          fill: false,
+          tension: 0.1
+      };
+    });
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: timeLabels,
+        datasets: datasets.map(dataset => ({
+          ...dataset,
+          pointRadius: 3, // 포인트 크기 증가
+          pointHoverRadius: 3, // 호버 시 포인트 크기
+          borderWidth: 3, // 선 굵기 증가
+        }))
+    },
+      options: {
+          responsive: true,
+          plugins: {
+              title: {
+                display: false,
+                text: '시간별 감정 유형 분포',
+                font: {
+                    size: 18
+                }
+              },
+              legend: {
+                display:false,
+                position: 'top',
+                labels: {
+                  usePointStyle: true,
+                  padding: 20,
+                  font: {
+                      size: 14
+                  }
+                }
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+              },
+              // datalabels 플러그인 비활성화
+              datalabels: {
+                display: false
+              }
+          },
+          scales: {
+            x: {
+              grid: {
+                display:false,
+                drawBorder: true
+              },
+              title: {
+                  display: false,
+                  text: '시간'
+              }
+            },
+            y: {
+              grid: {
+                display:false,
+                drawBorder: true
+              },
+              beginAtZero: true,
+              title: {
+                  display: false,
+                  text: '발생 횟수'
+              }
+            }
+          },
+          elements: {
+            line: {
+                tension: 0.3 // 선을 더 부드럽게
+            },
+            point: {
+                radius: 4, // 포인트 크기
+                hoverRadius: 6 // 호버 시 포인트 크기
+            }
+          },
+          interaction: {
+              mode: 'nearest',
+              axis: 'x',
+              intersect: false
+          }
+      }
+    });
+  });
+</script>
+
+<!-- 상담 그룹 별 감성 그래프-->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    //  chart js
+    Chart.register(ChartDataLabels);
+    Chart.defaults.font.family = "'Noto Sans KR', 'Arial', sans-serif";
+    Chart.defaults.font.size = 14;
+
+    var ctx = document.getElementById('counselingGroup').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['일반문의', '민원접수', '제품판매', '기타접수'],
+        <% if (result_todayGroupCount.length === 0) { %>
+          datasets: [{
+            label: '데이터 없음',
+            data: [0, 0, 0, 0],
+            backgroundColor: '#CCCCCC'
+          }]
+        <% } else { %>
+          datasets: [
+            <% 
+            const allGroupTypes = ['일반문의', '민원접수', '제품판매', '기타접수'];
+            const emotionTypes = ['5', '6', '7', '10', '14'];
+            const emotionColors = {
+              '5': 'rgba(255, 255, 0, 1)',
+              '6': 'rgba(65, 105, 225, 1)',
+              '7': 'rgba(220, 20, 60, 1)',
+              '10': 'rgba(34, 139, 34, 1)',
+              '14': 'rgba(180, 180, 180, 1)'
+            };
+            emotionTypes.forEach(function(emotionType) { 
+            %>
+              {
+                label: '<%= emotionType === '5' ? '기쁨' : 
+                          emotionType === '6' ? '슬픔' : 
+                          emotionType === '7' ? '화남' : 
+                          emotionType === '10' ? '평온' : '알 수 없음' %>',
+                data: [
+                  <% allGroupTypes.forEach(function(groupType) { %>
+                    <%= result_todayGroupCount.filter(d => d.group_type === groupType && d.emotion_type === emotionType)
+                      .reduce((sum, item) => sum + item.count, 0) %>,
+                  <% }); %>
+                ],
+                backgroundColor: '<%= emotionColors[emotionType] %>'
+              },
+            <% }); %>
+          ]
+        <% } %>
+      },
+      options: {
+        indexAxis: 'y',
+        scales: {
+            x: {
+                stacked: true,
+                grid: { display: false }
+            },
+            y: {
+                stacked: true,
+                grid: { display: false }
+            }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            titleFont: {
+              family: "'Noto Sans KR', 'Arial', sans-serif",
+              size: 14
+            },
+            bodyFont: {
+              family: "'Noto Sans KR', 'Arial', sans-serif",
+              size: 12
+            }
+          },
+          datalabels: { display: false }
+        },
+        datalabels: {
+          color: 'black',
+          anchor: 'end',
+          align: 'end',
+          formatter: function(value, context) {
+            return value > 0 ? value : ''; // 0이 아닌 값만 표시
+          },
+          font: {
+            weight: 'bold'
+          }
+        }
+      }
+    });
+  });
+</script>
+
+<!-- 연령 별 감성 현황-->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    //chart js
+    Chart.register(ChartDataLabels);
+    Chart.defaults.font.family = "'Noto Sans KR', 'Arial', sans-serif";
+    Chart.defaults.font.size = 14;
+
+    var ctx = document.getElementById('positionGroup').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['20대', '30대', '40대'],
+        <% if (result_todayAgeCount.length === 0) { %>
+          datasets: [{
+            label: '데이터 없음',
+            data: [0, 0, 0, 0],
+            backgroundColor: '#CCCCCC'
+          }]
+        <% } else { %>
+          datasets: [
+            <%
+              const ageGroupTypes = ['20대', '30대', '40대']
+              const emotionTypes = ['5', '6', '7', '10', '14'];
+              const emotionLabels = {
+                '5': '기쁨',
+                '6': '슬픔',
+                '7': '화남',
+                '10': '평온',
+                '14': '알 수 없음'
+              };
+              const emotionColors = {
+                '5': 'rgba(255, 255, 0, 1)',
+                '6': 'rgba(65, 105, 225, 1)',
+                '7': 'rgba(220, 20, 60, 1)',
+                '10': 'rgba(34, 139, 34, 1)',
+                '14': 'rgba(180, 180, 180, 1)'
+              };
+            emotionTypes.forEach(function(emotionType) { %>
+              {
+                label: '<%= emotionLabels[emotionType] %>',
+                data: [
+                  <% ageGroupTypes.forEach(function(groupType) { %>
+                    <%= result_todayAgeCount.filter(d => d.age_group === groupType && d.emotion_type === emotionType)
+                      .reduce((sum, item) => sum + item.count, 0) %>,
+                  <% }); %>
+                ],
+                backgroundColor: '<%= emotionColors[emotionType] %>'
+              },
+            <% }); %>
+          ]
+        <% } %>
+      },
+      options: {
+        responsive: true,
+        scales: {
+            x: {
+              stacked: false,
+              grid: { display: false }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { display: false }
+            }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            titleFont: {
+              family: "'Noto Sans KR', 'Arial', sans-serif",
+              size: 14
+            },
+            bodyFont: {
+              family: "'Noto Sans KR', 'Arial', sans-serif",
+              size: 12
+            }
+          },
+          datalabels: { display: false }
+        },
+        datalabels: {
+          color: 'black',
+          anchor: 'end',
+          align: 'end',
+          formatter: function(value, context) {
+            return value > 0 ? value : ''; // 0이 아닌 값만 표시
+          },
+          font: {
+            weight: 'bold'
+          }
+        }
+      }
+    });
+  });
+</script>

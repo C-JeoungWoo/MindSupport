@@ -1,0 +1,105 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/241212_MindSupport/MindSupport/logs/log/.279b622fa002dc73ed6950e7041b07cf1d3a1b90-audit.json",
+    "files": [
+        {
+            "date": 1734069619043,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241213_15.log",
+            "hash": "8a8893438c77dbd4f7fe4497cf5e4383bd92f3269290440427091829c40d9789"
+        },
+        {
+            "date": 1734073204456,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241213_16.log",
+            "hash": "58f7d737805e434818b34a6c3121369b369244d3c443dc57eae965c2c392f039"
+        },
+        {
+            "date": 1734076802812,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241213_17.log",
+            "hash": "b609c6c877c18c11152683bd4e7e30ac21fa7babccd0b89c67d6265dac164c9f"
+        },
+        {
+            "date": 1734308463105,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_09.log",
+            "hash": "2b0f3bab6aa0e7878e3024ce15d69b26c10d6a23012d5c49f998cec7271dd4b0"
+        },
+        {
+            "date": 1734310800135,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_10.log",
+            "hash": "577913ca71e8ffdaf7da2cf72f8360123ded87877762d81a9f793a1d8297d04a"
+        },
+        {
+            "date": 1734314591995,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_11.log",
+            "hash": "085ff1f24a14c756b8d375ef1601f582401c8d4b35d9e085ce8a705e35818c62"
+        },
+        {
+            "date": 1734319224478,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_12.log",
+            "hash": "38979b18714504817581b616906eba2a8beff827cd4c6a20a97ad0ca8bb07339"
+        },
+        {
+            "date": 1734324200380,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_13.log",
+            "hash": "4a73a58dc99c87b0c0e97f10e4908fa68260ea79f6b446a859f0d06c33277557"
+        },
+        {
+            "date": 1734325200745,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_14.log",
+            "hash": "3344d26721c366f1777261b226e286221b8fc999232bf300952997d3f17f15e0"
+        },
+        {
+            "date": 1734328826802,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_15.log",
+            "hash": "d98e97eb19fc4a704773a9b9da650f27fdff69bcc62e97fd5ff1e0c7c873b924"
+        },
+        {
+            "date": 1734332642201,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_16.log",
+            "hash": "b87fb2eea10f4ba7bef73cd9e3dfc90cf4caef024c2a6e52c04d36af9bde87c1"
+        },
+        {
+            "date": 1734336066270,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_17.log",
+            "hash": "55dda2968e7d2b8a51e0aa2dc1d97611a3941929a941ad49ec05914e5b26c7d9"
+        },
+        {
+            "date": 1734339603984,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_18.log",
+            "hash": "aa07caa6eee6faf792e13827cd239b2a9ce3a1c3f95d9ff9b6068a21f3f2c6ba"
+        },
+        {
+            "date": 1734395995202,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241217_09.log",
+            "hash": "71706c18a90781f5502fc4e8e534359941462000e8a4659247c7259a0c9492c6"
+        },
+        {
+            "date": 1734398790108,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241217_10.log",
+            "hash": "f284699b62390493f5cf46cde05942ccc547dda2323227a9ed6677f39c769dbe"
+        },
+        {
+            "date": 1734400800822,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241217_11.log",
+            "hash": "8b91559a232388c2e7124662c28b1a030050bffba418236e9f78d2be5e677409"
+        },
+        {
+            "date": 1734404401411,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241217_12.log",
+            "hash": "2a2414ae87a955b1bbd73fc5ce5915290d745d8d84c33a32ad76f4bdfb112a08"
+        },
+        {
+            "date": 1734481213920,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241218_09.log",
+            "hash": "69dc083fdb4494bf489c55b35c3696b83764bfe131e07ebb098ec3b49e160693"
+        },
+        {
+            "date": 1734483605195,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/241218_10.log",
+            "hash": "ec21c2e3042595f98ce2be3c5326fdbdfb8338e99f7a0961859c29b10299fcdb"
+        }
+    ],
+    "hashType": "sha256"
+}

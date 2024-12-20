@@ -1,0 +1,160 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/240513_MindSupport_Test/logs/log/.c5ad5c7102c357bea91dcfc8ddb44492abdefd4e-audit.json",
+    "files": [
+        {
+            "date": 1727218581929,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_07.log",
+            "hash": "26f5c60bbe2390e5410b61ae86a91f3c3341d152033e2d4d658955b663d97626"
+        },
+        {
+            "date": 1727221380013,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_08.log",
+            "hash": "486ca4b87c0f7539e2279be47256dfb4c506e34bc508873d69de757d8713af63"
+        },
+        {
+            "date": 1727222400568,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_09.log",
+            "hash": "24826508dcefc563ff21e7b2fe070326a211b20f862224f8cd7ee2f68efd5d37"
+        },
+        {
+            "date": 1727226000535,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_10.log",
+            "hash": "8e14ba12995a17e0de0551a58923e7289ba125576613a9b0f5f60ffaa2bef485"
+        },
+        {
+            "date": 1727239170652,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_13.log",
+            "hash": "6046cec4b11ee9d8fdb0c7ea385dc91a51a3c0ee8bca3efda1dadeb8382265ed"
+        },
+        {
+            "date": 1727240400281,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_14.log",
+            "hash": "2bff1bc82f8bcfe605e9770df1a475056ce8e2c7c528b6bd6c66bda9c392ce19"
+        },
+        {
+            "date": 1727244000746,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_15.log",
+            "hash": "35ae61c1c6d18c66b8b6be539bd1ce405df20a1d31e03d476a473235280b67ee"
+        },
+        {
+            "date": 1727247731745,
+            "name": "/home/240513_MindSupport_Test/logs/log/240925_16.log",
+            "hash": "39b2512f9a3ed4abd644fecc81c29e1ec399db4bc88c90da2dde408eb28ed885"
+        },
+        {
+            "date": 1727655862553,
+            "name": "/home/240513_MindSupport_Test/logs/log/240930_09.log",
+            "hash": "168f9cd9b2a900d6a7c5304bf44ee9ecc33b29ab197085676a543da5ac9a38cf"
+        },
+        {
+            "date": 1727671946477,
+            "name": "/home/240513_MindSupport_Test/logs/log/240930_13.log",
+            "hash": "ff7c2001e1a70bd8e7114627109e3582da71d2b0a0fb6b4b8d69fc5362fff5f0"
+        },
+        {
+            "date": 1727672442506,
+            "name": "/home/240513_MindSupport_Test/logs/log/240930_14.log",
+            "hash": "99c8e77f4217d6751009eeb961846f04d33da87549eeecbeb84169cb41a0285c"
+        },
+        {
+            "date": 1727676000663,
+            "name": "/home/240513_MindSupport_Test/logs/log/240930_15.log",
+            "hash": "a7db41f9fc95c45b01d6fea89ce1da9f2490e1f275490011aeb27fb23ec74f67"
+        },
+        {
+            "date": 1727750701668,
+            "name": "/home/240513_MindSupport_Test/logs/log/241001_11.log",
+            "hash": "9d9b4c949dc25e9fea4b338e013cc9e5f2506da088fa730a63520f818613a167"
+        },
+        {
+            "date": 1727754651115,
+            "name": "/home/240513_MindSupport_Test/logs/log/241001_12.log",
+            "hash": "3abe84ea90bedcf7e66b4075a9476d459dd0ff68857d3602152e7d6020689111"
+        },
+        {
+            "date": 1727755232189,
+            "name": "/home/240513_MindSupport_Test/logs/log/241001_13.log",
+            "hash": "e54577688ac46ca9fd74d45824f5689447cf6533e984abdbd15bc9b05ba52866"
+        },
+        {
+            "date": 1727828846587,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_09.log",
+            "hash": "7a56267a5eab1961bed4685c222d312b95e395b3a6bcec39f9684da68969503f"
+        },
+        {
+            "date": 1727831243071,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_10.log",
+            "hash": "ed513dba6ce6abcc096154edf4cbb7e494da40ec7a1dccda435b4581cc6686f2"
+        },
+        {
+            "date": 1727834637747,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_11.log",
+            "hash": "d514a2b80a312c5f520e92802485a84382f323d39b2df3cbca1a245dedfa777a"
+        },
+        {
+            "date": 1727838069061,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_12.log",
+            "hash": "84e8caf08bc8cff8440175b5cbc8f124962e28b7521796c8133d4f9c57658779"
+        },
+        {
+            "date": 1727845763236,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_14.log",
+            "hash": "c7c7bc8b629e72a34a3d5951d9874091bdb722f4f637bc104ce053c08c188b8f"
+        },
+        {
+            "date": 1727850519613,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_15.log",
+            "hash": "7e35854cb55d1b5e1988c48d94e9e1205a749e7db1f0246552ee3d00168c84b6"
+        },
+        {
+            "date": 1727852813232,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_16.log",
+            "hash": "282afe60121bbe2f4f19bc4eb48e32ebaa422604ecb656c3555c05f2f4bd564e"
+        },
+        {
+            "date": 1727856103223,
+            "name": "/home/240513_MindSupport_Test/logs/log/241002_17.log",
+            "hash": "33302d984cd561e6a89d30d4c1bf2ab7b4552cbe2543051f82cb41514b919863"
+        },
+        {
+            "date": 1727999555930,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_08.log",
+            "hash": "43c0d1a40fcb6ba7e72f4f66881895a0930c78520f0c36c24ce411dac90f22ce"
+        },
+        {
+            "date": 1728000584745,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_09.log",
+            "hash": "da9c5275c2e4ebbaf8a3a8e18e3dc4db1af956ef1f3957219a9dc8b0de919abf"
+        },
+        {
+            "date": 1728003600310,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_10.log",
+            "hash": "abbfa556396b975087bc13861c145eb7faaa30458a2910b51db6c2d53a4459bf"
+        },
+        {
+            "date": 1728007854169,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_11.log",
+            "hash": "b977ea93c332a663f642d82dc22bf83a8f5a22dcfc1d95cb4c0d241760c5295e"
+        },
+        {
+            "date": 1728011911341,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_12.log",
+            "hash": "c2dacccef9b191a7e810aacbc6857786851a1ad0e57dc6005d30c1e0d9dff22c"
+        },
+        {
+            "date": 1728024102805,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_15.log",
+            "hash": "fcd9b49178ab4413f45eebecfad60ba4790f463e949c65e4c4c00b28a654101d"
+        },
+        {
+            "date": 1728025489466,
+            "name": "/home/240513_MindSupport_Test/logs/log/241004_16.log",
+            "hash": "6c7c965a44b98848b1c57648eb2dcf8e0a80f174155dd4d49e059c5aa8e25e70"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,333 @@
+2024-12-16 17:01:31.643 [error] [ audioServices.js:EmoServiceStartRQ ] ReferenceError: results is not defined
+2024-12-16 17:03:56.227 [error] [ audioServices.js:EmoServiceStartRQ ] ReferenceError: ErkQueueInfo is not defined
+2024-12-16 17:06:48.979 [error] [ audioServices.js:EmoServiceStartRQ ] ReferenceError: currentErkApiMsg is not defined
+2024-12-16 17:08:03.223 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:08:03.224 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:08:04.334 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:08:04.335 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:08:05.427 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:08:05.428 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:08:05.429 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-16 17:08:05.431 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:08:05.433 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:08:05.434 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:08:05.435 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-16 17:08:05.435 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:12:09.932 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:12:09.933 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:12:10.935 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:12:10.937 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:12:11.938 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:12:11.939 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:12:11.939 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-16 17:12:11.940 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:12:11.943 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:12:11.945 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:12:11.947 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-16 17:12:11.947 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:19:44.212 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:19:44.213 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:19:45.216 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:19:45.217 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:19:46.217 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:19:46.217 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:19:46.218 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-16 17:19:46.219 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:19:46.221 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:19:46.223 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:19:46.223 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-16 17:19:46.225 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:31:32.677 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of undefined (reading 'userinfo_uuid')
+2024-12-16 17:32:32.463 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:32:32.464 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:32:33.475 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:32:33.476 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:32:34.545 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:32:34.546 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:32:34.549 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-16 17:32:34.549 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:32:34.552 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: TypeError: Cannot destructure property 'isLastChunk' of 'options' as it is undefined.
+2024-12-16 17:32:34.553 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:32:34.554 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-16 17:32:34.555 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:38:24.277 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of undefined (reading 'userinfo_uuid')
+2024-12-16 17:39:24.633 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:39:24.635 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:39:25.634 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:39:25.636 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:39:26.636 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:39:26.637 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:39:26.637 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-16 17:39:26.637 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:39:26.638 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:39:26.639 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:39:26.639 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-16 17:39:26.639 [error] [ audioServices.js:handleNewFile ] ReferenceError: totalChunks is not defined
+2024-12-16 17:45:18.605 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:45:18.609 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:45:19.609 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:45:19.611 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:45:20.612 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:45:20.613 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:45:20.613 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-16 17:45:20.613 [error] [ audioServices.js:handleNewFile ] ReferenceError: successCount is not defined
+2024-12-16 17:45:20.615 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkIndex is not defined
+2024-12-16 17:45:20.615 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:45:20.615 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-16 17:45:20.616 [error] [ audioServices.js:handleNewFile ] ReferenceError: successCount is not defined
+2024-12-16 17:49:09.020 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:09.023 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:10.026 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:10.027 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:11.029 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:11.029 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:11.030 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:11.031 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:11.032 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:11.033 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:11.133 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:11.134 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:12.245 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:12.245 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:13.265 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:13.265 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:13.266 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:13.268 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:13.270 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:13.274 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:13.406 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:13.413 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:14.536 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:14.537 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:15.537 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:15.537 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:15.538 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:15.538 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:15.539 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:15.540 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:15.640 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:15.641 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:16.650 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:16.651 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:17.676 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:17.677 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:17.677 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:17.678 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:17.678 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:17.679 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:17.785 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:17.786 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:18.839 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:18.841 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:19.841 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:19.842 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:19.843 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:19.844 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:19.845 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:19.845 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:19.946 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:19.947 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:20.949 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:20.950 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:22.005 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:22.006 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:22.007 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:22.009 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:22.011 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:49:22.011 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:49:22.121 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:49:22.122 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: ReferenceError: chunkNumber is not defined
+2024-12-16 17:51:48.964 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:48.964 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:48.965 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:48.967 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:48.968 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:48.968 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:49.973 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:49.973 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:49.974 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:49.975 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:49.976 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:49.976 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:50.977 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:50.978 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:50.978 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:50.978 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:50.978 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:50.979 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:50.980 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:50.981 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:50.981 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:50.982 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:51.081 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:51.082 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:51.082 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:51.085 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:51.086 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:51.086 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:52.126 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:52.127 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:52.128 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:52.129 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:52.130 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:52.130 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.141 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.144 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:53.145 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.146 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:53.149 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:53.152 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.153 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:53.154 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.154 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:53.154 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:53.253 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.257 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:53.258 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.262 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:53.262 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:53.262 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:54.282 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:54.283 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:54.283 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:54.284 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:54.284 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:54.285 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.336 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.338 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:55.340 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.340 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:55.340 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:55.341 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.341 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:55.341 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.342 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:55.342 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:55.456 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.456 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:55.457 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.457 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:55.458 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:55.458 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:56.459 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:56.460 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:56.460 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:56.461 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:56.461 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:56.461 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.478 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.478 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:57.478 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.479 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:57.479 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:57.479 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.480 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:57.480 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.480 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:51:57.480 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:51:57.583 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.584 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:57.584 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.586 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:57.586 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:57.586 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:58.585 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:58.585 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:58.586 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:51:58.586 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: currentErkApiMsg.create is not a function
+2024-12-16 17:51:58.587 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:51:58.587 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: currentErkApiMsg.create is not a function
+2024-12-16 17:54:31.384 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:31.384 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:31.385 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:31.387 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:31.388 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:31.388 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:32.391 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:32.392 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:32.392 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:32.393 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:32.393 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:32.394 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.427 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.428 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:33.428 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.429 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:33.429 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:33.431 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.433 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:33.433 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.433 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:33.434 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:33.551 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.551 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:33.552 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.553 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:33.554 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:33.554 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:34.564 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:34.565 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:34.567 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:34.570 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:34.571 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:34.571 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.572 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.572 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:35.573 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.573 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:35.574 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:35.575 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.576 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:35.576 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.576 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:35.577 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:35.678 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.679 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:35.679 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.681 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:35.682 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:35.682 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:36.680 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:36.681 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:36.681 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:36.682 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:36.682 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:36.684 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.682 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.683 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:37.683 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.683 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:37.684 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:37.684 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.685 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:37.685 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.685 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:37.685 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:37.788 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.788 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:37.788 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.789 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:37.789 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:37.789 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:38.791 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:38.791 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:38.792 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:38.794 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:38.795 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:38.795 [error] [ StreamProcessor:processChunk ] Attempt 2/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.820 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.820 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:39.820 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.820 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:39.820 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:39.821 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.821 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:39.821 [error] [ StreamProcessor:processChunk ] Attempt 3/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.821 [error] [ StreamProcessor:processFileStream ] Error processing file stream: Error: Failed to process chunk after 3 attempts
+2024-12-16 17:54:39.822 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-16 17:54:39.927 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.928 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:39.928 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.930 [error] [ StreamProcessor:sendAndLog ] Error processing TX chunk undefined: Cannot read properties of undefined (reading '0')
+2024-12-16 17:54:39.930 [error] [ StreamProcessor:sendAndLog ] Stack:
+2024-12-16 17:54:39.930 [error] [ StreamProcessor:processChunk ] Attempt 1/3 failed: Error: TX chunk processing failed: Cannot read properties of undefined (reading '0')

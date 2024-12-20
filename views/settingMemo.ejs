@@ -1,0 +1,585 @@
+<div class="inner">
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_id %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- 20240821 최정우 연구원 새로고침 버튼을 위한 UI 배치 및 CSS 변경  -->
+  <div class="mainTitle flex">
+    <h2>메모 관리</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">
+      새로고침
+      <span></span>
+    </button>
+  </div>
+
+  <div class="searchFilters">
+    <div class="searchTextFilter">
+      <h3>감성판단</h3>
+      <div class="flex gap">
+        <div class="searchFilterLines solo">
+          <label>상담그룹</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" id='searchGroup' onclick="selectBox(this)" aria-label="상담그룹 선택">전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>일반문의</a></li>
+                <li class="item"><a>민원접수</a></li>
+                <li class="item"><a>제품판매</a></li>
+                <li class="item"><a>기타접수</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="searchFilterLines solo">
+          <label>상담사 명</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)"  maxlength='10' aria-label="상담사 명 입력" >상담사를 선택하세요.</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <% if (selected_user.length == 0) { %>
+                  <tr>
+                    <td colspan="7">표시할 데이터가 없습니다</td>
+                  </tr>
+                <% } else { %>
+                  <% for(var i=0; i<selected_user.length; i++) {
+                    let data = selected_user[i]; %>
+  
+                    <li class="item"><a><%= data.login_id %> | <%= data.user_name %></a></li>
+                  <% } %>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+        </div>
+          <button type="button" class="primaryBtn" id="coach_search" aria-label="감성판단 검색" onclick="applyFilters()">검색</button>
+      </div>
+    </div>
+  </div>
+  <!------20240904 최정우 연구원 수정--------------------------------------------------->
+  <div class="pagelist">
+  <div class="itemWrap gap">
+    <div class="item borderGrey paddingThin">
+      <div class="title dltGap alignCenter">
+        <h4></h4>
+        <div class="gridItem triple">
+          <button type="button" class="borderBtn" aria-label="등록" onclick="openRegistMemoModal()">등록</button>
+          <button type="button" class="borderBtn" aria-label="삭제" onclick="openDeleteMemoModal()">삭제</button>
+          <button type="button" class="borderBtn" aria-label="수정" onclick="openUpdateMemoModal()">수정</button>
+        </div>
+      </div>
+      <table class="gap" id="memoTable">
+        <colgroup>
+          <col style="width:3%;"> 
+            <col style="width:8%;">
+            <col style="width:8%;">
+            <col style="width:8%;">
+            <col style="width:8%;">
+            <col style="width:20%;">
+            <col style="width:20%;">
+            <col style="width:auto;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th><input type="checkbox" name="all" onclick="allselect(this.checked)"></th>
+            <th>No</th>
+            <th>관리자 명</th>
+            <th>상담원 ID</th>
+            <th>상담원 명</th>
+            <th>등록시간</th>
+            <th>수정시간</th>
+            <th>내용</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if (manage_memo.length == 0) { %> 
+            <tr>
+              <td colspan="7">표시할 데이터가 없습니다</td>
+            </tr>
+          <% } else { %>
+            <% for(var i=0; i<manage_memo.length; i++) {
+              let data = manage_memo[i]; %>
+
+              <tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+                <!-- checkbox -->
+                <td><input id="chkCondition" type="checkbox" name="row_CheckBox"></td>
+
+                <!-- 시퀀스 No. -->
+                <td scope="row"><%= data.memo_head_num %></td>
+
+                <!-- 관리자 명-->
+                <td scope="row"><%= data.manager_name %></td>
+
+                <!-- 상담원 ID -->
+                <td scope="row"><%= data.login_id %></td>
+
+                <!-- 상담원 명 -->
+                <td scope="row"><%= data.user_name %></td>
+
+                <!-- 상담그룹(숨기는 컨텐츠)-->
+                <td scope="row" style="display: none;"><%= data.group_type %></td>
+
+                <!-- 등록시간 -->
+                <td scope="row"><%= data.reg_time %></td>
+
+                <!-- 수정시간 -->
+                <td scope="row">
+                  <% if (data.update_time === '1970년 01월 01일 09시 00분') { %>
+                    -
+                  <% } else { %>
+                    <%= data.update_time %>
+                  <% } %>
+                </td>
+
+                <!-- 내용 -->
+                <td scope="row"><%= data.memo %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table><!-- table div end -->
+
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+      
+      </div>
+    </div>
+  </div><!-- pagelist 끝-->
+</div>
+
+<!-- 등록 모달  최정우 연구원 수정-->
+<div class="modals" id="registMemoModal">
+  <div class="modal-content" id="registmodal-content">
+    <div class="modalTitle">
+      <h4>메모 등록</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="메모 등록 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>관리자 명</label>
+            <input type="text" aria-label="관리자 명 입력" id="manager_name" readonly>
+          </div>
+          <div>
+            <label>상담원</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" onclick="selectBox(this)"  maxlength='10' aria-label="상담사 명 입력" id="consultant_info" >상담사를 선택하세요.</button>
+                <ul class="list">
+                  <% if (selected_user.length == 0) { %>
+                    <tr>
+                      <td colspan="7">표시할 데이터가 없습니다</td>
+                    </tr>
+                  <% } else { %>
+                    <% for(var i=0; i<selected_user.length; i++) {
+                      let data = selected_user[i]; %>
+    
+                      <li class="item"><a><%= data.login_id %> | <%= data.user_name %></a></li>
+                    <% } %>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label>내용</label>
+          <textarea aria-label="내용 입력" id="memo_content" cols="30" rows="10"></textarea>
+        </div>
+      </div>
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" onclick="submitMemo()" aria-label="등록">등록하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="메모 등록 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div>
+
+<!-- 삭제 모달 최정우 연구원 수정-->
+<div class="modals" id="deleteMemoModal">
+  <div class="modal-content" id="deletemodal-content">
+    <div class="modalTitle">
+      <h4>선택한 사용자의 메모를 삭제하시겠습니까?</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="메모 삭제 모달 닫기"></button>
+    </div>
+
+    <div class="modal-body">
+      <input type="hidden" id="del_memo_head_num" name="del_memo_head_num" value="">
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" onclick="deleteMemo()" aria-label="삭제">삭제하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="메모 삭제 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div>
+
+<!-- 수정 모달 최정우 연구원 수정-->
+<div class="modals" id="updateMemoModal">
+  <div class="modal-content" id="updatemodal-content">
+    <div class="modalTitle">
+      <h4>메모 수정</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="메모 수정 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="update_memo_head_num" name="update_memo_head_num" value="">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>관리자 명</label>
+            <input type="text" aria-label="관리자 명 입력" id="edit_manager_name" readonly>
+          </div>
+          <div>
+            <label>상담원 ID</label>
+            <input type="text" aria-label="상담원 ID 입력" id="edit_login_id" readonly />
+          </div>
+        </div>
+        <div class="grid twin">
+          <div>
+            <label>상담원 명</label>
+            <input type="text" aria-label="상담원 이름 입력" id="edit_user_name" readonly/>
+          </div>
+          <div>
+          </div>
+        </div>
+        <div>
+          <label>내용</label>
+          <textarea aria-label="내용 입력" id="edit_memo_content" cols="30" rows="10"></textarea>
+        </div>
+      </div>
+      <input type="hidden" id="edit_memo_head_num" name="edit_memo_head_num" value="">
+      <div class="btnWrap gap">
+        <ul>
+          <button type="button" class="primaryBtn" aria-label="수정" onclick="updateMemo()">수정</button>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="메모 수정 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div>
+
+<script>
+// 모달 열기
+function openModal(modalId) {
+  document.getElementById(modalId).style.display = 'block';
+  document.getElementById(modalId + 'Bg').style.display = 'block';
+}
+
+// 등록 모달 열기 -------- 최정우 연구원 수정
+function openRegistMemoModal() {
+  const selected = $('input[name="row_CheckBox"]:checked');
+  const row = selected.closest('tr');
+  $('#manager_name').val('<%=session_id%>').text();
+      
+  $('#registMemoModal').show();
+}
+
+// 수정 모달 열기 -------- 최정우 연구원 수정
+function openUpdateMemoModal() {
+  const selected = $('input[name="row_CheckBox"]:checked');
+  if (selected.length === 1) {
+      const row = selected.closest('tr');
+      $('#edit_manager_name').val('<%=session_id%>').text();
+      $('#edit_login_id').val(row.find('td:eq(3)').text());
+      $('#edit_user_name').val(row.find('td:eq(4)').text());
+      $('#edit_memo_content').val(row.find('td:eq(8)').text());
+      $('#update_memo_head_num').val(row.find('td:eq(1)').text().trim());
+
+      // 선택한 사용자의 loginid와 생성 시간 선택
+      $('#updateMemoModal').attr('data-selected-login-id', row.find('td:eq(3)').text());
+      
+      $('#updateMemoModal').show();
+  } else if (selected.length === 0) {
+      alert('수정할 메모를 선택해주세요.');
+  } else {
+    alert('수정할 메모를 하나만 선택해주세요.');
+  }
+}
+
+// 삭제 모달 열기 -------- 최정우 연구원 수정
+// 선택된 체크박스들의 memo_head_num값만 배열로 저장 1,3번을 선택할경우 ["1","3"] 으로 저장됨 (문자열 타입)
+function openDeleteMemoModal() {
+  const selected = $('input[name="row_CheckBox"]:checked');
+  const memoHeadNums = [];
+
+  if (selected.length === 0) {
+    alert('삭제할 메모를 선택해주세요.');
+  } else {
+    selected.each(function() {
+        const row = $(this).closest('tr');
+        const memoHeadNum = row.find('td:eq(1)').text().trim(); // memo_head_num 값을 가져옴
+        memoHeadNums.push(memoHeadNum); // 배열에 추가
+    });
+
+    // memo_head_num 값을 배열 형태의 문자열로 hidden 필드에 저장
+    $('#del_memo_head_num').val(JSON.stringify(memoHeadNums));
+
+    $('#deleteMemoModal').show();
+  }
+}
+
+function coachingModalClose() {
+  $('.modals').hide();
+}
+
+// 체크박스 전체 선택
+function allselect(bool) {
+  let chks = document.getElementsByName("row_CheckBox");
+  
+  for(let i = 0; i < chks.length; i++){
+    chks[i].checked = bool;
+  }
+}
+
+// 유효성 검사 함수
+async function validateUserAndManager(login_id, user_name) {
+  try {
+    const response = await fetch('/validateUserAndManager', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ login_id, user_name })
+    });
+
+    const result = await response.json();
+    return result.isValid;
+  } catch (error) {
+    console.error('Error:', error);
+    return false;
+  }
+}
+
+//////////////////////////////// 메모 등록
+async function submitMemo() {
+  const manager_name = document.getElementById('manager_name').value;
+  const consultant_info = document.getElementById('consultant_info').textContent.trim();
+  const memo_content = document.getElementById('memo_content').value;
+
+
+  // 유효성 검사 실시
+  if (!manager_name || consultant_info === "상담사를 선택하세요." || !memo_content) {
+    alert('모든 필드를 입력해주세요.');
+    return;
+  }
+
+  let login_id = "";
+  let user_name = "";
+
+  if (consultant_info !== "상담사를 선택하세요.") {
+    const consultantParts = consultant_info.split(" | ");
+    if (consultantParts.length === 2) {
+      login_id = consultantParts[0].trim(); // 상담원 ID
+      console.log(login_id);
+      user_name = consultantParts[1].trim(); // 상담원 이름
+      console.log(user_name);
+    } else {
+      alert("상담원 정보가 올바르지 않습니다.");
+      return;
+    }
+  }
+
+  // 데이터 연동
+  const data = {
+    manager_name: manager_name,
+    login_id: login_id,
+    user_name: user_name,
+    memo: memo_content
+  };
+
+  try {
+  const response = await fetch('/submitMemo', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+          alert(result.message); // 성공 메시지 표시
+          location.reload(); // 페이지 새로고침
+      } else {
+          // 에러 메시지 처리
+          alert(result.message || '메모 등록에 실패했습니다.');
+      }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('메모 등록 중 오류가 발생했습니다.');
+  }
+}
+
+////////////////////////////// 메모 수정
+async function updateMemo() {
+  //id값을통해 value값 가져오기
+  const selectedRegTime = document.getElementById('updateMemoModal').dataset.selectedRegTime;
+  const selectedLoginId = document.getElementById('updateMemoModal').dataset.selectedLoginId;
+  const manager_name = document.getElementById('edit_manager_name').value.trim();
+  const login_id = document.getElementById('edit_login_id').value.trim();
+  const user_name = document.getElementById('edit_user_name').value.trim();
+  const memo_content = document.getElementById('edit_memo_content').value.trim();
+  const updtheadnum = document.getElementById('update_memo_head_num').value.trim();
+
+  // 메모 내용 입력 여부를 통한 유효성 검사 실시
+  if (!memo_content) {
+      alert('메모 내용을 입력해주세요.');
+      return;
+  }
+
+  // 데이터 셋팅
+  const data = {
+      selectedLoginId: selectedLoginId,
+      selectedRegTime: selectedRegTime,
+      login_id: login_id,
+      manager_name: manager_name,
+      user_name: user_name,
+      memo: memo_content,
+      update_memo_head_num: updtheadnum
+  };
+
+  try {
+      // AJAX 비동기 통신을 통한 메모 업데이트
+      const response = await fetch('/updateMemo', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+          alert('메모가 성공적으로 수정되었습니다.');
+          coachingModalClose();
+          location.reload(); // 새로운 메모 동기화
+      } else {
+          const errorMessage = result.message || '메모 수정에 실패했습니다.';
+          alert(errorMessage);
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      alert('메모 수정 중 오류가 발생했습니다.');
+  }
+}
+
+////////////////////////////// 메모 삭제
+async function deleteMemo(){
+
+  const memo_head_num_json = document.getElementById('del_memo_head_num').value;
+
+  // opendeletememomodal에서 받은 JSON 문자열을 배열로 변환
+  const memo_head_num = JSON.parse(memo_head_num_json);
+
+  // 데이터 셋팅
+  const data = {
+      memo_head_num: memo_head_num,
+  };
+
+try {
+    const response = await fetch('/deleteMemo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        alert('메모가 성공적으로 삭제되었습니다.');
+        coachingModalClose();
+        location.reload(); // 새로운 메모 동기화
+    } else {
+        const errorMessage = result.message || '메모 삭제에 실패했습니다.';
+        alert(errorMessage);
+    }
+} catch (error) {
+    console.error('Error:', error);
+    alert('메모 삭제 중 오류가 발생했습니다.');
+}
+}
+
+////////////////////////// 검색 필터 추가
+function applyFilters() {
+    // 필터 값 가져오기
+    const selectedGroup = document.querySelector('.searchFilterLines.solo:nth-child(1) .boxLabel').textContent.trim();
+    const selectedConsultant = document.querySelector('.searchFilterLines.solo:nth-child(2) .boxLabel').textContent.trim();
+    
+    // 테이블의 모든 행 가져오기
+    const tableRows = document.querySelectorAll("#memoTable tbody .jsTableRow");
+    let filteredRows = []; // 필터링된 행만 저장
+
+    tableRows.forEach(row => {
+        const rowGroup = row.querySelector("td:nth-child(6)").textContent.trim(); // 상담 그룹 열
+        const rowConsultantName = row.querySelector("td:nth-child(5)").textContent.trim(); // 상담사 이름 열
+        const rowLoginId = row.querySelector("td:nth-child(4)").textContent.trim(); // 상담사 ID 열
+
+        let isVisible = true;
+
+        // 상담 그룹 필터 적용
+        if (selectedGroup !== "전체" && selectedGroup !== "") {
+            if (rowGroup !== selectedGroup) {
+                isVisible = false;
+            }
+        }
+
+        // 상담사 필터 적용
+        if (selectedConsultant !== "전체" && selectedConsultant !== "상담사를 선택하세요.") {
+            const [consultantLoginId, consultantName] = selectedConsultant.split(" | ");
+            if (
+                !consultantName || !consultantLoginId ||
+                rowConsultantName !== consultantName.trim() ||
+                rowLoginId !== consultantLoginId.trim()
+            ) {
+                isVisible = false;
+            }
+        }
+
+        // 필터 조건에 맞는 행만 배열에 추가
+        if (isVisible) {
+            filteredRows.push(row); // 필터링된 행 저장
+        }
+    });
+
+    // 모든 행 숨김
+    tableRows.forEach(row => (row.style.display = "none"));
+
+    // 필터링된 행만 표시
+    filteredRows.forEach(row => (row.style.display = ""));
+
+    // 필터링 결과가 없을 경우 경고 메시지
+    if (filteredRows.length === 0) {
+        alert("검색 조건에 맞는 데이터가 없습니다.");
+        jQuery('.pagination2').hide();
+        return;
+    }
+
+    jQuery('.pagination2').show();
+
+    // 필터링된 데이터를 기준으로 페이지네이션 재구성
+    pagination(filteredRows);
+}
+</script>

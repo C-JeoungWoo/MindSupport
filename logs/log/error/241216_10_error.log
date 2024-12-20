@@ -1,0 +1,1196 @@
+2024-12-16 10:00:06.768 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav
+2024-12-16 10:00:06.770 [error] [ audioServices.js:handleNewFile ] Error: ENOENT: no such file or directory, open '/home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav'
+2024-12-16 10:00:06.778 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:06.881 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:06.984 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.089 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.194 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.298 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.403 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.505 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.612 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.723 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.842 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:07.955 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.062 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.202 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.329 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.433 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.535 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.638 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.741 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.852 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:08.965 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.096 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.208 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.358 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.472 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.579 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.688 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.797 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:09.908 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:10.025 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:00:10.157 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.160 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.287 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.288 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.393 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.394 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.504 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.506 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.633 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.639 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.748 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.751 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.863 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.864 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:10.970 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:10.970 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.089 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.090 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.195 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.196 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.302 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.303 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.412 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.412 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.519 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.520 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.633 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.633 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.758 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.759 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.872 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.873 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:11.977 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:11.977 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.098 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.099 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.228 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.231 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.346 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.346 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.464 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.464 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.577 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.580 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.777 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.777 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.879 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.879 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:12.981 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:12.982 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.087 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.087 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.197 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.205 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.318 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.319 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.440 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.443 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.556 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.557 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.699 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.705 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.820 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.822 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:13.938 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:13.938 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.066 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.067 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.178 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.180 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.300 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.301 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.414 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.416 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.526 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.526 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.633 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.634 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.771 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.775 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.890 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.894 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:14.996 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:14.997 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.103 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.103 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.212 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.213 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.338 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.342 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.463 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.466 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.599 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.600 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.715 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.716 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.843 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.846 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:15.962 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:15.979 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.116 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.117 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.220 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.221 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.324 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.325 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.428 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.428 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.531 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.531 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.671 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.672 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.774 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.774 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:16.879 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:16.880 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.041 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.042 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.174 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.175 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.279 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.279 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.412 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.416 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.520 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.521 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.633 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.634 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.746 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.748 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.860 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.861 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:17.972 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:17.972 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.098 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.098 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.215 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.215 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.324 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.330 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.458 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.458 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.574 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.578 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.680 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.682 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.783 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.783 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:18.932 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:18.933 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.044 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.045 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.148 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.148 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.251 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.251 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.366 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.366 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.480 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.480 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.591 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.591 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.724 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.726 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.851 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.851 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:19.955 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:19.956 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.058 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.058 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.186 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.186 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.316 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.320 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.438 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.439 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.553 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.554 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.684 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.687 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.790 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.791 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.896 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:20.896 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:20.999 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.000 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.108 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.109 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.219 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.220 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.327 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.329 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.433 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.434 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.559 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.561 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.704 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.704 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.820 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.821 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:21.949 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:21.950 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.058 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.058 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.168 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.169 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.275 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.276 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.381 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.381 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.485 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.486 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.592 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.592 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.706 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.707 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.827 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.829 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:22.946 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:22.948 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.063 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.063 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.167 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.167 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.286 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.286 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.396 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.396 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.504 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.504 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.610 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.610 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.722 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.723 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.824 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.825 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:23.931 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:23.933 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:00:24.042 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: waitForRequiredSize is not defined
+2024-12-16 10:00:24.043 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: waitForRequiredSize is not defined
+2024-12-16 10:06:30.152 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav
+2024-12-16 10:06:30.153 [error] [ audioServices.js:handleNewFile ] Error: ENOENT: no such file or directory, open '/home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav'
+2024-12-16 10:06:30.162 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.276 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.380 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.491 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.594 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.698 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.803 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:30.908 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.014 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.152 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.263 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.370 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.499 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.611 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.714 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.816 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:31.935 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.038 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.144 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.250 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.358 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.475 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.578 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.695 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.802 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:32.910 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:33.015 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:33.136 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:33.252 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:33.361 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:06:33.492 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:33.492 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:33.599 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:33.600 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:33.709 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:33.710 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:33.822 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:33.822 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:33.983 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:33.985 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.095 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.096 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.200 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.201 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.320 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.324 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.433 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.434 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.543 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.544 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.660 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.662 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.768 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.768 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.877 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.878 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:34.996 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:34.996 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.100 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.100 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.222 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.222 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.325 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.325 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.429 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.430 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.542 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.542 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.664 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.671 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.780 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.782 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:35.900 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:35.903 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.015 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.017 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.122 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.122 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.239 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.239 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.351 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.354 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.463 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.466 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.576 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.579 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.694 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.695 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.798 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.799 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:36.902 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:36.903 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.023 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.024 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.156 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.156 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.270 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.271 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.383 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.384 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.498 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.499 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.610 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.611 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.746 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.746 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.857 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.858 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:37.986 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:37.987 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.093 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.094 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.205 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.206 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.321 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.321 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.441 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.442 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.556 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.556 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.658 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.659 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.763 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.763 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.871 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.874 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:38.978 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:38.979 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.083 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.083 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.187 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.187 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.291 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.291 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.407 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.407 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.519 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.519 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.636 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.636 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.750 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.750 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:39.903 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:39.903 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.014 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.014 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.119 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.120 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.230 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.231 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.337 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.338 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.446 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.447 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.566 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.566 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.671 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.675 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.780 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.781 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.889 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.890 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:40.997 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:40.997 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:06:41.109 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: AudioProcessingManager is not defined
+2024-12-16 10:06:41.114 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not defined
+2024-12-16 10:08:44.881 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav
+2024-12-16 10:08:44.882 [error] [ audioServices.js:handleNewFile ] Error: ENOENT: no such file or directory, open '/home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav'
+2024-12-16 10:08:44.894 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.046 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.155 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.258 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.388 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.491 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.596 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.719 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.829 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:45.936 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.048 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.175 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.285 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.409 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.516 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.630 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.749 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.857 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:46.960 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.065 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.167 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.270 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.373 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.475 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.592 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.696 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.804 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:47.911 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:48.019 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:48.123 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:08:48.239 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.240 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.343 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.344 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.450 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.451 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.558 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.558 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.668 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.668 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.773 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.774 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.878 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:48.878 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.002 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.003 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.107 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.108 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.214 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.214 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.321 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.322 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.434 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.434 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.537 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.538 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.651 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.654 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.761 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.763 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.868 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.870 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.973 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:49.974 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.083 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.084 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.197 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.198 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.304 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.307 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.434 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.442 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.547 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.548 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.653 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.654 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.780 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.781 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.890 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:50.891 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.007 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.018 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.126 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.126 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.252 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.253 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.382 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.383 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.487 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.487 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.604 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.605 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.725 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.725 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.827 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.829 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.936 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:51.936 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.071 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.072 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.176 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.176 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.291 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.293 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.414 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.414 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.540 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.540 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.645 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.645 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.752 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.753 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.857 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.858 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.970 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:52.972 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.080 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.081 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.187 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.187 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.295 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.296 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.423 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.424 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.527 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.528 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.631 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.632 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.763 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.764 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.880 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.880 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.983 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:53.983 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.085 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.085 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.207 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.208 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.317 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.318 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.425 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.426 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.532 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.532 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.654 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.655 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.760 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.760 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.876 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.877 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.986 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:54.987 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.088 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.089 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.208 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.209 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.323 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.326 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.436 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.437 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.543 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.544 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.652 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.652 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.757 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.757 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.863 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.863 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.974 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:55.974 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.079 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.079 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.204 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.205 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.308 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.308 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.411 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.411 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.515 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.517 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.622 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.623 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.732 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: TypeError: AudioProcessingManager is not a constructor
+2024-12-16 10:08:56.734 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: AudioProcessingManager is not a constructor
+2024-12-16 10:11:21.939 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav
+2024-12-16 10:11:21.940 [error] [ audioServices.js:handleNewFile ] Error: ENOENT: no such file or directory, open '/home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav'
+2024-12-16 10:11:21.949 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.056 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.175 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.299 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.403 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.507 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.614 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.717 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.819 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:22.923 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.043 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.166 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.294 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.412 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.541 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.751 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.859 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:23.966 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.074 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.180 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.285 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.397 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.518 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.627 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.746 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.869 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:24.992 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:25.096 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:25.205 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:25.311 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:11:25.878 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:25.879 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:26.162 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:26.162 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:26.480 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:26.481 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:26.762 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:26.763 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:27.044 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:27.045 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:27.380 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:27.381 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:27.719 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:27.720 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:27.979 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:27.980 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:28.283 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:28.284 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:28.575 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:28.575 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:28.872 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:28.873 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:29.276 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:29.277 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:29.552 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:29.552 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:29.847 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:29.848 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:30.122 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:30.122 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:30.415 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:30.415 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:30.697 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:30.697 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:31.002 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:31.002 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:31.308 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:31.309 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:31.575 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:31.577 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:31.901 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:31.901 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:32.178 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:32.179 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:32.483 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:32.484 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:32.809 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:32.809 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:33.102 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:33.102 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:33.410 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:33.410 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:33.740 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:33.741 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:34.028 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:34.028 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:34.348 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:34.350 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:34.616 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:34.617 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:34.949 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:34.949 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:35.218 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:35.219 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:35.485 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:35.485 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:35.785 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:35.785 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:36.107 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:36.108 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:36.402 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:36.403 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:36.699 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:36.700 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:37.012 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:37.012 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:37.300 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:37.300 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:37.664 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:37.665 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:37.940 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:37.940 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:38.218 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:38.218 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:38.511 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:38.512 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:38.782 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:38.783 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:39.048 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:39.048 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:39.345 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:39.345 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:39.652 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:39.652 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:39.951 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:39.951 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:40.223 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:40.223 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:40.505 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:40.506 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:40.792 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:40.792 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:41.103 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:41.103 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:41.401 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:41.401 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:41.672 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:41.673 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:41.976 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:41.976 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:42.257 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:42.258 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:42.536 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:42.537 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:42.848 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:42.850 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:43.115 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:43.116 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:43.401 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:43.401 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:43.669 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:43.669 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:43.942 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:43.942 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:44.236 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:44.236 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:44.529 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:44.529 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:44.818 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:44.819 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:45.143 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:45.143 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:45.449 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:45.450 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:45.785 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:45.785 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:46.083 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:46.083 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:46.348 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:46.349 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:46.690 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:46.691 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:46.962 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:46.962 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:47.227 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:47.227 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:47.501 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:47.502 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:47.775 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:47.775 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:48.034 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:48.034 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:48.295 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:48.295 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:48.589 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:48.590 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:48.887 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:48.888 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:49.222 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:49.227 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:49.509 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:49.509 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:49.838 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:49.838 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:50.128 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:50.128 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:50.420 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:50.420 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:11:50.707 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: checkedFilePath is not defined
+2024-12-16 10:11:50.708 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: checkedFilePath is not defined
+2024-12-16 10:24:35.369 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.373 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.475 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.476 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.579 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.580 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.682 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.683 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.785 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.787 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.889 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.891 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.996 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:35.999 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.102 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.103 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.209 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.210 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.313 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.314 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.415 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.416 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.536 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.542 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.649 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.653 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.755 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.756 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.900 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:36.904 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.015 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.016 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.136 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.139 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.252 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.252 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.420 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.422 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.522 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.524 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.632 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.633 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.736 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.738 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.859 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.863 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.976 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:37.978 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.129 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.129 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.231 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.232 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.340 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.341 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.443 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.446 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.554 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.556 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.666 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:38.667 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:24:39.401 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:39.402 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:39.404 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:39.404 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:39.789 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:39.789 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:39.790 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:39.791 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:40.122 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:40.123 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:40.124 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:40.124 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:40.418 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:40.419 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:40.419 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:40.419 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:40.757 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:40.758 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:40.762 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:40.762 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.045 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.046 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.047 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.047 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.371 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.371 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.372 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.372 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.692 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.692 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.694 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.695 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.987 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.988 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:41.991 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:41.991 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:42.292 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:42.292 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:42.292 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:42.293 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:42.608 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:42.609 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:42.615 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:42.616 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:42.939 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:42.939 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:42.941 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:42.942 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:43.235 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:43.237 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:43.253 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:43.254 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:43.557 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:43.558 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:43.568 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:43.568 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:43.858 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:43.858 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:43.861 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:43.861 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:44.179 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:44.179 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:44.187 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:44.188 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:44.496 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:44.497 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:44.499 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:44.500 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:44.815 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:44.816 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:44.820 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:44.820 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:45.139 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:45.139 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:45.156 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:45.156 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:45.429 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:45.429 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:45.432 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:45.432 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:45.744 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:45.744 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:45.745 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:45.746 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.047 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.047 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.048 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.048 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.353 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.354 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.356 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.357 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.626 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.626 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.643 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.644 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.905 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.905 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:46.932 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:46.933 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:47.196 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:47.196 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:47.264 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:47.265 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:47.500 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:47.501 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:47.570 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:47.570 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:47.789 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:47.790 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:47.836 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:47.837 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.077 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.077 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.121 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.122 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.368 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.369 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.424 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.425 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.693 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.693 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.721 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.721 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:48.986 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:48.988 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.014 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.031 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.247 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.248 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.315 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.316 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.562 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.563 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.652 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.652 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.856 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.856 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:49.925 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:49.926 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:50.176 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:50.177 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:50.221 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:50.222 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:50.458 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:50.458 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:50.508 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:50.508 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:50.758 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:50.758 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:50.797 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:50.797 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:51.047 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:51.048 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:51.083 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:51.084 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:24:51.319 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: headerLength is not defined
+2024-12-16 10:24:51.319 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: headerLength is not defined
+2024-12-16 10:26:50.128 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.130 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.232 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.234 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.347 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.348 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.469 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.473 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.577 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.580 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.684 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.686 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.792 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.793 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.907 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:50.907 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.028 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.029 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.131 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.134 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.238 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.239 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.358 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.362 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.488 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.497 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.597 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.603 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.704 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.706 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.822 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.824 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.955 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:51.970 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.092 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.094 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.201 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.207 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.330 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.332 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.437 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.438 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.550 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.554 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.672 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.672 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.840 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.841 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.960 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:52.961 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.062 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.063 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.171 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.171 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.274 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.275 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.403 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.403 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.512 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:53.515 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: Only 0 out of undefined chunks sent successfully
+2024-12-16 10:26:54.254 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:54.255 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:54.276 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:54.276 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:54.554 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:54.555 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:54.557 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:54.557 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:54.851 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:54.852 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:54.862 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:54.863 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:55.154 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:55.155 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:55.157 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:55.157 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:55.452 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:55.453 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:55.454 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:55.454 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:55.737 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:55.739 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:55.746 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:55.746 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.030 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.030 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.033 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.034 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.313 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.313 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.325 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.326 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.598 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.599 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.610 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.611 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.881 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.882 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:56.884 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:56.884 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:57.236 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:57.238 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:57.252 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:57.252 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:57.543 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:57.543 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:57.552 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:57.552 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:57.853 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:57.853 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:57.855 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:57.855 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:58.176 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:58.176 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:58.177 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:58.177 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:58.464 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:58.465 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:58.468 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:58.468 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:58.816 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:58.816 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:58.818 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:58.819 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:59.128 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:59.130 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:59.132 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:59.133 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:59.429 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:59.430 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:59.430 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:59.431 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:59.782 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:59.782 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:26:59.785 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:26:59.785 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:27:00.085 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:27:00.086 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:27:00.089 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkApiMsg is not defined
+2024-12-16 10:27:00.090 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: ErkApiMsg is not defined
+2024-12-16 10:32:58.690 [error] [ app.js:loadProto ] ReferenceError: ch is not defined
+2024-12-16 10:33:38.289 [error] [ app.js:loadProto ] ReferenceError: ch is not defined
+2024-12-16 10:34:00.599 [error] [ app.js:loadProto ] ReferenceError: ch is not defined
+2024-12-16 10:36:49.132 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of undefined (reading 'create')
+2024-12-16 10:39:17.526 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of null (reading 'create')
+2024-12-16 10:41:53.236 [error] Error setting ErkApiMsg: erkApiMsg is not defined
+2024-12-16 10:48:56.256 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of null (reading 'create')
+2024-12-16 10:51:30.359 [error] ErkApiMsg is not initialized
+2024-12-16 10:56:25.608 [error] ErkApiMsg is not initialized
+2024-12-16 10:58:23.858 [error] ErkApiMsg is not initialized

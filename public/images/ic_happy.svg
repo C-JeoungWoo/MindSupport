@@ -1,0 +1,16 @@
+<svg id="ic_happy" xmlns="http://www.w3.org/2000/svg" width="70" height="56" viewBox="0 0 70 56">
+  <rect id="사각형_2095" data-name="사각형 2095" width="70" height="56" fill="none"/>
+  <path id="패스_38699" data-name="패스 38699" d="M318.287,121c0,7.174-6.773,12.98-15.143,12.98S288,128.174,288,121" transform="translate(-267.693 -86.04)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+  <path id="패스_38700" data-name="패스 38700" d="M317.307,117.653a8.653,8.653,0,1,0-17.307,0" transform="translate(-253.733 -100)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+  <path id="패스_38701" data-name="패스 38701" d="M299.307,117.653a8.653,8.653,0,1,0-17.307,0" transform="translate(-274.673 -100)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+  <g id="그룹_2128" data-name="그룹 2128" transform="translate(3 25.94)">
+    <g id="그룹_2126" data-name="그룹 2126" transform="translate(52)">
+      <line id="선_600" data-name="선 600" x1="4" y2="5" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+      <line id="선_601" data-name="선 601" x1="4" y2="5" transform="translate(9)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+    </g>
+    <g id="그룹_2127" data-name="그룹 2127">
+      <line id="선_602" data-name="선 602" x1="4" y2="5" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+      <line id="선_603" data-name="선 603" x1="4" y2="5" transform="translate(9)" fill="none" stroke="#000" stroke-linejoin="round" stroke-width="4"/>
+    </g>
+  </g>
+</svg>

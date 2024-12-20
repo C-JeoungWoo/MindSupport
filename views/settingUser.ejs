@@ -1,0 +1,730 @@
+<div class="inner">
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="./images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_id %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="mainTitle flex">
+    <h2>사용자 관리</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">
+      새로고침
+      <span></span>
+    </button>
+  </div>
+
+  <div class="searchFilters">
+    <div class="searchTextFilter">
+      <h3>감성판단</h3>
+      <div class="flex gap">
+        <div class="searchFilterLines solo">
+          <label>상담그룹</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" id='searchGroup' onclick="selectBox(this)" aria-label="상담그룹 선택">전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>일반문의</a></li>
+                <li class="item"><a>민원접수</a></li>
+                <li class="item"><a>제품판매</a></li>
+                <li class="item"><a>기타접수</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="searchFilterLines solo">
+          <label>상담사 명</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" id="filterConsultantName"  maxlength='10' aria-label="상담사 명 입력" >상담사를 선택하세요.</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <% if (manage_users.length == 0) { %>
+                  <tr>
+                    <td colspan="7">표시할 데이터가 없습니다</td>
+                  </tr>
+                <% } else { %>
+                  <% for(var i=0; i<manage_users.length; i++) {
+                    let data = manage_users[i]; %>
+  
+                    <li class="item"><a><%= data.login_id %> | <%= data.user_name %></a></li>
+                  <% } %>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+        </div>
+          <button type="button" class="primaryBtn" id="coach_search" aria-label="감성판단 검색" onclick="applyFilters()">검색</button>
+      </div>
+    </div>
+  </div>
+
+  <!------20240904 최정우 연구원 수정--------------------------------------------------->
+  <div class="pagelist">
+  <div class="itemWrap gap">
+    <div class="item borderGrey paddingThin">
+      <!-- 버튼 div -->
+      <div class="title dltGap alignCenter">
+        <div></div>
+        <div class="gridItem triple">
+          <button type="button" class="borderBtn" aria-label="등록" onclick="registModalOpen()">등록</button>
+          <button type="button" class="borderBtn" aria-label="수정" id="updateCoachingModalOpen">수정</button>
+          <button type="button" class="borderBtn" aria-label="삭제" type="submit" id="settingUserDel">삭제</button>
+        </div>
+      </div><!-- 버튼 div end -->
+      <!-- 테이블 start -->
+      <table id="auto_user_table" class="auto_user_table table table-striped table-hover">
+        <colgroup>
+          <col style="width:5%;">
+          <col style="width:5%;">
+          <col style="width:10%;">
+          <col style="width:20%;">
+          <col style="width:5%;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:5%;">
+          <col style="width:5%;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th><input type="checkbox" name="all" onclick="allselect(this.checked)"></th>
+            <th>No</th>
+            <th>기관 ID</th>
+            <th>기관 명</th>
+            <th>상담원 ID</th>
+            <th>상담원 명</th>
+            <th>상담그룹</th>
+            <th>나이</th>
+            <th>성별</th>
+            <th>접속단말</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (manage_users.length == 0) { %> 
+            <tr>
+              <td colspan="11">표시할 데이터가 없습니다</td>
+            </tr>
+          <% } else { %>
+            <% for(var i=0; i<manage_users.length; i++) { 
+              let data = manage_users[i]; %>
+
+              <tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+                <!-- check -->
+                <td><input id="chkCondition" type="checkbox" name="row_CheckBox"></td>
+
+                <!-- 시퀀스 No. -->
+                <% let data_seq = i+1 %>
+                <td scope="row"><%= data_seq %></td>
+
+                <!-- 기관 ID -->
+                <td scope="row"><%= data.org_id %></td>
+
+                <!-- 기관 명 -->
+                <td scope="row"><%= data.org_name %></td>
+
+                <!-- 상담사 ID -->
+                <td scope="row"><%= data.login_id %></td>
+
+                <!-- 상담사 명 -->
+                <td scope="row"><%= data.user_name %></td>
+
+                <!-- 상담그룹 -->
+                <td scope="row"><%= data.group_type %></td>
+
+                <!-- 나이 -->
+                <td scope="row"><%= data.age %></td>
+
+                <!-- 성별 -->
+                <td scope="row"><%= data.sex %></td>
+
+                <!-- 접속 단말 -->
+                <% if (data.dev_platform == 2) { %> 
+                  <td scope="row">Windows</td>
+                <% } else { %>
+                  <td scope="row">Mac</td>
+                <% } %>
+
+                <!-- 비고 -->
+                <% if (data.note == null) { %> 
+                  <td scope="row">없음</td>
+                <% } else { %>
+                  <td scope="row"><%= data.note %></td>
+                <% } %>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table><!-- 테이블 end -->
+      
+      <!-- 페이징 -->
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+      <!-- 페이징 end -->
+    </div>
+  </div>
+</div><!-- pagelist 끝 -->
+</div>
+
+<!-- 등록 모달 div start -->
+<div class="modals" id="registModal">
+  <div class="modal-content">
+    <div class="modalTitle">
+      <h4>사용자 등록</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()"  aria-label="사용자등록 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>기관 ID</label>
+            <input type="text" aria-label="기관 ID 입력" id="getOrgId" pattern="[0-9]+" disabled>
+          </div><!-- 기관 ID div end -->
+          <div>
+            <label>기관 명</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getOrgName" onclick="selectBox(this)" aria-label="기관 명 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a data-org-id="43" onclick="selectItem(event, 'getOrgName', 'NEIGHBOR SYSTEM')">NEIGHBOR SYSTEM</a></li>
+                  <li class="item"><a data-org-id="1" onclick="selectItem(event, 'getOrgName', 'NEIGHBOR SYSTEM A')">NEIGHBOR SYSTEM A</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 기관 명 div end -->
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>상담원 ID</label>
+            <input type="text" aria-label="상담원 ID 입력" id="getAgentId" value="" />
+          </div><!-- 상담원 ID div end -->
+          <div>
+            <label>상담원 이름</label>
+            <input type="text" aria-label="상담원 이름 입력" id="getAgentName" value="" />
+          </div><!-- 상담원 이름 div end -->
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>상담그룹</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getGroupType" onclick="selectBox(this)" aria-label="상담그룹 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '일반문의')">일반문의</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '민원접수')">민원접수</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '제품판매')">제품판매</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '기타접수')">기타접수</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 직급 div end -->
+          <div>
+            <label>나이</label>
+            <input type="text" aria-label="나이 입력" id="getAge" value="" />
+          </div><!-- 나이 div end -->
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>성별</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getSex" onclick="selectBox(this)" aria-label="성별">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getSex', '남')">남</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getSex', '여')">여</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 성별 div end -->
+          <div>
+            <label>접속단말</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getPlatform" onclick="selectBox(this)" aria-label="접속단말">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getPlatform', 'Mac')">Mac</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getPlatform', 'Windows')">Windows</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 접속단말 div end -->
+        </div>
+        
+        <div>
+          <label>비고</label>
+          <input type="text" aria-label="비고 입력" id="getNote" value="" />
+        </div>
+      </div>
+      
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" id="getUserSet_submit" aria-label="사용자등록 버튼">등록하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="사용자등록 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 모달 div end -->
+
+<!-- 수정 모달 div start -->
+<div class="modals" id="updateModal">
+  <div class="modal-content">
+    <div class="modalTitle">
+      <h4>사용자 수정</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()"  aria-label="사용자등록 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>기관 ID</label>
+            <input type="text" aria-label="기관 ID 입력" id="getOrgId2" pattern="[0-9]+" disabled>
+          </div><!-- 기관 ID div end -->
+          
+          <div>
+            <label>기관 명</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getOrgName2" onclick="selectBox(this)" aria-label="기관 명 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a data-org-id="43" onclick="selectItem(event, 'getOrgName2', 'NEIGHBOR SYSTEM')">NEIGHBOR SYSTEM</a></li>
+                  <li class="item"><a data-org-id="1" onclick="selectItem(event, 'getOrgName2', 'NEIGHBOR SYSTEM A')">NEIGHBOR SYSTEM A</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 기관 명 div end -->
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>상담원 ID</label>
+            <input type="text" aria-label="상담원 ID 입력" id="getAgentId2" value="" />
+          </div><!-- 상담원 ID div end -->
+          <div>
+            <label>상담원 이름</label>
+            <input type="text" aria-label="상담원 이름 입력" id="getAgentName2" value="" />
+          </div><!-- 상담원 이름 div end -->
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>상담그룹</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getGroupType2" onclick="selectBox(this)" aria-label="상담그룹 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '일반문의')">일반문의</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '민원접수')">민원접수</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '제품판매')">제품판매</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '기타접수')">기타접수</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 직급 div end -->
+          <div>
+            <label>나이</label>
+            <input type="text" pattern="[0-9]+" aria-label="나이 입력" id="getAge2" value="" />
+          </div><!-- 나이 div end -->
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>성별</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getSex2" onclick="selectBox(this)" aria-label="성별">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getSex2', '남')">남</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getSex2', '여')">여</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 성별 div end -->
+          <div>
+            <label>접속단말</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" id="getPlatform2" onclick="selectBox(this)" aria-label="접속단말">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getPlatform2', 'Mac')">Mac</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getPlatform2', 'Windows')">Windows</a></li>
+                </ul>
+              </div>
+            </div>
+          </div><!-- 접속단말 div end -->
+        </div>
+        
+        <div>
+          <label>비고</label>
+          <input type="text" aria-label="비고 입력" id="getNote2" value="" />
+        </div>
+      </div>
+      
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" id="getUserUpdate_submit" aria-label="사용자등록 버튼">수정하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="사용자등록 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 모달 div end -->
+<script>
+  // 선택된 행 가져오기
+  let tdArr = new Array();
+
+  // 선택된 행 가져오기
+  const tdArr2 = {
+    userinfo_id: [],
+    user_name: []
+  };
+
+  //  모달 창 조건 설정
+  let selectedValues = {
+    getOrgId: "", //  기업 ID
+    getOrgName: "", //  기업 명
+    getAgentId: "", //  상담원 ID
+    getAgentName: "", //  상담원 명
+    getManagerAgent: "N", // 관리자 여부(직급)
+    getGroupType: "", // 상담그룹
+    getAge: "", //  나이
+    getSex: "", //  성별
+    getPlatform: "", // 접속단말
+    getNote: "" //  비고
+  }
+
+  $(document).ready(() => {
+    // 행 클릭
+    $("#auto_user_table tbody tr").click(() => {
+      //  선택된 행을 클릭 시, 체크 해제
+      if ($(this).find("input").prop("checked")) {
+        $(this).find("input").prop("checked", false);
+        $(this).removeClass('selected_box');
+      } else {
+        //  행 클릭시, 체크 표시
+        $(this).find("input").prop("checked", true);
+        $(this).addClass('selected_box');
+      }
+    });
+
+    //  선택된 행 수정 진행
+    $('#updateCoachingModalOpen').click(() => {
+      let checkbox = $("input[name=row_CheckBox]:checked");
+
+      if (checkbox.length == 0) {
+        alert('선택된 조건이 없습니다.');
+        return;
+      } else if (checkbox.length == 1) {
+        checkbox.each(i => {
+          // checkbox.parent()                : checkbox의 부모는 <td>
+          // checkbox.parent().parent()   : <td>의 부모이므로 <tr>
+          let tr = checkbox.parent().parent().eq(i);
+          let td = tr.children();
+
+          td.each((i) => {
+            tdArr.push(td.eq(i+1).text());
+          })
+
+          updatingModalOpen(tdArr);
+        });
+      } else {
+        alert("항목은 하나만 선택해주세요.");
+      }
+    });
+
+    //  선택된 행 삭제 및 전체 삭제
+    $("#settingUserDel").click(() => {
+      let checkbox    = $("input[name=row_CheckBox]:checked");
+
+      if(checkbox.length == 0) {
+        alert('선택된 조건이 없습니다.');
+        return;
+      }
+
+      checkbox.each(i => {
+        // checkbox.parent()            : checkbox의 부모는 <td>
+        // checkbox.parent().parent()   : <td>의 부모이므로 <tr>
+        let tr = checkbox.parent().parent().eq(i);
+        let td = tr.children();
+        
+        //  테이블 행의 n번째 항목 값 가져오기
+        //   - 상담원 ID 및 로그인 ID 전달
+        tdArr2['userinfo_id'].push(td.eq(4).text())          
+        tdArr2['user_name'].push(td.eq(5).text());
+      });
+
+      $.ajax({
+        url: '/deletingUserSubmit',
+        dataType: 'JSON',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(tdArr2),
+        success: result => {
+          if (result) {
+            alert(`정상적으로 삭제되었습니다.`);
+
+            coachingModalClose();
+            location.reload();
+          }
+        },
+        error: (xhr, status, error) => {
+          console.error('Error:', xhr.responseText);
+          alert('오류가 발생했습니다: ' + xhr.responseText);
+        }
+      });
+    });
+
+    //  사용자 등록 AJAX
+    $("#getUserSet_submit").click(() => {
+      selectedValues.getOrgId = document.getElementById('getOrgId').value;
+      selectedValues.getUserId = document.getElementById('getAgentId').value; // 가장 마지막 번호부터 인덱싱
+      selectedValues.getUserName = document.getElementById('getAgentName').value;
+      selectedValues.getAge = document.getElementById('getAge').value;
+      selectedValues.getNote = document.getElementById('getNote').value;
+
+      if (selectedValues.getOrgId === "") {
+        alert('기관 ID를 입력해주세요.');
+        return false;
+      }
+
+      if (selectedValues.getOrgname === "") {
+        alert('기관을 선택해주세요.');
+        return false;
+      }
+
+      if (selectedValues.getUserId === "") {
+        alert('상담원 ID를 입력해주세요.');
+        return false;
+      }
+
+      if (selectedValues.getGroupType === "선택") {
+        alert('상담그룹을 선택해주세요.');
+        return false;
+      }
+
+      if (selectedValues.getSex === "선택") {
+        alert('성별을 선택해주세요.');
+        return false;
+      }
+
+      if (selectedValues.getPlatform == "Mac") {
+        selectedValues.getPlatform = 1;
+      } else if (selectedValues.getPlatform == "Windows") {
+        selectedValues.getPlatform = 2;
+      } else {
+        alert('접속단말을 선택해주세요.');
+        return false;
+      }
+          
+      $.ajax({
+        url: `/settingUserSubmit?getOrgId=${selectedValues.getOrgId}&getOrgName=${selectedValues.getOrgName}
+        &getUserId=${selectedValues.getUserId}&getUserName=${selectedValues.getUserName}&getManagerAgent=${selectedValues.getManagerAgent}
+        &getGroupType=${selectedValues.getGroupType}&getAge=${selectedValues.getAge}&getSex=${selectedValues.getSex}&getPlatform=${selectedValues.getPlatform}&getNote=${selectedValues.getNote}`,
+        dataType: 'json',
+        method: 'GET',
+        success: result => {
+          if(result) {
+            console.log(JSON.stringify(result, null, 2));
+            alert(`정상적으로 등록되었습니다.`);
+
+            coachingModalClose();
+            location.reload();
+          }
+        }
+      });
+    });
+
+    //  사용자 정보 수정 AJAX
+    $("#getUserUpdate_submit").click(() => {
+      let selectedValues = {
+        getOrgId: document.getElementById('getOrgId2').value,
+        getOrgName: $("#getOrgName2").text(), // 텍스트를 설정하는 것이 아니라 가져오는 부분입니다.
+        getUserId: document.getElementById('getAgentId2').value,
+        getUserName: document.getElementById('getAgentName2').value,
+        getManagerAgent: 'N',
+        getGroupType: $("#getGroupType2").text(),
+        getAge: document.getElementById('getAge2').value,
+        getSex: $("#getSex2").text(),
+        getPlatform: $("#getPlatform2").text(),
+        getNote: document.getElementById('getNote2').value
+      };
+
+      if (selectedValues.getPlatform == "Mac") {
+        selectedValues.getPlatform = 1;
+      } else if (selectedValues.getPlatform == "Windows") {
+        selectedValues.getPlatform = 2;
+      } else {
+        alert('접속단말을 선택해주세요.');
+        return false;
+      }
+
+      //  UDPATE를 위한 원래 상담원 ID 전송
+      //  추후에는 시스템에서 부여하는 ID로 수정불가하게 진행?
+      let getOriginOrgId = tdArr[3];
+          
+      $.ajax({
+        url: `/updatingUserSubmit?getOriginOrgId=${getOriginOrgId}&getOrgId=${selectedValues.getOrgId}'&getOrgName=${selectedValues.getOrgName}
+        &getUserId=${selectedValues.getAgentId}&getUserName=${selectedValues.getAgentName}&getManagerAgent=${selectedValues.getManagerAgent}
+        &getGroupType=${selectedValues.getGroupType}&getAge=${selectedValues.getAge}&getSex=${selectedValues.getSex}&getPlatform=${selectedValues.getPlatform}&getNote=${selectedValues.getNote}`,
+        dataType: 'json',
+        method: 'GET',
+        success: result => {
+          if(result) {
+            console.log(JSON.stringify(result, null, 2));
+            alert(`정상적으로 수정되었습니다.`);
+
+            coachingModalClose();
+            location.reload();
+          }
+        }
+      });
+
+      //  초기화
+      selectedValues = {
+        getOrgId: "", //  기업 ID
+        getOrgName: "", //  기업 명
+        getUserId: "", //  상담원 ID
+        getUserName: "", //  상담원 명
+        getManagerAgent: "", // 관리자 여부(직급)
+        getGroupType: "", // 관리자 여부(직급)
+        getAge: "", //  나이
+        getSex: "", //  성별
+        getPlatform: "", // 접속단말
+        getNote: "" //  비고
+      }
+    });
+  });
+
+  //  등록 모달에서 아이템 선택
+  function selectItem(event, category, value) {
+    event.preventDefault();
+
+    if(category === 'getOrgName' || category === 'getOrgName2') {
+      selectedValues[category] = value;
+
+      // 선택된 항목의 '기관 ID'를 가져옴
+      var orgId = event.target.getAttribute('data-org-id');
+
+      // '기관 ID' input 칸에 값을 가져옴
+      document.getElementById('getOrgId').value = orgId;
+      selectedValues[getOrgId] = orgId;
+
+      document.getElementById('getOrgId2').value = orgId;
+      selectedValues[getOrgId] = orgId;
+    } else {
+      selectedValues[category] = value;
+    }
+  }
+
+  //  모달 열기&닫기
+  function coachingModalOpen() { $('.modals').stop().fadeIn(); }
+  function coachingModalClose() { $('.modals').stop().fadeOut(); }
+
+  //  모달 등록하기
+  function registModalOpen() {
+    //  등록 모달 창 열기
+    $('#registModal').stop().fadeIn();
+  }
+
+  //  모달 수정하기
+  function updatingModalOpen(tdArr) {
+    //  모달 창 항목들에 값 설정
+    $("#getOrgId2").val(tdArr[1]);
+    $("#getOrgName2").text(tdArr[2]);
+    $("#getAgentId2").val(tdArr[3]);
+    $("#getAgentName2").val(tdArr[4]);
+    $("#getManagerAgent2").text(tdArr[5]);
+    $("#getAge2").val(tdArr[6]);
+    $("#getSex2").text(tdArr[7]);
+    $("#getPlatform2").text(tdArr[8]);
+    $("#getNote2").val(tdArr[9]);
+
+    //  수정 모달 창 열기
+    $('#updateModal').stop().fadeIn();
+  }
+
+  //  체크박스 전체 선택
+  function allselect(bool) {
+    let chks = document.getElementsByName("row_CheckBox");
+    
+    for(let i = 0; i < chks.length; i++){
+      chks[i].checked = bool;
+    }
+  }
+
+  function applyFilters() {
+    // 필터 값 가져오기
+    const selectedGroup = document.querySelector('.searchFilterLines.solo:nth-child(1) .boxLabel').textContent.trim();
+    const selectedConsultant = document.querySelector('.searchFilterLines.solo:nth-child(2) .boxLabel').textContent.trim();
+    // 테이블의 모든 행 가져오기
+    const tableRows = document.querySelectorAll("#auto_user_table tbody .jsTableRow");
+    let filteredRows = []; // 필터링된 행만 저장
+
+    tableRows.forEach(row => {
+        const rowGroup = row.querySelector("td:nth-child(7)").textContent.trim(); // 상담 그룹 열
+        const rowConsultantName = row.querySelector("td:nth-child(6)").textContent.trim(); // 상담사 이름 열
+        const rowLoginId = row.querySelector("td:nth-child(5)").textContent.trim(); // 상담사 ID 열
+
+        let isVisible = true;
+
+        // 상담 그룹 필터 적용
+        if (selectedGroup !== "전체" && selectedGroup !== "") {
+            if (rowGroup !== selectedGroup) {
+                isVisible = false;
+            }
+        }
+
+        // 상담사 필터 적용
+        if (selectedConsultant !== "전체" && selectedConsultant !== "상담사를 선택하세요.") {
+            const [consultantLoginId, consultantName] = selectedConsultant.split(" | ");
+            if (
+                !consultantName || !consultantLoginId ||
+                rowConsultantName !== consultantName.trim() ||
+                rowLoginId !== consultantLoginId.trim()
+            ) {
+              isVisible = false;
+            }
+        }
+
+        // 필터 조건에 맞는 행만 배열에 추가
+        if (isVisible) {
+            filteredRows.push(row); // 필터링된 행 저장
+        }
+    });
+
+    // 모든 행 숨김
+    tableRows.forEach(row => (row.style.display = "none"));
+
+    // 필터링된 행만 표시
+    filteredRows.forEach(row => (row.style.display = ""));
+
+    // 필터링 결과가 없을 경우 경고 메시지
+    if (filteredRows.length === 0) {
+        alert("검색 조건에 맞는 데이터가 없습니다.");
+        jQuery('.pagination2').hide();
+        return;
+    }
+
+    jQuery('.pagination2').show();
+
+    // 필터링된 데이터를 기준으로 페이지네이션 재구성
+    pagination(filteredRows);
+}
+
+</script>

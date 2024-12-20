@@ -1,0 +1,5 @@
+2024-12-16 13:52:28.418 [error] [ Consume:chEmoServiceStartRP ] Consume Error: TypeError: Cannot read properties of null (reading 'EngineType')
+2024-12-16 13:52:28.695 [error] [ Consume:ch2EmoServiceStartRP ] Consume Error: TypeError: Cannot read properties of null (reading 'EngineType')
+2024-12-16 13:53:48.249 [error] [ sendAudioChunks:QueueInfoQuery ] Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 4
+2024-12-16 13:53:48.249 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 4
+2024-12-16 13:56:21.540 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: ErkQueueInfo_cus is not defined

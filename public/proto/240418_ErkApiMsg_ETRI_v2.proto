@@ -1,0 +1,641 @@
+syntax = "proto3";
+
+option java_package = "com.erksystem.protobuf.api";
+option java_multiple_files = true;
+
+message ErkMsgHead_s {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  int32 OrgId = 3;
+  int32 UserId = 4;
+}
+
+message ErkMsgDataHead_s {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  int32 OrgId = 3;
+  int32 UserId = 4;
+}
+
+message ErkInterMsgHead_s {
+  ErkInterMsgType_e MsgType = 1;
+  int32 OrgId = 2;
+  int32 UserId = 3;
+}
+
+message QueueInfo_s {
+  string ToQueueName = 1;
+  string FromQueueName = 2;
+}
+
+enum ErkMsgType_e {
+  ErkMsgType_unknown = 0;
+  AddServiceProviderInfoRQ = 1;
+  AddServiceProviderInfoRP = 2;
+  DelServiceProviderInfoRQ = 3;
+  DelServiceProviderInfoRP = 4;
+  UpdServiceProviderInfoRQ = 5;
+  UpdServiceProviderInfoRP = 6;
+  AddUserInfoRQ = 7;
+  AddUserInfoRP = 8;
+  DelUserInfoRQ = 9;
+  DelUserInfoRP = 10;
+  UpdUserInfoRQ = 11;
+  UpdUserInfoRP = 12;
+  ErkServiceConnRQ = 13;
+  ErkServiceConnRP = 14;
+  ErkServiceDisConnRQ = 15;
+  ErkServiceDisConnRP = 16;
+  EmoServiceStartRQ = 17;
+  EmoServiceStartRP = 18;
+  EmoServiceStopRQ = 19;
+  EmoServiceStopRP = 20;
+  PhysioEmoRecogRQ = 21;
+  SpeechEmoRecogRQ = 22;
+  FaceEmoRecogRQ = 23;
+  PhysioEmoRecogRP = 24;
+  SpeechEmoRecogRP = 25;
+  FaceEmoRecogRP = 26;
+  EmoRecogRQ = 27;
+  EmoRecogRP = 28;
+  HeartBeatRQ = 29;
+  HeartBeatRP = 30;
+  ErkMsgType_reserved1 = 31;
+  ErkMsgType_reserved2 = 32;
+}
+
+enum ErkInterMsgType_e {
+  ErkInterMsgType_unknown = 0;
+  ErkEngineCreateRQ = 1;
+  ErkEngineCreateRP = 2;
+  ErkEngineDeleteRQ = 3;
+  ErkEngineDeleteRP = 4;
+  ErkInterMsgType_reserved1 = 5;
+  ErkInterMsgType_reserved2 = 6;
+}
+
+enum ReturnCode_e {
+  ReturnCode_unknown = 0;
+  ReturnCode_ok = 1;
+  ReturnCode_nok_Org = 2;
+  ReturnCode_nok_User = 3;
+  ReturnCode_nok_MsgType = 4;
+  ReturnCode_nok_EngineType = 5;
+  ReturnCode_nok_EngineCondition = 6;
+  ReturnCode_nok_PhysioEngineCondition = 7;
+  ReturnCode_nok_SpeechEngineCondition = 8;
+  ReturnCode_nok_FaceEmoEngineCondition = 9;
+  ReturnCode_nok_DevPlatform = 10;
+  ReturnCode_nok_EmotionType = 11;
+  ReturnCode_nok_reason1 = 12;
+  ReturnCode_nok_reason2 = 13;
+}
+
+enum EngineType_e {
+  EngineType_unknown = 0;
+  EngineType_physiology = 1;
+  EngineType_speech = 2;
+  EngineType_face = 3;
+  EngineType_emo_recog_all = 4;
+  EngineType_knowledge = 5;
+  EngineType_reserved1 = 6;
+  EngineType_reserved2 = 7;
+}
+
+enum EngineCondition_e {
+  EngineCondition_unknown = 0;
+  EngineCondition_available = 1;
+  EngineCondition_not_available = 2;
+}
+
+enum ServiceType_e {
+  ServiceType_unknown = 0;
+  ServiceType_physiology = 1;
+  ServiceType_speech = 2;
+  ServiceType_video = 3;
+  ServiceType_physiology_speech = 4;
+  ServiceType_physiology_video = 5;
+  ServiceType_speech_video = 6;
+  ServiceType_physiology_speech_video = 7;
+  ServiceType_knowledge = 8;
+  ServiceType_service_all = 9;
+  ServiceType_reserved1 = 10;
+  ServiceType_reserved2 = 11;
+}
+
+enum EmotionType_e {
+  EmotionType_unknown = 0;
+  EmotionType_neutral = 1;
+  EmotionType_positive = 2;
+  EmotionType_negative = 3;
+  EmotionType_stress = 4;
+  EmotionType_joy = 5;
+  EmotionType_happy = 6;
+  EmotionType_sadness = 7;
+  EmotionType_anger = 8;
+  EmotionType_arousal = 9;
+  EmotionType_relaxation = 10;
+  EmotionType_peace = 11;
+  EmotionType_anxiety = 12;
+  EmotionType_fear = 13;
+  EmotionType_disgust = 14;
+  EmotionType_reserved1 = 15;
+  EmotionType_reserved2 = 16;
+}
+
+enum OrgProfileResult_e {
+  OrgProfileResult_unknown = 0;
+  OrgProfileResult_ok = 1;
+  OrgProfileResult_nok_OrgName = 2;
+  OrgProfileResult_nok_OrgPwd = 3;
+  OrgProfileResult_nok_ServiceDuration = 4;
+  OrgProfileResult_nok_UserNumber = 5;
+  OrgProfileResult_nok_ServiceType = 6;
+  OrgProfileResult_nok_DB = 7;
+  OrgProfileResult_nok_reason1 = 8;
+  OrgProfileResult_nok_reason2 = 9;
+}
+
+enum UserProfileResult_e {
+  UserProfileResult_unknown = 0;
+  UserProfileResult_ok = 1;
+  UserProfileResult_nok_OrgName = 2;
+  UserProfileResult_nok_UserName = 3;
+  UserProfileResult_nok_UserPwd = 4;
+  UserProfileResult_nok_ServiceDuration = 5;
+  UserProfileResult_nok_Age = 6;
+  UserProfileResult_nok_Sex = 7;
+  UserProfileResult_nok_UserType = 8;
+  UserProfileResult_nok_ServiceType = 9;
+  UserProfileResult_nok_DB = 10;
+  UserProfileResult_nok_reason1 = 11;
+  UserProfileResult_nok_reason2 = 12;
+}
+
+enum ProviderType_e {
+  ProviderType_unknown = 0;
+  ProviderType_personal = 1;
+  ProviderType_medical = 2;
+  ProviderType_education = 3;
+  ProviderType_public_social = 4;
+  ProviderType_emotional_labor = 5;
+  ProviderType_fire_119 = 6;
+  ProviderType_communication_service = 7;
+  ProviderType_advertisement = 8;
+  ProviderType_construction_project = 9;
+  ProviderType_clothing_business = 10;
+  ProviderType_reserved1 = 11;
+  ProviderType_reserved2 = 12;
+}
+
+enum SexType_e {
+  SexType_unknown = 0;
+  SexType_male = 1; 
+  SexType_female = 2;
+  SexType_reserved1 = 3;
+  SexType_reserved2 = 4;
+}
+
+enum UserType_e {
+  UserType_unknown = 0;
+  UserType_normal = 1;
+  UserType_disabled = 2;
+  UserType_dementia = 3;
+  UserType_infant = 4;
+  UserType_student = 5;
+  UserType_soldier = 6;
+  UserType_firefighter = 7;
+  UserType_farmers = 8;
+  UserType_fishermen = 9;
+  UserType_merchant = 10;
+  UserType_professional = 11;
+  UserType_teacher = 12;
+  UserType_politician = 13;
+  UserType_reserved1 = 14;
+  UserType_reserved2 = 15;
+}
+
+enum MbtiType_e {
+  MbtiType_unknown = 0;
+  MbtiType_ISTJ = 1;
+  MbtiType_ISFJ = 2;
+  MbtiType_INFJ = 3;
+  MbtiType_INTJ = 4;
+  MbtiType_ISTP = 5;
+  MbtiType_ISFP = 6;
+  MbtiType_INFP = 7;
+  MbtiType_INTP = 8;
+  MbtiType_ESTP = 9;
+  MbtiType_ESFP = 10;
+  MbtiType_ENFP = 11;
+  MbtiType_ENTP = 12;
+  MbtiType_ESTJ = 13;
+  MbtiType_ESFJ = 14;
+  MbtiType_ENFJ = 15;
+  MbtiType_ENTJ = 16;
+  MbtiType_reserved1 = 17; 
+  MbtiType_reserved2 = 18;
+}
+
+
+message ErkEngineInfo_s {
+  EngineType_e EngineType = 1;
+  EngineCondition_e EngineCondition = 2;
+  string IpAddr = 3;
+  string ReceiveQueueName = 4;
+  string SendQueueName = 5;
+}
+
+message AddServiceProviderInfoRQ_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string OrgPwd = 4;
+  ProviderType_e ProviderType = 5;
+  string ServiceDuration = 6;
+  int32 UserNumber = 7;
+  ServiceType_e ServiceType = 8;
+}
+
+message AddServiceProviderInfoRP_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  OrgProfileResult_e ResultType = 4;
+  int32 OrgId = 5;
+  string OrgPwd = 6;
+  ProviderType_e ProviderType = 7;
+  string ServiceDuration = 8;
+  int32 UserNumber = 9;
+  ServiceType_e ServiceType = 10;
+}
+
+message UpdateServiceProviderInfoRQ_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string Old_OrgPwd = 4;
+  ProviderType_e Old_ProviderType = 5;
+  string Old_ServiceDuration = 6;
+  int32 Old_UserNumber = 7;
+  ServiceType_e Old_ServiceType = 8;
+  string New_OrgPwd = 9;
+  ProviderType_e New_ProviderType = 10;
+  string New_ServiceDuration = 11;
+  int32 New_UserNumber = 12;
+  ServiceType_e New_ServiceType = 13;
+}
+
+message UpdateServiceProviderInfoRP_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  OrgProfileResult_e ResultType = 4;
+  string Old_OrgPwd = 5;
+  ProviderType_e Old_ProviderType = 6;
+  string Old_ServiceDuration = 7;
+  int32 Old_UserNumber = 8;
+  ServiceType_e Old_ServiceType = 9;
+  string New_OrgPwd = 10;
+  ProviderType_e New_ProviderType = 11;
+  string New_ServiceDuration = 120;
+  int32 New_UserNumber = 13;
+  ServiceType_e New_ServiceType = 14;
+}
+
+message DelServiceProviderInfoRQ_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string OrgPwd = 4;
+}
+
+message DelServiceProviderInfoRP_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  OrgProfileResult_e ResultType = 4;
+}
+
+message AddUserInfoRQ_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string UserName = 4;
+  string UserPwd = 5;
+  string ServiceDuration = 6;
+  int32 Age = 7;
+  SexType_e Sex = 8;
+  MbtiType_e MbtiType = 9;
+  UserType_e UserType = 10;
+  ServiceType_e ServiceType = 11;
+}
+
+message AddUserInfoRP_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string UserName = 4;
+  UserProfileResult_e ResultType = 5;
+  int32 UserId = 6;
+  string UserPwd = 7;
+  string ServiceDuration = 8;
+  int32 Age = 9;
+  SexType_e Sex = 10;
+  MbtiType_e MbtiType = 11;
+  UserType_e UserType = 12;
+  ServiceType_e ServiceType = 13;
+}
+
+message UpdateUserInfoRQ_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string UserName = 4;
+  string Old_UserPwd = 5;
+  string Old_ServiceDuration = 6;
+  int32 Old_Age = 7;
+  SexType_e Old_Sex = 8;
+  MbtiType_e Old_MbtiType = 9;
+  UserType_e Old_UserType = 10;
+  ServiceType_e Old_ServiceType = 11;
+  string New_UserPwd = 12;
+  string New_ServiceDuration = 13;
+  int32 New_Age = 14;
+  SexType_e New_Sex = 15;
+  MbtiType_e New_MbtiType = 16;
+  UserType_e New_UserType = 17;
+  ServiceType_e New_ServiceType = 18;
+}
+
+message UpdateUserInfoRP_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string UserName = 4;
+  UserProfileResult_e ResultType = 5;
+  string Old_UserPwd = 6;
+  string Old_ServiceDuration = 7;
+  int32 Old_Age = 8;
+  SexType_e Old_Sex = 9;
+  MbtiType_e Old_MbtiType = 10;
+  UserType_e Old_UserType = 11;
+  ServiceType_e Old_ServiceType = 12;
+  string New_UserPwd = 13;
+  string New_ServiceDuration = 14;
+  int32 New_Age = 15;
+  SexType_e New_Sex = 16;
+  MbtiType_e New_MbtiType = 17;
+  UserType_e New_UserType = 18;
+  ServiceType_e New_ServiceType = 19;
+}
+
+message DelUserInfoRQ_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string UserName = 4;
+  string UserPwd = 5;
+}
+
+message DelUserInfoRP_m {
+  ErkMsgType_e MsgType = 1;
+  QueueInfo_s QueueInfo = 2;
+  string OrgName = 3;
+  string UserName = 4;
+  UserProfileResult_e ResultType = 5;
+  string Return = 6;
+}
+
+message ErkServiceConnRQ_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+}
+
+message ErkServiceConnRP_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ReturnCode_e ReturnCode = 3;
+  ServiceType_e ServiceType = 4;
+}
+
+message ErkServiceDisConnRQ_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ServiceType_e ServiceType = 3;
+}
+
+message ErkServiceDisConnRP_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ReturnCode_e ReturnCode = 3;
+}
+
+message EmoServiceStartRQ_m{
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ServiceType_e ServiceType = 3;
+}
+
+message EmoServiceStartRP_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ReturnCode_e ReturnCode = 3;
+  ErkEngineInfo_s PhysioEngineInfo = 4;
+  ErkEngineInfo_s SpeechEngineInfo = 5;
+  ErkEngineInfo_s FaceEngineInfo = 6;
+  ErkEngineInfo_s KnowledgeEngineInfo = 7;
+  ErkEngineInfo_s ServiceEngineInfo = 8;
+}
+
+message EmoServiceStopRQ_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ServiceType_e ServiceType = 3;
+  string PhysioEngine_ReceiveQueueName = 4;
+  string PhysioEngine_SendQueueName = 5;
+  string SpeechEngine_ReceiveQueueName = 6;
+  string SpeechEngine_SendQueueName = 7;
+  string FaceEngine_ReceiveQueueName = 8;
+  string FaceEngine_SendQueueName = 9;
+  string KnowledgeEngine_ReceiveQueueName = 10;
+  string KnowledgeEngine_SendQueueName = 11;
+}
+
+message EmoServiceStopRP_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int64 MsgTime = 2;
+  ReturnCode_e ReturnCode = 3;
+  ErkEngineInfo_s PhysioEngineInfo = 4;
+  ErkEngineInfo_s SpeechEngineInfo = 5;
+  ErkEngineInfo_s FaceEngineInfo = 6;
+  ErkEngineInfo_s KnowledgeEngineInfo = 7;
+  ErkEngineInfo_s ServiceEngineInfo = 8;
+}
+
+message ErkEngineCreateRQ_m {
+  ErkInterMsgHead_s ErkInterMsgHead = 1;
+  int64 MsgTime = 2;
+  ServiceType_e ServiceType = 3;
+  string PhysioEngine_ReceiveQueueName = 4;
+  string PhysioEngine_SendQueueName = 5;
+  string SpeechEngine_ReceiveQueueName = 6;
+  string SpeechEngine_SendQueueName = 7;
+  string FaceEngine_ReceiveQueueName = 8;
+  string FaceEngine_SendQueueName = 9;
+  string KnowledgeEngine_ReceiveQueueName = 10;
+  string KnowledgeEngine_SendQueueName = 11;
+}
+
+message ErkEngineCreateRP_m {
+  ErkInterMsgHead_s ErkInterMsgHead = 1;
+  int64 MsgTime = 2;
+  ReturnCode_e ReturnCode = 3;
+  ErkEngineInfo_s PhysioEngineInfo = 4;
+  ErkEngineInfo_s SpeechEngineInfo = 5;
+  ErkEngineInfo_s FaceEngineInfo = 6;
+  ErkEngineInfo_s KnowledgeEngineInfo = 7;
+  ErkEngineInfo_s ServiceEngineInfo = 8;
+}
+
+message ErkEngineDeleteRQ_m {
+  ErkInterMsgHead_s ErkInterMsgHead = 1;
+  int64 MsgTime = 2;
+  ServiceType_e ServiceType = 3;
+  string PhysioEngine_ReceiveQueueName = 4;
+  string PhysioEngine_SendQueueName = 5;
+  string SpeechEngine_ReceiveQueueName = 6;
+  string SpeechEngine_SendQueueName = 7;
+  string FaceEngine_ReceiveQueueName = 8;
+  string FaceEngine_SendQueueName = 9;
+  string KnowledgeEngine_ReceiveQueueName = 10;
+  string KnowledgeEngine_SendQueueName = 11;
+}
+
+message ErkEngineDeleteRP_m {
+  ErkInterMsgHead_s ErkInterMsgHead = 1;
+  int64 MsgTime = 2;
+  ReturnCode_e ReturnCode = 3;
+  ErkEngineInfo_s PhysioEngineInfo = 4;
+  ErkEngineInfo_s SpeechEngineInfo = 5;
+  ErkEngineInfo_s FaceEngineInfo = 6;
+  ErkEngineInfo_s KnowledgeEngineInfo = 7;
+  ErkEngineInfo_s ServiceEngineInfo = 8;
+}
+
+message HeartBeatRQ_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  string QueueName = 2;
+}
+
+message HeartBeatRP_m {
+  ErkMsgHead_s ErkMsgHead = 1;
+  int32 Status = 2;
+}
+
+message EmoRecogRQ_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  int64 DataTimeStamp = 2;
+  int32 MsgDataLength = 3;
+  repeated bytes MsgDataFrame = 4;
+}
+
+message EmoRecogRP_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  ReturnCode_e ReturnCode = 2;
+  int64 EmoRecogTime = 3;
+  EmotionType_e Emotion = 4;
+  float Accuracy = 5;
+}
+
+message PhysioEmoRecogRQ_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  int64 DataTimeStamp = 2;
+  int32 MsgDataLength = 3;
+  repeated bytes MsgDataFrame = 4;
+}
+
+message PhysioEmoRecogRP_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  ReturnCode_e ReturnCode = 2;
+  int64 EmoRecogTime = 3;
+  EmotionType_e Emotion = 4;
+  float Accuracy = 5;
+}
+
+message SpeechEmoRecogRQ_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  int64 DataTimeStamp = 2;
+  int32 MsgDataLength = 3;
+  repeated bytes MsgDataFrame = 4;
+}
+
+message SpeechEmoRecogRP_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  ReturnCode_e ReturnCode = 2;
+  int64 EmoRecogTime = 3;
+  EmotionType_e Emotion = 4;
+  float Accuracy = 5;
+}
+
+message FaceEmoRecogRQ_m{
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  int64 DataTimeStamp = 2;
+  int32 MsgDataLength = 3;
+  repeated bytes MsgDataFrame = 4;
+}
+
+message FaceEmoRecogRP_m{
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  ReturnCode_e ReturnCode = 2;
+  int64 EmoRecogTime = 3;
+  EmotionType_e Emotion = 4;
+  float Accuracy = 5;
+}
+
+message EmoRecogNoti_m {
+  ErkMsgDataHead_s ErkMsgDataHead = 1;
+  int64 EmoRecogTime = 2;
+  EmotionType_e Emotion = 3;
+  float Accuracy = 4;
+}
+
+message ErkApiMsg{
+  oneof msg{
+    AddServiceProviderInfoRQ_m AddServiceProviderInfoRQ = 1;
+    AddServiceProviderInfoRP_m AddServiceProviderInfoRP = 2;
+    UpdateServiceProviderInfoRQ_m UpdateServiceProviderInfoRQ = 3;
+    UpdateServiceProviderInfoRP_m UpdateServiceProviderInfoRP = 4;
+    DelServiceProviderInfoRQ_m DelServiceProviderInfoRQ = 5;
+    DelServiceProviderInfoRP_m DelServiceProviderInfoRP = 6;
+    AddUserInfoRQ_m AddUserInfoRQ = 7;
+    AddUserInfoRP_m AddUserInfoRP = 8;
+    UpdateUserInfoRQ_m UpdateUserInfoRQ = 9;
+    UpdateUserInfoRP_m UpdateUserInfoRP = 10;
+    DelUserInfoRQ_m DelUserInfoRQ = 11;
+    DelUserInfoRP_m DelUserInfoRP = 12;
+    ErkServiceConnRQ_m ErkServiceConnRQ = 13;
+    ErkServiceConnRP_m ErkServiceConnRP = 14;
+    ErkServiceDisConnRQ_m ErkServiceDisConnRQ = 15;
+    ErkServiceDisConnRP_m ErkServiceDisConnRP = 16;
+    EmoServiceStartRQ_m EmoServiceStartRQ = 17;
+    EmoServiceStartRP_m EmoServiceStartRP = 18;
+    EmoServiceStopRQ_m EmoServiceStopRQ = 19;
+    EmoServiceStopRP_m EmoServiceStopRP = 20;
+    ErkEngineCreateRQ_m ErkEngineCreateRQ = 21;
+    ErkEngineCreateRP_m ErkEngineCreateRP = 22;
+    ErkEngineDeleteRQ_m ErkEngineDeleteRQ = 23;
+    ErkEngineDeleteRP_m ErkEngineDeleteRP = 24;
+    HeartBeatRQ_m HeartBeatRQ = 25;
+    HeartBeatRP_m HeartBeatRP = 26;
+    EmoRecogRQ_m EmoRecogRQ = 27;
+    EmoRecogRP_m EmoRecogRP = 28;
+    PhysioEmoRecogRQ_m PhysioEmoRecogRQ = 29;
+    PhysioEmoRecogRP_m PhysioEmoRecogRP = 30;
+    SpeechEmoRecogRQ_m SpeechEmoRecogRQ = 31;
+    SpeechEmoRecogRP_m SpeechEmoRecogRP = 32;
+    FaceEmoRecogRQ_m FaceEmoRecogRQ = 33;
+    FaceEmoRecogRP_m FaceEmoRecogRP = 34;
+    EmoRecogNoti_m EmoRecogNoti = 35;
+  }
+}

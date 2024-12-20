@@ -1,0 +1,14 @@
+2024-12-16 14:02:38.204 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.212 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.214 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.225 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.243 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.261 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.276 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.292 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.309 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.324 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:02:38.359 [error] [ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ReferenceError: getCurrentDateTimeString is not defined
+2024-12-16 14:11:03.286 [error] [ app.js:SpeechEmoRecogRQ ] Error: Unknown column 'NaN' in 'where clause'
+2024-12-16 14:23:08.837 [error] [ watchDirectory:processUncaughtException ] Uncaught Exception: Channel closed by server: 406 (PRECONDITION-FAILED) with message "PRECONDITION_FAILED - unknown delivery tag 3"
+2024-12-16 14:40:32.212 [error] [ watchDirectory:processUncaughtException ] Uncaught Exception: cusinfo_uuid is not defined

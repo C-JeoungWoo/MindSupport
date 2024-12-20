@@ -1,0 +1,160 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/neighbor/2024-12-03_ETRI/logs/log/error/.bf1e35988031a09536e4081b5389567ea16b8eb5-audit.json",
+    "files": [
+        {
+            "date": 1733362036791,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_10_error.log",
+            "hash": "1d1fb65c088dc49eaabd738516c75768ae66c7d6642474bbc8d79f201acc4327"
+        },
+        {
+            "date": 1733364351556,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_11_error.log",
+            "hash": "c453c42c8a9ba4e1f27624d1d833c5abdf3625337be145be9f2642ec53e3a7f7"
+        },
+        {
+            "date": 1733368261153,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_12_error.log",
+            "hash": "d75adfd636ac228e97c81e756201b6b5e7a99f50f905991aaffb0363343f14fd"
+        },
+        {
+            "date": 1733374569481,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_13_error.log",
+            "hash": "7367653b5be02e831e75022fbef57ca8a6a245cd52ea1f8fb07075fae3deb836"
+        },
+        {
+            "date": 1733375177528,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_14_error.log",
+            "hash": "ffedbbc4e0b2a6a78bc794aa22ee373943452a9269b5c1868b363ab3a9b144b2"
+        },
+        {
+            "date": 1733380502915,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_15_error.log",
+            "hash": "3a80e220474950fa1ff84fea0bfaacaf1553b12a6ca06d4c8023ff045f3864cb"
+        },
+        {
+            "date": 1733383501720,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_16_error.log",
+            "hash": "7b6936cdfebac9f20113a512533d21377d943ca2e7a680c3b01a012cc3a11899"
+        },
+        {
+            "date": 1733386847635,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241205_17_error.log",
+            "hash": "35a6729dcb8487a7bce627dc72b6099904fe7a256a533e17c7b1b38f471f300c"
+        },
+        {
+            "date": 1733448864729,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_10_error.log",
+            "hash": "aaa5f231d58071af25634d55b5ab3b8f0990c03cfa2411162ee9800dc820edf2"
+        },
+        {
+            "date": 1733452767741,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_11_error.log",
+            "hash": "b77fbb9ce33d77fd9bdb9ece2047612f546cf6f97b752d78799f47364950a368"
+        },
+        {
+            "date": 1733457563378,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_12_error.log",
+            "hash": "4bc0fb984ff8e9ddb24a6176a0ee24d9b5a0ed2ed24b3b27e908f26cfe00614b"
+        },
+        {
+            "date": 1733462245629,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_14_error.log",
+            "hash": "04e0f36b1436309f38ab901497f5720fae0c4c8baed1a1ae5d415cb02e30701b"
+        },
+        {
+            "date": 1733465120702,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_15_error.log",
+            "hash": "f8954fea2de4b0c582fc0b17dd0d5048115eb349324b335da9ccf885fdfe9237"
+        },
+        {
+            "date": 1733469451110,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_16_error.log",
+            "hash": "fe96737f7ce2416bcd454c5dc5c8f06120de2a9a66a06e423f476bbc5345141f"
+        },
+        {
+            "date": 1733473807757,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241206_17_error.log",
+            "hash": "4db11afcd57b92fee4514a4c4cce7744375b4bd79cca4b07135a254c432bbcf1"
+        },
+        {
+            "date": 1733793994583,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241210_10_error.log",
+            "hash": "571eb21c770dcedb0ceec67f2b79d53c27832fbf9c7b6b8964bf2d053a5a7ce3"
+        },
+        {
+            "date": 1733797384527,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241210_11_error.log",
+            "hash": "f97bfe4bad8ee8a0bc89c2b57994d1c718f34e3bfb65cfa31d735e34e2a16834"
+        },
+        {
+            "date": 1733799759042,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241210_12_error.log",
+            "hash": "873b6fad689f185078923db2e56350252056b830b32c97cd5981016de8872575"
+        },
+        {
+            "date": 1733806064998,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241210_13_error.log",
+            "hash": "480269b2a7febe333d51a5ee5ea71b6d909a991934f36f103eb91c1e8e5c0a13"
+        },
+        {
+            "date": 1733816566038,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241210_16_error.log",
+            "hash": "ed587f693fa0fedf4e041d2a72b1b619f7cc6b19846cca2386b3b3c4cfba8651"
+        },
+        {
+            "date": 1733875326086,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_09_error.log",
+            "hash": "d3f30b91f5799a350b32df2bba39aae3e70450359e34305e0d9f30cea6920301"
+        },
+        {
+            "date": 1733878970114,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_10_error.log",
+            "hash": "4516a7d2ca1ec8b09194f1c5e9ea22ad484a7f8c4faf4f12e80b5046ca55b243"
+        },
+        {
+            "date": 1733886214166,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_12_error.log",
+            "hash": "ebb01207afe83b3567b9853bc884c6bae0f607a453a882b368fdac4c46c78704"
+        },
+        {
+            "date": 1733891476482,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_13_error.log",
+            "hash": "90b1fe66a091e1c60a3c265525e64b2421415e5b0be952a18b1d89816e372f7b"
+        },
+        {
+            "date": 1733894202243,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_14_error.log",
+            "hash": "897e872721a499761617e7a4d7651bbcac1f79e178cd56d79b79f3e6a2bcf35d"
+        },
+        {
+            "date": 1733897011835,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_15_error.log",
+            "hash": "aa998969d43dfb53d91fae906d2abc4703449c23ded88ec8fdeeb12df68ef824"
+        },
+        {
+            "date": 1733900857535,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_16_error.log",
+            "hash": "66d8ce0ea3a571d1a8a9deb7c59320b19f5db0b8a0c40d81243448847dfbf987"
+        },
+        {
+            "date": 1733907686214,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241211_18_error.log",
+            "hash": "8caec755f605e7d2e373f7911f68ec112c4ba7d72a5a46fd706fc360418c9fa6"
+        },
+        {
+            "date": 1733962491367,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241212_09_error.log",
+            "hash": "56b9db840aef2be782e3bec6331c71a9b9706f87b1d6aef722c16ad2d83f8377"
+        },
+        {
+            "date": 1733965630817,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/error/241212_10_error.log",
+            "hash": "757cc5a8c5a58a08c85e1b760d327ca9a492284054f6982725cbd0db6864dd0a"
+        }
+    ],
+    "hashType": "sha256"
+}

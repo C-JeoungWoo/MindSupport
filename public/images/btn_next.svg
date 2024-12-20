@@ -1,0 +1,7 @@
+<svg id="btn_right" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <rect id="BG" width="36" height="36" rx="4" fill="none"/>
+  <g id="chevron-right" transform="translate(6 6.5)">
+    <path id="패스_461" data-name="패스 461" d="M0,0H24V24H0Z" fill="none"/>
+    <path id="패스_462" data-name="패스 462" d="M9,6l6,6L9,18" fill="none" stroke="#7e84a3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

@@ -1,0 +1,80 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/241007_MindSupport/logs/log/.74b4fa3926553ab7aeab440e30d74df3544f08f0-audit.json",
+    "files": [
+        {
+            "date": 1728289854094,
+            "name": "/home/241007_MindSupport/logs/log/241007_17.log",
+            "hash": "e24e0e5b06a1f5faea451738fa956ba207d6db403af5702a5b0c81059e00983b"
+        },
+        {
+            "date": 1728291600319,
+            "name": "/home/241007_MindSupport/logs/log/241007_18.log",
+            "hash": "3829b7c8cdd09222ef8f25c42265f4a243a5ef5fa6e299046b15c8fdd003b9ab"
+        },
+        {
+            "date": 1728351619299,
+            "name": "/home/241007_MindSupport/logs/log/241008_10.log",
+            "hash": "8214070a8c389d28de59931aa8931e727d153133ef579fd16f79cee9d10f981f"
+        },
+        {
+            "date": 1728353555766,
+            "name": "/home/241007_MindSupport/logs/log/241008_11.log",
+            "hash": "2246664dae76ec9dd7ac45b6148fade5e791995452dfac27ae9bfe1e1cd8f301"
+        },
+        {
+            "date": 1728356400887,
+            "name": "/home/241007_MindSupport/logs/log/241008_12.log",
+            "hash": "a2da3b8d9e6b50638746703de5c1d3f6c9888d1728442786057edb37a03b69e4"
+        },
+        {
+            "date": 1728360000967,
+            "name": "/home/241007_MindSupport/logs/log/241008_13.log",
+            "hash": "9e289e503aa42913fc345040febc33e73298b880b86b018fb52ac42b37db2fa7"
+        },
+        {
+            "date": 1730082545445,
+            "name": "/home/241007_MindSupport/logs/log/241028_11.log",
+            "hash": "3f5d4fbde57996f1fafd877934992c52305018ac15344f696772ccd23b4cf622"
+        },
+        {
+            "date": 1730091043922,
+            "name": "/home/241007_MindSupport/logs/log/241028_13.log",
+            "hash": "3c2c39cd075139a27b97db89b59b497dc457f0a017024c87b3a264626640e463"
+        },
+        {
+            "date": 1730092403484,
+            "name": "/home/241007_MindSupport/logs/log/241028_14.log",
+            "hash": "2be2d8db469276f850bb48f7f44e8c8fd4e817620574ed9032910dcd57c4f673"
+        },
+        {
+            "date": 1730095488605,
+            "name": "/home/241007_MindSupport/logs/log/241028_15.log",
+            "hash": "00bf2505ed74978a6cb72ba7aed20bdbc2ae8278056c699f994ede3b5e486539"
+        },
+        {
+            "date": 1730185135347,
+            "name": "/home/241007_MindSupport/logs/log/241029_15.log",
+            "hash": "13cd53edd19fc2b07f2f1975e1fa91ae4e77f09080c603023b16da2ead6e893a"
+        },
+        {
+            "date": 1730242857669,
+            "name": "/home/241007_MindSupport/logs/log/241030_08.log",
+            "hash": "c5467ae1d08ed76c4fc548b15fb28efaae7d7bcd41e8e975af8bbca705ca0b69"
+        },
+        {
+            "date": 1730249458690,
+            "name": "/home/241007_MindSupport/logs/log/241030_09.log",
+            "hash": "45ba86e6b39799454b99c796230db202709631b3fd4e6454f5b259272059952b"
+        },
+        {
+            "date": 1730274934773,
+            "name": "/home/241007_MindSupport/logs/log/241030_16.log",
+            "hash": "14b33032fa86850422621616fd8fbe97e5ce98dbd972226426dfcd456bb5e6dc"
+        }
+    ],
+    "hashType": "sha256"
+}

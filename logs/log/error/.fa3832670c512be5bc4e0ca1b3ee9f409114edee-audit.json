@@ -1,0 +1,160 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/231121_Node_test/logs/log/error/.fa3832670c512be5bc4e0ca1b3ee9f409114edee-audit.json",
+    "files": [
+        {
+            "date": 1713409506536,
+            "name": "/home/231121_Node_test/logs/log/error/240418_12_error.log",
+            "hash": "9383a7971ce20629fad847069800e4a2aac62322073ae10b07c6bfe9a236083a"
+        },
+        {
+            "date": 1713416103409,
+            "name": "/home/231121_Node_test/logs/log/error/240418_13_error.log",
+            "hash": "9265182c698828083d7f3f5fc838099f3ed13a10e612919ad9bf485b328a4bf0"
+        },
+        {
+            "date": 1713416594543,
+            "name": "/home/231121_Node_test/logs/log/error/240418_14_error.log",
+            "hash": "db7ac88beadca607ff52670905f4042175dd3e3d6c167a575885678b7b1876ea"
+        },
+        {
+            "date": 1713421686915,
+            "name": "/home/231121_Node_test/logs/log/error/240418_15_error.log",
+            "hash": "f968ec35d14d9e36b77e7500f0bd34527abfd22c9a4961ab562055e74818ef5d"
+        },
+        {
+            "date": 1713492109069,
+            "name": "/home/231121_Node_test/logs/log/error/240419_11_error.log",
+            "hash": "6f210f4a399129ae45421920550475d89de6dfedfc70b253912e03bad0131113"
+        },
+        {
+            "date": 1713502296046,
+            "name": "/home/231121_Node_test/logs/log/error/240419_13_error.log",
+            "hash": "02e01f65d54c824d1c9196283fe855f42a17ab1788e876012664117e4e3e39f6"
+        },
+        {
+            "date": 1713502842932,
+            "name": "/home/231121_Node_test/logs/log/error/240419_14_error.log",
+            "hash": "25bab4ef3a161715f294a3d9ad0ca0aa02de86c88aca059078f4ac45123f129e"
+        },
+        {
+            "date": 1713751227462,
+            "name": "/home/231121_Node_test/logs/log/error/240422_11_error.log",
+            "hash": "edc7343553220f73027e1621f8485ef40480d9a9bd8867c53ea2883ecd8b490b"
+        },
+        {
+            "date": 1713763174051,
+            "name": "/home/231121_Node_test/logs/log/error/240422_14_error.log",
+            "hash": "68dc797af53a55fc3f2992e1ae2984093458661e33d8c08d26395ce8e888e3d3"
+        },
+        {
+            "date": 1713833337102,
+            "name": "/home/231121_Node_test/logs/log/error/240423_09_error.log",
+            "hash": "6d3c5697fd68a275c63425cdb1349428207492d5e7ddb72ef18325abbf773e9f"
+        },
+        {
+            "date": 1713835998569,
+            "name": "/home/231121_Node_test/logs/log/error/240423_10_error.log",
+            "hash": "d5ede614f3bf74226dd4cfabb21a9782b2d27cd531326d225c35efe413f752b4"
+        },
+        {
+            "date": 1713847163061,
+            "name": "/home/231121_Node_test/logs/log/error/240423_13_error.log",
+            "hash": "5e32d7987b806737a7893c877917ec52404c6a105c7a799c447e11b4b18cc7ed"
+        },
+        {
+            "date": 1713848401897,
+            "name": "/home/231121_Node_test/logs/log/error/240423_14_error.log",
+            "hash": "6e038654ae715d85ad061683634f161633092cfc1d94c4b2dc544c5dd85e45c5"
+        },
+        {
+            "date": 1713852157135,
+            "name": "/home/231121_Node_test/logs/log/error/240423_15_error.log",
+            "hash": "dd3f874080f04906364da21a153c11f2ac562c7fbd338977fa1fce291d527230"
+        },
+        {
+            "date": 1713937132148,
+            "name": "/home/231121_Node_test/logs/log/error/240424_14_error.log",
+            "hash": "5c97400640120c2c3107549a9a997540b0faf67ea43229bfbd796b8b94157b11"
+        },
+        {
+            "date": 1714096243278,
+            "name": "/home/231121_Node_test/logs/log/error/240426_10_error.log",
+            "hash": "c692b1c3562643b87c787438305479c8407bb40381190e1a6c181bdb45dcb7af"
+        },
+        {
+            "date": 1714096835424,
+            "name": "/home/231121_Node_test/logs/log/error/240426_11_error.log",
+            "hash": "f717d2ae6f941387bddf707be0674ae35e1123bd254968f5221da45381777b3d"
+        },
+        {
+            "date": 1714105988051,
+            "name": "/home/231121_Node_test/logs/log/error/240426_13_error.log",
+            "hash": "a94e034cb75a8e4fcf59483aae8936a635a138652382dd687a4523b2580a26c6"
+        },
+        {
+            "date": 1714109403647,
+            "name": "/home/231121_Node_test/logs/log/error/240426_14_error.log",
+            "hash": "2aa439a441ea225f008152f4457c5728c056eb4189ba9de30405d022acef1ed2"
+        },
+        {
+            "date": 1714111315965,
+            "name": "/home/231121_Node_test/logs/log/error/240426_15_error.log",
+            "hash": "ec9e86b5a79532251c84cfeed587f6e068ddfa2f6deac45d7f3d8ec6be56394e"
+        },
+        {
+            "date": 1714365737772,
+            "name": "/home/231121_Node_test/logs/log/error/240429_13_error.log",
+            "hash": "465f462fad070724b8b7411ccfb6e708c9a0802ec2edc526626409770fdff30e"
+        },
+        {
+            "date": 1714366850350,
+            "name": "/home/231121_Node_test/logs/log/error/240429_14_error.log",
+            "hash": "dca29457870e12c6d060a051f843cbb1f31160da54e4e59a16c780eb19146964"
+        },
+        {
+            "date": 1714374846632,
+            "name": "/home/231121_Node_test/logs/log/error/240429_16_error.log",
+            "hash": "a52748a1475bf87bf1494679075360019b1b54b8860ace60094da67488ffcc9d"
+        },
+        {
+            "date": 1715215377661,
+            "name": "/home/231121_Node_test/logs/log/error/240509_09_error.log",
+            "hash": "30c9df5d6dd45c4c44c061cf6ef1069db30c160d133b3798e7a831f445022a66"
+        },
+        {
+            "date": 1715216820615,
+            "name": "/home/231121_Node_test/logs/log/error/240509_10_error.log",
+            "hash": "fa732e23b148b41406edfabd75130eafbe20605acdb814022646aa2efe90bcee"
+        },
+        {
+            "date": 1715220003509,
+            "name": "/home/231121_Node_test/logs/log/error/240509_11_error.log",
+            "hash": "4e47f04d464b33670cc2784428a5fef71a1eb91fda42190f5bce57044503a35f"
+        },
+        {
+            "date": 1715560961959,
+            "name": "/home/231121_Node_test/logs/log/error/240513_09_error.log",
+            "hash": "590560a50ce9ccaa2936a7da43eca6213bf05234c54967e99d24d728874d7cdf"
+        },
+        {
+            "date": 1715562350410,
+            "name": "/home/231121_Node_test/logs/log/error/240513_10_error.log",
+            "hash": "2aace496d24da6da574d594c871d338b8e660e6c50c340db70937e82e44940ac"
+        },
+        {
+            "date": 1715565666847,
+            "name": "/home/231121_Node_test/logs/log/error/240513_11_error.log",
+            "hash": "d914c1eeadf5d19380faf5532117ec18d07627bd078e37326043e053ece7b270"
+        },
+        {
+            "date": 1715570052273,
+            "name": "/home/231121_Node_test/logs/log/error/240513_12_error.log",
+            "hash": "c0f0ae51ceac22e01d298a7bc3c0e7578a082eaef116712f52a85a501afdf5eb"
+        }
+    ],
+    "hashType": "sha256"
+}

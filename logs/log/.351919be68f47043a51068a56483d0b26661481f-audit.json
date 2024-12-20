@@ -1,0 +1,160 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/neighbor/2024-12-03_ETRI/logs/log/.351919be68f47043a51068a56483d0b26661481f-audit.json",
+    "files": [
+        {
+            "date": 1733385600731,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241205_17.log",
+            "hash": "1aac28f7f1e833114987bbb859abfa5648b4a128570300358968bc433701b17a"
+        },
+        {
+            "date": 1733389200753,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241205_18.log",
+            "hash": "f441b535b002d2a58c34684b7980b20fa0fd77b68db6116a6271b4402f556790"
+        },
+        {
+            "date": 1733448864717,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_10.log",
+            "hash": "c2718c707ac0832a567b73b3b61f1ef1efee8fd387becee15a793a83f0742887"
+        },
+        {
+            "date": 1733452767717,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_11.log",
+            "hash": "d8eddca2366a1c61056f5e12a883c8f90aadfc2f57667ff98150b76035393225"
+        },
+        {
+            "date": 1733454001118,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_12.log",
+            "hash": "6c2e9ebcd0ffa60f6ac8df89a2f6664afe3d4dc735394cf78c193f6c643d399e"
+        },
+        {
+            "date": 1733457600074,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_13.log",
+            "hash": "fc7112b5c4100a99d190a5c8d4fe5893efcc6e27e329c53f512f9956e9c9b784"
+        },
+        {
+            "date": 1733461200532,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_14.log",
+            "hash": "47d36e316c95899a60154c993019b8ad1d8d9965f384fe65c0847d829b0ac0b7"
+        },
+        {
+            "date": 1733464800856,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_15.log",
+            "hash": "fc80ee8274237cad424f247c66dfabf7fe6ef788d65f1b65c8793bbed069de0c"
+        },
+        {
+            "date": 1733468400048,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_16.log",
+            "hash": "d6f3b880893d8568a2fbbf869cbf9ebb2a07515e848e0da9663fe0fe691a1f7f"
+        },
+        {
+            "date": 1733472001278,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241206_17.log",
+            "hash": "858eb62b29127fbe1a00cb17957fd657efc80e95139135824e67133c4d185d8f"
+        },
+        {
+            "date": 1733793994579,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_10.log",
+            "hash": "495bb7acc091d206d8e44d5b331e71669bdd8e8515e42c595b0b0d52a48ff7d7"
+        },
+        {
+            "date": 1733796000481,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_11.log",
+            "hash": "b0f64262aa050ac04b51f7d41a24250819172b995ff5982c2d5bdcfa7944dd17"
+        },
+        {
+            "date": 1733799600001,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_12.log",
+            "hash": "b8258534dffe4f31a21f7de06893747cebe40d3f44ab68f9b89182b956e39d6d"
+        },
+        {
+            "date": 1733803200807,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_13.log",
+            "hash": "e30f6b8f49c6dcf5780f538a6da540e897574c3af4f2040ca31b262c31da993c"
+        },
+        {
+            "date": 1733806800341,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_14.log",
+            "hash": "c668c609a281a53211c155dc4fcb4050e032ac3ae5d54b9ca28c3ae72c577a60"
+        },
+        {
+            "date": 1733810401035,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_15.log",
+            "hash": "47c050370ce30deea18f855e3576d74399760985da752bf4610561ac384a05da"
+        },
+        {
+            "date": 1733814000257,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_16.log",
+            "hash": "cf2fa772a3463f4f93cf5e3a421b9595a840dee18de37cf5a1aa068c1c245c9c"
+        },
+        {
+            "date": 1733817600822,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241210_17.log",
+            "hash": "3690d0de33ba67f8189dcae976fc68f1045a6003ca806984d878fbf05ef5e012"
+        },
+        {
+            "date": 1733875326082,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_09.log",
+            "hash": "85ed1e28e039f85d694b4cee4e24f133b48797ec2d6f76d64ab56efe99aefa03"
+        },
+        {
+            "date": 1733878801545,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_10.log",
+            "hash": "5281654191903c9bc2964666d015baf7aed97572b017c6cb6d6a0d7370064910"
+        },
+        {
+            "date": 1733882401194,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_11.log",
+            "hash": "63efc58163057b538148147437b10ba4640444a8d8d0dd75c5303c57527cb738"
+        },
+        {
+            "date": 1733886000798,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_12.log",
+            "hash": "f61a0ac24c04856668e66fb93ce63fdf428301630af03564e8532de7f0c00dfa"
+        },
+        {
+            "date": 1733889600571,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_13.log",
+            "hash": "823755ccf271ef68eed6beb6e8bf4844f08a4522a46615f96243024aff5906bc"
+        },
+        {
+            "date": 1733894202239,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_14.log",
+            "hash": "a297a62f91664e35eb68681c869d7b8ca79764ffcca8a5b0e71922fd66773727"
+        },
+        {
+            "date": 1733896800365,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_15.log",
+            "hash": "97513af3c06af9373ccbffafac64347e66eec8e149d18667e2f40d72c63ebdc3"
+        },
+        {
+            "date": 1733900400720,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_16.log",
+            "hash": "c6c1f36c0baeaba2e6d7a83da6e0fbc80ece0a0a0f3e351942f90e34953143d6"
+        },
+        {
+            "date": 1733904000616,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_17.log",
+            "hash": "6553ec955c2f9449462e9edaebc4fb428b8ec283d6a601765de1f9ad56c16153"
+        },
+        {
+            "date": 1733907600544,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241211_18.log",
+            "hash": "dba1edfb6e7c8b01612289ed25bf80fa5120cbbfc9791cadb2032bd5543b4d0b"
+        },
+        {
+            "date": 1733962491363,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241212_09.log",
+            "hash": "488bd047d8128ebd77dec961ab28a7c56c9e0cf987fc3d196e0afa078d6999d0"
+        },
+        {
+            "date": 1733965200800,
+            "name": "/home/neighbor/2024-12-03_ETRI/logs/log/241212_10.log",
+            "hash": "2379a846695cff55a49ab1a67c5580ae301ccff345936b37e9d4d04707318996"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title><%= title %></title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+	<link rel="stylesheet" href="./stylesheets/reset.css">
+	<link rel="stylesheet" href="./stylesheets/font.css">
+	<link rel="stylesheet" href="./stylesheets/style.css">
+	<link rel="stylesheet" href="./stylesheets/datepicker.css">
+	<link href="/stylesheets/style_settingMemo.css" rel="stylesheet"/>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.0/chart.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+	<script  src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+	<script  src="/js/calendar.js"></script>
+	<script  src="/js/main.js"></script>
+
+	<link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+	<link rel="manifest" href="/images/favicon/manifest.json">
+
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+</head>
+<body>
+	<div class="root">
+        <header id="header"><%- include('header') %></header>
+        <section id="container"><%- include(body) %></section>
+	</div>
+	<script src = "https://cdn.socket.io/4.6.1/socket.io.min.js" type="text/javascript"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const web_socket = io.connect('https://192.168.0.30:8888', {
+				path: '/socket.io', 
+				transports: ['websocket'],
+				withCredentials: true 
+			});
+
+			let message = "";
+
+			// 소켓 연결
+			web_socket.on('connect', () => { console.log('웹 소켓 연결 성공'); });
+			
+			// 연결 해제(disconnect) 이벤트 처리
+			web_socket.on('disconnect', (reason) => { console.log(reason); });
+	
+			// 에러 발생(error) 이벤트 처리
+			web_socket.on('error', (error) => { console.log(`에러 발생: ${error}`); });
+	
+			// 서버에서 "server_msg" 이름으로 보낸 데이터 수신
+			web_socket.on('server_msg', (data) => {
+				console.log(data);
+	
+				if (message.indexOf(`${data}`) != -1) {
+					web_socket.send(`중복되는 데이터`);
+				} else {
+					message += data;
+					message += "\n";
+	
+					web_socket.send(data);
+				}
+			});
+		});
+	</script>
+
+	<script>
+		$(document).ready(() => {
+			/* 페이지의 다른 부분을 클릭했을 때 select box를 닫는 기능 */
+			$(document).on('click', function(event) {
+				if (!$(event.target).closest('.select').length) {
+					$('.select').removeClass('active');
+				}
+			});
+
+			/* select box를 클릭했을 때 이벤트 전파 중지 */
+			$('.select').on('click', function(event) {
+				event.stopPropagation();
+			});
+
+			/*	모든 메뉴 아이템을 선택합니다. */
+			var menuItems = document.querySelectorAll(".menuItem");
+			menuItems.forEach(item => {
+				item.addEventListener("click", event => {
+					// 모든 메뉴 아이템에 있는 "active" 클래스를 제거합니다.
+					menuItems.forEach(menuItem => {
+						menuItem.classList.remove("active");
+					});
+
+					// 클릭된 메뉴 아이템에 "active" 클래스를 추가합니다.
+					event.currentTarget.classList.add("active");
+				});
+			});
+
+			/*	사용자 상세 정보창 컨트롤 */
+			$(document).on("click", e => {
+				let $rSideNav = $(e.target).closest(".rSideNav");
+				
+				if ($rSideNav.length > 0) return;
+				
+				// 컨트롤 팝업 종료, 코멘트 수정창 종료
+				$(".rSideNav").removeClass("active");
+			});
+		});
+
+		/* 로그인 페이지 이동 */
+		function toggleTips() {
+			$(".rSideNav").toggleClass("active");
+		} 
+
+		/* 로그 아웃 */
+		function goLogout() {
+			if (confirm("로그아웃 하시겠습니까?")) {
+				location.href = "/logout";
+			}
+		}
+
+		/* SELECT BOX 선택 및 해제 */
+		function selectBox(e) {
+			// 다른 모든 select box를 닫습니다.
+			$('.select').not($(e).parent()).removeClass('active');
+			
+			// 클릭된 select box의 상태를 토글합니다.
+			$(e).parent().toggleClass('active');
+
+			const boxLabel = $(e);
+			const list = $(e).parent().find('.list');
+			const items = list.find('.item');
+			let a = items.find('a');
+			
+			a.click(function(event) {
+				event.preventDefault();
+				const text = $(this).text();
+				$(this).parents().find(boxLabel).text(text).addClass('active');
+				$('.select').removeClass('active');
+			});
+		}
+
+        //새로고침 버튼 ------ 20240821 최정우 연구원
+        async function pagerefresh() {
+            location.reload(true);
+        }
+
+        // 페이지네이션 ----------- 20240926 최정우 연구원
+        jQuery(document).ready(function(){
+            pagination2();
+        });
+
+    function pagination2() {
+    let req_num_row = 10; // 한 페이지당 보여줄 데이터의 수
+    if(window.location.pathname.split('/').pop() === 'workStatusMain'){
+        req_num_row = 3; // 근무 현황 상세페이지에서는 최대 3개의 데이터만 표출
+    }
+    let $tr = jQuery('.pagelist tbody tr');
+    let total_num_row = $tr.length;
+    let num_pages = Math.ceil(total_num_row / req_num_row);
+    let current_page = 1;
+    let max_visible_pages = 5; // 한 화면에 보여줄 페이지 수
+    let current_visible_start = 1;
+
+    // 페이지네이션 버튼 생성
+    createPagination();
+
+    // 초기 상태 설정
+    updatePagination(current_page);
+
+    // 페이지 링크 클릭 시 페이지 이동
+    jQuery('.pagination2').on('click', '.pagination-link', function(e) {
+        e.preventDefault(); // 링크 클릭시 페이지 이동을 막고 아래의 함수를 호출
+        current_page = parseInt(jQuery(this).text());
+        updatePagination(current_page);
+    });
+
+    // 첫 번째 페이지로 이동 버튼 클릭 시
+    jQuery('.pagination2').on('click', '.first', function(e) {
+        e.preventDefault();
+        current_page = 1;
+        current_visible_start = 1; // 첫 페이지로 이동 시 보이는 페이지 시작 번호 초기화
+        updatePagination(current_page);
+    });
+
+    // 마지막 페이지로 이동 버튼 클릭 시
+    jQuery('.pagination2').on('click', '.last', function(e) {
+        e.preventDefault();
+        current_page = num_pages;
+        current_visible_start = Math.max(num_pages - max_visible_pages + 1, 1);
+        updatePagination(current_page);
+    });
+
+    // 이전 버튼 클릭 시
+    jQuery('.pagination2').on('click', '.prev', function(e) {
+        e.preventDefault();
+        if (current_page > 1) {
+            current_page--;
+            if (current_page < current_visible_start) {
+                current_visible_start = Math.max(current_visible_start - max_visible_pages, 1); // 이전 구역으로 이동
+            }
+            updatePagination(current_page);
+        }
+    });
+
+    // 다음 버튼 클릭 시
+    jQuery('.pagination2').on('click', '.next', function(e) {
+        e.preventDefault();
+        if (current_page < num_pages) {
+            current_page++;
+            if (current_page > current_visible_start + max_visible_pages - 1) {
+                current_visible_start += max_visible_pages;
+            }
+            updatePagination(current_page);
+        }
+    });
+
+    // 페이지 업데이트 함수
+    function updatePagination(page) {
+        // offset 기능
+        $tr.hide();
+        let start = (page - 1) * req_num_row;
+        $tr.slice(start, start + req_num_row).show();
+
+        // 페이지네이션 버튼 상태 업데이트
+        jQuery('.pagination2 li').removeClass("active");
+
+        // 현재 보이는 페이지 번호 업데이트
+        createPagination();
+
+        // 현재 페이지에 active 클래스 적용
+        let visible_end = Math.min(current_visible_start + max_visible_pages - 1, num_pages);
+        if (page >= current_visible_start && page <= visible_end) {
+            jQuery('.pagination2 li').eq(page - current_visible_start + 2).addClass("active"); // +2는 첫 페이지 버튼과 이전 버튼을 건너뛰기 위함
+        } else {
+            jQuery('.pagination2 li').eq(1).addClass("active"); // 첫 번째 페이지가 active
+        }
+    }
+
+    // 페이지네이션 버튼 생성 함수
+    function createPagination() {
+        jQuery('.pagination2').empty();
+        jQuery('.pagination2').append("<li><a class=\"first\"><img src='../images/btn_prevend.svg' alt='First'></a></li>"); // 첫 번째 페이지로 이동 버튼
+        jQuery('.pagination2').append("<li><a class=\"prev\"><img src='../images/btn_prev.svg' alt='Previous'></a></li>");
+
+        // 현재 보이는 페이지 번호 계산
+        let visible_end = Math.min(current_visible_start + max_visible_pages - 1, num_pages);
+        for(let i = current_visible_start; i <= visible_end; i++) {
+            jQuery('.pagination2').append("<li><a class='pagination-link'>"+i+"</a></li>");
+        }
+
+        jQuery('.pagination2').append("<li><a class=\"next\"><img src='../images/btn_next.svg' alt='Next'></a></li>");
+        jQuery('.pagination2').append("<li><a class=\"last\"><img src='../images/btn_nextend.svg' alt='Last'></a></li>"); // 마지막 페이지로 이동 버튼
+    }
+}
+
+    function pagination(filteredRows) {
+    let rowsPerPage = 10; // 페이지당 표시할 행 수
+    if (window.location.pathname.split('/').pop() === 'workStatusMain') {
+        rowsPerPage = 3;
+    }
+
+    const totalRows = filteredRows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+    let currentPage = 1;
+    let maxVisiblePages = 5; // 한 화면에 보이는 최대 페이지 수
+    let currentVisibleStart = 1; // 보이는 페이지 범위의 시작 번호
+
+    const paginationContainer = document.querySelector(".pagination2");
+
+    function renderPage(page) {
+        const startIndex = (page - 1) * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+
+        filteredRows.forEach((row, index) => {
+            row.style.display = index >= startIndex && index < endIndex ? "" : "none";
+        });
+
+        currentPage = page;
+        updatePaginationButtons();
+    }
+
+    function updatePaginationButtons() {
+    paginationContainer.innerHTML = ""; // 기존 버튼 초기화
+
+    // 처음으로 이동하기 버튼
+    const firstButton = document.createElement("a");
+    firstButton.innerHTML = `<img src='../images/btn_prevend.svg' alt='First'>`;
+    firstButton.addEventListener("click", () => {
+        currentPage = 1;
+        currentVisibleStart = 1;
+        renderPage(currentPage);
+    });
+    paginationContainer.appendChild(firstButton);
+
+    // 이전 페이지로 이동 버튼
+    const prevButton = document.createElement("a");
+    prevButton.innerHTML = `<img src='../images/btn_prev.svg' alt='Previous'>`;
+    prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            if (currentPage < currentVisibleStart) {
+                currentVisibleStart = Math.max(currentVisibleStart - maxVisiblePages, 1);
+            }
+            renderPage(currentPage);
+        }
+    });
+    paginationContainer.appendChild(prevButton);
+
+    // 페이지 번호 링크
+    const visibleEnd = Math.min(currentVisibleStart + maxVisiblePages - 1, totalPages);
+    for (let i = currentVisibleStart; i <= visibleEnd; i++) {
+        const link = document.createElement("a");
+        link.textContent = i;
+        link.className = `pagination-link ${i === currentPage ? "active" : ""}`;
+        link.href = "#";
+        link.addEventListener("click", (e) => {
+            e.preventDefault(); // 기본 동작 막기
+            renderPage(i);
+        });
+        paginationContainer.appendChild(link);
+    }
+
+    // 다음 페이지로 이동 버튼
+    const nextButton = document.createElement("a");
+    nextButton.innerHTML = `<img src='../images/btn_next.svg' alt='Next'>`;
+    nextButton.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            if (currentPage > currentVisibleStart + maxVisiblePages - 1) {
+                currentVisibleStart += maxVisiblePages;
+            }
+            renderPage(currentPage);
+        }
+    });
+    paginationContainer.appendChild(nextButton);
+
+    // 마지막으로 이동하기 버튼
+    const lastButton = document.createElement("a");
+    lastButton.innerHTML = `<img src='../images/btn_nextend.svg' alt='Last'>`;
+    lastButton.addEventListener("click", () => {
+        currentPage = totalPages;
+        currentVisibleStart = Math.max(totalPages - maxVisiblePages + 1, 1);
+        renderPage(currentPage);
+    });
+    paginationContainer.appendChild(lastButton);
+}
+
+    renderPage(1); // 초기 페이지 렌더링
+}
+
+	</script>
+</body>
+</html>

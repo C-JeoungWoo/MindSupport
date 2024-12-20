@@ -1,0 +1,702 @@
+<div class="inner">
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_id %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- topBar end -->
+  <div class="mainTitle flex">
+    <h2>코칭조건 설정</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">
+      새로고침
+      <span></span>
+    </button>
+  </div>
+  <div class="searchFilters">
+    <div class="searchTextFilter">
+      <h3>코칭조건 설정</h3>
+      </div>
+    <div class="searchTextFilter grid">
+      <div class="flex gap">
+        <div class="searchFilterLines narrow" style="margin-right: 2%;">
+          <label>사용여부</label>
+          <div class="selectWrap">
+            <div class="select" style="width: 9em;">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" aria-label="사용여부 선택">전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>사용</a></li>
+                <li class="item"><a>사용안함</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="searchFilterLines narrow">
+          <label>기준 시간(초)</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" aria-label="기준 시간(초) 선택">전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>10초</a></li>
+                <li class="item"><a>30초</a></li>
+                <li class="item"><a>60초</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="searchFilterLines narrow">
+          <label>초과 횟수(화남)</label>
+          <input type="number" class="" value="0" min="0" id='overAnger' placeholder="" max='10'  aria-label="초과 횟수(화남) 입력" >
+        </div>
+        <div class="searchFilterLines narrow">
+          <label>초과 횟수(슬픔)</label>
+          <input type="number" class="" value="0" min="0" id='overSad' placeholder="" max='10'  aria-label="초과 횟수(슬픔) 입력" >
+        </div>
+        <div class="searchFilterLines narrow">
+          <label>코칭유형</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" aria-label="코칭유형 선택">전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>자동</a></li>
+                <li class="item"><a>수동</a></li>
+              </ul>
+            </div>
+          </div>
+        </div> 
+      </div>
+      <div class="searchFilterLines wide">
+        <label>자동 코칭 메세지</label>
+        <div class="selectWrap">
+          <div class="select">
+            <button type="button" class="boxLabel" onclick="selectBox(this)" aria-label="코칭메시지 선택">전체</button>
+            <ul class="list">
+              <li class="item"><a>전체</a></li>
+              <li class="item"><a>일정 근무시간 초과. 휴식을 권장합니다.</a></li>
+              <li class="item"><a>감성(화남) 관리가 권장됩니다.</a></li>
+              <li class="item"><a>감성(슬픔) 관리가 권장됩니다.</a></li>
+            </ul>
+          </div>
+        </div>
+        <button type="button" class="primaryBtn" aria-label="검색" onclick="applyFilters()">검색</button>
+      </div>
+    </div>
+  </div><!-- searchFilters end -->
+  <div class="pagelist">
+  <div class="itemWrap titlegap">
+    <div class="item borderGrey padding">
+      <div class="title dltGap alignCenter">
+        <h4 class="grey">검색 결과</h4>
+        <div class="gridItem">
+          <button type="button" class="borderBtn btn btn-primary" aria-label="등록" onclick="registModalOpen()">등록</button>
+          <button type="submit" class="borderBtn btn btn-danger" aria-label="삭제" id="settingCoachDel">삭제</button>
+          <button type="button" class="borderBtn" aria-label="수정" id="updateCoachingModalOpen">수정</button>
+          <button type="button" class="borderBtn" aria-label="초기화" onclick="uncheckAllRowCheckboxes()">초기화</button>
+        </div>
+      </div>
+      <table id="coach_set_table" class="auto_user_table table table-striped table-hover">
+        <colgroup>
+          <col style="width:5%;">
+          <col style="width:5%;">
+          <col style="width:15%;">
+          <col style="width:15%;">
+          <col style="width:15%;">
+          <col style="width:15%;">
+          <col style="width:15%;">
+          <col style="width:auto;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th><input type="checkbox" name="all" onclick="allselect(this.checked)"></th>
+            <th>No.</th>
+            <th>사용여부</th>
+            <th>기준시간</th>
+            <th>기준횟수(화남)</th>
+            <th>기준횟수(슬픔)</th>
+            <th>코칭유형</th>
+            <th>자동코칭 메세지</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (coach_set.length == 0) { %> 
+            <tr>
+              <td colspan="11">표시할 데이터가 없습니다</td>
+            </tr>
+          <% } else { %>
+            <% for(var i=0; i<coach_set.length; i++) {
+              let data = coach_set[i]; %>
+
+              <tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+                <!-- check -->
+                <td><input id="chkCondition" type="checkbox" name="row_CheckBox"></td>
+                                
+                <!-- 시퀀스 No. -->
+                <td><%= data.auto_seq %></td>
+
+                <!-- 사용여부 -->
+                <% if (data.use_unuse === 'Y') { %> 
+                  <td scope="row">사용</td>
+                <% } else { %>
+                  <td scope="row">사용안함</td>
+                <% } %>
+
+                <!-- 기준시간 -->
+                <td><%= data.standard %>초</td>
+
+                <!-- 초과 횟수(화남) -->
+                <td><%= data.over_anger %></td>
+
+                <!-- 초과 횟수(슬픔) -->
+                <td><%= data.over_sad %></td>
+
+                <!-- 코칭유형 -->
+                <% if (data.auto_coach === 'P') { %> 
+                  <td scope="row">수동</td>
+                <% } else { %>
+                  <td scope="row">자동</td>
+                <% } %>
+
+                <!-- 자동코칭 메세지 -->
+                <td><%= data.auto_detail %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 등록 모달 -->
+<div class="modals" id="registModal">
+  <div class="modal-content wider">
+    <div class="modalTitle">
+      <h4>코칭조건 등록</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="코칭조건등록 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>사용 여부</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" onclick="selectBox(this)" id="getUseUnuse" aria-label="사용여부 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getUseUnuse', '사용')">사용</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getUseUnuse', '사용안함')">사용안함</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>기준 시간</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" onclick="selectBox(this)" id="getStandard" aria-label="기준시간 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getStandard', '10')">10초</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getStandard', '30')">30초</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getStandard', '60')">60초</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grid twin">
+          <div>
+            <label>초과횟수(화남)</label>
+            <input type="text" name="" pattern="[0-9]+" maxlength="1"  value="1" id="getOverAnger" aria-label="초과 횟수(화남) 입력" />
+          </div>
+          <div>
+            <label>초과횟수(슬픔)</label>
+            <input type="text" name="" pattern="[0-9]+" maxlength="1"  value="1" id="getOverSad" aria-label="초과 횟수(슬픔) 입력" />
+          </div>
+        </div>
+        <div>
+          <label>코칭유형</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" id="getAutoCoach" aria-label="코칭유형 선택">선택</button>
+              <ul class="list">
+                <li class="item"><a onclick="selectItem(event, 'getAutoCoach', '수동')">수동</a></li>
+                <li class="item"><a onclick="selectItem(event, 'getAutoCoach', '자동')">자동</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label>자동 코칭 메세지</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" id="getAutoDetail" aria-label="자동코칭 메시지 선택">선택</button>
+              <ul class="list">
+                <li class="item"><a onclick="selectItem(event, 'getAutoDetail', `일정 근무시간 초과. 휴식을 권장합니다.`)">일정 근무시간 초과. 휴식을 권장합니다.</a></li>
+                <li class="item"><a onclick="selectItem(event, 'getAutoDetail', `감성(화남) 관리가 권장됩니다.`)">감성(화남) 관리가 권장됩니다.</a></li>
+                <li class="item"><a onclick="selectItem(event, 'getAutoDetail', `감성(슬픔) 관리가 권장됩니다.`)">감성(슬픔) 관리가 권장됩니다.</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" onclick="" aria-label="코칭조건 등록하기" id="getCoachSet_submit">확인</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="코칭조건 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 등록 모달 div end -->
+
+<!-- 수정 모달 -->
+<div class="modals" id="updateModal">
+  <div class="modal-content wider">
+    <div class="modalTitle">
+      <h4>코칭조건 수정</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="코칭조건등록 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>사용여부</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" onclick="selectBox(this)" id="getUseUnuse2" idaria-label="사용여부 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getUseUnuse2', '사용')">사용</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getUseUnuse2', '사용안함')">사용안함</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label>기준시간</label>
+            <div class="selectWrap">
+              <div class="select">
+                <button type="button" class="boxLabel" onclick="selectBox(this)" id="getStandard2" aria-label="기준시간 선택">선택</button>
+                <ul class="list">
+                  <li class="item"><a onclick="selectItem(event, 'getStandard2', '10')">10</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getStandard2', '30')">30</a></li>
+                  <li class="item"><a onclick="selectItem(event, 'getStandard2', '60')">60</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>초과횟수(화남)</label>
+            <input type="text" pattern="[0-9]+" id="getOverAnger2" maxlength="1"  value="" aria-label="초과 횟수(화남) 입력" />
+          </div>
+
+          <div>
+            <label>초과횟수(슬픔)</label>
+            <input type="text" pattern="[0-9]+" id="getOverSad2" maxlength="1"  value="" aria-label="초과 횟수(슬픔) 입력" />
+          </div>
+        </div>
+
+        <div>
+          <label>코칭유형</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" id="getAutoCoach2" aria-label="코칭유형 선택">선택</button>
+              <ul class="list">
+                <li class="item"><a onclick="selectItem(event, 'getAutoCoach2', '수동')">수동</a></li>
+                <li class="item"><a onclick="selectItem(event, 'getAutoCoach2', '자동')">자동</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label>자동 코칭 메세지</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" id="getAutoDetail2" aria-label="자동코칭 메시지 선택">선택</button>
+              <ul class="list">
+                <li class="item"><a onclick="selectItem(event, 'getAutoDetail2', `일정 근무시간 초과. 휴식을 권장합니다.`)">일정 근무시간 초과. 휴식을 권장합니다.</a></li>
+                <li class="item"><a onclick="selectItem(event, 'getAutoDetail2', `감성(화남) 관리가 권장됩니다.`)">감성(화남) 관리가 권장됩니다.</a></li>
+                <li class="item"><a onclick="selectItem(event, 'getAutoDetail2', `감성(슬픔) 관리가 권장됩니다.`)">감성(슬픔) 관리가 권장됩니다.</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" class="primaryBtn" id="getCoachUpdate_submit" aria-label="코칭조건 수정하기">확인</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="코칭조건 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div>
+<script>
+  //  모달 창 조건 설정
+  let selectedValues = {
+    getUseUnuse: "", //  사용여부
+    getStandard: "", //  기준시간
+    getOverAnger: "", //  초과횟수(화남)
+    getOverSad: "", //  초과횟수(슬픔)
+    getAutoCoach: "", // 코칭유형
+    getAutoDetail: "" // 자동코칭 메세지
+  }
+
+  $(document).ready(() => {
+    // 선택된 행 가져오기
+    let tdArr = new Array();
+
+    //  행 클릭
+    $("#coach_set_table tbody tr").click(() => {
+      //  선택된 행을 클릭 시, 체크 해제
+      if ($(this).find("input").prop("checked")) {
+        $(this).find("input").prop("checked", false);
+        $(this).removeClass('selected_box');
+      } else {
+        //  행 클릭시, 체크 표시
+        $(this).find("input").prop("checked", true);
+        $(this).addClass('selected_box');
+      }
+    });
+
+    //  선택된 행 삭제 및 전체 삭제
+    $("#settingCoachDel").click(() => {
+      let checkbox = $("input[name=row_CheckBox]:checked");
+      if(checkbox.length == 0) {
+        alert('선택된 조건이 없습니다.');
+        return;
+      }
+
+      checkbox.each(i => {
+        // checkbox.parent()                : checkbox의 부모는 <td>
+        // checkbox.parent().parent()   : <td>의 부모이므로 <tr>
+        let tr = checkbox.parent().parent().eq(i);
+        let td = tr.children();
+        
+        //  테이블 행의 n번째 항목 값 가져오기
+        //   - AUTO_SEQ 전달(다중 선택 가능)
+        tdArr.push(td.eq(1).text());
+
+        alert(tdArr)
+      });
+
+      alert(tdArr)
+      $.ajax({
+        url: '/deletingCoachSet',
+        dataType: 'JSON',
+        type: 'POST',
+        data: { "data" : tdArr },
+        success: (result) => {
+          if (result) {
+            alert(`정상적으로 삭제되었습니다.`);
+
+            //  배열 초기화
+            tdArr = new Array();
+            location.reload();
+          }
+        },
+        error: (xhr, status, err) => {
+          console.error(`[ updatingCoachSet:AJAX ] ${err}`);
+          alert(err);
+        }
+      });
+    });
+
+    //  조건 등록 AJAX
+    $("#getCoachSet_submit").click(() => {
+      selectedValues.getUseUnuse = document.getElementById('getUseUnuse').textContent;
+      selectedValues.getStandard = document.getElementById('getStandard').textContent; // 가장 마지막 번호부터 인덱싱
+      selectedValues.getOverAnger = document.getElementById('getOverAnger').value;
+      selectedValues.getOverSad = document.getElementById('getOverSad').value;
+      selectedValues.getAutoCoach = document.getElementById('getAutoCoach').textContent;
+      selectedValues.getAutoDetail = document.getElementById('getAutoDetail').textContent;
+
+      $.ajax({
+        url: '/settingCoachSubmit',
+        dataType: 'json',
+        contentType: 'application/json',
+        async: true,
+        type: 'POST',
+        data: JSON.stringify(selectedValues),
+        success: function(result) {
+          if(result && result.message) {
+            alert(result.message);
+            coachingModalClose();
+            location.reload();
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', xhr.responseText);
+          alert('오류가 발생했습니다: ' + xhr.responseText);
+        }
+      });
+    });
+
+    //  선택된 행 수정하기
+    $('#updateCoachingModalOpen').click(() => {
+      let checkbox = $("input[name=row_CheckBox]:checked");
+
+      if (checkbox.length == 0) {
+        alert('선택된 조건이 없습니다.');
+        return;
+      } else if (checkbox.length == 1) {
+        checkbox.each(i => {
+          // checkbox.parent()                : checkbox의 부모는 <td>
+          // checkbox.parent().parent()   : <td>의 부모이므로 <tr>
+          let tr = checkbox.parent().parent().eq(i);
+          let td = tr.children();
+
+          td.each((i) => {
+              tdArr.push(td.eq(i+1).text());
+          });
+
+          updatingModalOpen(tdArr);
+        });
+      } else {
+        alert("항목은 하나만 선택해주세요.");
+      }
+    });
+
+    //  선택된 행 수정 AJAX
+    $('#getCoachUpdate_submit').click(() => {
+      let selectedValues = {
+        getAutoSeq: tdArr[0],
+        getUseUnuse: $("#getUseUnuse2").text(),
+        getStandard: $("#getStandard2").text(), 
+        getOverAnger: document.getElementById('getOverAnger2').value, // 텍스트를 설정하는 것이 아니라 가져오는 부분입니다.
+        getOverSad: document.getElementById('getOverSad2').value,
+        getAutoCoach: $("#getAutoCoach2").text(),
+        getAutoDetail: $("#getAutoDetail2").text()
+      };
+
+      if(selectedValues.getUseUnuse === '사용') {
+        selectedValues.getUseUnuse = 'Y'
+      } else if (selectedValues.getUseUnuse === '사용안함') {
+        selectedValues.getUseUnuse === 'N'
+      } else{
+        alert('사용여부를 선택해주세요.')
+        return false;
+      }
+
+      if(selectedValues.getStandard === '선택') {
+        alert('기준시간을 선택해주세요.');
+        return false;
+      }
+
+      if(selectedValues.getAutoCoach === '수동') {
+        selectedValues.getAutoCoach = 'P'
+      } else if (selectedValues.getAutoCoach === '자동') {
+        selectedValues.getAutoCoach = 'A'
+      } else {
+        alert('코칭유형을 선택해주세요.');
+        return false;
+      }
+
+      if(selectedValues.getAutoDetail === '선택') {
+        alert('코칭메세지를 선택해주세요.')
+        return false;
+      }
+
+      $.ajax({
+        url: `/updatingCoachSet`,
+        dataType: 'JSON',
+        method: 'POST',
+        data: { "jsonData":selectedValues},
+        success: result => {
+          if(result) {
+            console.log(JSON.stringify(result, null, 2));
+            alert(`정상적으로 수정되었습니다.`);
+
+            coachingModalClose();
+            location.reload();
+          }
+        },
+        error: (xhr, status, err) => {
+          console.error(`[ updatingCoachSet:AJAX ] ${err}`);
+        }
+      });
+      
+      //  변수 초기화
+      selectedValues = {
+        getAutoSeq: "",
+        getUseUnuse: "", //  사용여부
+        getStandard: "", //  기준시간
+        getOverAnger: "", //  초과횟수(화남)
+        getOverSad: "", //  초과횟수(슬픔)
+        getAutoCoach: "N", // 코칭유형
+        getAutoDetail: "", // 자동코칭 메세지
+      }
+    });
+  });
+
+  function coachingModalOpen() { $('.modals').stop().fadeIn();  }
+  function coachingModalClose() {
+    $('.modals').stop().fadeOut();
+
+    //  배열 초기화
+    tdArr = new Array();
+  }
+
+  //  등록 모달 창 열기
+  function registModalOpen() { $('#registModal').stop().fadeIn(); }
+  function updatingModalOpen(tdArr) {
+    //  모달 창 항목들에 값 설정
+    $("#getUseUnuse2").text(tdArr[1]);
+    $("#getStandard2").text(tdArr[2]);
+    $("#getOverAnger2").val(tdArr[3]);
+    $("#getOverSad2").val(tdArr[4]);
+    $("#getAutoCoach2").text(tdArr[5]);
+    $("#getAutoDetail2").text(tdArr[6]);
+
+    //  수정 모달 창 열기
+    $('#updateModal').stop().fadeIn();
+  }
+
+  //  체크박스 전체 선택
+  function allselect(bool) {
+    let chks = document.getElementsByName("row_CheckBox");
+    
+    for(let i = 0; i < chks.length; i++){
+      chks[i].checked = bool;
+    }
+  }
+
+  //  체크박스 전체 해제
+  function uncheckAllRowCheckboxes() {
+    // 'row_CheckBox'라는 이름을 가진 모든 체크박스를 선택합니다.
+    const checkboxes = document.getElementsByName('row_CheckBox');
+    const checkboxes2 = document.getElementsByName('all');
+    
+    // 각 체크박스를 순회하며 체크를 해제합니다.
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+
+    checkboxes2.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  }
+
+  //  등록 모달에서 아이템 선택
+  function selectItem(event, category, value) {
+    event.preventDefault();
+
+    if(category === 'getOrgName' || category === 'getOrgName2') {
+      selectedValues[category] = value;
+
+      // 선택된 항목의 '기관 ID'를 가져옴
+      var orgId = event.target.getAttribute('data-org-id');
+
+      // '기관 ID' input 칸에 값을 가져옴
+      document.getElementById('getOrgId').value = orgId;
+      selectedValues[getOrgId] = orgId;
+
+      document.getElementById('getOrgId2').value = orgId;
+      selectedValues[getOrgId] = orgId;
+    } else {
+      selectedValues[category] = value;
+    }
+  }
+</script>
+
+<script>
+  function applyFilters() {
+    // 검색 조건 값 가져오기
+    const usageStatus = document.querySelector('.searchFilterLines:nth-child(1) .boxLabel').textContent.trim();
+    const baseTime = document.querySelector('.searchFilterLines:nth-child(2) .boxLabel').textContent.trim();
+    const angerCount = document.getElementById('overAnger').value.trim();
+    const sadnessCount = document.getElementById('overSad').value.trim();
+    const coachingType = document.querySelector('.searchFilterLines:nth-child(5) .boxLabel').textContent.trim();
+    const coachingMessage = document.querySelector('.searchFilterLines.wide .boxLabel').textContent.trim();
+
+    // 모든 테이블 행 가져오기
+    const tableRows = document.querySelectorAll("#jsTableRow");
+    let filteredRows = []; // 필터링된 행 저장
+
+    tableRows.forEach(row => {
+      const rowUsageStatus = row.querySelector("td:nth-child(3)").textContent.trim();
+      const rowBaseTime = row.querySelector("td:nth-child(4)").textContent.trim();
+      const rowAngerCount = row.querySelector("td:nth-child(5)").textContent.trim();
+      const rowSadnessCount = row.querySelector("td:nth-child(6)").textContent.trim();
+      const rowCoachingType = row.querySelector("td:nth-child(7)").textContent.trim();
+      const rowCoachingMessage = row.querySelector("td:nth-child(8)").textContent.trim();
+
+      let isVisible = true;
+
+      // 사용 여부 필터
+      if (usageStatus !== "전체" && rowUsageStatus !== usageStatus) {
+        isVisible = false;
+      }
+
+      // 기준 시간(초) 필터
+      if (baseTime !== "전체" && rowBaseTime !== baseTime) {
+        isVisible = false;
+      }
+
+      // 초과 횟수(화남) 필터
+      if (angerCount !== '0' && parseInt(rowAngerCount) !== parseInt(angerCount)) {
+        isVisible = false;
+      }
+
+      // 초과 횟수(슬픔) 필터
+      if (sadnessCount !== '0' && parseInt(rowSadnessCount) !== parseInt(sadnessCount)) {
+        isVisible = false;
+      }
+
+      // 코칭 유형 필터
+      if (coachingType !== "전체" && rowCoachingType !== coachingType) {
+        isVisible = false;
+      }
+
+      // 자동 코칭 메시지 필터
+      if (coachingMessage !== "전체" && rowCoachingMessage !== coachingMessage) {
+        isVisible = false;
+      }
+
+      // 필터 조건에 맞는 행 저장
+      if (isVisible) {
+        filteredRows.push(row);
+      }
+    });
+
+    // 모든 행 숨기기
+    tableRows.forEach(row => (row.style.display = "none"));
+
+    // 필터링된 행만 표시
+    filteredRows.forEach(row => (row.style.display = ""));
+
+    // 필터링 결과가 없을 경우 경고 메시지
+    if (filteredRows.length === 0) {
+      alert("검색 조건에 맞는 데이터가 없습니다.");
+      jQuery('.pagination2').hide();
+      return;
+    }
+
+    jQuery('.pagination2').show();
+
+    // 필터링된 데이터를 기준으로 페이지네이션 재구성
+    pagination(filteredRows);
+  }
+</script>

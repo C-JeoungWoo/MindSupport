@@ -1,0 +1,160 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/240513_MindSupport_Test/logs/log/error/.e944d260d7dea7081612728b21ec7791ddfcee81-audit.json",
+    "files": [
+        {
+            "date": 1727138972111,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240924_09_error.log",
+            "hash": "0e38134d302ca41e48c08fb98df9bc6e06f0318039e0f2fc212520e66824b67c"
+        },
+        {
+            "date": 1727142341737,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240924_10_error.log",
+            "hash": "7c8513594e54c14ba3ba34c493f17d5e83b98c7f239fe63219243ac6bf9442f5"
+        },
+        {
+            "date": 1727143914672,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240924_11_error.log",
+            "hash": "6eb89e930ec9240525bed41684142f5db92feb3acf1fc796cc6d3627b1e4f5e4"
+        },
+        {
+            "date": 1727218581944,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240925_07_error.log",
+            "hash": "5cc504220edc12681e57187b7e55043522f57e955703989cae3fed29059ee957"
+        },
+        {
+            "date": 1727221380022,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240925_08_error.log",
+            "hash": "427a51693edaa3917cd033ea4d29655e7a6bb68eb89681e03fe18abd4bbeeeb6"
+        },
+        {
+            "date": 1727239170668,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240925_13_error.log",
+            "hash": "374aafc832ed932831930670066a5bc6552c0865efe1e704f7430ff08a7a230d"
+        },
+        {
+            "date": 1727241443507,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240925_14_error.log",
+            "hash": "415d52e932bf7d196961d175c7dd51b1aee3bd5e036ab6d1b68096d3a4d560cc"
+        },
+        {
+            "date": 1727244138621,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240925_15_error.log",
+            "hash": "a4c41e3e2939cdc5b90f0c5a10461a26bbb06b060718bebc229d1a4933079b01"
+        },
+        {
+            "date": 1727247731746,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240925_16_error.log",
+            "hash": "23cf9fafcabfc59b70f25a36e34ec8dab0d8183f5567bd473245afbe26091c09"
+        },
+        {
+            "date": 1727655862553,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240930_09_error.log",
+            "hash": "14b06c42b0b947e55a112ed0c0236417abc87f0abcc70f4a68825a89d9a98601"
+        },
+        {
+            "date": 1727671946492,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240930_13_error.log",
+            "hash": "63b074e89cb6b291a9d1797fa9e75d48a1301274e8b41c8ba680a3b7cc80b39f"
+        },
+        {
+            "date": 1727672442507,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/240930_14_error.log",
+            "hash": "fe4292c67f07ae9fc2599e24618026e1bbd01b8ec2757c9083253bdfee3ef834"
+        },
+        {
+            "date": 1727750701681,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241001_11_error.log",
+            "hash": "f2b6160a260da30d03d85dc64b7338b6dec08e8584f0579d1fee0d83d5feca3d"
+        },
+        {
+            "date": 1727754651117,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241001_12_error.log",
+            "hash": "09ce3f58eb89ab9ee433340e64112cbc27f21f5754060cedb331b3dfa71576c4"
+        },
+        {
+            "date": 1727755232190,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241001_13_error.log",
+            "hash": "830b9f1c97ad38d6ca1331a04f804e43b2d0977eac0bb5f097725f7ce682c240"
+        },
+        {
+            "date": 1727828846588,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_09_error.log",
+            "hash": "312587e51dbcdf22b55b24a6807d6f152790f14dd108e1fb26d2ac6860595927"
+        },
+        {
+            "date": 1727831243086,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_10_error.log",
+            "hash": "5f1e17a78676bc3c584ead0c98433f8965cea18a4258770fb785d7d152e46e84"
+        },
+        {
+            "date": 1727834637748,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_11_error.log",
+            "hash": "b74ffd4e42ee7096e57358c54241cb280986ae4d3e36b09c0c04ac11d0d76d09"
+        },
+        {
+            "date": 1727838069081,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_12_error.log",
+            "hash": "3a145efaca95831fbc17e78f14c66556c67c99ca74133732ab3f2df242a8fcee"
+        },
+        {
+            "date": 1727845763237,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_14_error.log",
+            "hash": "a029cfc9b7098838a0324fbdcec3601e8b94dd74b0754c41073fc267b33f612f"
+        },
+        {
+            "date": 1727850519614,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_15_error.log",
+            "hash": "23dbbec1efc7011792e6ed0fbd3f8a037adf32eda30663762d5b79692709bae3"
+        },
+        {
+            "date": 1727852813233,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_16_error.log",
+            "hash": "68009605379630212e34e3fdc30954c67cabbf47905202c2a20f529395a80fa2"
+        },
+        {
+            "date": 1727856103224,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241002_17_error.log",
+            "hash": "a7f106b7ea6f0155b440863f6fe5bdb00525f27161145c2574b19cb4b0b926f9"
+        },
+        {
+            "date": 1727999555931,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_08_error.log",
+            "hash": "deea4fbc33319f2a955fe72e6895398d7a157899748b3609209194b1e6efa6cd"
+        },
+        {
+            "date": 1728000584746,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_09_error.log",
+            "hash": "a5d53a5033acc33c72b93064fc6a5b8366753e91a944114be2c53a8f10c8e6fe"
+        },
+        {
+            "date": 1728004096490,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_10_error.log",
+            "hash": "e9b58c42068d016c17deb364ee1dcaaf30927a7bd32e330c24df1e44a4bd5582"
+        },
+        {
+            "date": 1728007854170,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_11_error.log",
+            "hash": "fc581203b013bfec6aad584ebba8b3114c79915452abee008e8641aa5b18bd22"
+        },
+        {
+            "date": 1728011911341,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_12_error.log",
+            "hash": "d548bbe2d90854e79378d3041e4f273feb95621ced68d58992c30ed09e912e34"
+        },
+        {
+            "date": 1728024102806,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_15_error.log",
+            "hash": "5d58f83fafa50d7965150dac1f485b4ea4f6489d921783b7e39b13c5dd851e4d"
+        },
+        {
+            "date": 1728025489467,
+            "name": "/home/240513_MindSupport_Test/logs/log/error/241004_16_error.log",
+            "hash": "dcf099e9c238710125e65a12e31afabea7e540275ad2dd7db188cb62954b1eca"
+        }
+    ],
+    "hashType": "sha256"
+}

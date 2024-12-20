@@ -1,0 +1,288 @@
+<div class="inner">
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_id %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- 20240821 최정우 연구원 새로고침 버튼을 위한 UI 배치 및 CSS 변경  -->
+  <div class="mainTitle flex">
+    <h2>코칭 이력</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">
+      새로고침
+      <span></span>
+    </button>
+  </div>
+  
+  <div class="searchFilters">
+    <div class="searchTextFilter">
+      <h3>조회 조건</h3>
+      <div class="flex gap">
+        <div class="searchFilterLines">
+          <label>조회 기간</label>
+          <input type="text" class="datepicker calendar" placeholder="날짜를 선택하세요." maxlength='10' name='start-date' id='start-date' aria-label="시작일"  readonly>
+          <input type="text" class="datepicker calendar" placeholder="날짜를 선택하세요." maxlength='10' name='end-date' id='end-date' aria-label="종료일"  readonly>
+        </div>
+        <div class="searchFilterLines">
+          <label>상담사 명</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)"  maxlength='10' aria-label="상담사 명 입력" >상담사를 선택하세요.</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <% if (counsel_history_user_info.length == 0) { %>
+                  <tr>
+                    <td colspan="7">표시할 데이터가 없습니다</td>
+                  </tr>
+                <% } else { %>
+                <% for(var i=0; i<counsel_history_user_info.length; i++) {
+                  let data = counsel_history_user_info[i]; %>
+
+                  <li class="item"><a><%= data.user_name %>  |  <%= data.login_id %></a></li>
+                <% } %>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="primaryBtn" id='dating_search' aria-label="상담사명 검색버튼" onclick="applyFilters()">검색</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagelist">
+  <div class="itemWrap titlegap">
+    <div class="item borderGrey padding">
+      <div class="title dltGap">
+        <h4 class="grey">검색 결과</h4>
+      </div>
+      <table class="gap" id="myTable">
+        <colgroup>
+          <col style="width:5%;">
+          <col style="width:5%;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+          <col style="width:auto;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th><input type="checkbox" name="all" onclick="allselect(this.checked)"></th>
+            <th>No</th>
+            <th>날짜</th>
+            <th>ID</th>
+            <th>상담원</th>
+            <th>코칭유형</th>
+            <th>기준시간</th>
+            <th>코칭내역</th>
+            <th>특이사항</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (counsel_history.length == 0) { %> 
+            <tr>
+              <td colspan="11">표시할 데이터가 없습니다</td>
+            </tr>
+          <% } else { %>
+            <% for(var i=0; i<counsel_history.length; i++) {
+              let data = counsel_history[i]; %>
+
+              <tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+                <!-- 체크박스 -->
+                <td><input id="chkCondition" type="checkbox" name="row_CheckBox"></td>
+
+                <% let data_seq = i+1 %>
+                <td scope="row"><%= data_seq %></td>
+
+                <!-- 날짜 -->
+                <% let data_callDate = data.call_date; %>
+                <td scope="row"><%= data_callDate %></td>
+
+                <!-- 상담사 ID -->
+                <% let data_agentId = data.login_id; %>
+                <td scope="row"><%= data_agentId %></td>
+
+                <!-- 상담사 이름 -->
+                <% let data_agentName = data.user_name; %>
+                <td scope="row"><%= data_agentName %></td>
+
+                <!-- 코칭유형(자/수동) -->
+                <% let data_autoCoach = data.auto_coach; %>
+                <td scope="row"><%= data_autoCoach %></td>
+
+                <!-- 조건설정 시간 -->
+                <% let data_autoStandard = data.auto_standard; %>
+                <td scope="row"><%= data_autoStandard %>초</td>
+
+                <!-- 코칭내역 -->
+                <% let data_autoDetail = data.auto_detail; %>
+                <td scope="row"><%= data_autoDetail %></td>
+
+                <!-- 특이사항 -->
+                <% 
+                  let data_passEtc = data.pass_etc;
+
+                  if(data.pass_etc == null | data.pass_etc == "") {
+                    data_passEtc = '시스템 자동 발신';
+                  }
+                %>
+                <td scope="row"><%= data_passEtc %></td>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+</div>
+<script>
+{
+  //  검색조건
+  // let startFormattedDate;
+  // let endFormattedDate;
+  // let userLoginId;
+  // let userName;
+
+  // $(document).ready(() => {
+  //   //  날짜선택(기준시작일)
+  //   $("#start-date").datepicker({
+  //     onSelect: function(selectedDate) {
+  //       startFormattedDate = $(this).datepicker('getDate');
+  //       $("#end-date").datepicker('option', 'minDate', startFormattedDate);
+  //     }
+  //   });
+
+  //   $("#end-date").datepicker({
+  //     onSelect: function(selectedDate) {
+  //       endFormattedDate = $(this).datepicker('getDate');
+  //       $("#start-date").datepicker('option', 'maxDate', endFormattedDate);
+  //     }
+  //   });
+
+  //   //  검색 AJAX
+  //   $('#dating_search').click(() => {
+  //     var formattedDate1 = $.datepicker.formatDate('yymmdd', startFormattedDate);
+  //     var formattedDate2 = $.datepicker.formatDate('yymmdd', endFormattedDate);
+  //     userLoginId = document.getElementById('searchUserId').value;
+  //     userName = document.getElementById('searchUserName').value;
+
+  //     if(formattedDate1 === '' || formattedDate2 === '') {
+  //       alert('날짜를 선택해주세요.');
+  //       return false;
+  //     }
+
+  //     $.ajax({
+  //       url:`/datingHistory?getStartDate=${formattedDate1}&getEndDate=${formattedDate2}
+  //       &getLoginId=${userLoginId}&getUserName=${userName}`,
+  //       dataType: 'JSON',
+  //       method: 'POST',
+  //       success: result => {
+  //         if(result && result.length>0) {
+  //           //  테이블 데이터 초기화
+  //           $('#myTable tbody').empty();
+
+  //           //  결과 데이터를 테이블에 추가
+  //           result.forEach((item, index) => {
+  //             let row = `<tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+  //               <td><input id="chkCondition" type="checkbox" name="row_CheckBox"></td>
+  //               <td scope="row">${index+1}</td>
+  //               <td scope="row">${item.call_date}</td>
+  //               <td scope="row">${item.login_id}</td>
+  //               <td scope="row">${item.user_name}</td>
+  //               <td scope="row">${item.auto_coach}</td>
+  //               <td scope="row">${item.auto_standard}</td>
+  //               <td scope="row">${item.auto_detail}</td>
+  //               <td scope="row">${item.pass_etc}</td>
+  //             </tr>`;
+
+  //             $('#myTable tbody').append(row);
+  //           });
+
+  //           alert('조회 성공')
+  //         } else {
+  //           alert('조회 결과가 없습니다');
+  //         }
+  //       },
+  //       error: (xhr, status, error) => {
+  //         console.error('AJAX 오류:', error);
+  //         alert('데이터 조회 중 오류가 발생했습니다.');
+  //       }
+  //     });
+  //   });
+  // });
+  }
+
+  function applyFilters() {
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value;
+    const selectedConsultant = document.querySelector('.searchFilterLines:last-child .boxLabel').textContent.trim();
+
+    const tableRows = document.querySelectorAll("#jsTableRow");
+    let filteredRows = []; // 필터링된 행만 저장
+
+    tableRows.forEach(row => {
+      const rowDate = row.querySelector("td:nth-child(3)").textContent.trim();
+      const rowConsultant = row.querySelector("td:nth-child(5)").textContent.trim();
+      const rowLoginId = row.querySelector("td:nth-child(4)").getAttribute('data-login-id') || ""; // login_id를 데이터 속성에서 가져옴
+
+      let isVisible = true;
+
+      // 날짜 필터 적용
+      if (startDate && endDate) {
+        const rowDateValue = new Date(rowDate);
+        const startDateValue = new Date(startDate);
+        const endDateValue = new Date(endDate);
+
+        if (rowDateValue < startDateValue || rowDateValue > endDateValue) {
+          isVisible = false;
+        }
+      }
+
+      // 상담사 필터 적용
+      if (selectedConsultant !== "전체" && selectedConsultant !== "상담사를 선택하세요.") {
+            const [consultantName, consultantLoginId] = selectedConsultant.split(" | ");
+            if (!consultantName || !consultantLoginId || rowConsultant !== consultantName.trim() || rowLoginId !== consultantLoginId.trim()) {
+                isVisible = false;
+            }
+        }
+
+      // 필터 조건에 맞는 행만 배열에 추가
+      if (isVisible) {
+            filteredRows.push(row); // 필터링된 행 저장
+        }
+    });
+
+    // 모든 행 숨김
+    tableRows.forEach(row => (row.style.display = "none"));
+
+    // 필터링된 행만 표시
+    filteredRows.forEach(row => (row.style.display = ""));
+
+    // 필터링 결과가 없을 경우 경고 메시지
+    if (filteredRows.length === 0) {
+        alert("검색 조건에 맞는 데이터가 없습니다.");
+        jQuery('.pagination2').hide();
+        return;
+    }
+
+    jQuery('.pagination2').show();
+
+    // 필터링된 데이터를 기준으로 페이지네이션 재구성
+    pagination(filteredRows);
+  }
+</script>

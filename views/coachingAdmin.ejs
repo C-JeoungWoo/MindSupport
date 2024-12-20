@@ -1,0 +1,402 @@
+<div class="inner">
+
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_name %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="mainTitle flex">
+    <h2>관리자 코칭</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">
+      새로고침
+      <span></span>
+    </button>
+  </div>
+  
+  <div class="searchFilters">
+    <div class="searchTextFilter">
+      <h3>감성판단</h3>
+      <div class="flex gap">
+        <div class="searchFilterLines solo">
+          <label>상담그룹</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" id='searchGroup' onclick="selectBox(this)" aria-label="상담그룹 선택">전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>일반문의</a></li>
+                <li class="item"><a>민원접수</a></li>
+                <li class="item"><a>제품판매</a></li>
+                <li class="item"><a>기타접수</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="searchFilterLines solo">
+          <label>상담사 명</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" id="filterConsultantName"  maxlength='10' aria-label="상담사 명 입력" >상담사를 선택하세요.</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <% if (selected_user.length == 0) { %>
+                  <tr>
+                    <td colspan="7">표시할 데이터가 없습니다</td>
+                  </tr>
+                <% } else { %>
+                  <% for(var i=0; i<selected_user.length; i++) {
+                    let data = selected_user[i]; %>
+  
+                    <li class="item"><a><%= data.login_id %> | <%= data.user_name %></a></li>
+                  <% } %>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+        </div>
+          <button type="button" class="primaryBtn" id="coach_search" aria-label="감성판단 검색" onclick="applyFilters()">검색</button>
+      </div>
+    </div>
+  </div>
+  <!-- itemWrap div start -->
+  <div class="pagelist">
+  <div class="itemWrap titlegap">
+    <div class="item borderGrey padding">
+      <div class="title dltGap">
+        <h4 class="grey">검색 결과</h4>
+      </div>
+      <table class="gap" id="adminTable">
+        <colgroup>
+          <col style="width:10%;">
+          <col style="width:10%;">
+          <col style="width:15%;">
+          <col style="width:10%;">
+          <col style="width:10%;">
+          <col style="width:10%;">
+          <col style="width:10%;">
+          <col style="width:10%;">
+          <col style="width:auto;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>코칭번호</th>
+            <th>날짜</th>
+            <th style="display: none;">시간</th>
+            <th>시간</th>
+            <th>상담그룹</th>
+            <th>ID</th>
+            <th>이름</th>
+            <th>감성(화남)</th>
+            <th>감성(슬픔)</th>
+            <th>통화건수</th>
+            <th>판단</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (needed_coach.length == 0) { %> 
+            <tr>
+              <td colspan="10">표시할 데이터가 없습니다</td>
+            </tr>
+          <% } else { %>
+            <% for(var i=0; i<needed_coach.length; i++) {
+              let data = needed_coach[i]; %>
+
+              <tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+                <!-- 코칭등록번호 -->
+                <td scope="row" id="getSeqNo"><%= data.auto_seq %></td>
+
+                <!-- 날짜 -->
+                <td scope="row" id="getCallDate"><%= data.call_date %></td>
+
+                <!-- 시간(숨기는 컨텐츠) -->
+                <td scope="row" style="display: none;" id="getCallTime"><%= data.call_time %></td>
+
+                <!-- 시간(10분) -->
+                <td scope="row"><%= data.time_range %></td>
+
+                <!-- 상담 그룹  -->
+                <td scope="row"><%=data.group_type %></td>
+
+                <!-- ID -->
+                <td scope="row"><%= data.login_id %></td>
+
+                <!-- 이름 -->
+                <td scope="row"><%= data.user_name %></td>
+
+                <!-- 감성(화남) -->
+                <td scope="row"><%= data.agent_anger %></td>
+
+                <!-- 감성(슬픔) -->
+                <td scope="row"><%= data.agent_sad %></td>
+
+                <!-- 통화횟수 -->
+                <td scope="row"><%= data.call_count %></td>
+
+                <!-- 판단 -->
+                <% if (data.auto_coach == 'P') { %> 
+                  <td scope="row"><button style="display: block; margin: 0 auto;" 
+                    class="primaryBtn needCoaching" type="button" onclick="coachingModalOpen()">코칭하기</button></td>
+                <% } else { %>
+                  <td scope="row"></td>
+                <% } %>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+      
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+</div><!-- itemWrap div end -->
+
+<!-- 수동코칭 div start -->
+<div class="modals" id="updateModal">
+  <div class="modal-content">
+    <div class="modalTitle">
+      <h4>코칭메세지 전송</h4>
+        <button type="button" class="modal-close" onclick="coachingModalClose()" aria-label="코칭메시지 모달 닫기"></button>
+    </div>
+    <div class="modal-body">
+      <div class="inputWrap grid gap">
+        <div class="grid twin">
+          <div>
+            <label>상담원 ID</label>
+            <input type="text" name="" id="getLoginId" value="" aria-label="상담사 ID" disabled/>
+          </div>
+
+          <div>
+            <label>시간(초)</label>
+            <input type="text" name="" id="getTimeRange" value="" aria-label="기준시간" disabled/>
+          </div>
+        </div>
+
+        <div class="grid twin">
+          <div>
+            <label>감성(화남)</label>
+            <input type="text" name="" id="getOverAngerP" value="" aria-label="감성(화남)" disabled/>
+          </div>
+
+          <div>
+            <label>감성(슬픔)</label>
+            <input type="text" name="" id="getOverSadP" value="" aria-label="감성(슬픔)" disabled/>
+          </div>
+        </div><!-- grid twin div end -->
+
+        <div>
+          <label>코칭내용</label>
+          <textarea name="" id="getMsgDetail" cols="30" rows="10" aria-label="코칭 내용 입력"></textarea>
+        </div>
+      </div>
+      <div class="btnWrap gap">
+        <ul>
+          <li><button type="button" id="sendCoaching" name="row_CheckBox" class="primaryBtn" aria-label="코칭메시지 전송">코칭하기</button></li>
+          <li><button type="button" class="secondaryBtn" onclick="coachingModalClose()" aria-label="코칭메시지 모달 닫기">취소</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-bg"></div>
+</div><!-- 수동코칭 div end-->
+
+<script>
+  // 선택된 행 가져오기
+  let tdArr = new Array();
+
+  $(document).ready(() => {
+    const table = document.getElementById('adminTable');
+    
+    table.addEventListener('click', (e) => {
+      if (e.target && e.target.classList.contains('needCoaching')) {
+        const button = e.target;
+        const row = button.closest('tr');
+        
+        // 행의 모든 셀 데이터를 배열로 가져옵니다.
+        tdArr = Array.from(row.cells).map(cell => cell.textContent.trim());
+        
+        // 버튼을 제외한 셀 데이터만 가져옵니다.
+        tdArr = tdArr.slice(0, -1);
+        
+        console.log('Row Data:', tdArr);
+        
+        // 여기서 rowData를 사용하여 원하는 작업을 수행할 수 있음
+        // 예: alert로 데이터 표시
+        // alert('Row Data: ' + tdArr.join(', '));
+
+        updatingModalOpen(tdArr);
+      }
+    });
+
+    $("#sendCoaching").click(() => {
+      //  코칭 전송 모달 데이터 담기
+      let selectedValues = {
+        getSeqNo: document.getElementById('getSeqNo').textContent,
+        getCallTime: document.getElementById('getCallTime').textContent,
+        getLoginId: document.getElementById('getLoginId').value, //  상담원 ID
+        getOverAngerP: document.getElementById('getOverAngerP').value, //  감성(화남)
+        getOverSadP: document.getElementById('getOverSadP').value, //  감성(슬픔)
+        getMsgDetail: document.getElementById('getMsgDetail').value // 코칭내용
+      };
+      
+      console.log(selectedValues.getMsgDetail); // 코칭 내용 확인
+      // 위의 값들을
+      $.ajax({
+        url: '/coachingAdmin/sendMsg',
+        dataType: 'JSON',
+        contentType: 'application/json',
+        type: 'POST',
+        data: JSON.stringify(selectedValues),
+        success: result => {
+          if (result.message === 'success') {
+            alert(`정상적으로 전송되었습니다.`);
+
+            coachingModalClose();
+            location.reload();
+          } else {
+            console.log(result.message);
+            alert(`현재 접속중인 상담원이 아닙니다`);
+            coachingModalClose();
+          }
+        },
+        error: (xhr, status, error) => {
+          console.error('Error:', xhr.responseText);
+          alert('전송중 오류가 발생했습니다: ' + xhr.responseText);
+        }
+      });
+    });
+  });
+
+// workstatusMain에서 넘겨준 데이터를 기반으로 검색 필터 적용
+  {
+    const usersearchId = "<%= filtered_user_loginid || ''%>";
+    const usersearchName = "<%= filtered_user_name || ''%>";
+    
+    // 검색 조건에 값 설정
+    if(usersearchId && usersearchName){
+      const filterConsultantName = usersearchId +" | "+ usersearchName;
+      
+      if (performance.navigation.type === 1) { // 새로고침시 필터 검색 조건 초기화
+        // 기본값으로 초기화
+        document.getElementById('filterConsultantName').textContent = "상담사를 선택하세요."; 
+        document.getElementById('searchGroup').textContent = "전체"; 
+      }
+      else if (usersearchId && usersearchName) {
+        document.getElementById('filterConsultantName').textContent = filterConsultantName; // 상담원 이름 입력 필드
+
+        // 페이지가 모두 로딩된 이후에 검색버튼을 실행
+        // 그렇지 않으면 적용되지 않음
+        window.onload = () => {
+          applyFilters();
+        };
+      }
+    } else {
+      console.warn("필터 검색 조건이 설정되지 않았습니다.");
+    }
+  }
+
+  // 검색 필터링 함수
+  function applyFilters() {
+    // 필터 값 가져오기
+    const selectedGroup = document.querySelector('.searchFilterLines.solo:nth-child(1) .boxLabel').textContent.trim();
+    const selectedConsultant = document.querySelector('.searchFilterLines.solo:nth-child(2) .boxLabel').textContent.trim();
+    // 테이블의 모든 행 가져오기
+    const tableRows = document.querySelectorAll("#adminTable tbody .jsTableRow");
+    let filteredRows = []; // 필터링된 행만 저장
+
+    tableRows.forEach(row => {
+        const rowGroup = row.querySelector("td:nth-child(5)").textContent.trim(); // 상담 그룹 열
+        const rowConsultantName = row.querySelector("td:nth-child(7)").textContent.trim(); // 상담사 이름 열
+        const rowLoginId = row.querySelector("td:nth-child(6)").textContent.trim(); // 상담사 ID 열
+
+        let isVisible = true;
+
+        // 상담 그룹 필터 적용
+        if (selectedGroup !== "전체" && selectedGroup !== "") {
+            if (rowGroup !== selectedGroup) {
+                isVisible = false;
+            }
+        }
+
+        // 상담사 필터 적용
+        if (selectedConsultant !== "전체" && selectedConsultant !== "상담사를 선택하세요.") {
+            const [consultantLoginId, consultantName] = selectedConsultant.split(" | ");
+            if (
+                !consultantName || !consultantLoginId ||
+                rowConsultantName !== consultantName.trim() ||
+                rowLoginId !== consultantLoginId.trim()
+            ) {
+              isVisible = false;
+            }
+        }
+
+        // 필터 조건에 맞는 행만 배열에 추가
+        if (isVisible) {
+            filteredRows.push(row); // 필터링된 행 저장
+        }
+    });
+
+    // 모든 행 숨김
+    tableRows.forEach(row => (row.style.display = "none"));
+
+    // 필터링된 행만 표시
+    filteredRows.forEach(row => (row.style.display = ""));
+
+    // 필터링 결과가 없을 경우 경고 메시지
+    if (filteredRows.length === 0) {
+        alert("검색 조건에 맞는 데이터가 없습니다.");
+        jQuery('.pagination2').hide();
+        return;
+    }
+
+    jQuery('.pagination2').show();
+
+    // 필터링된 데이터를 기준으로 페이지네이션 재구성
+    pagination(filteredRows);
+}
+
+  //  체크박스 전체 선택
+  function allselect(bool) {
+    let chks = document.getElementsByName("row_CheckBox");
+    
+    for(let i = 0; i < chks.length; i++){
+      chks[i].checked = bool;
+    }
+  }
+
+  //  모달 수정하기
+  function updatingModalOpen(tdArr) {
+    //  모달 창 항목들에 값 설정
+    $("#getSeqNo").val(tdArr[0]);
+    $("#getCallDate").val(tdArr[1]);
+    $("#getCallTime").val(tdArr[2]);
+    $("#getTimeRange").val(tdArr[3]);
+    $("#getLoginId").val(tdArr[5]);
+    $("#getOverAngerP").val(tdArr[7]);
+    $("#getOverSadP").val(tdArr[8]);
+
+    //  수정 모달 창 열기
+    $('#updateModal').stop().fadeIn();
+  }
+
+  function coachingModalOpen() { 
+    $('.modals').stop().fadeIn();  
+
+  }
+  
+  function coachingModalClose() { $('.modals').stop().fadeOut(); }
+
+</script>

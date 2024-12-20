@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.768" height="22.768" viewBox="0 0 22.768 22.768">
+  <g id="ic_search" transform="translate(-1624 -83)">
+    <g id="타원_64" data-name="타원 64" transform="translate(1624 83)" fill="none" stroke="#fff" stroke-width="2.5">
+      <ellipse cx="9.5" cy="9.5" rx="9.5" ry="9.5" stroke="none"/>
+      <ellipse cx="9.5" cy="9.5" rx="8.25" ry="8.25" fill="none"/>
+    </g>
+    <line id="선_107" data-name="선 107" x2="5.142" y2="5.142" transform="translate(1639.858 98.858)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="2.5"/>
+  </g>
+</svg>

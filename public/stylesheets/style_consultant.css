@@ -1,0 +1,320 @@
+body {
+  font-family: 'NanumSquareRound';
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+@font-face {
+  font-family: 'NanumSquareRound';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#topNav {
+  width: 100%;
+  height: 50px;
+  background-color: #212529;
+  color: whitesmoke;
+  overflow: hidden;
+}
+
+.navbar-brand {
+  width: 85%;
+  display: block;
+  height: 6vh;
+  float: left;
+  margin: 0;
+}
+
+.navbar-brand a {
+  padding-left: 1%;
+}
+
+.navbar_client {
+  float: left;
+  width: 9%;
+  height: 6vh;
+  display: block;
+  margin-top: 1%;
+}
+
+.inner_client {
+  font-size: 1em;
+  text-align: right;
+}
+
+.navbar_form {
+  float: left;
+  width: 6%;
+  display: block;
+  height: 6vh;
+}
+
+.navbar_form form {
+  text-align: center;
+  padding-top: 9%;
+}
+
+#main_menu {
+  width: 70%;
+  margin: 0 auto;
+  background-color: #ddd;
+  height: 3em;
+  text-align: center;
+}
+/******************************************/
+.wrap {
+  width: 70%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.left_client {
+  float: left;
+  width: 40%;
+  margin-top: 4%;
+  padding: 1%;
+}
+
+.left_client h5 {
+  display: block;
+  width: 100%;
+  border-bottom: 2px solid lightgray;
+  padding: 1%;
+}
+
+.left_client .form-group {
+  margin-top: 3.5%;
+}
+
+.left_client form .form-group label {
+  width: 20%;
+  font-weight: bold;
+  padding-bottom: 1%;
+}
+
+.btn-group {
+  margin-top: 2%;
+}
+
+.btn-group input {
+  margin-right: 3%;
+}
+
+.client_save {
+  height: 3em;
+  border: none;
+}
+
+.counsel_detail textarea {
+  height: 6em;
+  border-radius: 4px;
+  resize: none;
+}
+
+.srchBox {
+  float: left;
+  width: 60%;
+  margin-top: 3.2%;
+}
+
+.srchBox label {
+  font-weight: bold;
+  padding-bottom: 1%;
+}
+
+#EventMsg {
+  resize: none;
+  overflow-y:auto; 
+  width: 100%; 
+  height: 48vh;
+  white-space: pre-wrap;
+}
+
+.emotion_status {
+  border-bottom: 2px solid lightgray;
+  margin-top: 1.4%;
+}
+
+/* ********************************* */
+
+/* 20241218 메세지 창 크기 조정 */
+.fromManager {
+  padding: 1em;
+  width: 167%;
+  height: 50%;
+}
+
+.fromManager p span{
+  font-size: larger;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1%;
+}
+
+.fromManager textarea {
+  background-color: white !important;
+}
+
+.btn-group {
+  width: 100%;
+  list-style: none;
+  text-decoration: none;
+  padding: 0;
+}
+
+.startButton1 {
+  border: none;
+}
+
+.stopButton1 {
+  border: none;
+}
+
+.client_save {
+  height: 3em;
+}
+
+.gsmStart {
+  height: 3em;
+}
+
+.gsmStop {
+  height: 3em;
+}
+
+#EventMsg {
+  font-size: small;
+  font-weight: bold;
+}
+
+/****************************************/
+.bottom_emotion_table {
+  float: left;
+  margin-top: 1%;
+  width: 100%;
+}
+
+.counseling_list {
+  width: 100%;
+  padding: 1%;
+  overflow: hidden;
+}
+
+.text_left {
+  float: left;
+  width: 89%;
+  font-weight: bold;
+  margin-bottom: 0;
+  padding-top: 0.5%;
+  margin-top:2%;
+}
+
+.button_right {
+  float: left;
+  width: 11%;
+}
+
+.bottom_emotion_table .button_right {
+  margin-top:2%;
+  display: block;
+  float: right;
+}
+
+.counseling_list #myTable {
+  text-align: center;
+}
+
+/***************************************/
+/* .page {
+  vertical-align: middle;
+  text-align: center;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.page .pagination2{
+  padding: 0%;
+  display: inline-block;
+  list-style: none;
+}
+
+.pagination2 li {
+  display: inline;
+  text-align: center;
+}
+
+.pagination2 li:first-child {
+  margin-right: 1em;
+}
+
+.pagination2 li:last-child {
+  margin-left: 1em;
+}
+
+.pagination2 > li > a {
+  margin-right : 1em;
+  cursor : pointer;
+  float: left;
+  padding: 0.5em 0.8em;
+  line-height: 1.42857143;
+  color: #337ab7;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.pagination2 > li > a:hover {
+  background-color: #337ab7;
+  color: #fff;
+} */
+
+/************************************************/
+
+/***************************************/
+.page {
+  vertical-align: middle;
+  text-align: center;
+  width: 50%;
+  margin: 30px auto;
+}
+.page .pagination2 {
+  padding: 0%;
+  display: inline-block;
+  list-style: none;
+}
+
+.pagination2 li {
+  display: inline;
+  text-align: center;
+}
+.pagination2 > li > a {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1em;
+  cursor: pointer;
+  float: left;
+  padding: 0.5em 0.8em;
+  line-height: 1.42857143;
+  color: #000000;
+  text-decoration: none;
+}
+.pagination2 > li > a > img {
+  vertical-align: middle;
+}
+.pagination2 > li > a:hover {
+  border-radius: 5px;
+  background-color: #E4E7EC;
+  color: #fff;
+}
+.pagination2 > li.active a {
+  border-radius: 5px;
+  background-color: #E4E7EC;
+}

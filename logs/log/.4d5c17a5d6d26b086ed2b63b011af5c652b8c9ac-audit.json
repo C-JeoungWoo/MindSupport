@@ -1,0 +1,160 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/231121_Node_test/logs/log/.4d5c17a5d6d26b086ed2b63b011af5c652b8c9ac-audit.json",
+    "files": [
+        {
+            "date": 1713409506534,
+            "name": "/home/231121_Node_test/logs/log/240418_12.log",
+            "hash": "7b4d65ef47bcc1a928b89f203cbcb0e59a8410de57b57d7092ff516834928032"
+        },
+        {
+            "date": 1713416103406,
+            "name": "/home/231121_Node_test/logs/log/240418_13.log",
+            "hash": "0bf3599768c36bf0ebb414b34731edddd02f73e0abb9d618180907a31d2be088"
+        },
+        {
+            "date": 1713416594540,
+            "name": "/home/231121_Node_test/logs/log/240418_14.log",
+            "hash": "ffcd62ad2d7b513d4eb56bdbf9ca0c283d1a3c6124c951534be0b5b96ef1c384"
+        },
+        {
+            "date": 1713421686912,
+            "name": "/home/231121_Node_test/logs/log/240418_15.log",
+            "hash": "ad0d0b9c868c99b9369ad2c525b3b19fc104c076da0fe597bd25a133f7b6ec4a"
+        },
+        {
+            "date": 1713492109066,
+            "name": "/home/231121_Node_test/logs/log/240419_11.log",
+            "hash": "8b2f75a479cc212ee46907c329a5985e23bdd9409eabce5c03460b1217e9b02c"
+        },
+        {
+            "date": 1713502296033,
+            "name": "/home/231121_Node_test/logs/log/240419_13.log",
+            "hash": "cf8982393c2dcb5790ba9d26f274b5e735c6b24b454ccd00457587e0f7527f35"
+        },
+        {
+            "date": 1713502842929,
+            "name": "/home/231121_Node_test/logs/log/240419_14.log",
+            "hash": "0305d6492b860af7867a3e86dabbab2d8aa80c62aa1523bfd35691c28fe253be"
+        },
+        {
+            "date": 1713751227458,
+            "name": "/home/231121_Node_test/logs/log/240422_11.log",
+            "hash": "728e68f9776bdf12a4ba37f4a3694c09f573931d64e4bc0bc4c74d8255faf091"
+        },
+        {
+            "date": 1713763174049,
+            "name": "/home/231121_Node_test/logs/log/240422_14.log",
+            "hash": "9a96a424d5bc10bff40018b6022360b7097683eab4264cc0067e8775b176f2d1"
+        },
+        {
+            "date": 1713833337100,
+            "name": "/home/231121_Node_test/logs/log/240423_09.log",
+            "hash": "1799c804226728b4a9c57fa7907fcab951181caaff3aff8efd1a0b618dba34d2"
+        },
+        {
+            "date": 1713835998566,
+            "name": "/home/231121_Node_test/logs/log/240423_10.log",
+            "hash": "db5ee5a24abd4feb482139f5314c1230ec53488a59c8316990d02c81a00db2ec"
+        },
+        {
+            "date": 1713847163059,
+            "name": "/home/231121_Node_test/logs/log/240423_13.log",
+            "hash": "ac55ce99cb6c7aece15d877ed94022bb5213bfe8e2f6ef36dd24135e88c32f2f"
+        },
+        {
+            "date": 1713848401895,
+            "name": "/home/231121_Node_test/logs/log/240423_14.log",
+            "hash": "d25e8b5597bbbb56ef9e2836c64613e68e2a8bf676cee8b1a182440bd94c7dac"
+        },
+        {
+            "date": 1713852157134,
+            "name": "/home/231121_Node_test/logs/log/240423_15.log",
+            "hash": "f20a8dc9aabd39b6c5ef44d575a7e96b2b766061c2080cd84afd6ba180600a86"
+        },
+        {
+            "date": 1713937132143,
+            "name": "/home/231121_Node_test/logs/log/240424_14.log",
+            "hash": "a1bd16aa64c3360555b9b35c8b3b7476acb3f83535c2af831b20020af12433ae"
+        },
+        {
+            "date": 1714096243269,
+            "name": "/home/231121_Node_test/logs/log/240426_10.log",
+            "hash": "20f2b4565676a4d805e594f3e82469a1f1b4b5f8c268cb8c1df5ed48ba426e44"
+        },
+        {
+            "date": 1714096835421,
+            "name": "/home/231121_Node_test/logs/log/240426_11.log",
+            "hash": "cad02800cf0467f3af80dac4b9afb8d890832da6f4ef4c148b25b3f83f219452"
+        },
+        {
+            "date": 1714105988049,
+            "name": "/home/231121_Node_test/logs/log/240426_13.log",
+            "hash": "ccf6d1de4411e41faf76851256d5302314dddb01bc890d0438106a2d6f32146a"
+        },
+        {
+            "date": 1714109403645,
+            "name": "/home/231121_Node_test/logs/log/240426_14.log",
+            "hash": "985028761b0777702d33024e952950555a4f79d8fc72f71c6045f79734858530"
+        },
+        {
+            "date": 1714111315963,
+            "name": "/home/231121_Node_test/logs/log/240426_15.log",
+            "hash": "cf65883975758001b353b07157b36717e5e6be10ac243431d3ff3a2210d6e239"
+        },
+        {
+            "date": 1714365737765,
+            "name": "/home/231121_Node_test/logs/log/240429_13.log",
+            "hash": "3ba46cdc33162f447dd1a9a6c8b108601498ece4fe30b728e0814ab3b66c07fa"
+        },
+        {
+            "date": 1714366850348,
+            "name": "/home/231121_Node_test/logs/log/240429_14.log",
+            "hash": "ccd7a4f292a83d8126329d569b891b55ce13781ea2938996d597f87bef4bfb8e"
+        },
+        {
+            "date": 1714374846630,
+            "name": "/home/231121_Node_test/logs/log/240429_16.log",
+            "hash": "8442321f4252ac57311cd42f211f7c9bcfd8a6d08290365b4991b51e78b58119"
+        },
+        {
+            "date": 1715215377659,
+            "name": "/home/231121_Node_test/logs/log/240509_09.log",
+            "hash": "4923bdf4ff9b0dcc7ba0861fc63744a04fc9b53b6e56b9c9bc0ee68e1196e530"
+        },
+        {
+            "date": 1715216820613,
+            "name": "/home/231121_Node_test/logs/log/240509_10.log",
+            "hash": "e7bca290e3221e8470cdc0d3ad3a120fc94dc6c9aa302a61b83d799d05e903f9"
+        },
+        {
+            "date": 1715220003219,
+            "name": "/home/231121_Node_test/logs/log/240509_11.log",
+            "hash": "53ed333099d49ae3b3c67c3ef42c83679d39c2b007178f027f84e846d28e866b"
+        },
+        {
+            "date": 1715560961957,
+            "name": "/home/231121_Node_test/logs/log/240513_09.log",
+            "hash": "a99fe84abfa12caf054dbfa4b87144c9bd5574e3cc3507e32f688525855edfeb"
+        },
+        {
+            "date": 1715562350408,
+            "name": "/home/231121_Node_test/logs/log/240513_10.log",
+            "hash": "605cf3d030eefc5f3e760c97e6331b6135835c30215eb3e9d0e84e80bb744b7e"
+        },
+        {
+            "date": 1715565666845,
+            "name": "/home/231121_Node_test/logs/log/240513_11.log",
+            "hash": "5b6c6ce3853794ee24bc7b9898cc9b00fe4b397999cd9b50c01c748d8acdca7d"
+        },
+        {
+            "date": 1715570052271,
+            "name": "/home/231121_Node_test/logs/log/240513_12.log",
+            "hash": "51e42decf485756b295ac6e82f1ed865b71ac3890bf3e3afabc3133aae30f8a1"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,858 @@
+[ app.js:sendChunk ] Chunk 1 logged at 1734403202436
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734403202433.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734403202461
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734403202457.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734403202477
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734403202473.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734403202491
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734403202487.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734403202504
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734403202501.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734403202517
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734403202513.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734403202535
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734403202531.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734403202551
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734403202548.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734403202564
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734403202561.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734403202592
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734403202589.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734403202626
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734403202623.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734403887460
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734403887458.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734403887475
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734403887472.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734403887493
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734403887490.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734403887509
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734403887505.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734403887524
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734403887522.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734403887545
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734403887541.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734403887558
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734403887554.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734403887576
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734403887573.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734403887590
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734403887586.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734403887604
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734403887600.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734403887629
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734403887627.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734404089478
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734404089474.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734404089501
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734404089496.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734404089540
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734404089533.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734404089556
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734404089553.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734404089572
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734404089570.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734404089592
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734404089589.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734404089604
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734404089601.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734404089617
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734404089614.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734404089642
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734404089639.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734404089675
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734404089673.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734404089727
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734404089722.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734404262218
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734404262216.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734404262233
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734404262229.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734404262263
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734404262261.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734404262280
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734404262278.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734404262295
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734404262294.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734404262310
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734404262308.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734404262338
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734404262335.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734404262365
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734404262360.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734404262379
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734404262377.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734404262410
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734404262404.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734404262446
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734404262442.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734404332301
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734404332299.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734404332316
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734404332312.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734404332361
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734404332352.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734404332379
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734404332376.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734404332392
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734404332390.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734404332405
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734404332404.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734404332421
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734404332419.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734404332434
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734404332431.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734404332448
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734404332445.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734404332475
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734404332471.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734404332502
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734404332496.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734404339124
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734404339122.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734404339143
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734404339136.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734404339169
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734404339165.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734404339191
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734404339188.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734404339209
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734404339207.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734404339225
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734404339220.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734404339242
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734404339237.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734404339271
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734404339265.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734404339291
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734404339287.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734404339308
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734404339305.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734404339324
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734404339323.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734404577002
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734404576999.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734404577019
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734404577015.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734404577034
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734404577032.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734404577051
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734404577045.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734404577078
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734404577066.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734404577094
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734404577090.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734404577110
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734404577107.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734404577123
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734404577120.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734404577149
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734404577145.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734404577180
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734404577175.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734404577230
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734404577228.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734404947493
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734404947490.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734404947507
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734404947503.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734404947523
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734404947520.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734404947547
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734404947541.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734404947562
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734404947559.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734404947580
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734404947576.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734404947596
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734404947592.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734404947611
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734404947607.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734404947638
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734404947632.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734404947667
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734404947661.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734404947707
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734404947703.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734405027221
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734405027219.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734405027240
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734405027237.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734405027267
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734405027264.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734405027289
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734405027287.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734405027321
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734405027318.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734405027352
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734405027350.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734405027378
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734405027373.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734405027403
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734405027401.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734405027432
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734405027429.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734405027471
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734405027469.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734405027520
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734405027518.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734405090187
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734405090184.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734405090208
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734405090206.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734405090224
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734405090222.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734405090240
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734405090237.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734405090264
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734405090263.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734405090279
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734405090275.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734405090297
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734405090295.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734405090321
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734405090319.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734405090333
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734405090331.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734405090348
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734405090345.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734405090370
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734405090369.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734481662999
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734481662995.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734481663016
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734481663011.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734481663037
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734481663035.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734481663055
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734481663052.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734481663068
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734481663066.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734481663083
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734481663078.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734481663101
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734481663096.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734481663117
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734481663114.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734481663131
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734481663129.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734481663149
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734481663146.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734481663165
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734481663163.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734485797106
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734485797103.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734485797126
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734485797122.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734485797141
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734485797138.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734485797155
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734485797152.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734485797171
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734485797167.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734485797192
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734485797186.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734485797211
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734485797209.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734485797228
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734485797225.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734485797249
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734485797246.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734485797271
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734485797266.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734485797291
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734485797285.pcm
+[ app.js:sendChunk ] Chunk 1 logged at 1734485910722
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 9293 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_1_1734485910719.pcm
+[ app.js:sendChunk ] Chunk 2 logged at 1734485910741
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7928 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_2_1734485910739.pcm
+[ app.js:sendChunk ] Chunk 3 logged at 1734485910755
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7996 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_3_1734485910752.pcm
+[ app.js:sendChunk ] Chunk 4 logged at 1734485910771
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_4_1734485910768.pcm
+[ app.js:sendChunk ] Chunk 5 logged at 1734485910785
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 4096 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_5_1734485910782.pcm
+[ app.js:sendChunk ] Chunk 6 logged at 1734485910799
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7995 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_6_1734485910793.pcm
+[ app.js:sendChunk ] Chunk 7 logged at 1734485910819
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7997 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_7_1734485910814.pcm
+[ app.js:sendChunk ] Chunk 8 logged at 1734485910834
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7998 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_8_1734485910830.pcm
+[ app.js:sendChunk ] Chunk 9 logged at 1734485910868
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 7975 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_9_1734485910860.pcm
+[ app.js:sendChunk ] Chunk 10 logged at 1734485911130
+Original length: 32000 bytes
+Padded length: 44000 bytes
+Actual data sent: 32000 bytes
+Non-zero bytes: 5235 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_10_1734485911127.pcm
+[ app.js:sendChunk ] Chunk 11 logged at 1734485911253
+Original length: 3584 bytes
+Padded length: 44000 bytes
+Actual data sent: 3584 bytes
+Non-zero bytes: 0 bytes
+Saved to: /home/241212_MindSupport/MindSupport/logs/audio_log/chunk_11_1734485911251.pcm

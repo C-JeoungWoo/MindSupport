@@ -1,0 +1,7 @@
+<svg id="ic_sub_navi_home" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="사각형_1614" data-name="사각형 1614" width="24" height="24" fill="none"/>
+  <g id="home" transform="translate(3 2)">
+    <path id="패스_38007" data-name="패스 38007" d="M3,9l9-7,9,7V20a2,2,0,0,1-2,2H5a2,2,0,0,1-2-2Z" transform="translate(-3 -2)" fill="none" stroke="#101828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="패스_38008" data-name="패스 38008" d="M9,12h6" transform="translate(-3 3)" fill="none" stroke="#101828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+  </g>
+</svg>

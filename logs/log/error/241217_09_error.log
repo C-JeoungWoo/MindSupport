@@ -1,0 +1,140 @@
+2024-12-17 09:40:28.314 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-17 09:40:28.315 [error] [ audioServices.js:handleNewFile ] ReferenceError: fileName is not defined
+2024-12-17 09:40:28.315 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-17 09:40:28.316 [error] [ audioServices.js:handleNewFile ] ReferenceError: fileName is not defined
+2024-12-17 09:47:43.646 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.647 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.658 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.658 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.757 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.758 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.761 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.761 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.866 [error] [ Consume:chEmoServiceStartRP ] Consume Error: TypeError: Cannot read properties of null (reading 'EngineType')
+2024-12-17 09:47:43.868 [error] [ Consume:ch2EmoServiceStartRP ] Consume Error: TypeError: Cannot read properties of null (reading 'EngineType')
+2024-12-17 09:47:43.870 [error] [ Consume:ch2EmoServiceStartRP ] Consume Error: TypeError: Cannot read properties of null (reading 'EngineType')
+2024-12-17 09:47:43.879 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.880 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.881 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.881 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.982 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.982 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:43.985 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:43.985 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.096 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.096 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.097 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.097 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.178 [error] [ Consume:chEmoServiceStartRP ] Consume Error: TypeError: Cannot read properties of null (reading 'EngineType')
+2024-12-17 09:47:44.199 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.199 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.200 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.201 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.301 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.302 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.303 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.304 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.410 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.410 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.411 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.411 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.515 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.516 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.516 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.516 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.618 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.619 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.619 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.619 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.720 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.722 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.723 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.724 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.827 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.830 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.831 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.831 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.934 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.935 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:44.936 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:44.936 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.041 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.041 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.042 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.042 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.145 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.146 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.147 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.147 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.271 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.272 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.274 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.275 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.375 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.375 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.376 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.377 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.478 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.479 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.480 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.480 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.591 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.591 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.593 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.594 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.697 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.698 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.698 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.698 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.804 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.804 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.805 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.805 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.916 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.916 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:45.916 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:45.917 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.017 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.017 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.018 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.018 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.119 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.120 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.121 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.121 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.223 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.223 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.224 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.224 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.328 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.328 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.329 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.329 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.431 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.431 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.431 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.432 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.541 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.542 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.543 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.544 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.647 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.647 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.647 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.648 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.750 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.751 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:46.751 [error] [ StreamProcessor:processFileStream ] Error processing file stream: ReferenceError: login_id is not defined
+2024-12-17 09:47:46.751 [error] [ audioServices.js:handleNewFile ] Failed to process chunk 1: undefined
+2024-12-17 09:47:54.104 [error] [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:47:54.105 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: Error: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:47:54.106 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:47:54.106 [error] [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:47:54.106 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: Error: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:47:54.107 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:48:01.417 [error] [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:48:01.418 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: Error: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:48:01.419 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:48:01.419 [error] [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:48:01.419 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: Error: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries
+2024-12-17 09:48:01.420 [error] [ audioServices.js:convertGsmToPcm ] Failed to send audio chunk 1: [ app.js:waitForRequiredSize ] Timeout waiting for size NaN bytes after 3 retries

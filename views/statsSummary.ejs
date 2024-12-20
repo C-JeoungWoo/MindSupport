@@ -1,0 +1,226 @@
+<div class="inner">
+  <div class="topBar">
+    <div class="rSideNav">
+      <a class="loginBtn" href="javascript:void(0);" onclick="javascript:toggleTips();" title="로그인정보" role="button">
+        <img src="../images/ic_user.svg" alt="유저아이콘">
+        <span id="loginUserId">안녕하세요, <%= session_id %>님.</span>
+      </a>
+      <div class="setUser">
+        <ul>
+          <li><a href="javascript:void(0);" onclick="javascript:goLogout();" title="로그아웃" role="button">로그아웃</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="mainTitle flex">
+    <h2>요약 통계</h2>
+    <button type="button" class="refreshBtn" onclick="pagerefresh()" aria-label="새로고침버튼">새로고침
+      <span></span>
+    </button>
+  </div>
+  
+  <div class="searchFilters">
+    <div class="searchTextFilter">
+      <h3>조회 조건</h3>
+      <div class="flex gap">
+        <div class="searchFilterLines">
+          <label>조회 기간</label>
+          <input type="text" class="datepicker calendar" placeholder="날짜를 선택하세요." maxlength='10' name='start-date' id='start-date' aria-label="시작일"  readonly>
+          <input type="text" class="datepicker calendar" placeholder="날짜를 선택하세요." maxlength='10' name='end-date' id='end-date' aria-label="종료일"  readonly>
+        </div>
+        <div class="searchFilterLines solo">
+          <label>상담 그룹</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)" maxlength='10' aria-label="상담 그룹명 입력" >전체</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <li class="item"><a>일반문의</a></li>
+                <li class="item"><a>제품판매</a></li>
+                <li class="item"><a>민원접수</a></li>
+                <li class="item"><a>기타접수</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="searchFilterLines">
+          <label>상담사 명</label>
+          <div class="selectWrap">
+            <div class="select">
+              <button type="button" class="boxLabel" onclick="selectBox(this)"  maxlength='10' aria-label="상담사 명 입력" >상담사를 선택하세요.</button>
+              <ul class="list">
+                <li class="item"><a>전체</a></li>
+                <% if (stats_summary_user_info.length == 0) { %>
+                  <tr>
+                    <td colspan="7">표시할 데이터가 없습니다</td>
+                  </tr>
+                <% } else { %>
+                <% for(var i=0; i<stats_summary_user_info.length; i++) {
+                  let data = stats_summary_user_info[i]; %>
+
+                  <li class="item"><a><%= data.user_name %>  |  <%= data.login_id %></a></li>
+                <% } %>
+                <% } %>
+              </ul>
+            </div>
+          </div>
+          <button type="button" class="primaryBtn" aria-label="검색 버튼" onclick="applyFilters()">검색</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="itemWrap titlegap">
+    <div class="item borderGrey padding">
+      <div class="title dltGap">
+        <h4 class="grey">검색 결과</h4>
+      </div>
+
+      <div class="pagelist">
+      <table class="merge gap">
+        <thead> 
+          <tr>
+            <th rowspan="2">NO</th>
+            <th rowspan="2">날짜</th>
+            <th rowspan="2">상담사 명</th>
+            <th rowspan="2">그룹명</th>
+            <th rowspan="2">연령</th>
+            <th rowspan="2">성별</th>
+            <th rowspan="2">직급</th>
+            <th rowspan="2">통화건수</th>
+            <th rowspan="2">총 통화시간</th>
+            <th rowspan="2">감성요청수</th>
+            <th colspan="5" class="nonBorder">감성인지결과</th>
+            <th colspan="2" class="nonBorder">특이사항</th>
+          </tr>
+          <tr>
+            <th class="bottom">행복</th> <!-- 행복 141 -->
+            <th class="bottom">평온</th> <!-- 평온 1747 -->
+            <th class="bottom">화남</th> <!-- 화남 50 -->
+            <th class="bottom">슬픔</th> <!-- 슬픔 67 -->
+            <th class="bottom">무응답</th> <!-- 무응답 ??? -->
+            <th class="bottom">자동</th>
+            <th class="bottom">수동</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% if (stats_summary.length == 0) { %>
+            <tr>
+              <td colspan="7">표시할 데이터가 없습니다</td>
+            </tr>
+          <% } else { %>
+            <% for(var i=0; i<stats_summary.length; i++) {
+              let data = stats_summary[i]; %>
+
+              <tr id="jsTableRow" class="jsTableRow" style="cursor: default; user-select:none">
+                <td><%= i+1 %></td>
+                <td><%= data.formatted_call_date %></td>
+                <td scope="row" data-login-id="<%= data.login_id %>"><%= data.user_name %></td>
+                <td scope="row"><%= data.group_type %></td>
+                <td scope="row"><%= data.age %></td>
+                <td scope="row"><%= data.sex %></td>
+                <td scope="row">대리</td>
+                <td scope="row"><%= data.total_records_per_date %> 건</td>
+
+                <td scope="row"><%= data.total_rec_duration_hms %></td>
+
+                <td scope="row"><%= data.emotion_records_per_date %> 회</td>
+
+                <td scope="row"><%= data.eei_emotion_info_happy %></td>
+                <td scope="row"><%= data.eei_emotion_info_peace %></td>
+                <td scope="row"><%= data.eei_emotion_info_angry %></td>
+                <td scope="row"><%= data.eei_emotion_info_sad %></td>
+                <td scope="row"><%= data.eei_emotion_info_none %></td>
+
+                <td scope="row"><%= data.auto_coach_count %></td>
+                <td scope="row"><%= data.manual_coach_count %></td>
+              </tr>
+              
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+
+      <div class="page">
+        <ul class="pagination2"></ul>
+      </div>
+      
+    </div>
+  </div>
+  </div>
+</div>
+
+<script>
+  // 검색 필터링 함수
+  function applyFilters() {
+    const startDate = document.getElementById("start-date").value;
+    const endDate = document.getElementById("end-date").value;
+    const selectedGroup = document.querySelector('.searchFilterLines.solo .boxLabel').textContent.trim();
+    const selectedConsultant = document.querySelector('.searchFilterLines:last-child .boxLabel').textContent.trim();
+
+    const tableRows = document.querySelectorAll("#jsTableRow");
+    let filteredRows = []; // 필터링된 행만 저장
+
+    tableRows.forEach(row => {
+      const rowDate = row.querySelector("td:nth-child(2)").textContent.trim();
+      const rowGroup = row.querySelector("td:nth-child(4)").textContent.trim();
+      const rowConsultant = row.querySelector("td:nth-child(3)").textContent.trim();
+      const rowLoginId = row.querySelector("td:nth-child(3)").getAttribute('data-login-id') || ""; // login_id를 데이터 속성에서 가져옴
+
+      let isVisible = true;
+
+      // 날짜 필터 적용
+      if (startDate && endDate) {
+        const rowDateValue = new Date(rowDate);
+        const startDateValue = new Date(startDate);
+        const endDateValue = new Date(endDate);
+
+        if (rowDateValue < startDateValue || rowDateValue > endDateValue) {
+          isVisible = false;
+        }
+      }
+
+      // 상담 그룹 필터 적용
+      if (selectedGroup !== "전체" && selectedGroup !== rowGroup) {
+        if (rowGroup !== selectedGroup) {
+          isVisible = false;
+        }
+      }
+
+      // 상담사 필터 적용
+      if (selectedConsultant !== "전체" && selectedConsultant !== "상담사를 선택하세요.") {
+            const [consultantName, consultantLoginId] = selectedConsultant.split(" | ");
+            if (!consultantName || !consultantLoginId || rowConsultant !== consultantName.trim() || rowLoginId !== consultantLoginId.trim()) {
+                isVisible = false;
+            }
+        }
+
+      // 필터 조건에 맞는 행만 배열에 추가
+      if (isVisible) {
+            filteredRows.push(row); // 필터링된 행 저장
+        }
+    });
+
+    // 모든 행 숨김
+    tableRows.forEach(row => (row.style.display = "none"));
+
+    // 필터링된 행만 표시
+    filteredRows.forEach(row => (row.style.display = ""));
+
+    // 필터링 결과가 없을 경우 경고 메시지
+    if (filteredRows.length === 0) {
+        alert("검색 조건에 맞는 데이터가 없습니다.");
+        jQuery('.pagination2').hide();
+        return;
+    }
+
+    jQuery('.pagination2').show();
+
+    // 필터링된 데이터를 기준으로 페이지네이션 재구성
+    pagination(filteredRows);
+  }
+  
+</script>

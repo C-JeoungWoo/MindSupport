@@ -1,0 +1,30 @@
+2024-12-16 12:21:57.526 [error] [ app.js:setErkApiMsg ] Error setting ErkApiMsg: erkApiMsg is not defined
+2024-12-16 12:22:19.614 [error] [ app.js:setErkApiMsg ] Error setting ErkApiMsg: audioServices.setErkApiMsg is not a function
+2024-12-16 12:22:45.831 [error] Error reading WAV file /home/241212_MindSupport/MindSupport/demo_files/20230823142311201_A_2501.wav: fsp is not defined
+2024-12-16 12:22:45.833 [error] [ app.js:sendAudioChunks ] sendAudioChunks 함수에서 오류 발생: ReferenceError: fsp is not defined
+2024-12-16 12:24:15.517 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:16.535 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:17.559 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:18.589 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:19.874 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:20.883 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:21.886 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:22.896 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:23.901 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:24.906 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:24:25.908 [error] [ app.js:sendChunk ] Error sending chunk 1: getCurrentTimestamp is not defined
+2024-12-16 12:25:42.955 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:25:43.965 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:25:44.967 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:25:46.067 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:25:47.071 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:25:48.072 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:16.846 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:17.853 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:18.947 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:20.048 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:21.063 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:22.066 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:23.071 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:24.089 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined
+2024-12-16 12:27:25.100 [error] [ app.js:sendChunk ] Error sending chunk 1: getServerTimezone is not defined

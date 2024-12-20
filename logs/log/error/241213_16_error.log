@@ -1,0 +1,44 @@
+2024-12-13 16:00:16.874 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_rx.wav
+2024-12-13 16:00:16.876 [error] [ audioServices.js:handleNewFile ] ReferenceError: remainingDataSize is not defined
+2024-12-13 16:00:16.880 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav
+2024-12-13 16:00:16.880 [error] [ audioServices.js:handleNewFile ] Error: ENOENT: no such file or directory, stat '/home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav'
+2024-12-13 16:09:50.546 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:09:50.550 [error] [ audioServices.js:handleNewFile ] Error: Invalid audio format: 0x1
+2024-12-13 16:09:50.553 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:09:50.554 [error] [ audioServices.js:handleNewFile ] Error: Invalid audio format: 0x1
+2024-12-13 16:21:21.490 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:21:21.491 [error] [ audioServices.js:handleNewFile ] ReferenceError: remainingDataSize is not defined
+2024-12-13 16:21:21.493 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:21:21.494 [error] [ audioServices.js:handleNewFile ] ReferenceError: remainingDataSize is not defined
+2024-12-13 16:29:25.890 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav
+2024-12-13 16:29:25.892 [error] [ audioServices.js:handleNewFile ] Error: ENOENT: no such file or directory, open '/home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_tx.wav'
+2024-12-13 16:29:25.900 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20241119142311200_A_2501_rx.wav
+2024-12-13 16:29:25.901 [error] [ audioServices.js:handleNewFile ] ReferenceError: remainingDataSize is not defined
+2024-12-13 16:32:10.054 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:32:10.055 [error] [ audioServices.js:handleNewFile ] ReferenceError: CHUNK_SIZE is not defined
+2024-12-13 16:32:10.057 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:32:10.057 [error] [ audioServices.js:handleNewFile ] ReferenceError: CHUNK_SIZE is not defined
+2024-12-13 16:35:34.575 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:35:34.575 [error] [ audioServices.js:handleNewFile ] ReferenceError: remainingDataSize is not defined
+2024-12-13 16:35:34.578 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:35:34.579 [error] [ audioServices.js:handleNewFile ] ReferenceError: remainingDataSize is not defined
+2024-12-13 16:37:43.506 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:37:43.506 [error] [ audioServices.js:handleNewFile ] ReferenceError: CHUNK_SIZE is not defined
+2024-12-13 16:37:43.511 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:37:43.511 [error] [ audioServices.js:handleNewFile ] ReferenceError: CHUNK_SIZE is not defined
+2024-12-13 16:40:32.793 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:40:32.793 [error] [ audioServices.js:handleNewFile ] ReferenceError: options is not defined
+2024-12-13 16:40:32.795 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:40:32.795 [error] [ audioServices.js:handleNewFile ] ReferenceError: options is not defined
+2024-12-13 16:43:59.583 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:43:59.584 [error] [ audioServices.js:handleNewFile ] ReferenceError: options is not defined
+2024-12-13 16:43:59.585 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:43:59.586 [error] [ audioServices.js:handleNewFile ] ReferenceError: options is not defined
+2024-12-13 16:58:26.036 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:58:26.037 [error] [ audioServices.js:handleNewFile ] ReferenceError: options is not defined
+2024-12-13 16:58:26.039 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:58:26.039 [error] [ audioServices.js:handleNewFile ] ReferenceError: options is not defined
+2024-12-13 16:59:16.158 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_tx.wav
+2024-12-13 16:59:16.158 [error] [ audioServices.js:handleNewFile ] TypeError: StreamProcessor.processFileStream is not a function
+2024-12-13 16:59:16.160 [error] [ audioServices.js:handleNewFile ] Error handling file /home/241212_MindSupport/MindSupport/ms_nfs_mount/20230823142311200_A_2501_rx.wav
+2024-12-13 16:59:16.160 [error] [ audioServices.js:handleNewFile ] TypeError: StreamProcessor.processFileStream is not a function

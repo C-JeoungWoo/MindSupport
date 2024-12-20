@@ -1,0 +1,5 @@
+2024-12-16 16:04:02.772 [error] [ app.js:loadProto ] TypeError: audioServices.setChannelsAndQueues is not a function
+2024-12-16 16:51:09.052 [error] [ audioServices.js:EmoServiceStartRQ ] ReferenceError: ErkQueueInfo is not defined
+2024-12-16 16:58:00.208 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of undefined (reading 'user_uuid')
+2024-12-16 16:59:25.761 [error] [ audioServices.js:EmoServiceStartRQ ] ReferenceError: results is not defined
+2024-12-16 16:59:59.169 [error] [ audioServices.js:EmoServiceStartRQ ] TypeError: Cannot read properties of undefined (reading 'user_uuid')

@@ -1,0 +1,259 @@
+body {
+  /* font-family: 'NanumSquareRound'; */
+  /* font-family: 'TTLaundryGothicB'; */
+  /* font-family: 'TmoneyRoundWindExtraBold'; */
+  font-family: '-apple-system';
+  /* font-family: NanumBarunGothic; */
+  /* font-family: 'Katuri'; */
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+@font-face {
+    font-family: 'TTLaundryGothicB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'NanumSquareRound';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TmoneyRoundWindExtraBold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Katuri';
+  src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_13@1.0/Katuri.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#topNav {
+  width: 100%;
+  height: 50px;
+  background-color: #212529;
+  color: whitesmoke;
+  overflow: hidden;
+}
+
+.navbar-brand {
+  width: 85%;
+  display: block;
+  height: 6vh;
+  float: left;
+  margin: 0;
+}
+
+.navbar-brand a {
+  padding-left: 1%;
+}
+
+.navbar_client {
+  float: left;
+  width: 9%;
+  height: 6vh;
+  display: block;
+  margin-top: 1%;
+}
+
+.inner_client {
+  font-size: 1em;
+  text-align: right;
+}
+
+.navbar_form {
+  float: left;
+  width: 6%;
+  display: block;
+  height: 6vh;
+}
+
+.navbar_form form {
+  text-align: center;
+  padding-top: 9%;
+}
+
+#main_menu {
+  width: 70%;
+  margin: 0 auto;
+  background-color: #ddd;
+  height: 3em;
+  text-align: center;
+}
+/******************************************/
+.wrap {
+  width: 70%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.left_client {
+  float: left;
+  width: 40%;
+  margin-top: 4%;
+  padding: 1%;
+}
+
+.left_client h5 {
+  display: block;
+  width: 100%;
+  border-bottom: 2px solid lightgray;
+  padding: 1%;
+}
+
+.left_client .form-group {
+  margin-top: 3.5%;
+}
+
+.left_client form .form-group label {
+  width: 20%;
+  font-weight: bold;
+  padding-bottom: 1%;
+}
+
+.btn-group {
+  margin-top: 2%;
+}
+
+.btn-group input {
+  margin-right: 3%;
+}
+
+.client_save {
+  height: 3em;
+  border: none;
+}
+
+.counsel_detail textarea {
+  height: 6em;
+  border-radius: 4px;
+  resize: none;
+}
+
+.srchBox {
+  float: left;
+  width: 60%;
+  margin-top: 3.2%;
+}
+
+.srchBox label {
+  font-weight: bold;
+  padding-bottom: 1%;
+}
+
+#EventMsg {
+  resize: none;
+  overflow-y:auto; 
+  width: 100%; 
+  height: 43vh;
+  white-space: pre-wrap;
+}
+
+.emotion_status {
+  border-bottom: 2px solid lightgray;
+  margin-top: 1.4%;
+}
+
+/* ********************************* */
+
+.fromManager {
+  padding: 1em;
+  width: 100%;
+  height: 50vh;
+}
+
+.fromManager p span{
+  font-size: larger;
+  font-weight: bold;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1%;
+}
+
+.fromManager textarea {
+  background-color: white !important;
+}
+
+.btn-group {
+  width: 100%;
+  list-style: none;
+  text-decoration: none;
+  padding: 0;
+}
+
+.startButton1 {
+  border: none;
+}
+
+.stopButton1 {
+  border: none;
+}
+
+.client_save {
+  height: 3em;
+}
+
+#EventMsg {
+  font-size: small;
+  font-weight: bold;
+}
+
+.bottom_emotion_table {
+  float: left;
+  margin-top: 1%;
+  width: 100%;
+}
+
+.counseling_list {
+  width: 100%;
+  padding: 1%;
+  overflow: hidden;
+}
+
+.text_left {
+  float: left;
+  width: 89%;
+  font-weight: bold;
+  margin-bottom: 0;
+  padding-top: 0.5%;
+  margin-top:2%;
+}
+
+.button_right {
+  float: left;
+  width: 11%;
+}
+
+.bottom_emotion_table .button_right {
+  margin-top:2%;
+  display: block;
+  float: right;
+}
+
+.counseling_list #myTable {
+  text-align: center;
+}
+
+
+#deletemodal-content{
+  text-align: center;
+  min-height: 150px;
+  border-radius: 15px;
+}
+#registmodal-content{
+  border-radius: 15px;
+}
+#updatemodal-content{
+  border-radius: 15px;
+}
