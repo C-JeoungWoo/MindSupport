@@ -37,18 +37,18 @@ const moment = require('moment');
 const cron = require('node-cron');
 
 // 1. 설정 및 유틸리티
-const DIRECTORIES = require('../MindSupport/config/directories');
-const DateUtils = require('../MindSupport/utils/dateUtils');
-const { setErkApiMsg, getErkApiMsg } = require('../MindSupport/utils/erkUtils');
+const DIRECTORIES = require('./config/directories');
+const DateUtils = require('./utils/dateUtils');
+const { setErkApiMsg, getErkApiMsg } = require('./utils/erkUtils');
 
 // 2. 서비스 모듈
-const audioServices = require('../MindSupport/services/audioServices');
-const StreamingService = require('../MindSupport/services/streamingService');  // audioServices로 잘못 import 되어 있던 부분 수정
+const audioServices = require('./services/audioServices');
+const StreamingService = require('./services/streamingService');  // audioServices로 잘못 import 되어 있던 부분 수정
 
 // 3. 매니저 모듈
-const EnhancedFSWatcher = require('../MindSupport/managers/EnhancedFSWatcher');
-const { QueueManager } = require('../MindSupport/managers/QueueManager');  // 경로 수정
-const { StreamProcessor } = require('../MindSupport/managers/StreamProcessor');  // 경로 수정
+const EnhancedFSWatcher = require('./managers/EnhancedFSWatcher');
+const { QueueManager } = require('./managers/QueueManager');  // 경로 수정
+const { StreamProcessor } = require('./managers/StreamProcessor');  // 경로 수정
 
 //  app.set - express 설정, 값 저장
 app.set('view engine', 'ejs');
@@ -92,10 +92,10 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.30",
+    host: "192.168.0.29",
     port: 3306,
-    user: "emo10",
-    password: "nb1234",
+    user: "root",
+    password: "spdlqj21",
     database: "ETRI_EMOTION" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
@@ -128,6 +128,8 @@ io.use(sharedSession(
     }), {
         autoSave: true
 }));
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 //////////////////////////////////////////////// [공통] ////////////////////////////////////////////////
 
@@ -186,7 +188,7 @@ app.get(`/consultant`, (req, res) => {
     ON a.AGENT_ID = b.login_id WHERE b.login_id = '${req.session.user.login_id}';`;
 
     //  마지막으로 전달받은 감성 표출
-    let emotion_type = `SELECT emotion_type FROM demo_emo_emotion_info
+    let emotion_type = `SELECT emotion_type FROM emo_emotion_info
     WHERE userinfo_userId = ${send_userinfo_id} ORDER BY send_dt DESC LIMIT 1;`
 
     connection.query(call_history_query + emotion_type, (err, results) => {
@@ -535,7 +537,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
                 eei.login_id,
                 eei.emotion_type,
                 COUNT(*) as today_count
-            FROM demo_emo_emotion_info eei
+            FROM emo_emotion_info eei
             INNER JOIN acr_v4.t_rec_data202406 trd
             ON eei.file_name = trd.REC_FILENAME
             WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
@@ -548,7 +550,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
                 eei.login_id,
                 eei.emotion_type,
                 COUNT(*) as yesterday_count
-            FROM demo_emo_emotion_info eei
+            FROM emo_emotion_info eei
             INNER JOIN acr_v4.t_rec_data202406 trd
             ON eei.file_name = trd.REC_FILENAME
             WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
@@ -587,11 +589,12 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             emotion_type as worker,
             accuracy
         FROM 
-            ETRI_EMOTION.demo_emo_emotion_info
+            ETRI_EMOTION.emo_emotion_info
         WHERE 
             DATE(send_dt) = CURDATE()  -- 현재 날짜의 데이터만 선택
             AND send_dt BETWEEN CURDATE() + INTERVAL 9 HOUR 
-                            AND CURDATE() + INTERVAL 18 HOUR  -- 9시부터 18시까지의 데이터
+            AND CURDATE() + INTERVAL 18 HOUR  -- 9시부터 18시까지의 데이터
+            AND login_id = '${getTodayEmo_loginId}'
         ORDER BY 
             file_seq, send_dt;`;
         
@@ -603,6 +606,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
         FROM acr_v4.t_rec_data202406
         WHERE REC_START_DATE = CURDATE()
         AND DATE(REC_END_DATETIME) = CURDATE()
+        AND AGENT_ID = '${getTodayEmo_loginId}'
         ORDER BY call_start;`;
         
         //   - 상담원 감성 데이터 가져오기(추후엔 구분해서 데이터 뿌리기)
@@ -663,7 +667,7 @@ app.post('/workStatusMain/getTodayEmo/getCallHistory', (req, res) => {
             emotion_type as worker,
             accuracy
         FROM 
-            ETRI_EMOTION.demo_emo_emotion_info
+            ETRI_EMOTION.emo_emotion_info
         WHERE 
             file_name = '${filename1}.wav'
             AND DATE(send_dt) = CURDATE() 
@@ -819,7 +823,7 @@ app.get('/emotionStatus', async (req, res) => {
             eei.login_id,
             eei.emotion_type,
             COUNT(*) as today_count
-        FROM demo_emo_emotion_info eei
+        FROM emo_emotion_info eei
         INNER JOIN acr_v4.t_rec_data202406 trd
         ON eei.file_name = trd.REC_FILENAME
         WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
@@ -831,7 +835,7 @@ app.get('/emotionStatus', async (req, res) => {
                 eei.login_id,
                 eei.emotion_type,
                 COUNT(*) as yesterday_count
-            FROM demo_emo_emotion_info eei
+            FROM emo_emotion_info eei
             INNER JOIN acr_v4.t_rec_data202406 trd
             ON eei.file_name = trd.REC_FILENAME
             WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
@@ -864,7 +868,7 @@ app.get('/emotionStatus', async (req, res) => {
             HOUR(send_dt) as hour,
             emotion_type,
             COUNT(*) count
-        FROM demo_emo_emotion_info
+        FROM emo_emotion_info
         WHERE send_dt >= DATE_FORMAT(NOW(3),'%Y-%m-%d')
         GROUP BY emotion_type, HOUR;`;
         logger.info(`[ app.js:/emotionStatus ] 시간 별 감성 상태\n${query4}`);
@@ -1606,7 +1610,7 @@ app.get('/statsSummary', (req, res) => {
                 SUM(CASE WHEN emotion_type IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_info_peace,
                 SUM(CASE WHEN emotion_type IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_info_sad,
                 SUM(CASE WHEN emotion_type IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_info_happy
-            FROM ETRI_EMOTION.demo_emo_emotion_info
+            FROM ETRI_EMOTION.emo_emotion_info
             WHERE 
                 emotion_type IS NOT NULL 
                 AND emotion_type != "0"
@@ -1759,7 +1763,7 @@ app.get('/statsDetail', (req, res) => {
                 SUM(CASE WHEN cusEmoType IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_peace,
                 SUM(CASE WHEN cusEmoType IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_sad,
                 SUM(CASE WHEN cusEmoType IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_happy
-            FROM ETRI_EMOTION.demo_emo_emotion_info -- JOIN되는 테이블이 많아 내부 쿼리 출동을 방지하기 위해 WITH절을 이용한 CTE 정의
+            FROM ETRI_EMOTION.emo_emotion_info -- JOIN되는 테이블이 많아 내부 쿼리 출동을 방지하기 위해 WITH절을 이용한 CTE 정의
             WHERE 
                 emotion_type IS NOT NULL -- 감정 타입이 있는 데이터만 선택
                 AND file_name IS NOT NULL  -- 파일명이 있는 데이터만 선택
@@ -2167,7 +2171,7 @@ app.post('/deleteMemo', (req, res) => {
 let ErkApiMsg;  // 추후 Stream Queue 생성시 proto 파일 중복 로드 방지
 async function loadProto() {
     try {
-        const protobuf_dir = `/home/241212_MindSupport/MindSupport/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+        const protobuf_dir = `/home/neighbor/MindSupport/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
         const root = await protobuf.load(protobuf_dir);
         logger.info(`[ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공`);
 
@@ -3255,7 +3259,7 @@ conn = amqp.connect({
             //      예를 들어, Prefetch가 250일 경우, RabbitMQ는 250개의 메세지까지 한번에 Listener의 메모리에 Push
             //    * prefetch 값 계산
             //      - prefetch = (메시지 처리 시간 * 초당 메세지 수) * 안전계수
-            //   * 큐에 전달된 메시지를 비동기식으로 처리하며 여러 개의 메시지를 한번에 consume 할 수 있음.
+            //   * 큐에 전달된 메시지를?비동기식으로 처리하며?여러 개의 메시지를 한번에 consume 할 수 있음.
             //   * get()보다 성능적으로 우수
             ch.prefetch(22);
             ch.consume(chName, async (msg) => {

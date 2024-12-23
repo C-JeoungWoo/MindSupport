@@ -500,7 +500,7 @@
         <div class="grid twin">
           <div>
             <label>상담원 명</label>
-            <input type="text" name="" id="getAgentName2" value="상담사3" disabled  aria-label="상담사 아이디"/>
+            <input style="text-align: left;" type="text" name="" id="getAgentName2" value="상담사3" disabled  aria-label="상담사 아이디"/>
           </div>
           <div>
             <label>기준시간(초)</label>
@@ -1145,6 +1145,7 @@
 
             // 모달이 완전히 열린 후 alert 실행
           setTimeout(function() {
+            resetCharts();
             alert("[ MindSupport ] 금일 데이터는 없습니다.");
           }, 400);
         } else {
@@ -1158,6 +1159,14 @@
       }
     });
   }
+
+  // 차트 초기화 함수
+function resetCharts() {
+  createOrUpdateChart('customerStatus', { data: { labels: [], datasets: [] } });
+  createOrUpdateChart('counselorStatus', { data: { labels: [], datasets: [] } });
+  createOrUpdateChart('callStatus', { data: { labels: [], datasets: [] } });
+  console.log("차트가 초기화되었습니다.");
+}
 
   //검색 조건을 전달하여 관리자 코칭 페이지로 이동하기 버튼
   function moveTocoachingAdmin() {
@@ -1193,14 +1202,17 @@
 
   //  - 기존 차트가 있다면 제거 후 새로 생성
   function createOrUpdateChart(chartId, config) {
-    const ctx = document.getElementById(chartId).getContext('2d');
-
-    document.getElementById(chartId).style.width = '100%';
-    
-    if (charts[chartId]) {
-      charts[chartId].destroy();
+    if (Chart.getChart(chartId)) {
+      // 기존 차트가 있으면 업데이트
+      const chart = Chart.getChart(chartId);
+      chart.data = config.data;
+      chart.options = config.options;
+      chart.update();
+    } else {
+      // 새로 생성
+      const ctx = document.getElementById(chartId).getContext('2d');
+      new Chart(ctx, config);
     }
-    charts[chartId] = new Chart(ctx, config);
   }
 
   //  고객, 통화흐름, 상담원 감성 차트
@@ -1805,7 +1817,6 @@
 <!-- 근무 현황 페이지 2초마다 AJAX를 이용하여 화면 깜빡임 없이 데이터 재 랜더링하여 표출하기 -->
 <script>
 // 데이터를 렌더링하는 함수
-// 데이터를 렌더링하는 함수
 function renderAgents(data) {
   // 감성코칭이 필요한 상담원
   const needcoachingAgentsDiv = $('.slick-list');
@@ -1841,15 +1852,33 @@ function renderAgents(data) {
       <div class="item ${agent.last_call_status === 1 ? 'border-purple' : 'border-gray'}">
         <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
           <div class="imgArea ${
+            agent.emotion_type === '5' ? 'happy' :
             agent.emotion_type === '6' ? 'happy' :
+            agent.emotion_type === '4' ? 'sad' :
             agent.emotion_type === '7' ? 'sad' :
+            agent.emotion_type === '12' ? 'sad' :
+            agent.emotion_type === '13' ? 'sad' :
+            agent.emotion_type === '3' ? 'angry' :
             agent.emotion_type === '8' ? 'angry' :
+            agent.emotion_type === '14' ? 'angry' :
+            agent.emotion_type === '2' ? 'calm' :
+            agent.emotion_type === '9' ? 'calm' :
+            agent.emotion_type === '10' ? 'calm' :
             agent.emotion_type === '11' ? 'calm' : 'offline'
           }">
             ${
+              agent.emotion_type === '5' ? '<img src="../images/ic_happy.svg">' :
               agent.emotion_type === '6' ? '<img src="../images/ic_happy.svg">' :
+              agent.emotion_type === '4' ? '<img src="../images/ic_sad.svg">' :
               agent.emotion_type === '7' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '12' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '13' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '3' ? '<img src="../images/ic_angry.svg">' :
               agent.emotion_type === '8' ? '<img src="../images/ic_angry.svg">' :
+              agent.emotion_type === '14' ? '<img src="../images/ic_angry.svg">' :
+              agent.emotion_type === '2' ? '<img src="../images/ic_calm.svg">' :
+              agent.emotion_type === '9' ? '<img src="../images/ic_calm.svg">' :
+              agent.emotion_type === '10' ? '<img src="../images/ic_calm.svg">' :
               agent.emotion_type === '11' ? '<img src="../images/ic_calm.svg">' : ''
             }
           </div>

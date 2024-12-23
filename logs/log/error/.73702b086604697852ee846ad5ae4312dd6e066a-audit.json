@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/.73702b086604697852ee846ad5ae4312dd6e066a-audit.json",
+    "files": [
+        {
+            "date": 1734683994711,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/241220_17_error.log",
+            "hash": "7ff9de57591d5389deeac3594d6cebd29344981aeebfacc1544ac9869c6002c9"
+        },
+        {
+            "date": 1734912782049,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/241223_09_error.log",
+            "hash": "d45c256019b183bd6391b62b6a6f537f2e881f4990703b609a5ea011a1cee9bb"
+        },
+        {
+            "date": 1734920801602,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/241223_11_error.log",
+            "hash": "cf6c6e9df7ac362ed85171510a9918b7c896d27187383ab72e5ba41a21a3257e"
+        }
+    ],
+    "hashType": "sha256"
+}

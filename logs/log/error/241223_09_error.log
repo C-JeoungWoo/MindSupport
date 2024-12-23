@@ -1,0 +1,4 @@
+2024-12-23 09:13:26.359 [error] [ API:login_info_sql ] Error: Unknown column 'uuid2' in 'field list'
+2024-12-23 09:15:30.814 [error] [ API:login_info_sql ] Error: Unknown column 'uuid2' in 'field list'
+2024-12-23 09:41:58.338 [error] [ API:login_info_sql ] Error: Unknown column 'uuid2' in 'field list'
+2024-12-23 09:43:43.828 [error] [ API:login_info_sql ] Error: Unknown column 'uuid2' in 'field list'
