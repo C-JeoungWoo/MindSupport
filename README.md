@@ -10,9 +10,9 @@
 |--------------------|------------------------------------------------------------|-------------------------------|
 | **db/acrV4.js**    | 해당 호스트 뿐만아니라 port, user, password 변경                   | `host: '192.168.x.x'`         |
 | **db/maria.js**    | 해당 호스트 뿐만아니라 port, user, password 변경                        | `host: '192.168.x.x'`         |
-| **app.js**         | API 호출이나 서버 설정 시 사용하는 IP 주소                 | `baseURL: 'http://192.168.x.x'` |
-| **consultant.ejs** | 프론트엔드에서 사용하는 API URL의 IP 주소                  | `url: 'http://192.168.x.x'`   |
-| **index.ejs**      | 프론트엔드 초기화 또는 API 호출 URL에 사용되는 IP 주소      | `url: 'http://192.168.x.x'`   |
+| **app.js**         | MySQLoptions 부분 IP 및 port, user, password 변경                 | `host: 'http://192.168.x.x'` |
+| **consultant.ejs** | 소켓 연결하는 부분 IP 변경                  | `url: 'http://192.168.x.x'`   |
+| **index.ejs**      | 소켓 연결하는 부분 IP 변경      | `url: 'http://192.168.x.x'`   |
 
 ### 작업 순서
 1. `git pull` 명령어를 사용하여 최신 코드를 가져옵니다.
