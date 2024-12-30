@@ -1,2 +1,0 @@
-2024-12-23 11:26:47.774 [error] [ app.js:/workStatusMain/getTodayEmo ] Error: Unknown column 'cusEmoType' in 'field list'
-2024-12-23 11:28:00.162 [error] [ app.js:/workStatusMain/getTodayEmo ] Error: Unknown column 'cusEmoType' in 'field list'
