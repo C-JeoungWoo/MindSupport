@@ -1,0 +1,26 @@
+2024-12-31 09:04:54.317 [info]  [ httpServer ] {"address":"::","family":"IPv6","port":8888}
+2024-12-31 09:05:04.190 [error] [ app.js:callProcedure ] Error: connect ETIMEDOUT
+2024-12-31 09:05:04.192 [error] [ app.js:callProcedure ] Error: connect ETIMEDOUT
+2024-12-31 09:05:04.192 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.227 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.228 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.229 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.229 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.230 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.231 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.232 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:04.232 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:05:05.330 [error] [ app.js:callProcedure ] Error: Can't add new command when connection is in closed state
+2024-12-31 09:11:42.123 [info]  [ httpServer ] {"address":"::","family":"IPv6","port":8888}
+2024-12-31 09:11:51.997 [error] [ app.js:callProcedure ] Error: connect ETIMEDOUT
+2024-12-31 09:11:51.999 [error] [ app.js:callProcedure ] Error: connect ETIMEDOUT
+2024-12-31 09:11:51.999 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.035 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.035 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.036 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.037 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.038 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.039 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.039 [error] [ db:maria.js ] MindSupport DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:52.040 [error] [ db:acrV4.js ] acrV4 DB CONNECTION ERROR : Error: connect ETIMEDOUT
+2024-12-31 09:11:55.139 [error] [ app.js:callProcedure ] Error: Can't add new command when connection is in closed state

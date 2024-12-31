@@ -211,10 +211,10 @@ class StreamProcessor {
         timestamp,
         dateTimeString,
         chunkNumber,
-        login_id,      // 추가
-        org_id,        // 추가
-        fileInfo_callId,  // 추가
-        selectedQueue    // 추가
+        login_id,
+        org_id,
+        fileInfo_callId,
+        selectedQueue
     }) {
         try {
             // const { chunkIndex, totalChunks, timestamp, dateTimeString, fileType } = options; // fileType 추가

@@ -7,10 +7,10 @@ module.exports = () => {
     return {
         init: () => {
             return mysql.createConnection({
-                host: '192.168.0.29',
+                host: '192.168.0.24',
                 port: '3306',
-                user: 'root',
-                password: 'spdlqj21',
+                user: 'acr',
+                password: 'Acr#600',
                 database: 'acr_v4',
                 multipleStatements: true
             })

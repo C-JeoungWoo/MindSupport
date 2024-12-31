@@ -16,7 +16,7 @@ const logger = require('../logs/logger');
 
 //  Queue 관리 클래스
 class QueueManager {
-    constructor(userId, fileType, channels, ErkApiMsg) {
+    constructor(userId, fileType, channels) {
         // 채널 정보
         this.ch = channels.ch;    // 상담원 채널
         this.ch2 = channels.ch2;    // 고객 채널
@@ -24,8 +24,6 @@ class QueueManager {
         //  stream queue 관련 정보
         this.userId = userId;       // userinfo_userId
         this.fileType = fileType;   // rx 또는 tx
-
-        this.ErkApiMsg = ErkApiMsg;
     }
 
     // 기본 채널 가져오기 (상담원/고객)
