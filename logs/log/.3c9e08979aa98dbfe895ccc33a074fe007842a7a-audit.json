@@ -24,6 +24,46 @@
             "date": 1734919200853,
             "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241223_11.log",
             "hash": "cc56863bb900c51dc488299d1b4052e2695260c164663c7942ddd4e9f9a4c0fc"
+        },
+        {
+            "date": 1734924502209,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241223_12.log",
+            "hash": "b9d97e6f3fa2dc3f5190fed83eaa1bc7a0703c1babfc35f0177802bfab903976"
+        },
+        {
+            "date": 1735517149257,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_09.log",
+            "hash": "5c22804b0b282d46625b2c1bdc87b8d68661ec6630f0b315783d639580998593"
+        },
+        {
+            "date": 1735520401375,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_10.log",
+            "hash": "b1de5a135e6468cebb5ab5679b94b9035deea7b6b5fe40b0f01d25dddb310c62"
+        },
+        {
+            "date": 1735524050391,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_11.log",
+            "hash": "7b752d216ad38dddd009ed415d2a69dcc7124eb497b4e3378277766f10a0468a"
+        },
+        {
+            "date": 1735527600439,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_12.log",
+            "hash": "25ad5156e256d67400438a82eb2a586782ad999bcaf5e7a517a368811bc3f553"
+        },
+        {
+            "date": 1735531201381,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_13.log",
+            "hash": "bb2465c8e11cfbed352215d5bf56f5425c1839731a726ee864156fcbfc12552e"
+        },
+        {
+            "date": 1735542203463,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_16.log",
+            "hash": "92f6453b61d36afbd927500e2d2b3ddd0018bbdf939231087617fea57333fa44"
+        },
+        {
+            "date": 1735545600200,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_17.log",
+            "hash": "fab2657fb51ac2f962b6f814b60472f4f48589df68f208d2d7a2706931bd708d"
         }
     ],
     "hashType": "sha256"

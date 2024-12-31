@@ -7,7 +7,7 @@ module.exports = () => {
     return {
         init: () => {
             return mysql.createConnection({
-                host: '192.168.0.29',
+                host: '192.168.0.19',
                 port: '3306',
                 user: 'root',
                 password: 'spdlqj21',
@@ -20,9 +20,10 @@ module.exports = () => {
             con.connect((err) => {
                 if (err) {
                     logger.error(`[ db:acrV4.js ] acrV4 DB CONNECTION ERROR : ${err}`);
+                } else {
+                    logger.info(`[ db:acrV4.js ] acrv4 DB CONNECTION SUCCESSFULLY`);
+                    return;
                 }
-
-                return;
             })
         }
     }

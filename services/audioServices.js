@@ -25,11 +25,11 @@ const handleNewFile = async function handleNewFile(filePath, userid) {
             
     // ErkApiMsg 상태 확인
     const currentErkApiMsg = getErkApiMsg();
-    logger.debug(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
+    logger.debug(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg ? 'defined' : 'undefined'}`);
 
     try {
         const baseFileName = path.basename(filePath, '.wav');
-        const caller_id = baseFileName.split('_')[2];
+        const caller_id = baseFileName.split('_')[2]; // 상담원일지 고객일지는 모름.
 
         let previousSize = 0;
         let unchangedCount = 0;
@@ -46,7 +46,7 @@ const handleNewFile = async function handleNewFile(filePath, userid) {
         logger.info(`[ audioServices.js:handleNewFile ] File integrity check passed, header length: ${gsmHeaderLength} bytes`);
 
         // 3. EmoServiceStartRQ 에서 DB 조회한 결과 전달 (한 번만)
-        const serviceResponse = await EmoServiceStartRQ(baseFileName);
+        // const serviceResponse = await EmoServiceStartRQ(baseFileName);
 
         while (true) {
             try {
@@ -221,14 +221,14 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         }));
 
         //  ESSRQ 메세지 헤더 구성
-        let ErkMsgHead = ErkApiMsg .create({
+        let ErkMsgHead = ErkApiMsg.create({
             MsgType: 21,
             TransactionId: joinedData[0].userinfo_uuid,
             QueueInfo: ErkQueueInfo,
             OrgId: parseInt(joinedData[0].user_orgid),  // OrgId: parseInt(joinedData[0].user_orgid)
             UserId: parseInt(joinedData[0].userinfo_userId)  // 상담원10명 셋팅(고객은 userinfo_userId + 10 로 매핑) UserId: parseInt(joinedData[0].userinfo_userId)
         });
-        let ErkMsgHead_cus = ErkApiMsg .create({
+        let ErkMsgHead_cus = ErkApiMsg.create({
             MsgType: 21,
             TransactionId: joinedData[0].cusinfo_uuid,
             QueueInfo: ErkQueueInfo2,
@@ -237,7 +237,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         });
 
         //  ESSRQ 메세지 구성
-        let EmoServiceStartMsg = ErkApiMsg .create({
+        let EmoServiceStartMsg = ErkApiMsg.create({
             EmoServiceStartRQ: {
                 ErkMsgHead: ErkMsgHead,
                 MsgTime: DateUtils.getCurrentTimestamp(), // 년월일시분초밀리초
@@ -245,7 +245,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                 EmoRecogType: 1    // 개인감성 or 사회감성
             }
         });
-        let EmoServiceStartMsg_cus = ErkApiMsg .create({
+        let EmoServiceStartMsg_cus = ErkApiMsg.create({
             EmoServiceStartRQ: {
                 ErkMsgHead: ErkMsgHead_cus,
                 MsgTime: DateUtils.getCurrentTimestamp(),
@@ -255,8 +255,8 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         });
         
         //  메세지 인코딩
-        let EmoServiceStartMsg_buf = ErkApiMsg .encode(EmoServiceStartMsg).finish();
-        let EmoServiceStartMsg_buf_cus = ErkApiMsg .encode(EmoServiceStartMsg_cus).finish();
+        let EmoServiceStartMsg_buf = ErkApiMsg.encode(EmoServiceStartMsg).finish();
+        let EmoServiceStartMsg_buf_cus = ErkApiMsg.encode(EmoServiceStartMsg_cus).finish();
 
         const sendAndWaitForResponse = () => {
             return Promise.all([

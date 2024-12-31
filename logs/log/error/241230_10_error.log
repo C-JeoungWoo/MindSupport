@@ -1,0 +1,18 @@
+2024-12-30 10:37:51.602 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:38:05.605 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:38:54.449 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:39:16.409 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:39:18.398 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:39:20.430 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:39:22.388 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:39:24.393 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'etriResults' before initialization
+2024-12-30 10:42:32.672 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'acrPromise' before initialization
+2024-12-30 10:42:32.691 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'acrPromise' before initialization
+2024-12-30 10:42:32.707 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'acrPromise' before initialization
+2024-12-30 10:42:38.997 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'acrPromise' before initialization
+2024-12-30 10:42:39.027 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'acrPromise' before initialization
+2024-12-30 10:42:39.952 [error] [ app.js:present_agent ] ReferenceError: Cannot access 'acrPromise' before initialization
+2024-12-30 10:43:45.761 [error] [ app.js:present_agent ] Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '[object Object]SELECT eui.user_name, eui.login_id
+        FROM emo_user_info ...' at line 1
+2024-12-30 10:44:15.533 [error] [ app.js:present_agent ] Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '[object Object]SELECT eui.user_name, eui.login_id
+        FROM emo_user_info ...' at line 1

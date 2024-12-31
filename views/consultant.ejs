@@ -47,51 +47,12 @@
     
     <!-- [s] wrap -->
     <div class = "wrap">
-        <!-- 좌측 고객정보, 상담유형 -->
-        <div class= "left_client">
-            <h5 style="font-weight: bold;">상담정보</h5>
-            <form action= "/consultant/clients_details" method="get" id="clientForm">
-                <div class= "details_3 form-group">
-                    <label for="exampleFormControlInput3">전화번호</label>
-                    <input id="client_phone" class="form-control" type="text" placeholder="번호 입력['-' 제외]" maxlength = "11" oninput= "this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </div>
-
-                <div class= "details_1 form-group">
-                    <label for="exampleFormControlInput1">고객명</label>
-                    <input id="client_name" class="form-control" type="text" placeholder= "이름 입력"/>
-                </div>
-
-                <div class="details_2 form-group">
-                    <label for="exampleFormControlSelect2">상담유형</label>
-                    <select id="exampleFormControlSelect2" class="mySelect form-control custom-select custom-select-sm">
-                        <option value="선택" selected="selected">선택</option>
-                        <option value="일반문의">일반문의</option>
-                        <option value="민원접수">민원접수</option>
-                        <option value="제품판매">제품판매</option>
-                        <option value="기타문의">기타문의</option>
-                    </select>
-                </div>
-                
-                <div class= "counsel_detail form-group">
-                    <label for="exampleFormControlInput3">상담내역</label>
-                    <textarea id="counsel_info" class="form-control" placeholder= "상담 내역을 입력해주세요" cols= "30" rows= "10"></textarea>
-                </div>
-            </form>
-
-            <div class="btn-group">
-                <input type= 'button' class= 'client_save btn btn-primary btn-sm'  value= 'EmoServiceStart' style="border-radius: 5%;"/>
-                <input type= 'button' class= 'startButton1 btn btn-danger btn-sm'  value= 'EmoServiceStop' style="border-radius: 5%;"/>
-                <input type= 'button' class= 'stopButton1 btn btn-warning btn-sm' value= 'SpeechEmoRecogRQ' style="border-radius: 5%;"/>
-            </div>
-        </div>
-
-        <!-- 우측 srchBox -->
         <div class="srchBox">
             <div class="fromManager">
                 <p class= "emotion_status">
                     <% if (call_emotion_agent.length == 0) { %>
                         <span class = "agent_emotion" style="padding-bottom: 1.2%;">
-                            Oops, Sorry. Page is not founded! <img src="/images/error.png" alt="404에러" width="30px" height="30px">
+                            금일 마지막 감성 데이터가 없습니다. <img src="/images/smile.png" alt="기쁨" width="30px" height="30px">
                         </span>
                     <% } else { %>
                         <% for(var i=0; i<call_emotion_agent.length; i++) { 
@@ -115,7 +76,7 @@
                     <% } %>
                 </p>
                 <label for="exampleFormControlTextarea1">관리자 메세지</label>
-                <textarea class="form-control" name= "content" id= "EventMsg" cols= "100" rows= "8" wrap= "on" readonly></textarea>
+                <textarea class="form-control" name= "content" id= "EventMsg" cols= "100" rows= "8" wrap= "on" readonly style="font-size:1.3rem"></textarea>
             </div>
         </div><!-- [e] srchBox -->
 

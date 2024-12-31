@@ -1,0 +1,694 @@
+2024-12-23 12:28:22.418 [info]  [ httpServer ] {"address":"::","family":"IPv6","port":8888}
+2024-12-23 12:28:22.490 [info]  [ app.js:socketConnected ] 상담원: ms15 접속[::ffff:192.168.0.34]
+2024-12-23 12:28:22.492 [info]  [ app.js:socketConnected ] 접속일시: 2024년 12월 23일 12시 28분 22초
+2024-12-23 12:28:22.495 [info]  [ app.js:socketConnected ] 현재 연결된 사용자: 1명
+2024-12-23 12:28:22.496 [info]  [ app.js:socketConnected ] 현재 연결된 사용자 ID: ms15,[object Object]
+2024-12-23 12:28:22.500 [info]  [ app.js:socketOnMessage ] 클라이언트 정상 응답 '중복되는 데이터'
+2024-12-23 12:28:22.516 [info]  [ app.js:socketOnMessage ] 클라이언트 정상 응답 '접속일시: 2024년 12월 23일 12시 28분 22초'
+2024-12-23 12:28:22.527 [info]  [ AMQP:amqpConnect ] AMQP 연결 성공
+2024-12-23 12:28:22.546 [info]  [ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공
+2024-12-23 12:28:22.551 [info]  [ app.js:startApplication ] NFS 마운트 체크를 성공했습니다.
+2024-12-23 12:28:22.554 [info]  [ EnhancedFSWatcher:initializeWatcher ] File system watcher initialized successfully
+2024-12-23 12:28:22.555 [info]  [ app.js:watchDirectory ] File watcher successfully started
+2024-12-23 12:28:22.558 [info]  [ erkUtils.js:setErkApiMsg ] ErkApiMsg and channels set to: defined
+2024-12-23 12:28:22.569 [info]  [ AMQP:createChannel ] AMQP 상담원 채널 생성 성공
+2024-12-23 12:28:22.569 [info]  [ AMQP:createChannel ] AMQP 고객 채널 생성 성공
+2024-12-23 12:28:22.574 [info]  [ AMQP:selectOrgId ] OrgId 요청해야 할 서비스 항목 0건
+2024-12-23 12:28:22.575 [info]  [ AMQP:selectUsr ] 등록할 서비스 사업자가 없음. 사용자 프로파일링 진행
+2024-12-23 12:28:22.581 [info]  [ AMQP:addUserInfo ] 사용자 등록 조회 결과 : 0건
+2024-12-23 12:28:22.582 [info]  [ AMQP:addUserInfo ] 등록할 사용자 없음
+2024-12-23 12:28:22.587 [info]  [ AMQP:assertQueue ] Classic 메세지 큐(NEIGHBOR_SYSTEM) 생성 성공
+2024-12-23 12:28:22.593 [info]  [ AMQP:assertQueue ] Classic 메세지 큐(NEIGHBOR_SYSTEM2) 생성 성공
+2024-12-23 12:28:22.596 [info]  [ EnhancedFSWatcher.js:watchDirectoryReady ] Initial scan complete. Ready for changes...
+2024-12-23 12:28:24.790 [info]  [ app.js:/workStatusMain ] 현재 경로: /workStatusMain
+2024-12-23 12:28:24.791 [info]  [ app.js:workStatusMain ] need_coach
+SELECT
+            ecm.auto_seq,
+            DATE_FORMAT(ecm.call_date, '%Y-%m-%d') as call_date,
+            CONCAT(
+                IFNULL(LEFT(ecm.call_time, 2), '00'), ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '00' 
+                    ELSE '30' 
+                END, '~',
+                CASE
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' 
+                    THEN IFNULL(LEFT(ecm.call_time, 2), '00')
+                    ELSE LPAD(MOD(CAST(IFNULL(LEFT(ecm.call_time, 2), '00') AS UNSIGNED) + 1, 24), 2, '0')
+                END, ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '30' 
+                    ELSE '00' 
+                END
+            ) AS time_range,
+            ecm.call_time,
+            ecm.login_id,
+            (SELECT MAX(ui.user_name) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS user_name,
+            ecm.auto_over_anger,
+            ecm.agent_anger,
+            ecm.auto_over_sad,
+            ecm.agent_sad,
+            ecm.auto_standard,
+            COUNT(DISTINCT ecc.call_time) AS call_count,
+            ecm.auto_coach,
+            ecm.send_yn 
+        FROM 
+            ETRI_EMOTION.emo_coaching_message ecm
+        LEFT JOIN ETRI_EMOTION.emo_call_count ecc
+        ON ecm.call_date = ecc.call_date
+            AND ecm.login_id = ecc.login_id
+            AND ecc.call_time >= CONCAT(LEFT(ecm.call_time, 2), 
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '0000' ELSE '3000' END)
+            AND ecc.call_time < CONCAT(
+                CASE 
+                    WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN LEFT(ecm.call_time, 2)
+                    ELSE LPAD(MOD(CAST(LEFT(ecm.call_time, 2) AS UNSIGNED) + 1, 24), 2, '0')
+                END,
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '3000' ELSE '0000' END
+            )
+        WHERE ecm.call_date = '20241223'
+        AND ecm.auto_coach = 'P'
+        AND ecm.send_yn = 'N'
+        GROUP BY 
+            ecm.call_date, ecm.call_time,
+            ecm.login_id, ecm.auto_standard,
+            ecm.agent_sad, ecm.agent_anger
+        ORDER BY 
+            ecm.call_date, ecm.call_time, ecm.login_id;
+2024-12-23 12:28:24.794 [info]  [ app.js:workStatusMain ] present_agent
+SELECT 
+            s.session_id,
+            JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) AS session_user_name,
+            e.userinfo_userid,
+            e.login_id,
+            e.user_name AS emo_user_name,
+            e.group_manager,
+            e.loginout_dt AS last_login_time,
+            Latest_Emo.emotion_type,
+            CASE 
+                WHEN Latest_Call.REC_END_DATETIME IS NULL -- 통화 종료 시간이 NULL 값이어야 하고,
+                AND Latest_Call.AGENT_ID = Latest_Emo.login_id THEN 1 -- t_rec_data202406 테이블에 해당 상담원의 통화 데이터가 있어야 "1" 반환
+                ELSE 0
+            END AS last_call_status
+        FROM
+            ETRI_EMOTION.sessions s
+        JOIN 
+            ETRI_EMOTION.emo_loginout_info e 
+            ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
+        JOIN 
+            (
+                SELECT 
+                    user_name, 
+                    MAX(loginout_dt) AS max_login_dt
+                FROM 
+                    ETRI_EMOTION.emo_loginout_info
+                WHERE 
+                    loginout_type = 'I'
+                GROUP BY 
+                    user_name
+            ) latest_login 
+            ON e.user_name = latest_login.user_name 
+            AND e.loginout_dt = latest_login.max_login_dt
+        JOIN 
+            (
+                SELECT 
+                    emotion_type, 
+                    userinfo_userid, 
+                    login_id 
+                FROM 
+                    (
+                        SELECT 
+                            emotion_type, 
+                            userinfo_userid, 
+                            login_id,
+                            ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
+                        FROM 
+                            ETRI_EMOTION.emo_emotion_info
+                    ) ranked
+                WHERE 
+                    rn = 1
+            ) Latest_Emo 
+            ON e.login_id = Latest_Emo.login_id
+        LEFT JOIN 
+            (
+                SELECT AGENT_ID, REC_END_DATETIME
+                FROM (
+                    SELECT 
+                        AGENT_ID, 
+                        REC_END_DATETIME,
+                        ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                    FROM 
+                        acr_v4.t_rec_data202406
+                ) ranked_calls
+                WHERE rn = 1
+            ) Latest_Call 
+            ON Latest_Emo.login_id = Latest_Call.AGENT_ID
+        WHERE 
+            JSON_EXTRACT(s.data, '$.user') IS NOT NULL
+            AND s.expires > UNIX_TIMESTAMP()
+            AND e.loginout_type = 'I'
+            AND e.group_manager = 'N'
+        ORDER BY JSON_EXTRACT(s.data, '$.user.user_name');
+2024-12-23 12:28:24.796 [info]  [ app.js:workStatusMain ] notPresent_agent
+SELECT eui.user_name, eui.login_id
+        FROM emo_user_info eui
+        WHERE eui.user_name NOT IN (
+            SELECT JSON_UNQUOTE(JSON_EXTRACT(data, '$.user.user_name')) as user_name
+            FROM sessions
+            WHERE expires > UNIX_TIMESTAMP()
+            AND JSON_EXTRACT(data, '$.user') IS NOT NULL
+            AND JSON_EXTRACT(data, '$.user.group_manager') = 'N'
+        )
+        AND eui.group_manager = 'N'
+        AND eui.user_type != '3'
+        ORDER BY eui.user_name;
+2024-12-23 12:28:25.031 [info]  [ app.js:need_coach] need_coach 54 건
+2024-12-23 12:28:25.283 [info]  [ app.js:/workStatusMain ] 현재 경로: /workStatusMain
+2024-12-23 12:28:25.285 [info]  [ app.js:workStatusMain ] need_coach
+SELECT
+            ecm.auto_seq,
+            DATE_FORMAT(ecm.call_date, '%Y-%m-%d') as call_date,
+            CONCAT(
+                IFNULL(LEFT(ecm.call_time, 2), '00'), ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '00' 
+                    ELSE '30' 
+                END, '~',
+                CASE
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' 
+                    THEN IFNULL(LEFT(ecm.call_time, 2), '00')
+                    ELSE LPAD(MOD(CAST(IFNULL(LEFT(ecm.call_time, 2), '00') AS UNSIGNED) + 1, 24), 2, '0')
+                END, ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '30' 
+                    ELSE '00' 
+                END
+            ) AS time_range,
+            ecm.call_time,
+            ecm.login_id,
+            (SELECT MAX(ui.user_name) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS user_name,
+            ecm.auto_over_anger,
+            ecm.agent_anger,
+            ecm.auto_over_sad,
+            ecm.agent_sad,
+            ecm.auto_standard,
+            COUNT(DISTINCT ecc.call_time) AS call_count,
+            ecm.auto_coach,
+            ecm.send_yn 
+        FROM 
+            ETRI_EMOTION.emo_coaching_message ecm
+        LEFT JOIN ETRI_EMOTION.emo_call_count ecc
+        ON ecm.call_date = ecc.call_date
+            AND ecm.login_id = ecc.login_id
+            AND ecc.call_time >= CONCAT(LEFT(ecm.call_time, 2), 
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '0000' ELSE '3000' END)
+            AND ecc.call_time < CONCAT(
+                CASE 
+                    WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN LEFT(ecm.call_time, 2)
+                    ELSE LPAD(MOD(CAST(LEFT(ecm.call_time, 2) AS UNSIGNED) + 1, 24), 2, '0')
+                END,
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '3000' ELSE '0000' END
+            )
+        WHERE ecm.call_date = '20241223'
+        AND ecm.auto_coach = 'P'
+        AND ecm.send_yn = 'N'
+        GROUP BY 
+            ecm.call_date, ecm.call_time,
+            ecm.login_id, ecm.auto_standard,
+            ecm.agent_sad, ecm.agent_anger
+        ORDER BY 
+            ecm.call_date, ecm.call_time, ecm.login_id;
+2024-12-23 12:28:25.287 [info]  [ app.js:workStatusMain ] present_agent
+SELECT 
+            s.session_id,
+            JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) AS session_user_name,
+            e.userinfo_userid,
+            e.login_id,
+            e.user_name AS emo_user_name,
+            e.group_manager,
+            e.loginout_dt AS last_login_time,
+            Latest_Emo.emotion_type,
+            CASE 
+                WHEN Latest_Call.REC_END_DATETIME IS NULL -- 통화 종료 시간이 NULL 값이어야 하고,
+                AND Latest_Call.AGENT_ID = Latest_Emo.login_id THEN 1 -- t_rec_data202406 테이블에 해당 상담원의 통화 데이터가 있어야 "1" 반환
+                ELSE 0
+            END AS last_call_status
+        FROM
+            ETRI_EMOTION.sessions s
+        JOIN 
+            ETRI_EMOTION.emo_loginout_info e 
+            ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
+        JOIN 
+            (
+                SELECT 
+                    user_name, 
+                    MAX(loginout_dt) AS max_login_dt
+                FROM 
+                    ETRI_EMOTION.emo_loginout_info
+                WHERE 
+                    loginout_type = 'I'
+                GROUP BY 
+                    user_name
+            ) latest_login 
+            ON e.user_name = latest_login.user_name 
+            AND e.loginout_dt = latest_login.max_login_dt
+        JOIN 
+            (
+                SELECT 
+                    emotion_type, 
+                    userinfo_userid, 
+                    login_id 
+                FROM 
+                    (
+                        SELECT 
+                            emotion_type, 
+                            userinfo_userid, 
+                            login_id,
+                            ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
+                        FROM 
+                            ETRI_EMOTION.emo_emotion_info
+                    ) ranked
+                WHERE 
+                    rn = 1
+            ) Latest_Emo 
+            ON e.login_id = Latest_Emo.login_id
+        LEFT JOIN 
+            (
+                SELECT AGENT_ID, REC_END_DATETIME
+                FROM (
+                    SELECT 
+                        AGENT_ID, 
+                        REC_END_DATETIME,
+                        ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                    FROM 
+                        acr_v4.t_rec_data202406
+                ) ranked_calls
+                WHERE rn = 1
+            ) Latest_Call 
+            ON Latest_Emo.login_id = Latest_Call.AGENT_ID
+        WHERE 
+            JSON_EXTRACT(s.data, '$.user') IS NOT NULL
+            AND s.expires > UNIX_TIMESTAMP()
+            AND e.loginout_type = 'I'
+            AND e.group_manager = 'N'
+        ORDER BY JSON_EXTRACT(s.data, '$.user.user_name');
+2024-12-23 12:28:25.289 [info]  [ app.js:workStatusMain ] notPresent_agent
+SELECT eui.user_name, eui.login_id
+        FROM emo_user_info eui
+        WHERE eui.user_name NOT IN (
+            SELECT JSON_UNQUOTE(JSON_EXTRACT(data, '$.user.user_name')) as user_name
+            FROM sessions
+            WHERE expires > UNIX_TIMESTAMP()
+            AND JSON_EXTRACT(data, '$.user') IS NOT NULL
+            AND JSON_EXTRACT(data, '$.user.group_manager') = 'N'
+        )
+        AND eui.group_manager = 'N'
+        AND eui.user_type != '3'
+        ORDER BY eui.user_name;
+2024-12-23 12:28:25.324 [info]  [ app.js:socketConnected ] 상담관리자: ms4 접속[::ffff:192.168.0.34]
+2024-12-23 12:28:25.327 [info]  [ app.js:socketConnected ] 접속일시: 2024년 12월 23일 12시 28분 25초
+2024-12-23 12:28:25.329 [info]  [ app.js:socketConnected ] 현재 연결된 사용자: 2명
+2024-12-23 12:28:25.331 [info]  [ app.js:socketConnected ] 현재 연결된 사용자 ID: ms15,[object Object],ms4,[object Object]
+2024-12-23 12:28:25.353 [info]  [ app.js:socketOnMessage ] 클라이언트 정상 응답 '상담관리자ms4 접속[::ffff:192.168.0.34]'
+2024-12-23 12:28:25.358 [info]  [ app.js:socketOnMessage ] 클라이언트 정상 응답 '접속일시: 2024년 12월 23일 12시 28분 25초'
+2024-12-23 12:28:25.515 [info]  [ app.js:need_coach] need_coach 54 건
+2024-12-23 12:28:25.734 [info]  [ app.js:callProcedure ] 'emoCoachingMessage10_Proc' 프로시저 호출 결과: 51개
+2024-12-23 12:28:25.735 [info]  [ app.js:callProcedure ] 'emoCoachingMessage30_Proc' 프로시저 호출 결과: 173개
+2024-12-23 12:28:25.736 [info]  [ app.js:callProcedure ] 'emoCoachingMessage60_Proc' 프로시저 호출 결과: 0개
+2024-12-23 12:28:25.738 [info]  [ app.js:selectAutoCoach ] 자동 코칭 조건 결과 및 개수 : 6개
+2024-12-23 12:28:26.236 [info]  [ app.js:socketDisConnected ] transport close
+2024-12-23 12:28:26.238 [info]  [ app.js:socketDisConnected ] 클라이언트 연결해제 [IP: ::ffff:192.168.0.34, 사용자: 정수빈]
+2024-12-23 12:28:26.238 [info]  [ app.js:socketDisConnected ] 현재 연결된 사용자: 1명
+2024-12-23 12:28:26.241 [info]  [ app.js:/workStatusMain ] 현재 경로: /workStatusMain
+2024-12-23 12:28:26.242 [info]  [ app.js:workStatusMain ] need_coach
+SELECT
+            ecm.auto_seq,
+            DATE_FORMAT(ecm.call_date, '%Y-%m-%d') as call_date,
+            CONCAT(
+                IFNULL(LEFT(ecm.call_time, 2), '00'), ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '00' 
+                    ELSE '30' 
+                END, '~',
+                CASE
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' 
+                    THEN IFNULL(LEFT(ecm.call_time, 2), '00')
+                    ELSE LPAD(MOD(CAST(IFNULL(LEFT(ecm.call_time, 2), '00') AS UNSIGNED) + 1, 24), 2, '0')
+                END, ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '30' 
+                    ELSE '00' 
+                END
+            ) AS time_range,
+            ecm.call_time,
+            ecm.login_id,
+            (SELECT MAX(ui.user_name) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS user_name,
+            ecm.auto_over_anger,
+            ecm.agent_anger,
+            ecm.auto_over_sad,
+            ecm.agent_sad,
+            ecm.auto_standard,
+            COUNT(DISTINCT ecc.call_time) AS call_count,
+            ecm.auto_coach,
+            ecm.send_yn 
+        FROM 
+            ETRI_EMOTION.emo_coaching_message ecm
+        LEFT JOIN ETRI_EMOTION.emo_call_count ecc
+        ON ecm.call_date = ecc.call_date
+            AND ecm.login_id = ecc.login_id
+            AND ecc.call_time >= CONCAT(LEFT(ecm.call_time, 2), 
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '0000' ELSE '3000' END)
+            AND ecc.call_time < CONCAT(
+                CASE 
+                    WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN LEFT(ecm.call_time, 2)
+                    ELSE LPAD(MOD(CAST(LEFT(ecm.call_time, 2) AS UNSIGNED) + 1, 24), 2, '0')
+                END,
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '3000' ELSE '0000' END
+            )
+        WHERE ecm.call_date = '20241223'
+        AND ecm.auto_coach = 'P'
+        AND ecm.send_yn = 'N'
+        GROUP BY 
+            ecm.call_date, ecm.call_time,
+            ecm.login_id, ecm.auto_standard,
+            ecm.agent_sad, ecm.agent_anger
+        ORDER BY 
+            ecm.call_date, ecm.call_time, ecm.login_id;
+2024-12-23 12:28:26.243 [info]  [ app.js:workStatusMain ] present_agent
+SELECT 
+            s.session_id,
+            JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) AS session_user_name,
+            e.userinfo_userid,
+            e.login_id,
+            e.user_name AS emo_user_name,
+            e.group_manager,
+            e.loginout_dt AS last_login_time,
+            Latest_Emo.emotion_type,
+            CASE 
+                WHEN Latest_Call.REC_END_DATETIME IS NULL -- 통화 종료 시간이 NULL 값이어야 하고,
+                AND Latest_Call.AGENT_ID = Latest_Emo.login_id THEN 1 -- t_rec_data202406 테이블에 해당 상담원의 통화 데이터가 있어야 "1" 반환
+                ELSE 0
+            END AS last_call_status
+        FROM
+            ETRI_EMOTION.sessions s
+        JOIN 
+            ETRI_EMOTION.emo_loginout_info e 
+            ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
+        JOIN 
+            (
+                SELECT 
+                    user_name, 
+                    MAX(loginout_dt) AS max_login_dt
+                FROM 
+                    ETRI_EMOTION.emo_loginout_info
+                WHERE 
+                    loginout_type = 'I'
+                GROUP BY 
+                    user_name
+            ) latest_login 
+            ON e.user_name = latest_login.user_name 
+            AND e.loginout_dt = latest_login.max_login_dt
+        JOIN 
+            (
+                SELECT 
+                    emotion_type, 
+                    userinfo_userid, 
+                    login_id 
+                FROM 
+                    (
+                        SELECT 
+                            emotion_type, 
+                            userinfo_userid, 
+                            login_id,
+                            ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
+                        FROM 
+                            ETRI_EMOTION.emo_emotion_info
+                    ) ranked
+                WHERE 
+                    rn = 1
+            ) Latest_Emo 
+            ON e.login_id = Latest_Emo.login_id
+        LEFT JOIN 
+            (
+                SELECT AGENT_ID, REC_END_DATETIME
+                FROM (
+                    SELECT 
+                        AGENT_ID, 
+                        REC_END_DATETIME,
+                        ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                    FROM 
+                        acr_v4.t_rec_data202406
+                ) ranked_calls
+                WHERE rn = 1
+            ) Latest_Call 
+            ON Latest_Emo.login_id = Latest_Call.AGENT_ID
+        WHERE 
+            JSON_EXTRACT(s.data, '$.user') IS NOT NULL
+            AND s.expires > UNIX_TIMESTAMP()
+            AND e.loginout_type = 'I'
+            AND e.group_manager = 'N'
+        ORDER BY JSON_EXTRACT(s.data, '$.user.user_name');
+2024-12-23 12:28:26.244 [info]  [ app.js:workStatusMain ] notPresent_agent
+SELECT eui.user_name, eui.login_id
+        FROM emo_user_info eui
+        WHERE eui.user_name NOT IN (
+            SELECT JSON_UNQUOTE(JSON_EXTRACT(data, '$.user.user_name')) as user_name
+            FROM sessions
+            WHERE expires > UNIX_TIMESTAMP()
+            AND JSON_EXTRACT(data, '$.user') IS NOT NULL
+            AND JSON_EXTRACT(data, '$.user.group_manager') = 'N'
+        )
+        AND eui.group_manager = 'N'
+        AND eui.user_type != '3'
+        ORDER BY eui.user_name;
+2024-12-23 12:28:26.422 [info]  [ app.js:need_coach] need_coach 54 건
+2024-12-23 12:28:26.519 [info]  [ app.js:/workStatusMain ] 현재 경로: /workStatusMain
+2024-12-23 12:28:26.520 [info]  [ app.js:workStatusMain ] need_coach
+SELECT
+            ecm.auto_seq,
+            DATE_FORMAT(ecm.call_date, '%Y-%m-%d') as call_date,
+            CONCAT(
+                IFNULL(LEFT(ecm.call_time, 2), '00'), ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '00' 
+                    ELSE '30' 
+                END, '~',
+                CASE
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' 
+                    THEN IFNULL(LEFT(ecm.call_time, 2), '00')
+                    ELSE LPAD(MOD(CAST(IFNULL(LEFT(ecm.call_time, 2), '00') AS UNSIGNED) + 1, 24), 2, '0')
+                END, ':',
+                CASE 
+                    WHEN IFNULL(SUBSTRING(ecm.call_time, 3, 2), '00') <= '30' THEN '30' 
+                    ELSE '00' 
+                END
+            ) AS time_range,
+            ecm.call_time,
+            ecm.login_id,
+            (SELECT MAX(ui.user_name) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS user_name,
+            ecm.auto_over_anger,
+            ecm.agent_anger,
+            ecm.auto_over_sad,
+            ecm.agent_sad,
+            ecm.auto_standard,
+            COUNT(DISTINCT ecc.call_time) AS call_count,
+            ecm.auto_coach,
+            ecm.send_yn 
+        FROM 
+            ETRI_EMOTION.emo_coaching_message ecm
+        LEFT JOIN ETRI_EMOTION.emo_call_count ecc
+        ON ecm.call_date = ecc.call_date
+            AND ecm.login_id = ecc.login_id
+            AND ecc.call_time >= CONCAT(LEFT(ecm.call_time, 2), 
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '0000' ELSE '3000' END)
+            AND ecc.call_time < CONCAT(
+                CASE 
+                    WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN LEFT(ecm.call_time, 2)
+                    ELSE LPAD(MOD(CAST(LEFT(ecm.call_time, 2) AS UNSIGNED) + 1, 24), 2, '0')
+                END,
+                CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '3000' ELSE '0000' END
+            )
+        WHERE ecm.call_date = '20241223'
+        AND ecm.auto_coach = 'P'
+        AND ecm.send_yn = 'N'
+        GROUP BY 
+            ecm.call_date, ecm.call_time,
+            ecm.login_id, ecm.auto_standard,
+            ecm.agent_sad, ecm.agent_anger
+        ORDER BY 
+            ecm.call_date, ecm.call_time, ecm.login_id;
+2024-12-23 12:28:26.523 [info]  [ app.js:workStatusMain ] present_agent
+SELECT 
+            s.session_id,
+            JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) AS session_user_name,
+            e.userinfo_userid,
+            e.login_id,
+            e.user_name AS emo_user_name,
+            e.group_manager,
+            e.loginout_dt AS last_login_time,
+            Latest_Emo.emotion_type,
+            CASE 
+                WHEN Latest_Call.REC_END_DATETIME IS NULL -- 통화 종료 시간이 NULL 값이어야 하고,
+                AND Latest_Call.AGENT_ID = Latest_Emo.login_id THEN 1 -- t_rec_data202406 테이블에 해당 상담원의 통화 데이터가 있어야 "1" 반환
+                ELSE 0
+            END AS last_call_status
+        FROM
+            ETRI_EMOTION.sessions s
+        JOIN 
+            ETRI_EMOTION.emo_loginout_info e 
+            ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
+        JOIN 
+            (
+                SELECT 
+                    user_name, 
+                    MAX(loginout_dt) AS max_login_dt
+                FROM 
+                    ETRI_EMOTION.emo_loginout_info
+                WHERE 
+                    loginout_type = 'I'
+                GROUP BY 
+                    user_name
+            ) latest_login 
+            ON e.user_name = latest_login.user_name 
+            AND e.loginout_dt = latest_login.max_login_dt
+        JOIN 
+            (
+                SELECT 
+                    emotion_type, 
+                    userinfo_userid, 
+                    login_id 
+                FROM 
+                    (
+                        SELECT 
+                            emotion_type, 
+                            userinfo_userid, 
+                            login_id,
+                            ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
+                        FROM 
+                            ETRI_EMOTION.emo_emotion_info
+                    ) ranked
+                WHERE 
+                    rn = 1
+            ) Latest_Emo 
+            ON e.login_id = Latest_Emo.login_id
+        LEFT JOIN 
+            (
+                SELECT AGENT_ID, REC_END_DATETIME
+                FROM (
+                    SELECT 
+                        AGENT_ID, 
+                        REC_END_DATETIME,
+                        ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                    FROM 
+                        acr_v4.t_rec_data202406
+                ) ranked_calls
+                WHERE rn = 1
+            ) Latest_Call 
+            ON Latest_Emo.login_id = Latest_Call.AGENT_ID
+        WHERE 
+            JSON_EXTRACT(s.data, '$.user') IS NOT NULL
+            AND s.expires > UNIX_TIMESTAMP()
+            AND e.loginout_type = 'I'
+            AND e.group_manager = 'N'
+        ORDER BY JSON_EXTRACT(s.data, '$.user.user_name');
+2024-12-23 12:28:26.524 [info]  [ app.js:workStatusMain ] notPresent_agent
+SELECT eui.user_name, eui.login_id
+        FROM emo_user_info eui
+        WHERE eui.user_name NOT IN (
+            SELECT JSON_UNQUOTE(JSON_EXTRACT(data, '$.user.user_name')) as user_name
+            FROM sessions
+            WHERE expires > UNIX_TIMESTAMP()
+            AND JSON_EXTRACT(data, '$.user') IS NOT NULL
+            AND JSON_EXTRACT(data, '$.user.group_manager') = 'N'
+        )
+        AND eui.group_manager = 'N'
+        AND eui.user_type != '3'
+        ORDER BY eui.user_name;
+2024-12-23 12:28:26.566 [info]  [ app.js:socketConnected ] 상담관리자: ms4 접속[::ffff:192.168.0.34]
+2024-12-23 12:28:26.567 [info]  [ app.js:socketConnected ] 접속일시: 2024년 12월 23일 12시 28분 26초
+2024-12-23 12:28:26.567 [info]  [ app.js:socketConnected ] 현재 연결된 사용자: 2명
+2024-12-23 12:28:26.567 [info]  [ app.js:socketConnected ] 현재 연결된 사용자 ID: ms15,[object Object],ms4,[object Object]
+2024-12-23 12:28:26.579 [info]  [ app.js:socketOnMessage ] 클라이언트 정상 응답 '상담관리자ms4 접속[::ffff:192.168.0.34]'
+2024-12-23 12:28:26.580 [info]  [ app.js:socketOnMessage ] 클라이언트 정상 응답 '접속일시: 2024년 12월 23일 12시 28분 26초'
+2024-12-23 12:28:26.752 [info]  [ app.js:need_coach] need_coach 54 건
+2024-12-23 12:28:28.131 [info]  [ app.js:socketDisConnected ] transport close
+2024-12-23 12:28:28.132 [info]  [ app.js:socketDisConnected ] 클라이언트 연결해제 [IP: ::ffff:192.168.0.34, 사용자: 정수빈]
+2024-12-23 12:28:28.134 [info]  [ app.js:socketDisConnected ] 현재 연결된 사용자: 1명
+2024-12-23 12:28:28.146 [info]  [ API:ManagerLogout ] 로그아웃 프로세스 호출
+2024-12-23 12:28:28.190 [info]  [ AMQP:sendToqueue ] 메세지 송신 결과
+{
+    "ErkServiceDisConnRQ": {
+        "ErkMsgHead": {
+            "MsgType": "ErkServiceDisConnRQ",
+            "QueueInfo": {
+                "ToQueueName": "ERK_API_QUEUE",
+                "FromQueueName": "NEIGHBOR_SYSTEM"
+            },
+            "OrgId": "13",
+            "UserId": 4
+        },
+        "MsgTime": "1734924508154",
+        "ServiceType": "ServiceType_speech"
+    }
+}
+2024-12-23 12:28:28.192 [info]  [ AMQP:sendToqueue ] 메세지 송신 결과
+{
+    "ErkServiceDisConnRQ": {
+        "ErkMsgHead": {
+            "MsgType": "ErkServiceDisConnRQ",
+            "QueueInfo": {
+                "ToQueueName": "ERK_API_QUEUE",
+                "FromQueueName": "NEIGHBOR_SYSTEM2"
+            },
+            "OrgId": "13",
+            "UserId": 14
+        },
+        "MsgTime": "1734924508164",
+        "ServiceType": "ServiceType_speech"
+    }
+}
+2024-12-23 12:28:28.217 [info]  [ API:ManagerLogout ] User logout success & Data updated!
+2024-12-23 12:28:28.232 [info]  [ app.js:/ ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동
+2024-12-23 12:28:30.631 [info]  [ app.js:callProcedure ] 'emoCoachingMessage10_Proc' 프로시저 호출 결과: 51개
+2024-12-23 12:28:30.632 [info]  [ app.js:callProcedure ] 'emoCoachingMessage30_Proc' 프로시저 호출 결과: 173개
+2024-12-23 12:28:30.633 [info]  [ app.js:callProcedure ] 'emoCoachingMessage60_Proc' 프로시저 호출 결과: 0개
+2024-12-23 12:28:30.636 [info]  [ app.js:selectAutoCoach ] 자동 코칭 조건 결과 및 개수 : 6개
+2024-12-23 12:28:30.906 [info]  [ app.js:socketDisConnected ] transport close
+2024-12-23 12:28:30.909 [info]  [ app.js:socketDisConnected ] 클라이언트 연결해제 [IP: ::ffff:192.168.0.34, 사용자: 권태영]
+2024-12-23 12:28:30.909 [info]  [ app.js:socketDisConnected ] 현재 연결된 사용자: 0명
+2024-12-23 12:28:30.937 [info]  [ API:ManagerLogout ] 로그아웃 프로세스 호출
+2024-12-23 12:28:30.949 [info]  [ API:ManagerLogout ] User logout success & Data updated!
+2024-12-23 12:28:30.954 [info]  [ AMQP:sendToqueue ] 메세지 송신 결과
+{
+    "ErkServiceDisConnRQ": {
+        "ErkMsgHead": {
+            "MsgType": "ErkServiceDisConnRQ",
+            "QueueInfo": {
+                "ToQueueName": "ERK_API_QUEUE",
+                "FromQueueName": "NEIGHBOR_SYSTEM"
+            },
+            "OrgId": "13",
+            "UserId": 15
+        },
+        "MsgTime": "1734924510941",
+        "ServiceType": "ServiceType_speech"
+    }
+}
+2024-12-23 12:28:30.954 [info]  [ AMQP:sendToqueue ] 메세지 송신 결과
+{
+    "ErkServiceDisConnRQ": {
+        "ErkMsgHead": {
+            "MsgType": "ErkServiceDisConnRQ",
+            "QueueInfo": {
+                "ToQueueName": "ERK_API_QUEUE",
+                "FromQueueName": "NEIGHBOR_SYSTEM2"
+            },
+            "OrgId": "13",
+            "UserId": 25
+        },
+        "MsgTime": "1734924510941",
+        "ServiceType": "ServiceType_speech"
+    }
+}
+2024-12-23 12:28:30.970 [info]  [ app.js:/ ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동
+2024-12-23 12:28:33.852 [info]  [ watchDirectory:processSIGINT ] Received SIGINT. Cleaning up...

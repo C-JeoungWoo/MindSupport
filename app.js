@@ -15,12 +15,13 @@ const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, 'rmq.env') });
 const protobuf = require(`protobufjs`);
 
-const mysql = require('./db/maria')();
-const connection = mysql.init();
-mysql.db_open(connection);
+const mysql = require('./db/maria')();//maria.js 연결
+const mysql2 = require('./db/acrV4')();//acr_v4.js 연결
 
-const mysql2 = require('./db/acrV4')();
-const connection2 = mysql.init();
+const connection = mysql.init(); //ETRI_EMOTION
+const connection2 = mysql2.init(); //acr_v4
+
+mysql.db_open(connection); // DB 연결
 mysql2.db_open(connection2);
 
 const logger = require(`./logs/logger`);
@@ -305,7 +306,7 @@ app.get('/workStatusMain', async (req, res) => {
                 END,
                 CASE WHEN SUBSTRING(ecm.call_time, 3, 2) <= '30' THEN '3000' ELSE '0000' END
             )
-        WHERE ecm.call_date = '${DateUtils.getYearMonthDay()}'
+        WHERE ecm.call_date = ?
         AND ecm.auto_coach = 'P'
         AND ecm.send_yn = 'N'
         GROUP BY 
@@ -317,80 +318,73 @@ app.get('/workStatusMain', async (req, res) => {
         logger.info(`[ app.js:workStatusMain ] need_coach\n${need_coach}`);
 
         //  현재 근무중인 상담원( 현재 접속중이며 테이블에 있는 감성데이터 중 마지막 감성)
-        let present_agent = `SELECT 
-            s.session_id,
-            JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) AS session_user_name,
-            e.userinfo_userid,
-            e.login_id,
-            e.user_name AS emo_user_name,
-            e.group_manager,
-            e.loginout_dt AS last_login_time,
-            Latest_Emo.emotion_type,
-            CASE 
-                WHEN Latest_Call.REC_END_DATETIME IS NULL -- 통화 종료 시간이 NULL 값이어야 하고,
-                AND Latest_Call.AGENT_ID = Latest_Emo.login_id THEN 1 -- t_rec_data202406 테이블에 해당 상담원의 통화 데이터가 있어야 "1" 반환
-                ELSE 0
-            END AS last_call_status
-        FROM
-            ETRI_EMOTION.sessions s
-        JOIN 
-            ETRI_EMOTION.emo_loginout_info e 
-            ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
-        JOIN 
-            (
-                SELECT 
-                    user_name, 
-                    MAX(loginout_dt) AS max_login_dt
-                FROM 
-                    ETRI_EMOTION.emo_loginout_info
-                WHERE 
-                    loginout_type = 'I'
-                GROUP BY 
-                    user_name
-            ) latest_login 
-            ON e.user_name = latest_login.user_name 
-            AND e.loginout_dt = latest_login.max_login_dt
-        JOIN 
-            (
-                SELECT 
-                    emotion_type, 
-                    userinfo_userid, 
-                    login_id 
-                FROM 
-                    (
-                        SELECT 
-                            emotion_type, 
-                            userinfo_userid, 
-                            login_id,
-                            ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
-                        FROM 
-                            ETRI_EMOTION.emo_emotion_info
-                    ) ranked
-                WHERE 
-                    rn = 1
-            ) Latest_Emo 
-            ON e.login_id = Latest_Emo.login_id
-        LEFT JOIN 
-            (
-                SELECT AGENT_ID, REC_END_DATETIME
-                FROM (
+        // ETRI_EMOTION DB 쿼리
+        let etriEmotionQuery = `
+            SELECT 
+                s.session_id,
+                JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) AS session_user_name,
+                e.userinfo_userid,
+                e.login_id,
+                e.user_name AS emo_user_name,
+                e.group_manager,
+                e.loginout_dt AS last_login_time,
+                Latest_Emo.emotion_type
+            FROM
+                ETRI_EMOTION.sessions s
+            JOIN 
+                ETRI_EMOTION.emo_loginout_info e 
+                ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
+            JOIN 
+                (
                     SELECT 
-                        AGENT_ID, 
-                        REC_END_DATETIME,
-                        ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                        user_name, 
+                        MAX(loginout_dt) AS max_login_dt
                     FROM 
-                        acr_v4.t_rec_data202406
-                ) ranked_calls
-                WHERE rn = 1
-            ) Latest_Call 
-            ON Latest_Emo.login_id = Latest_Call.AGENT_ID
-        WHERE 
-            JSON_EXTRACT(s.data, '$.user') IS NOT NULL
-            AND s.expires > UNIX_TIMESTAMP()
-            AND e.loginout_type = 'I'
-            AND e.group_manager = 'N'
-        ORDER BY JSON_EXTRACT(s.data, '$.user.user_name');`;
-        logger.info(`[ app.js:workStatusMain ] present_agent\n${present_agent}`);
+                        ETRI_EMOTION.emo_loginout_info
+                    WHERE 
+                        loginout_type = 'I'
+                    GROUP BY 
+                        user_name
+                ) latest_login 
+                ON e.user_name = latest_login.user_name 
+                AND e.loginout_dt = latest_login.max_login_dt
+            JOIN 
+                (
+                    SELECT 
+                        emotion_type, 
+                        userinfo_userid, 
+                        login_id 
+                    FROM 
+                        (
+                            SELECT 
+                                emotion_type, 
+                                userinfo_userid, 
+                                login_id,
+                                ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
+                            FROM 
+                                ETRI_EMOTION.emo_emotion_info
+                        ) ranked
+                    WHERE 
+                        rn = 1
+                ) Latest_Emo 
+                ON e.login_id = Latest_Emo.login_id
+            WHERE 
+                JSON_EXTRACT(s.data, '$.user') IS NOT NULL
+                AND s.expires > UNIX_TIMESTAMP()
+                AND e.loginout_type = 'I'
+                AND e.group_manager = 'N';`;
+
+        let acrQuery = `
+            SELECT AGENT_ID, REC_END_DATETIME
+            FROM (
+                SELECT 
+                    AGENT_ID, 
+                    REC_END_DATETIME,
+                    ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                FROM 
+                    acr_v4.t_rec_data202406
+            ) ranked_calls
+            WHERE rn = 1;`;
 
         //  비접속 상담원
         let notPresent_agent = `SELECT eui.user_name, eui.login_id
@@ -405,48 +399,75 @@ app.get('/workStatusMain', async (req, res) => {
         AND eui.group_manager = 'N'
         AND eui.user_type != '3'
         ORDER BY eui.user_name;`;
-        logger.info(`[ app.js:workStatusMain ] notPresent_agent\n${notPresent_agent}`);
+        logger.info(`[ app.js:workStatusMain ] notPresent_agent\n${notPresent_agent}`);  
 
-        connection.query(need_coach+present_agent+notPresent_agent, (err, results) => {
-            if (err) {
-                logger.error(`[ app.js:present_agent ] ${err}`);
-                connection.end();
-            }
-            logger.info(`[ app.js:need_coach] need_coach ${results[0].length} 건`);
-
-            let needed_coaching = results[0];
-            let present_agent = results[1];
-            let notPresent_agent = results[2];
-
-            // 클라이언트가 데이터만 요청한 경우 (AJAX 요청)
-            if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
-                return res.json({
-                    needed_coaching: needed_coaching,
-                    present_agent: present_agent,
-                    notPresent_agent: notPresent_agent,
-                });
-            }
-
-            res.render('index', {
-                title: 'MindSupport 근무현황',
-                body: 'workStatusMain',
-                needed_coaching: needed_coaching,
-                session_name: req.session.user.user_name,
-                present_agent: present_agent,
-                notPresent_agent: notPresent_agent
-            }, (err, html) => {
+        // 두 데이터베이스에서 데이터를 가져오기
+        const etriPromise = new Promise((resolve, reject) => {
+            connection.query(etriEmotionQuery, (err, results) => {
                 if (err) {
-                    logger.error(`[ app.js:/workStatusMain ] Error rendering body: ${err}`);
-                    res.status(500).send('Error rendering body');
-        
-                    return;
+                    logger.error(`[ app.js:etriEmotionQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
                 }
-                
-                res.send(html);
             });
-        })
-    } catch(err) {
-        logger.error(`[ app.js:present_agent ] ${err}`);
+        });
+
+        const acrPromise = new Promise((resolve, reject) => {
+            connection2.query(acrQuery, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:acrQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        // 결과 병합
+        const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
+
+        const present_agent = etriResults.map(etri => {
+            const acrData = acrResults.find(acr => acr.AGENT_ID === etri.login_id) || {};
+            return {
+                ...etri,
+                last_call_status: acrData.REC_END_DATETIME ? 1 : 0
+            };
+        });
+
+        connection.query(need_coach, [DateUtils.getYearMonthDay()], (err, needed_coaching) => {
+            if (err) throw err;
+
+            connection.query(notPresent_agent, (err, notPresentAgentResults) => {
+                if (err) throw err;
+
+                if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+                    return res.json({
+                        needed_coaching: needed_coaching,
+                        present_agent: present_agent,
+                        notPresent_agent: notPresentAgentResults,
+                    });
+                }
+
+                res.render('index', {
+                    title: 'MindSupport 근무현황',
+                    body: 'workStatusMain',
+                    needed_coaching: needed_coaching,
+                    session_name: req.session.user.user_name,
+                    present_agent: present_agent,
+                    notPresent_agent: notPresent_agent
+                }, (err, html) => {
+                    if (err) {
+                        logger.error(`[ app.js:/workStatusMain ] Error rendering body: ${err}`);
+                        return res.status(500).send('Error rendering body');
+                    }
+                    res.send(html);
+                });
+            });
+        });
+    } catch (err) {
+        logger.error(`[ app.js:/workStatusMain ] Error: ${err}`);
+        res.status(500).send('Internal Server Error');
     }
 });
 
@@ -614,23 +635,25 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
 
         //  3. 통화 이력 데이터
 
-        connection.query(getTodayEmo_qry+customData+callRecords, (err, results) => {
+        connection.query(getTodayEmo_qry+customData, (err, results) => {
             if (err) {
                 logger.error(`[ app.js:/workStatusMain/getTodayEmo ] ${err}`);
                 throw err;
             }
+            connection2.query(callRecords, (err,callRecordsresults) => {
+                if (err) throw err;
 
-            //  데이터 전송
-            const data = results[0];
-            const cus_results2 = results[1];
-            const call_results3 = results[2];
-            const results4 = '';
+                //  데이터 전송
+                const data = results[0];
+                const cus_results2 = results[1];
+                const call_results3 = callRecordsresults;
 
-            res.status(200).json({
-                data:data,
-                customData:cus_results2,    // 고객 데이터
-                callRecords:call_results3,  // 통화 데이터
-                counselData:counselData // 상담원 데이터
+                res.status(200).json({
+                    data:data,
+                    customData:cus_results2,    // 고객 데이터
+                    callRecords:call_results3,  // 통화 데이터
+                    counselData:counselData // 상담원 데이터
+                });
             });
         });
     } catch (err) {

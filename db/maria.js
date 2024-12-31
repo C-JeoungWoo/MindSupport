@@ -20,9 +20,10 @@ module.exports = () => {
             con.connect(err => {
                 if (err) {
                     logger.error(`[ db:maria.js ] MindSupport DB CONNECTION ERROR : ${err}`);
+                } else {
+                    logger.info(`[ db:maria.js ] MindSupport DB CONNECTION SUCCESSFULLY`);
+                    return;
                 }
-
-                return;
             })
         }
     }
