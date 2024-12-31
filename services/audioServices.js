@@ -75,17 +75,17 @@ const handleNewFile = async function handleNewFile(filePath, userid) {
                 else unchangedCount = 0;
 
                 // 4. 녹취 종료 조건 체크
-                // const isRecordingComplete = 
-                //     (recordingStatus.REC_END_DATETIME !== null) &&        // DB 종료
-                //     (unchangedCount >= MAX_UNCHANGED_COUNT);        // 파일 크기 안정화
+                const isRecordingComplete = 
+                    (recordingStatus.REC_END_DATETIME !== null) &&        // DB 종료
+                    (unchangedCount >= MAX_UNCHANGED_COUNT);        // 파일 크기 안정화
 
-                const isRecordingComplete = unchangedCount >= MAX_UNCHANGED_COUNT;        // 파일 크기 안정화
+                // const isRecordingComplete = unchangedCount >= MAX_UNCHANGED_COUNT;        // 파일 크기 안정화(일반 파일 테스트 시)
                 let remainingDataSize = currentSize - (gsmHeaderLength + (1630 * (chunkNumber - 1)));
                 if (isRecordingComplete) {
-                    // logger.info(`[ audioServices.js:handleNewFile ] Recording completed.
-                    //     DB Status: ${!!recordingStatus.REC_END_DATETIME},
-                    //     File Stable: ${unchangedCount >= MAX_UNCHANGED_COUNT}`
-                    // );
+                    logger.info(`[ audioServices.js:handleNewFile ] Recording completed.
+                        DB Status: ${!!recordingStatus.REC_END_DATETIME},
+                        File Stable: ${unchangedCount >= MAX_UNCHANGED_COUNT}`
+                    );
                     
                     // 마지막 청크 처리를 위한 sendAudioChunks 호출
                     const sendResult = await StreamingService.sendAudioChunks(filePath, userid, currentErkApiMsg, {
@@ -286,7 +286,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                     }, 5000);
 
                     connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
-                        WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId) + 11};`, (error, results) => {
+                        WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId) + 10};`, (error, results) => {
                         if (error) reject(error);
 
                         // 메시지 전송

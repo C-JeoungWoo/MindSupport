@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/MindSupport_v1.0.0/logs/log/.6333ec9412e7947bcb7b4be565cdd4d8ae873301-audit.json",
+    "files": [
+        {
+            "date": 1735603494181,
+            "name": "/home/MindSupport_v1.0.0/logs/log/241231_09.log",
+            "hash": "463dd646838501d1b6535f339a8c60be03ba335eef2ae67261685f42069c790e"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -36,7 +36,6 @@ class StreamProcessor {
             gsmHeaderLength,
             fileType,
             userId,
-            // 필요한 값들 추가
             login_id,
             org_id,
             user_uuid
@@ -53,12 +52,12 @@ class StreamProcessor {
                 isLastChunk,
                 fileType,
                 userId,
-                login_id,      // 추가
-                org_id,        // 추가
-                user_uuid      // 추가
+                login_id,
+                org_id,
+                user_uuid
             );
 
-            // // 분할 횟수만큼 순차적 전송
+            // 분할 횟수만큼 순차적 전송
             // for(let i = 0; i<totalChunks; i++) {
             //     try {
             //         const start = i * (this.rawChunkSize / this.bytesPerSample);
@@ -95,6 +94,7 @@ class StreamProcessor {
             //         successCount
             //     };
             // }
+
             if (processResult.success) {
                 return {
                     success: true,
@@ -211,10 +211,10 @@ class StreamProcessor {
         timestamp,
         dateTimeString,
         chunkNumber,
-        login_id,      // 추가
-        org_id,        // 추가
-        fileInfo_callId,  // 추가
-        selectedQueue    // 추가
+        login_id,
+        org_id,
+        fileInfo_callId,
+        selectedQueue
     }) {
         try {
             // const { chunkIndex, totalChunks, timestamp, dateTimeString, fileType } = options; // fileType 추가

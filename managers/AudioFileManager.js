@@ -20,8 +20,6 @@ class AudioFileManager {
     constructor() {
         this.pendingFiles = new Map();   // 파일 처리 상태 관리
         this.callTracker = new Map();      // 통화별 rx/tx 상태 추적 추가
-        this.checkInterval = 4000;           // 체크 주기 4초
-        this.startPendingFileChecker();  // 미처리 파일 체크 시작
     }
 
     // 1. 파일 정보 및 사용자 정보 조회
@@ -124,28 +122,7 @@ class AudioFileManager {
         }
     }
 
-    // 4. 미처리 파일 체크 및 재처리
-    async startPendingFileChecker() {
-        setInterval(async () => {
-            for (const [filePath, fileInfo] of this.pendingFiles) {
-                try {
-                    const stats = await fsp.stat(filePath);
-                    const recordingStatus = await this.checkRecordingStatus(filePath);
-
-                    if (recordingStatus?.REC_END_DATETIME && fileInfo.status === 'pending') {
-                        await this.reprocessFile(filePath, fileInfo);
-                    }
-                } catch (error) {
-                    logger.error(`[ AudioFileManager:pendingFileChecker ] Error checking ${filePath}: ${error}`);
-                    if (error.code === 'ENOENT') {
-                        this.pendingFiles.delete(filePath);
-                    }
-                }
-            }
-        }, this.checkInterval);
-    }
-
-    // 5. 파일 재처리
+    // 4. 파일 재처리
     async reprocessFile(filePath, fileInfo) {
         try {
             if (fileInfo.retryCount >= 3) {
@@ -172,7 +149,7 @@ class AudioFileManager {
         }
     }
 
-    // 6. 파일 처리 완료 표시
+    // 5. 파일 처리 완료 표시
     markFileComplete(filePath) {
         if (this.pendingFiles.has(filePath)) {
             const fileInfo = this.pendingFiles.get(filePath);
@@ -181,59 +158,59 @@ class AudioFileManager {
         }
     }
 
-    // 병렬 처리를 위한 함수
-    async processChannelFiles(callId, files) {
-        try {
-            // 각 채널(rx/tx) 병렬 처리
-            const results = await Promise.all(
-                files.map(async file => {
-                    try {
-                        const userInfo = await this.getUserInfoFromFile(file.path);
-                        const result = await this.processChannel(file.path, userInfo, {
-                            fileType: file.type // 'rx' 또는 'tx'
-                        });
-                        
-                        return {
-                            type: file.type,
-                            path: file.path,
-                            success: true,
-                            result
-                        };
-                    } catch (error) {
-                        logger.error(`[ AudioFileManager:processChannelFiles ] Error processing ${file.type}: ${error}`);
-                        return {
-                            type: file.type,
-                            path: file.path,
-                            success: false,
-                            error: error.message
-                        };
-                    }
-                })
-            );
+    // 6. 병렬 처리를 위한 함수 (EnhancedFSWatcher.js에서 구현 - Promise All 사용)
+    // async processChannelFiles(callId, files) {
+    //     try {
+    //         // 각 채널(rx/tx) 병렬 처리
+    //         const results = await Promise.all(
+    //             files.map(async file => {
+    //                 try {
+    //                     const userInfo = await this.getUserInfoFromFile(file.path);
+    //                     const result = await this.processChannel(file.path, userInfo, {
+    //                         fileType: file.type // 'rx' 또는 'tx'
+    //                     });
 
-            return results;
-        } catch (error) {
-            logger.error(`[ AudioFileManager:processChannelFiles ] Error processing channels: ${error}`);
-            throw error;
-        }
-    }
+    //                     return {
+    //                         type: file.type,
+    //                         path: file.path,
+    //                         success: true,
+    //                         result
+    //                     };
+    //                 } catch (error) {
+    //                     logger.error(`[ AudioFileManager:processChannelFiles ] Error processing ${file.type}: ${error}`);
+    //                     return {
+    //                         type: file.type,
+    //                         path: file.path,
+    //                         success: false,
+    //                         error: error.message
+    //                     };
+    //                 }
+    //             })
+    //         );
+
+    //         return results;
+    //     } catch (error) {
+    //         logger.error(`[ AudioFileManager:processChannelFiles ] Error processing channels: ${error}`);
+    //         throw error;
+    //     }
+    // }
 
     // 8. 단일 채널 처리
-    async processChannel(filePath, userInfo, options) {
-        try {
-            // 파일 추적 시작
-            await this.trackFile(filePath);
-            
-            // handleNewFile 호출하여 실제 처리 수행
-            const result = await handleNewFile(filePath, userInfo, options);
-            if (result === 'success') { this.markFileComplete(filePath); }
+    // async processChannel(filePath, userInfo, options) {
+    //     try {
+    //         // 파일 추적 시작
+    //         await this.trackFile(filePath);
 
-            return result;
-        } catch (error) {
-            logger.error(`[ AudioFileManager:processChannel ] Error processing file ${filePath}: ${error}`);
-            throw error;
-        }
-    }
+    //         // handleNewFile 호출하여 실제 처리 수행
+    //         const result = await handleNewFile(filePath, userInfo, options);
+    //         if (result === 'success') { this.markFileComplete(filePath); }
+
+    //         return result;
+    //     } catch (error) {
+    //         logger.error(`[ AudioFileManager:processChannel ] Error processing file ${filePath}: ${error}`);
+    //         throw error;
+    //     }
+    // }
 
     // EmoServiceStop 처리 중앙화
     async handleServiceStop(userId) {

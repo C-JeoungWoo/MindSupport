@@ -93,10 +93,10 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.29",
+    host: "192.168.0.30",
     port: 3306,
-    user: "root",
-    password: "spdlqj21",
+    user: "emo10",
+    password: "nb1234",
     database: "ETRI_EMOTION" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
@@ -129,8 +129,6 @@ io.use(sharedSession(
     }), {
         autoSave: true
 }));
-
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 //////////////////////////////////////////////// [공통] ////////////////////////////////////////////////
 
@@ -4457,11 +4455,7 @@ conn = amqp.connect({
             //  녹취 디렉토리 모니터링
             async function watchDirectory() {
                 //  1. 파일 감시 시작
-                const fsWatcher = new EnhancedFSWatcher({
-                    pollingInterval: 100,
-                    stabilityThreshold: 300,
-                    adaptivePolling: true
-                });
+                const fsWatcher = new EnhancedFSWatcher({ pollingInterval: 100 });
 
                 try {
                     //  2. NFS 마운트 상태 확인
@@ -4474,25 +4468,22 @@ conn = amqp.connect({
                     const watcher = await fsWatcher.initializeWatcher();
 
                     // 4. 메트릭 모니터링 설정
-                    const metricsInterval = setInterval(() => {
-                        const metrics = fsWatcher.metrics;
-                        const avgDelay = fsWatcher.calculateAverageDelay();
-                        const successRate = metrics.successfulEvents / (metrics.successfulEvents + metrics.missedEvents) || 0;
+                    // const metricsInterval = setInterval(() => {
+                    //     const metrics = fsWatcher.metrics;
+                    //     const avgDelay = fsWatcher.calculateAverageDelay();
+                    //     const successRate = metrics.successfulEvents / (metrics.successfulEvents + metrics.missedEvents) || 0;
             
-                        logger.info(`[ app.js:watchDirectory ] File System Metrics:
-                        Average Delay: ${avgDelay.toFixed(2)}ms
-                        Success Rate: ${(successRate * 100).toFixed(2)}% 
-                        Current Polling Interval: ${fsWatcher.config.pollingInterval}ms
-                        Total Events: ${metrics.successfulEvents + metrics.missedEvents}`);
-                    }, 60000);
+                    //     logger.info(`[ app.js:watchDirectory ] File System Metrics:
+                    //     Average Delay: ${avgDelay.toFixed(2)}ms
+                    //     Success Rate: ${(successRate * 100).toFixed(2)}% 
+                    //     Current Polling Interval: ${fsWatcher.config.pollingInterval}ms
+                    //     Total Events: ${metrics.successfulEvents + metrics.missedEvents}`);
+                    // }, 60000);
 
-                    // 5. 프로세스 처리
-                    const cleanup = async () => {
-                        clearInterval(metricsInterval);
-                        fsWatcher.cleanup();
-                    };
+                    // 4. 프로세스 처리
+                    const cleanup = async () => { fsWatcher.cleanup(); };
 
-                     // 6. 종료 처리
+                     // 5. 종료 처리
                     process.on('SIGINT', async () => {
                         logger.info('[ watchDirectory:processSIGINT ] Received SIGINT. Cleaning up...');
                         await cleanup();
@@ -4976,13 +4967,8 @@ function callProcedure() {
     
                 selectAutoCoach(DateUtils.getYearMonthDay());
             }
-
-            // logger.info(`[ app.js:callProcedure ] 'emoCoachingMessage_10Proc' 프로시저 호출 결과: ${results[0].affectedRows}개`);
-            // logger.info(`[ app.js:callProcedure ] 'emoCoachingMessage_30Proc' 프로시저 호출 결과: ${results[1].affectedRows}개`);
-            // logger.info(`[ app.js:callProcedure ] 'emoCoachingMessage_60Proc' 프로시저 호출 결과: ${results[2].affectedRows}개`);
         });
     } catch(err) {
-        // 에러 발생 경우
         logger.error(`[ app.js:callProcedure ] ${err}`);
         throw err;
     }
