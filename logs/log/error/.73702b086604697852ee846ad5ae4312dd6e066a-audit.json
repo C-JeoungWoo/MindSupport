@@ -54,6 +54,16 @@
             "date": 1735542203466,
             "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/241230_16_error.log",
             "hash": "4b92c184151595a3fc75d95ca041e19da486df3460a011fb3db06e5cc858763f"
+        },
+        {
+            "date": 1735607746589,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/241231_10_error.log",
+            "hash": "62dd0c0b63a54dd16372ea65139279fbeb3a58d32c46cf71555a970b3703e4bd"
+        },
+        {
+            "date": 1735613553487,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/error/241231_11_error.log",
+            "hash": "73c14d510696eacecacf59303a6b828b036c573de7ac62eb2b95cc0e5f933f94"
         }
     ],
     "hashType": "sha256"

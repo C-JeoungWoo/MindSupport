@@ -93,10 +93,10 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.30",
+    host: "192.168.0.29",
     port: 3306,
-    user: "emo10",
-    password: "nb1234",
+    user: "root",
+    password: "spdlqj21",
     database: "ETRI_EMOTION" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);

@@ -6,3 +6,9 @@ node_modules/
 
 # Mac OS에서 자동으로 생성되는 시스템 파일
 .DS_Store
+
+# log 파일은 올릴 필요가 없음
+*.log
+*.gz
+*.pcm
+*.txt
