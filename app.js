@@ -83,6 +83,7 @@ const HTTPServer = httpsServer.listen(PORT, () => {
 //  WebSocket 설정
 const socketIo = require(`socket.io`);
 const { router } = require('websocket');
+const { resolve } = require('app-root-path');
 const io = socketIo(httpsServer, {
     path: `/socket.io`,
     transport: [`websocket`]
@@ -164,7 +165,7 @@ app.post('/saveCurrentPath', (req, res) => {
 //////////////////////////////////////////////// [상담원] ////////////////////////////////////////////////
 
 //  상담원 페이지
-app.get(`/consultant`, (req, res) => {
+app.get(`/consultant`, async (req, res) => {
     if (!req.session || !req.session.authenticate || !req.session.user) {
         logger.info(`[ app.js:/consultant ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
         res.redirect(`/`, { title: `로그인` });
@@ -174,47 +175,94 @@ app.get(`/consultant`, (req, res) => {
     //  현재 경로 세션에 저장
     sessionUser.current_path = '/consultant';
 
-    //  통화 이력 표출
-    let call_history_query = `SELECT
-        a.TARGET_TELNO,
-        b.group_type,
-        DATE_FORMAT(STR_TO_DATE(CONCAT(a.rec_start_Date, ' ', a.rec_start_Time), '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d %H:%i:%s') AS REC_START_DATETIME,
-        DATE_FORMAT(REC_END_DATETIME, '%Y-%m-%d %H:%i:%s') as REC_END_DATETIME,
-        a.REC_DURATION,
-        a.MEMO
-    FROM acr_v4.t_rec_data202406 as a
-    INNER JOIN ETRI_EMOTION.emo_user_info as b
-    ON a.AGENT_ID = b.login_id WHERE b.login_id = '${req.session.user.login_id}';`;
+    try{
+        //  통화 이력 표출
+        let call_history_etri_query = `SELECT
+            agent_telno,
+            group_type
+        FROM ETRI_EMOTION.emo_user_info
+        WHERE login_id = "${req.session.user.login_id}"`;
 
-    //  마지막으로 전달받은 감성 표출
-    let emotion_type = `SELECT emotion_type FROM emo_emotion_info
-    WHERE userinfo_userId = ${send_userinfo_id} ORDER BY send_dt DESC LIMIT 1;`
+        let call_history_acr_query = `SELECT
+            AGENT_TELNO,
+            TARGET_TELNO,
+            DATE_FORMAT(STR_TO_DATE(CONCAT(rec_start_Date, ' ', rec_start_Time), '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d %H:%i:%s') AS REC_START_DATETIME,
+            DATE_FORMAT(REC_END_DATETIME, '%Y-%m-%d %H:%i:%s') as REC_END_DATETIME,
+            REC_DURATION,
+            MEMO
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()};`;
 
-    connection.query(call_history_query + emotion_type, (err, results) => {
-        if (err) {
-            logger.error(`[ app.js:/consultant ] ${err}`);
-            connection.end();
-        }
+        //  마지막으로 전달받은 감성 표출
+        let emotion_type = `SELECT emotion_type FROM ETRI_EMOTION.emo_emotion_info
+        WHERE userinfo_userId = ${send_userinfo_id} ORDER BY send_dt DESC LIMIT 1;`
+        
 
-        let call_history_agent = results[0];
-        let call_emotion_agent = results[1];
-
-        res.render('consultant', {
-            title:`MindSupport 업무화면`, 
-            call_history_agent: call_history_agent,
-            call_emotion_agent: call_emotion_agent,
-            session_name: req.session.user.user_name
-        }, (err, html) => {
-            if (err) {
-                logger.error(`[ app.js:/consultant ] Error rendering body: ${err}`);
-                res.status(500).send('Error rendering body');
-    
-                return;
-            }
-
-            res.send(html);
+        // 두 데이터베이스에서 데이터를 가져오기
+        const etriPromise = new Promise((resolve, reject) => {
+            connection.query(call_history_etri_query, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:etriEmotionQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
         });
-    });
+
+        const acrPromise = new Promise((resolve, reject) => {
+            connection2.query(call_history_acr_query, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:acrQuery ] ${err}`);
+                    
+                    logger.error('2');
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        // 결과 병합
+        const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
+
+        const call_history_agent = etriResults.map(etri => {
+            const acrData = acrResults.find(acr =>
+                acr.AGENT_TELNO === etri.agent_telno) || {};
+            return {
+                ...etri,
+                ...acrData,
+            };
+        });
+
+        console.log('call_history_query : ', call_history_agent);
+
+        connection.query(emotion_type, (err, results) => {
+            if (err) {
+                logger.error(`[ app.js:/consultant_connection ] ${err}`);
+            }
+            
+            let call_emotion_agent = results;
+
+                res.render('consultant', {
+                    title:`MindSupport 업무화면`, 
+                    call_history_agent: call_history_agent || {},
+                    call_emotion_agent: call_emotion_agent,
+                    session_name: req.session.user.user_name
+                }, (err, html) => {
+                    if (err) {
+                        logger.error(`[ app.js:/consultant ] Error rendering body: ${err}`);
+                        res.status(500).send('Error rendering body');
+            
+                        return;
+                    }
+
+                    res.send(html);
+                });
+        });
+    } catch (err) {
+        logger.error(`[ app.js:/consultant ] Error: ${err}`);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 //  상담원 통화이력 조회
@@ -227,7 +275,7 @@ app.get('/consultant/call_history', (req, res) => {
         REC_END_DATETIME,
         SEC_TO_TIME(TIMESTAMPDIFF(second, connect_dt, disconnect_dt)) AS call_time,
         MEMO
-    FROM t_rec_data202406 WHERE login_id = ${send_agentID} 
+    FROM t_rec_data${DateUtils.getYearMonth()} WHERE login_id = ${send_agentID} 
     AND REC_START_DATETIME > DATE_FORMAT(NOW(3), '%Y-%m-%d')
     ORDER BY REC_START_DATETIME DESC LIMIT 5;`;
 
@@ -380,7 +428,7 @@ app.get('/workStatusMain', async (req, res) => {
                     REC_END_DATETIME,
                     ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
                 FROM 
-                    acr_v4.t_rec_data202406
+                    acr_v4.t_rec_data${DateUtils.getYearMonth()}
             ) ranked_calls
             WHERE rn = 1;`;
 
@@ -552,52 +600,62 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
         const getTodayEmo_loginId = req.body.loginId;
 
         //  1. 금일 감성 갯수
-        const getTodayEmo_qry = `WITH today_data AS (
-            SELECT 
-                eei.login_id,
-                eei.emotion_type,
-                COUNT(*) as today_count
-            FROM emo_emotion_info eei
-            INNER JOIN acr_v4.t_rec_data202406 trd
-            ON eei.file_name = trd.REC_FILENAME
-            WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
-            AND login_id = '${getTodayEmo_loginId}'
-            AND send_dt >= CURDATE()
-            GROUP BY eei.emotion_type
-        ),
-        yesterday_data AS (
-            SELECT 
-                eei.login_id,
-                eei.emotion_type,
-                COUNT(*) as yesterday_count
-            FROM emo_emotion_info eei
-            INNER JOIN acr_v4.t_rec_data202406 trd
-            ON eei.file_name = trd.REC_FILENAME
-            WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
-            AND trd.REC_START_DATE < STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
-            AND login_id = '${getTodayEmo_loginId}'
-            GROUP BY eei.emotion_type
-        )
+        
+        //ETRI_EMOITON today 감성 조회 쿼리
+        const getTodayEmo_etri_today_qry = `
         SELECT 
-            t.login_id,
-            t.emotion_type,
-            t.today_count,
-            COALESCE(y.yesterday_count, 0) as yesterday_count,
-            t.today_count - COALESCE(y.yesterday_count, 0) as count_change
-        FROM today_data t
-        LEFT JOIN yesterday_data y
-        ON t.emotion_type = y.emotion_type
-        UNION
+            eei.login_id,
+            eei.emotion_type,
+            eui.agent_telno,
+            COUNT(*) as today_count
+        FROM ETRI_EMOTION.emo_emotion_info eei
+        LEFT JOIN ETRI_EMOTION.emo_user_info eui
+        ON eui.login_id = eei.login_id
+        WHERE eei.send_dt >= CURDATE()
+        AND eei.login_id = '${getTodayEmo_loginId}'
+        GROUP BY eei.emotion_type;`;
+
+        console.log('getTodayEmo_etri_today_qry : ',getTodayEmo_etri_today_qry);
+
+        //acr_v4 today 감성 조회 쿼리 위의 쿼리랑 병합해야 함
+        const getTodayEmo_acr_today_qry = `
+        SELECT
+            *
+        FROM
+            acr_v4.t_rec_data202501
+        WHERE REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f');`
+
+        console.log('getTodayEmo_acr_today_qry : ',getTodayEmo_acr_today_qry);
+
+        //ETRI_EMOITON yesterday 감성 조회 쿼리
+        const getTodayEmo_etri_yesterday_qry = `
         SELECT 
-            y.login_id,
-            y.emotion_type,
-            0 as today_count,
-            y.yesterday_count,
-            0 - y.yesterday_count as count_change
-        FROM yesterday_data y
-        WHERE y.emotion_type NOT IN (SELECT emotion_type FROM today_data)
-        ORDER BY emotion_type;`;
-        logger.info(`[ app.js:getTodayEmo ] ${getTodayEmo_qry}`);
+            eei.login_id,
+            eei.emotion_type,
+            eui.agent_telno,
+            COUNT(*) as yesterday_count
+        FROM ETRI_EMOTION.emo_emotion_info eei
+        LEFT JOIN ETRI_EMOTION.emo_user_info eui
+        ON eui.login_id = eei.login_id
+        WHERE eei.login_id = '${getTodayEmo_loginId}'
+        GROUP BY eei.emotion_type;`;
+
+        //acr_v4 yesterday 감성 조회 쿼리 위의 쿼리랑 병합해야 함
+        const getTodayEmo_acr_yesterday_qry = `
+        SELECT
+            *
+        FROM
+            acr_v4.t_rec_data202501
+        WHERE REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
+        AND REC_START_DATE < STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')`;
+
+        //최종적으로 위의 today와 yesterday 로 병합된 2개의 쿼리를 얘랑 또 병합해서 데이터를 조회해야함
+        // const getTodayEmo_qry = `
+        // `;
+
+
+        // const getTodayEmo_acr_qry = `
+        // `;
 
         //  2. 금일 감성 흐름
         //   - 고객 감성 데이터 가져오기
@@ -623,7 +681,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             REC_START_TIME AS call_start,
             TIME(REC_END_DATETIME) AS call_end,
             TIMESTAMPDIFF(SECOND, REC_START_TIME, REC_END_DATETIME) AS duration
-        FROM acr_v4.t_rec_data202406
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
         WHERE REC_START_DATE = CURDATE()
         AND DATE(REC_END_DATETIME) = CURDATE()
         AND AGENT_ID = '${getTodayEmo_loginId}'
@@ -634,7 +692,80 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
 
         //  3. 통화 이력 데이터
 
-        connection.query(getTodayEmo_qry+customData, (err, results) => {
+        ////////////////////////////////////////////////////////today START
+        const etriPromise = new Promise((resolve, reject) => {
+            connection.query(getTodayEmo_etri_today_qry, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:etriEmotionQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        const acrPromise = new Promise((resolve, reject) => {
+            connection2.query(getTodayEmo_acr_today_qry, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:acrQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        // 결과 병합
+        const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
+        ////////////////////////////////////////////////////////today END
+
+        ////////////////////////////////////////////////////////yesterday START
+        const etriPromise2 = new Promise((resolve, reject) => {
+            connection.query(getTodayEmo_etri_yesterday_qry, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:etriEmotionQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        const acrPromise2 = new Promise((resolve, reject) => {
+            connection2.query(getTodayEmo_acr_yesterday_qry, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:acrQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        // 결과 병합
+        const [etriResults2, acrResults2] = await Promise.all([etriPromise2, acrPromise2]);
+        ////////////////////////////////////////////////////////yesterday END
+
+        const getTodayEmo_today = etriResults.map(etri => {
+            const acrData = acrResults.find(acr => etri.agent_telno === acr.AGENT_TELNO) || {};
+            return {
+                ...etri,
+                ...acrData,
+            };
+        });
+        console.log(getTodayEmo_today);
+        console.log('===============================================');
+
+        const getTodayEmo_yesterday = etriResults2.map(etri => {
+            const acrData = acrResults2.find(acr => etri.agent_telno === acr.AGENT_TELNO) || {};
+            return {
+                ...etri,
+                ...acrData,
+            };
+        });
+        console.log(getTodayEmo_yesterday);
+
+        connection.query(getTodayEmo_etri_yesterday_qry+customData, (err, results) => {
             if (err) {
                 logger.error(`[ app.js:/workStatusMain/getTodayEmo ] ${err}`);
                 throw err;
@@ -772,7 +903,7 @@ app.get('/coachingMain', async (req, res) => {
                 CONCAT(FLOOR(trd.REC_DURATION / 60), ' 분 ', trd.REC_DURATION % 60, ' 초') AS sum_call_time,
                 CONCAT(COUNT(*), ' 건') as sum_call_count
             FROM
-                acr_v4.t_rec_data202406 trd
+                acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
             WHERE
                 trd.REC_START_DATE = CURDATE();`
 
@@ -873,7 +1004,7 @@ app.get('/emotionStatus', async (req, res) => {
             eei.emotion_type,
             COUNT(*) as today_count
         FROM emo_emotion_info eei
-        INNER JOIN acr_v4.t_rec_data202406 trd
+        INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
         ON eei.file_name = trd.REC_FILENAME
         WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
         AND eei.send_dt >= CURDATE()
@@ -885,7 +1016,7 @@ app.get('/emotionStatus', async (req, res) => {
                 eei.emotion_type,
                 COUNT(*) as yesterday_count
             FROM emo_emotion_info eei
-            INNER JOIN acr_v4.t_rec_data202406 trd
+            INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
             ON eei.file_name = trd.REC_FILENAME
             WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
             AND trd.REC_START_DATE < STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
@@ -942,7 +1073,7 @@ app.get('/emotionStatus', async (req, res) => {
             trd.AGENT_ID,
             eui.user_name,
             COUNT(*) AS RECORD_COUNT
-        FROM acr_v4.t_rec_data202406 trd
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
         LEFT JOIN ETRI_EMOTION.emo_user_info eui
             ON trd.AGENT_ID = eui.login_id 
         WHERE trd.REC_START_DATE >= CURDATE() 
@@ -958,7 +1089,7 @@ app.get('/emotionStatus', async (req, res) => {
             C.emotion_type,
             IFNULL(COUNT(*), 0) as count
         FROM emo_user_info as A
-        INNER JOIN acr_v4.t_rec_data202406 AS B 
+        INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} AS B 
         ON B.AGENT_ID = A.login_id 
         INNER JOIN emo_emotion_info AS C
         ON C.file_name = B.REC_FILENAME 
@@ -981,7 +1112,7 @@ app.get('/emotionStatus', async (req, res) => {
             C.emotion_type,
             IFNULL(COUNT(*), 0) as count
         FROM emo_user_info as A
-        INNER JOIN acr_v4.t_rec_data202406 AS B 
+        INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} AS B 
             ON B.AGENT_ID = A.login_id
         INNER JOIN emo_emotion_info AS C
             ON C.file_name = B.REC_FILENAME
@@ -1680,7 +1811,7 @@ app.get('/statsSummary', (req, res) => {
                 REC_START_DATE,
                 SUM(REC_DURATION) as total_duration,
                 COUNT(DISTINCT REC_START_TIME) as call_count
-            FROM acr_v4.t_rec_data202406
+            FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
             GROUP BY AGENT_ID, REC_START_DATE
             )
             SELECT 
@@ -1718,7 +1849,7 @@ app.get('/statsSummary', (req, res) => {
             LEFT JOIN rec_duration_summary rds
                 ON eui.login_id = rds.AGENT_ID
                 AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = DATE_FORMAT(rds.REC_START_DATE, '%Y-%m-%d')
-            LEFT JOIN acr_v4.t_rec_data202406 acr 
+            LEFT JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} acr 
                 ON ecm.login_id = acr.AGENT_ID
                 AND es.emotion_date = acr.REC_START_DATE
             WHERE 
@@ -1865,7 +1996,7 @@ app.get('/statsDetail', (req, res) => {
             LEFT JOIN emotion_summary es 
                 ON eui.login_id = es.login_id
                 
-            LEFT JOIN acr_v4.t_rec_data202406 acr -- 통화 녹취 테이블
+            LEFT JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} acr -- 통화 녹취 테이블
                 ON es.file_name = acr.REC_FILENAME  -- 파일명으로 매핑
 
             LEFT JOIN ETRI_EMOTION.emo_coaching_message ecm -- 코칭 메세지 테이블
@@ -2284,7 +2415,7 @@ conn = amqp.connect({
     //      3) Stream Queue: 높은 처리량과 메시지 순서를 유지할 수 있는 기능을 제공
     //   - durable : true로 설정하면 RabbitMQ가 재시작되어도 생성된 exchange가 그대로 유지
     //   - 화자1 (상담원용 classic queue)
-    const chName = 'NEIGHBOR_SYSTEM';
+    const chName = 'NEIGHBOR_SYSTEM3';
     ch.assertQueue(chName, {
         durable: true,
         arguments: {
@@ -2301,7 +2432,7 @@ conn = amqp.connect({
     });
 
     //   - 화자2 (고객용 classic queue)
-    const chName_2 = 'NEIGHBOR_SYSTEM2';
+    const chName_2 = 'NEIGHBOR_SYSTEM4';
     ch2.assertQueue(chName_2, {
         durable: true,
         arguments: {
@@ -2341,11 +2472,11 @@ conn = amqp.connect({
             // 기본 큐 정보 초기화
             ErkQueueInfo = ErkApiMsg.create({
                 ToQueueName: "ERK_API_QUEUE",
-                FromQueueName: "NEIGHBOR_SYSTEM"
+                FromQueueName: "NEIGHBOR_SYSTEM3"
             });
             ErkQueueInfo2 = ErkApiMsg.create({
                 ToQueueName: "ERK_API_QUEUE",
-                FromQueueName: "NEIGHBOR_SYSTEM2"
+                FromQueueName: "NEIGHBOR_SYSTEM4"
             });
 
             //  Erk 엔진 정보
