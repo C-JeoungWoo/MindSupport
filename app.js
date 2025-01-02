@@ -439,6 +439,7 @@ app.get('/workStatusMain', async (req, res) => {
             connection.query(notPresent_agent, (err, notPresentAgentResults) => {
                 if (err) throw err;
 
+                //비동기 처리를 위한 데이터만 필요할 경우
                 if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
                     return res.json({
                         needed_coaching: needed_coaching,
@@ -755,8 +756,25 @@ app.get('/coachingMain', async (req, res) => {
             WHERE
                 ecm.call_date = CURDATE();`
 
-        // 상담 그룹 별 통화 및 코칭 현황 조회 쿼리
-        // let coaching_group_call_query = ``
+        // 통화 및 코칭 현황 자동 및 수동 코칭 조회 쿼리
+            let coaching_status_query = `
+            SELECT
+                SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
+                SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
+            FROM
+                ETRI_EMOTION.emo_coaching_message ecm
+            WHERE
+                ecm.call_date = CURDATE();`
+
+        // 통화 및 코칭 현황 통화시간 및 건수 조회 쿼리
+            let coaching_call_time_count_query = `
+            SELECT
+                CONCAT(FLOOR(trd.REC_DURATION / 60), ' 분 ', trd.REC_DURATION % 60, ' 초') AS sum_call_time,
+                CONCAT(COUNT(*), ' 건') as sum_call_count
+            FROM
+                acr_v4.t_rec_data202406 trd
+            WHERE
+                trd.REC_START_DATE = CURDATE();`
 
         // 최근 1시간 코칭 이력 조회 쿼리
         let coaching_hrs_history_query = `
@@ -780,31 +798,41 @@ app.get('/coachingMain', async (req, res) => {
                 ecm.insert_dt desc
             LIMIT 5;`
 
-
-        connection.query(coaching_flow_query + coaching_type_chart_query + coaching_hrs_history_query, (err,results) => {
+        connection.query(coaching_flow_query + coaching_type_chart_query + coaching_status_query + coaching_hrs_history_query, (err,results) => {
             if (err){
-                logger.warn(`[] app.js:coaching_type_chart_query ${err}`);
+                logger.warn(`[] app.js:coaching_main_connection1 ${err}`);
             }
+
             let coaching_flow = results[0];
             let coaching_type_chart = results[1];
-            let coaching_hrs_history = results[2];
+            let coaching_call_status = results[2];
+            let coaching_hrs_history = results[3];
 
-            res.render('index', {
-                title: 'MindSupport 상세통계',
-                body: 'coachingMain',
-                session_id: req.session.user.user_name,
-                coaching_flow: coaching_flow,
-                coaching_type_chart: coaching_type_chart[0],
-                coaching_hrs_history: coaching_hrs_history
-            }, (err, html) => {
-                if (err) {
-                    logger.error(`[ app.js:/coachingMain ] Error rendering body: ${err}`);
-                    res.status(500).send('Error rendering body');
-                    
-                    return;
-                }
-        
-                res.send(html);
+                connection2.query(coaching_call_time_count_query, (err, results) => {
+                    if (err){
+                        logger.warn(`[] app.js:coaching_main_connection2 ${err}`);
+                    }
+
+                    res.render('index', {
+                        title: 'MindSupport 상세통계',
+                        body: 'coachingMain',
+                        session_id: req.session.user.user_name,
+                        coaching_flow: coaching_flow,
+                        coaching_type_chart: coaching_type_chart[0],
+                        coaching_call_status: coaching_call_status,
+                        coaching_calltimecount: results[0],
+                        coaching_hrs_history: coaching_hrs_history
+                    }, (err, html) => {
+                        if (err) {
+                            logger.error(`[ app.js:/coachingMain ] Error rendering body: ${err}`);
+                            res.status(500).send('Error rendering body');
+                            
+                            return;
+                        } else{
+                        }
+                
+                        res.send(html);
+                    });
             });
         });
     } catch (error){
@@ -1661,6 +1689,7 @@ app.get('/statsSummary', (req, res) => {
                 eui.login_id,
                 eui.age,
                 eui.sex,
+                eui.mbti_type,
                 acr.REC_START_DATE,
                 es.eei_emotion_info_none,
                 es.eei_emotion_info_angry,
@@ -1805,6 +1834,7 @@ app.get('/statsDetail', (req, res) => {
                 eui.login_id,
                 eui.age,
                 eui.sex,
+                eui.mbti_type,
                 DATE_FORMAT(acr.REC_START_DATE, '%Y-%m-%d') as formatted_date,
                 acr.TARGET_TELNO,
                 acr.MEMO,

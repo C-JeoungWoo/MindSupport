@@ -88,12 +88,12 @@
             <th rowspan="2">그룹명</th>
             <th rowspan="2">연령</th>
             <th rowspan="2">성별</th>
-            <th rowspan="2">직급</th>
+            <th rowspan="2">MBTI</th>
             <th rowspan="2">통화건수</th>
             <th rowspan="2">총 통화시간</th>
             <th rowspan="2">감성요청수</th>
             <th colspan="5" class="nonBorder">감성인지결과</th>
-            <th colspan="2" class="nonBorder">특이사항</th>
+            <th colspan="2" class="nonBorder">코칭유형</th>
           </tr>
           <tr>
             <th class="bottom">행복</th> <!-- 행복 141 -->
@@ -122,7 +122,7 @@
                 <td scope="row"><%= data.group_type %></td>
                 <td scope="row"><%= data.age %></td>
                 <td scope="row"><%= data.sex %></td>
-                <td scope="row">대리</td>
+                <td scope="row"><%= data.mbti_type %></td>
                 <td scope="row"><%= data.total_records_per_date %> 건</td>
 
                 <td scope="row"><%= data.total_rec_duration_hms %></td>

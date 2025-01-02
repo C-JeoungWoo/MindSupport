@@ -66,7 +66,7 @@
 
     <div class="item borderGrey">
       <div class="title">
-        <h4 class="grey">상담 그룹 별 통화 및 코칭 현황</h4>
+        <h4 class="grey">통화 및 코칭 현황</h4>
       </div>
       <div class="boxWrap">
         <div class="grey">
@@ -82,11 +82,11 @@
             <div class="flexEnd gap">
               <div>
                 <span class="black">통화시간</span>
-                <p><strong>158</strong>분<strong class="gap">14</strong>초</p>
+                <p><strong><%=coaching_calltimecount.sum_call_time%></strong></p>
               </div>
               <div class="right">
                 <span class="black">통화건수</span>
-                <p><strong>124</strong>건</p>
+                <p><strong><%=coaching_calltimecount.sum_call_count%></strong></p>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@
           <thead class="grey">
             <tr>
               <th style="width: 10%;">No</th>
-              <th >코칭시간</th>
+              <th>코칭시간</th>
               <th>상담원 명</th>
               <th>상담그룹</th>
               <th>코칭 메세지</th>
@@ -526,10 +526,15 @@
   };
 
   // 일반문의
+  const coachingCallStatus = <%- JSON.stringify(coaching_call_status) %>;
+
+  // 금일 코칭 흐름 데이터 가공
   const normalCSArea = document.getElementById('normalCS').getContext('2d');
-  const data1 = 72;
-  const data2 = 52;
-  const total = data1 + data2 ;
+  const data1 = coachingCallStatus.map(item => parseInt(item.auto_coach_count)); // 자동 코칭 건수
+  const data2 = coachingCallStatus.map(item => parseInt(item.manual_coach_count)); // 수동 코칭 건수
+  const total = data1.reduce((acc, val) => acc + val, 0) + data2.reduce((acc, val) => acc + val, 0);
+
+  console.log(total);
   // const emptySpace = 0;
   new Chart(normalCSArea, {
     plugins:[{ 
@@ -550,7 +555,7 @@
       datasets: [
         {  
           axis: 'y',
-          data: [(data1 / total * 100)],
+          data: [(data1/total * 100)],
           backgroundColor: ['#7856E4'],
           datalabels: {
             formatter : function() { return data1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "건"; },
@@ -580,7 +585,7 @@
         },
         { 
           axis: 'y',
-          data: [(data2 / total * 100)],
+          data: [(data2/total * 100)],
           backgroundColor: ['#FFB92C'],
           datalabels: {
             formatter : function() { return data2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "건"; },
@@ -685,6 +690,7 @@
       }
     }
   });
+
   // 민원접수
   const complaintsArea = document.getElementById('complaints').getContext('2d');
   const data3 = 3;
@@ -1005,12 +1011,12 @@
       }
     }
   });
+  
   // 기타접수
   const etcArea = document.getElementById('etc').getContext('2d');
   const data7 = 12;
   const data8 = 79;
   const total4 = data7 + data8 ;
-
   // const emptySpace = 0;
   new Chart(etcArea, {
     plugins:[{ 

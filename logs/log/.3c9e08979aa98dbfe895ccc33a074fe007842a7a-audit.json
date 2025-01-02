@@ -79,6 +79,26 @@
             "date": 1735614096814,
             "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241231_12.log",
             "hash": "84828b75d6fe89f3e8febe6a9b46605d180e58f628677cdcfc5146943dd4533f"
+        },
+        {
+            "date": 1735776647203,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_09.log",
+            "hash": "29f241cc9836c281b212a8a8c3f2fa93ba2f50f7ce2627012f9dad9df0c3f399"
+        },
+        {
+            "date": 1735779605879,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_10.log",
+            "hash": "e5a1f14f7172f56e375eccc2aaee92b3fdb6625562bfd04bec4bc96bf6b462b7"
+        },
+        {
+            "date": 1735783270983,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_11.log",
+            "hash": "b7fc029e9fc20b0531f9e06b20693c693779a351c35f3dbd8f8b0950014bd452"
+        },
+        {
+            "date": 1735786800248,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_12.log",
+            "hash": "5f4816dd6aa7634310d503bcee1e46aceca5bfdf1db80f8d667670e4cfb5df13"
         }
     ],
     "hashType": "sha256"
