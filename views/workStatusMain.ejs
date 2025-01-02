@@ -126,11 +126,8 @@
     </div>
   </div>
 
-  <div class="mainTitle gap flex" style="margin-top: 3%; color: #667085;">
-    <h4 class="grey gap">현재 접속 인원</h4>
-  </div>
-
   <!-- 접속 인원 div start -->
+  <div class="mainTitle gap flex" style="margin-top: 3%; color: #667085;"><h4 class="grey gap">현재 접속 인원</h4></div>
   <div class="itemWrap titlegap faceItem" id="presentAgents">
     <% if (present_agent.length == 0) { %> 
       <div class="item"></div>
@@ -199,10 +196,7 @@
   <!-- 접속 인원 div end -->
 
   <!-- 비접속 인원 div start -->
-  <div class="mainTitle gap flex topMargin" style="margin-top: 3%; color: #667085;">
-    <h4 class="grey gap">비접속 인원</h4>
-  </div>
-
+  <div class="mainTitle gap flex topMargin" style="margin-top: 3%; color: #667085;"><h4 class="grey gap">비접속 인원</h4></div>
   <div class="itemWrap titlegap faceItem" id="not_presentAgents">
     <% if (notPresent_agent.length == 0) { %> 
       <div class="item"></div>
@@ -221,9 +215,8 @@
       <% } %>
     <% } %>
   </div>
-
-  <!-- 비접속 인원 div end -->
 </div>
+<!-- 비접속 인원 div end -->
 <!-- inner end -->
 
 <!-- 상담원 상세 근무현황 div -->
@@ -704,8 +697,9 @@
     $('.slick-list').slick({
       arrows:true, // next, prev 이동 버튼
       dots: false,
+      // 숫자 대신 원하는 요소로 변경
       customPaging: function(slider, i) {
-          return '<button style:"">' + '</button>'; // 숫자 대신 원하는 요소로 변경
+          return '<button style:"">' + '</button>';
       },
       infinite: false,
       slidesToShow :5,  // 한번에 5개 슬라이드 표시
@@ -1761,8 +1755,8 @@
 
   //  코칭 모달창 닫기
   function coachingMoveModalClose() {
-   //  초기화
-   tdArr = {};
+    //  초기화
+    tdArr = {};
 
     $('.modals_move').stop().fadeOut();
   }
@@ -1801,172 +1795,174 @@
   }
 
 </script>
-
 <!-- 근무 현황 페이지 2초마다 AJAX를 이용하여 화면 깜빡임 없이 데이터 재 랜더링하여 표출하기 -->
 <script>
-// 데이터를 렌더링하는 함수
-// 데이터를 렌더링하는 함수
-function renderAgents(data) {
-  // 감성코칭이 필요한 상담원
-  const needcoachingAgentsDiv = $('.slick-list');
+  // 데이터를 렌더링하는 함수
+  function renderAgents(data) {
+    // 감성코칭이 필요한 상담원
+    const needcoachingAgentsDiv = $('.slick-list');
+    // 현재 근무 중인 상담원
+    const presentAgentsDiv = $('#presentAgents');
+    // 비접속 인원
+    const not_presentAgentsDiv = $('#not_presentAgents');
 
-  // 현재 근무 중인 상담원
-  const presentAgentsDiv = $('#presentAgents');
-  // 비접속 인원
-  const not_presentAgentsDiv = $('#not_presentAgents');
+    // 현재 슬라이더의 현재 슬라이드 인덱스 저장
+    let currentSlide = needcoachingAgentsDiv.length > 0 && 
+      needcoachingAgentsDiv.hasClass('slick-initialized') 
+      ? needcoachingAgentsDiv.slick('slickCurrentSlide') 
+      : 0;
 
-  // 현재 슬라이더의 현재 슬라이드 인덱스 저장
-  let currentSlide = needcoachingAgentsDiv.length > 0 && 
-                     needcoachingAgentsDiv.hasClass('slick-initialized') 
-                     ? needcoachingAgentsDiv.slick('slickCurrentSlide') 
-                     : 0;
+    // 슬라이더가 초기화된 경우에만 unslick 호출 (안전하게 체크)
+    if (needcoachingAgentsDiv.length > 0 && needcoachingAgentsDiv.hasClass('slick-initialized')) {
+      try {
+        needcoachingAgentsDiv.slick('unslick');
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-  // 슬라이더가 초기화된 경우에만 unslick 호출 (안전하게 체크)
-  if (needcoachingAgentsDiv.length > 0 && needcoachingAgentsDiv.hasClass('slick-initialized')) {
+    // 기존 데이터 초기화
+    needcoachingAgentsDiv.empty();
+    presentAgentsDiv.empty();
+    not_presentAgentsDiv.empty();
+
+    // 현재 접속 인원 렌더링
+    data.present_agent.forEach(agent => {
+      presentAgentsDiv.append(
+        `
+        <div class="item ${agent.last_call_status === 1 ? 'border-purple' : 'border-gray'}">
+          <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+            <div class="imgArea ${
+              agent.emotion_type === '6' ? 'happy' :
+              agent.emotion_type === '7' ? 'sad' :
+              agent.emotion_type === '8' ? 'angry' :
+              agent.emotion_type === '11' ? 'calm' : 'offline'
+            }">
+              ${
+                agent.emotion_type === '6' ? '<img src="../images/ic_happy.svg">' :
+                agent.emotion_type === '7' ? '<img src="../images/ic_sad.svg">' :
+                agent.emotion_type === '8' ? '<img src="../images/ic_angry.svg">' :
+                agent.emotion_type === '11' ? '<img src="../images/ic_calm.svg">' : ''
+              }
+            </div>
+            <div class="textArea">
+              <p class="agents agents2" data-username="${agent.emo_user_name}" data-loginid="${agent.login_id}">
+                ${agent.emo_user_name}(${agent.login_id})
+              </p>
+            </div>
+          </a>
+        </div>
+      `
+      );
+    });
+
+    // 비접속 인원 렌더링
+    data.notPresent_agent.forEach(agent => {
+      not_presentAgentsDiv.append(
+        `
+        <div class="item">
+          <a href="#" role="button" title="상담원 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents3').dataset)">
+            <div class="imgArea offline" style="background-color: lightgray;"></div>
+            <div class="textArea">
+              <p class="agents agents3" data-username="${agent.user_name}" data-loginid="${agent.login_id}">
+                ${agent.user_name}(${agent.login_id})
+              </p>
+            </div>
+          </a>
+        </div>
+      `
+      );
+    });
+
+    // 감성코칭이 필요한 상담원 렌더링
+    data.needed_coaching.forEach(agent => {
+      const emotion = agent.agent_anger > agent.agent_sad ? 'angry' : 'sad';
+      const emotionimg = agent.agent_anger > agent.agent_sad ? 'ic_angry.svg' : 'ic_sad.svg';
+      const emotionText = agent.agent_anger > agent.agent_sad ? '화남' : '슬픔';
+
+      needcoachingAgentsDiv.append(
+        `
+        <div class="item slick-slide" data-agent-id="${agent.login_id}">
+          <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
+            <div class="imgArea ${emotion}">
+              <img src="../images/${emotionimg}" alt="${emotionText}" 
+                data-auto-calltime="${agent.call_time}" 
+                data-auto-standard="${agent.auto_standard}" 
+                data-auto-seq="${agent.auto_seq}" 
+                class="standard_img">
+            </div>
+            <div class="textArea">
+              <p class="state ${emotion}" data-agent-sad="${agent.agent_sad}" data-agent-angry="${agent.agent_anger}">
+                ${emotionText}
+              </p>
+              <p class="agents agent-name" data-login-id="${agent.login_id}" data-agent-oversad="${agent.agent_over_sad}" data-agent-overangry="${agent.agent_over_anger}">
+                ${agent.user_name}(${agent.login_id})
+              </p>
+            </div>
+          </a>
+        </div>
+      `
+      );
+    });
+
+    if (data.needed_coaching.length > 0) {
     try {
-      needcoachingAgentsDiv.slick('unslick');
+      const $slider = needcoachingAgentsDiv.slick({
+        arrows: true,
+        dots: false,
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 5,
+        draggable: true,
+        prevArrow: $('.btnPrev'),    // jQuery 객체로 변경
+        nextArrow: $('.btnNext'),    // jQuery 객체로 변경
+        responsive: [{
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3
+          }
+        }]
+      });
+
+      // 이전 슬라이드 위치로 복귀
+      if (currentSlide < data.needed_coaching.length) {
+        needcoachingAgentsDiv.slick('slickGoTo', currentSlide, true);
+      }
+
+      // 버튼 클릭 이벤트 직접 바인딩
+      $('.btnPrev').on('click', function() {
+        needcoachingAgentsDiv.slick('slickPrev');
+      });
+
+      $('.btnNext').on('click', function() {
+        needcoachingAgentsDiv.slick('slickNext');
+      });
+
     } catch (error) {
-      
+      console.error('Slick 초기화 중 오류:', error);
     }
   }
-
-  // 기존 데이터 초기화
-  needcoachingAgentsDiv.empty();
-  presentAgentsDiv.empty();
-  not_presentAgentsDiv.empty();
-
-  // 현재 접속 인원 렌더링
-  data.present_agent.forEach(agent => {
-    presentAgentsDiv.append(`
-      <div class="item ${agent.last_call_status === 1 ? 'border-purple' : 'border-gray'}">
-        <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
-          <div class="imgArea ${
-            agent.emotion_type === '6' ? 'happy' :
-            agent.emotion_type === '7' ? 'sad' :
-            agent.emotion_type === '8' ? 'angry' :
-            agent.emotion_type === '11' ? 'calm' : 'offline'
-          }">
-            ${
-              agent.emotion_type === '6' ? '<img src="../images/ic_happy.svg">' :
-              agent.emotion_type === '7' ? '<img src="../images/ic_sad.svg">' :
-              agent.emotion_type === '8' ? '<img src="../images/ic_angry.svg">' :
-              agent.emotion_type === '11' ? '<img src="../images/ic_calm.svg">' : ''
-            }
-          </div>
-          <div class="textArea">
-            <p class="agents agents2" data-username="${agent.emo_user_name}" data-loginid="${agent.login_id}">
-              ${agent.emo_user_name}(${agent.login_id})
-            </p>
-          </div>
-        </a>
-      </div>
-    `);
-  });
-
-  // 비접속 인원 렌더링
-  data.notPresent_agent.forEach(agent => {
-    not_presentAgentsDiv.append(`
-      <div class="item">
-        <a href="#" role="button" title="상담원 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents3').dataset)">
-          <div class="imgArea offline" style="background-color: lightgray;"></div>
-          <div class="textArea">
-            <p class="agents agents3" data-username="${agent.user_name}" data-loginid="${agent.login_id}">
-              ${agent.user_name}(${agent.login_id})
-            </p>
-          </div>
-        </a>
-      </div>
-    `);
-  });
-
-  // 감성코칭이 필요한 상담원 렌더링
-  data.needed_coaching.forEach(agent => {
-    const emotion = agent.agent_anger > agent.agent_sad ? 'angry' : 'sad';
-    const emotionimg = agent.agent_anger > agent.agent_sad ? 'ic_angry.svg' : 'ic_sad.svg';
-    const emotionText = agent.agent_anger > agent.agent_sad ? '화남' : '슬픔';
-
-    needcoachingAgentsDiv.append(`
-      <div class="item slick-slide" data-agent-id="${agent.login_id}">
-        <a href="#" role="button" title="상담원 상세 팝업창" class="beforeSendingCoach">
-          <div class="imgArea ${emotion}">
-            <img src="../images/${emotionimg}" alt="${emotionText}" 
-              data-auto-calltime="${agent.call_time}" 
-              data-auto-standard="${agent.auto_standard}" 
-              data-auto-seq="${agent.auto_seq}" 
-              class="standard_img">
-          </div>
-          <div class="textArea">
-            <p class="state ${emotion}" data-agent-sad="${agent.agent_sad}" data-agent-angry="${agent.agent_anger}">
-              ${emotionText}
-            </p>
-            <p class="agents agent-name" data-login-id="${agent.login_id}" data-agent-oversad="${agent.agent_over_sad}" data-agent-overangry="${agent.agent_over_anger}">
-              ${agent.user_name}(${agent.login_id})
-            </p>
-          </div>
-        </a>
-      </div>
-    `);
-  });
-
-  if (data.needed_coaching.length > 0) {
-  try {
-    const $slider = needcoachingAgentsDiv.slick({
-      arrows: true,
-      dots: false,
-      infinite: false,
-      slidesToShow: 5,
-      slidesToScroll: 5,
-      draggable: true,
-      prevArrow: $('.btnPrev'),    // jQuery 객체로 변경
-      nextArrow: $('.btnNext'),    // jQuery 객체로 변경
-      responsive: [{
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3
-        }
-      }]
-    });
-
-    // 이전 슬라이드 위치로 복귀
-    if (currentSlide < data.needed_coaching.length) {
-      needcoachingAgentsDiv.slick('slickGoTo', currentSlide, true);
-    }
-
-    // 버튼 클릭 이벤트 직접 바인딩
-    $('.btnPrev').on('click', function() {
-      needcoachingAgentsDiv.slick('slickPrev');
-    });
-
-    $('.btnNext').on('click', function() {
-      needcoachingAgentsDiv.slick('slickNext');
-    });
-
-  } catch (error) {
-    console.error('Slick 초기화 중 오류:', error);
   }
-}
-}
 
-// 2초마다 데이터 요청
-function fetchData() {
-  $.ajax({
-    url: '/workStatusMain',
-    type: 'GET',
-    dataType: 'json',
-    success: function (response) {
-      renderAgents(response); // 데이터 렌더링
-    },
-    error: function (err) {
-      console.error('데이터 로드 중 오류 발생:', err);
-    }
+  // 2초마다 데이터 요청
+  function fetchData() {
+    $.ajax({
+      url: '/workStatusMain',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        renderAgents(response); // 데이터 렌더링
+      },
+      error: function (err) {
+        console.error('데이터 로드 중 오류 발생:', err);
+      }
+    });
+  }
+
+  // 2초마다 데이터 가져오기
+  $(document).ready(function () {
+    fetchData(); // 초기 데이터 로드
+    setInterval(fetchData, 2000); // 2초마다 갱신
   });
-}
-
-// 2초마다 데이터 가져오기
-$(document).ready(function () {
-  fetchData(); // 초기 데이터 로드
-  setInterval(fetchData, 2000); // 2초마다 갱신
-});
-
 </script>

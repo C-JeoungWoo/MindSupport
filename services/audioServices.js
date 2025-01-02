@@ -16,37 +16,77 @@ const connection1 = mysql.init();
 mysql.db_open(connection1);
 
 const mysql2 = require('../db/acrV4')();
-const connection2 = mysql.init();
-mysql2.db_open(connection2);
+const connection2 = mysql2.init();  // mysql2의 init 사용
+mysql2.db_open(connection2);  // mysql2의 db_open 사용
 
 //  생성된 WAV 파일 처리
-const handleNewFile = async function handleNewFile(filePath, userid) {
+const handleNewFile = async function handleNewFile(filePath, userid, serviceResponse, type) {
     logger.info(`[ audioServices.js:handleNewFile ] 처리요청 받은 RX/TX 파일경로: ${filePath}`);
             
     // ErkApiMsg 상태 확인
     const currentErkApiMsg = getErkApiMsg();
-    logger.debug(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
+    logger.info(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
 
     try {
         const baseFileName = path.basename(filePath, '.wav');
         const caller_id = baseFileName.split('_')[2];
 
-        let previousSize = 0;
-        let unchangedCount = 0;
-        let chunkNumber = 1;  // 추가 필요
-        const MAX_UNCHANGED_COUNT = 30;  // 3초
+        // 4. StreamQueue 설정 완료 대기
+        const waitForStreamQueue = () => {
+            return new Promise((resolve, reject) => {
+                const checkInterval = setInterval(async () => {
+                    try {
+                        // DB에서 StreamQueue 설정 상태 확인
+                        const queueStatus = await new Promise((resolveQuery, rejectQuery) => {
+                            connection1.query(`
+                                SELECT erkengineInfo_return_recvQueueName, 
+                                        erkengineInfo_return_sendQueueName
+                                FROM emo_user_info 
+                                WHERE userinfo_userId = ?`,
+                                [serviceResponse.userinfo_userId],
+                                (error, results) => {
+                                    if (error) rejectQuery(error);
+                                    resolveQuery(results[0]);
+                                }
+                            );
+                        });
+
+                        // StreamQueue가 설정되었는지 확인
+                        if (queueStatus && queueStatus.erkengineInfo_return_recvQueueName) {
+                            clearInterval(checkInterval);
+                            resolve(queueStatus);
+                        }
+                    } catch (error) {
+                        clearInterval(checkInterval);
+                        reject(error);
+                    }
+                }, 100); // 100ms 간격으로 체크
+
+                // 15초 타임아웃 설정
+                setTimeout(() => {
+                    clearInterval(checkInterval);
+                    reject(new Error('StreamQueue setup timeout'));
+                }, 15000);
+            });
+        };
+
+        // StreamQueue 설정 완료 대기
+        await waitForStreamQueue();
+        logger.info(`[ audioServices.js:handleNewFile ] StreamQueue setup completed`);
 
         // GSM 6.10 WAV 파일 무결성 및 헤더 길이 체크
         const result  = await checkGsm610WavFileIntegrity(filePath);
-        if (result.status !== 'valid') {  // 조건문도 수정 필요 (!result.status === 'valid'는 잘못된 비교)
+        if (result.status !== 'valid') {
             logger.warn(`[ audioServices.js:handleNewFile ] New file is invalid`);
             return null;
         }
         const { gsmHeaderLength } = result;  // result에서 gsmHeaderLength 추출
         logger.info(`[ audioServices.js:handleNewFile ] File integrity check passed, header length: ${gsmHeaderLength} bytes`);
 
-        // 3. EmoServiceStartRQ 에서 DB 조회한 결과 전달 (한 번만)
-        const serviceResponse = await EmoServiceStartRQ(baseFileName);
+        let previousSize = 0;
+        let unchangedCount = 0;
+        let chunkNumber = 1;  // 추가 필요
+        const MAX_UNCHANGED_COUNT = 30;  // 3초
 
         while (true) {
             try {
@@ -110,7 +150,7 @@ const handleNewFile = async function handleNewFile(filePath, userid) {
                                 remainingDataSize: remainingDataSize,
                                 totalFileSize: currentSize,
                                 gsmHeaderLength: gsmHeaderLength,
-                                fileType: filePath.includes('RX') ? 'RX' : 'TX',
+                                fileType: type.toUpperCase(),
                                 userId: userid,
                                 chunkNumber,
                                 login_id: serviceResponse.login_id,    // 추가
@@ -175,16 +215,20 @@ const handleNewFile = async function handleNewFile(filePath, userid) {
 
 //  생성된 wav 파일 처리에 대해 엔진 사용 요청
 const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
-    try {
-        // EmoServiceStartRQ 함수 시작 부분에 erkUtils에서 값 가져오기
-        const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
+    // EmoServiceStartRQ 함수 시작 부분에 erkUtils에서 값 가져오기
+    const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
 
-        logger.debug(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${ErkApiMsg  ? 'defined' : 'undefined'}`);
-        logger.warn(`[ audioServices.js:EmoServiceStartRQ ] 전달받은 File Path: ${path}`);
+    if (connection2.state === 'disconnected') {
+        logger.error('ACR_V4 DB connection is not established');
+    }
+
+    try {
+        logger.info(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${ErkApiMsg  ? 'defined' : 'undefined'}`);
+        logger.info(`[ audioServices.js:EmoServiceStartRQ ] 전달받은 File Path: ${path}`);
 
         // Promise.all을 사용한 병렬 쿼리 실행
         //  - 파일명에서 내선번호로 JOIN
-        let caller_id = path.split('_')[2];
+        let caller_id = path.split('_')[2].replace('.wav', '');  // ex. '2501'만 추출
 
         const [connResults, conn2Results] = await Promise.all([
             //  MindSupport Database → 전체 유저 중 활성 세션 유저 조회
@@ -198,18 +242,45 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                     FROM sessions s
                     LEFT JOIN emo_user_info eui
                         ON eui.login_id = JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.login_id'));`, (error, results) => {
-                    if (error) reject(error);
+                    if (error) { reject(error); }
+                    logger.info(`[ audioServices.js:EmoServiceStartRQ ] 현재 세션이 활성된 유저: ${JSON.stringify(results[0], null, 2)}`);
+                    
                     resolve(results);
                 });
             }),
             //  녹취 Database → 해당 내선번호의 유저 조회
             new Promise((resolve, reject) => {
-                connection2.query(`SELECT * 
-                    FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
-                    WHERE AGENT_TELNO = '${caller_id}';`, (error, results) => { // 테스트 시 제외함 -> AND REC_END_DATETIME IS NULL;
-                    if (error) reject(error);
-                    resolve(results);
-                });
+                // 1. 테이블 존재 여부 확인
+                connection2.query(
+                    `SHOW TABLES FROM acr_v4 LIKE 't_rec_data${DateUtils.getYearMonth()}'`, 
+                    (error, tables) => {
+                        if (error) {
+                            logger.error(`[ audioServices.js:EmoServiceStartRQ ] DB Error checking tables: ${error}`);
+                            reject(error);
+                            return;
+                        }
+
+                        if (tables.length === 0) {
+                            logger.info(`[ audioServices.js:EmoServiceStartRQ ] Table t_rec_data${DateUtils.getYearMonth()} not found`);
+                            resolve([]);
+                            return;
+                        }
+
+                        // 2. 테이블이 존재하면 데이터 조회
+                        connection2.query(
+                            `SELECT * FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} 
+                            WHERE AGENT_TELNO = ?`, [`${caller_id}`], (error, results) => {
+                                if (error) {
+                                    logger.error(`[ audioServices.js:EmoServiceStartRQ ] DB Error querying data: ${error}`);
+                                    reject(error);
+                                    return;
+                                }
+                                logger.info(`[ audioServices.js:EmoServiceStartRQ ] 녹취 DB 조회 결과: ${JSON.stringify(results[0].AGENT_TELNO, null, 2)}`)
+                                resolve(results);
+                            }
+                        );
+                    }
+                );
             })
         ]);
 
@@ -220,24 +291,26 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
             ...remoteMap.get(localRow.rec_id)
         }));
 
+        logger.warn(joinedData)
+
         //  ESSRQ 메세지 헤더 구성
-        let ErkMsgHead = ErkApiMsg .create({
+        let ErkMsgHead = ErkApiMsg.create({
             MsgType: 21,
-            TransactionId: joinedData[0].userinfo_uuid,
+            TransactionId: joinedData[0].user_uuid,
             QueueInfo: ErkQueueInfo,
             OrgId: parseInt(joinedData[0].user_orgid),  // OrgId: parseInt(joinedData[0].user_orgid)
             UserId: parseInt(joinedData[0].userinfo_userId)  // 상담원10명 셋팅(고객은 userinfo_userId + 10 로 매핑) UserId: parseInt(joinedData[0].userinfo_userId)
         });
-        let ErkMsgHead_cus = ErkApiMsg .create({
+        let ErkMsgHead_cus = ErkApiMsg.create({
             MsgType: 21,
-            TransactionId: joinedData[0].cusinfo_uuid,
+            TransactionId: joinedData[0].user_uuid2,
             QueueInfo: ErkQueueInfo2,
             OrgId: parseInt(joinedData[0].user_orgid),
             UserId: parseInt(joinedData[0].userinfo_userId) + 10
         });
 
         //  ESSRQ 메세지 구성
-        let EmoServiceStartMsg = ErkApiMsg .create({
+        let EmoServiceStartMsg = ErkApiMsg.create({
             EmoServiceStartRQ: {
                 ErkMsgHead: ErkMsgHead,
                 MsgTime: DateUtils.getCurrentTimestamp(), // 년월일시분초밀리초
@@ -245,7 +318,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                 EmoRecogType: 1    // 개인감성 or 사회감성
             }
         });
-        let EmoServiceStartMsg_cus = ErkApiMsg .create({
+        let EmoServiceStartMsg_cus = ErkApiMsg.create({
             EmoServiceStartRQ: {
                 ErkMsgHead: ErkMsgHead_cus,
                 MsgTime: DateUtils.getCurrentTimestamp(),
@@ -255,67 +328,101 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         });
         
         //  메세지 인코딩
-        let EmoServiceStartMsg_buf = ErkApiMsg .encode(EmoServiceStartMsg).finish();
-        let EmoServiceStartMsg_buf_cus = ErkApiMsg .encode(EmoServiceStartMsg_cus).finish();
+        let EmoServiceStartMsg_buf = ErkApiMsg.encode(EmoServiceStartMsg).finish();
+        let EmoServiceStartMsg_buf_cus = ErkApiMsg.encode(EmoServiceStartMsg_cus).finish();
 
+        logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
+        logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg_cus\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
+
+        // 3. DB 업데이트 및 메시지 전송 후 응답 대기
         const sendAndWaitForResponse = () => {
-            return Promise.all([
-                // Channel 1 전송 및 응답 대기
-                new Promise((resolve) => {
-                    const timeout = setTimeout(() => {
-                        logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Channel 1 response timeout`);
-                        resolve(null);
-                    }, 5000);
+            return new Promise(async (resolve, reject) => {
+                const channelPromises = [
+                    // Channel 1 전송 및 응답 대기
+                    new Promise((resolveChannel) => {
+                        connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
+                            WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId)};`, (error, results) => {
+                            if (error) reject(error);
+        
+                            // 메시지 전송
+                            logger.info(`[ audioServices.js:EmoServiceStartRQ ] con 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
+                            ch.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf);
+        
+                            resolveChannel(results);
+                        });
+                    }),
+                    // Channel 2 전송 및 응답 대기
+                    new Promise((resolveChannel) => {
+                        connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
+                            WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId) + 11};`, (error, results) => {
+                            if (error) reject(error);
+        
+                            // 메시지 전송
+                            logger.info(`[ audioServices.js:EmoServiceStartRQ ] cus 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
+                            ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf_cus);
+        
+                            resolveChannel(results);
+                        });
+                    })
+                ];
 
-                    connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
-                        WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId)};`, (error, results) => {
-                        if (error) reject(error);
+                // 메시지 전송 완료 대기
+                const channelResults = await Promise.all(channelPromises);
 
-                        // 메시지 전송
-                        logger.info(`[ audioServices.js:EmoServiceStartRQ ] con 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
-                        ch.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf);
+                // EmoServiceStartRP에서 DB 업데이트할 때까지 대기
+                const checkQueueInterval = setInterval(async () => {
+                    try {
+                        // 상담원/고객 큐 정보 설정 여부 확인
+                        const [queueStatus] = await new Promise((resolveQuery, rejectQuery) => {
+                            connection1.query(`
+                                SELECT COUNT(*) as count
+                                FROM emo_user_info 
+                                WHERE (
+                                    (userinfo_userId = ? AND erkengineInfo_return_recvQueueName IS NOT NULL)
+                                    OR
+                                    (userinfo_userId = ? AND erkengineInfo_returnCustomer_recvQueueName IS NOT NULL);`,
+                                [
+                                    parseInt(joinedData[0].userinfo_userId), 
+                                    parseInt(joinedData[0].userinfo_userId) + 10
+                                ],
+                                (error, results) => {
+                                    if (error) rejectQuery(error);
+                                    resolveQuery(results);
+                                }
+                            );
+                        });
 
-                        resolve(results);
-                    });
-                }),
-                // Channel 2 전송 및 응답 대기
-                new Promise((resolve) => {
-                    const timeout = setTimeout(() => {
-                        logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Channel 2 response timeout`);
-                        resolve(null);
-                    }, 5000);
+                        // 두 채널 모두 큐 정보 설정 완료 확인
+                        if (queueStatus && queueStatus.count === 2) {
+                            clearInterval(checkQueueInterval);
+                            resolve(channelResults);
+                        }
+                    } catch (error) {
+                        clearInterval(checkQueueInterval);
+                        reject(error);
+                    }
+                }, 100);
 
-                    connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
-                        WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId) + 11};`, (error, results) => {
-                        if (error) reject(error);
-
-                        // 메시지 전송
-                        logger.info(`[ audioServices.js:EmoServiceStartRQ ] cus 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
-                        ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf_cus);
-
-                        resolve(results);
-                    });
-                })
-            ]);
+                // 타임아웃 설정
+                setTimeout(() => {
+                    clearInterval(checkQueueInterval);
+                    logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Queue setup timeout`);
+                    resolve([null, null]);
+                }, 5000);
+            });
         }
 
-        //  단일 이벤트에 대한 결과 수신 후 return
-        const responses = await sendAndWaitForResponse();
-        if (responses[0] && responses[1]) {
-            logger.info(`[ audioServices.js:sendAndWaitForResponse ] Both channels responded successfully`);
+        const response = await sendAndWaitForResponse();
 
-            return {
-                message: 'success',
-                return_type: 1,
-                userinfo_userId: joinedData[0].userinfo_userId,
-                // 추가 정보
-                login_id: joinedData[0].login_id,
-                org_id: parseInt(joinedData[0].user_orgid),
-                user_uuid: joinedData[0].user_uuid
-            };
-        } else {
-            throw new Error(`Response failed: ${!responses[0] ? 'Channel 1 ' : ''}${!responses[1] ? 'Channel 2' : ''}`);
+        if (!response) {
+            logger.warn(`[ audioServices.js:EmoServiceStartRQ ] ${response}`);
         }
+
+        return {
+            message: 'success',
+            return_type: 1,
+            data: response
+        };
     } catch(err) {
         logger.error(`[ audioServices.js:EmoServiceStartRQ ] ${err}`);
         return {

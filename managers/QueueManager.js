@@ -111,7 +111,7 @@ class QueueManager {
             : {
                 toQueue: erkengineInfo_returnCustomer_recvQueueName,
                 fromQueue: erkengineInfo_returnCustomer_sendQueueName,
-                userId: userinfo_userId + 10,  // +1이 아닌 +10으로 수정
+                userId: userinfo_userId + 10,
                 type: 'tx'
             };
 

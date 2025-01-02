@@ -591,7 +591,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
         WHERE 
             DATE(send_dt) = CURDATE()  -- 현재 날짜의 데이터만 선택
             AND send_dt BETWEEN CURDATE() + INTERVAL 9 HOUR 
-                            AND CURDATE() + INTERVAL 18 HOUR  -- 9시부터 18시까지의 데이터
+            AND CURDATE() + INTERVAL 18 HOUR  -- 9시부터 18시까지의 데이터
         ORDER BY 
             file_seq, send_dt;`;
         
@@ -609,7 +609,6 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
         const counselData = '';
 
         //  3. 통화 이력 데이터
-
         connection.query(getTodayEmo_qry+customData+callRecords, (err, results) => {
             if (err) {
                 logger.error(`[ app.js:/workStatusMain/getTodayEmo ] ${err}`);
@@ -755,10 +754,9 @@ app.get('/coachingMain', async (req, res) => {
                 ecm.insert_dt desc
             LIMIT 5;`
 
-
         connection.query(coaching_flow_query + coaching_type_chart_query + coaching_hrs_history_query, (err,results) => {
             if (err){
-                logger.warn(`[] app.js:coaching_type_chart_query ${err}`);
+                logger.warn(`[ app.js:/coachingMain ] coaching_type_chart_query ${err}`);
             }
             let coaching_flow = results[0];
             let coaching_type_chart = results[1];
@@ -869,7 +867,7 @@ app.get('/emotionStatus', async (req, res) => {
         GROUP BY emotion_type, HOUR;`;
         logger.info(`[ app.js:/emotionStatus ] 시간 별 감성 상태\n${query4}`);
 
-        //  금일 누적 부정 감성횟수
+        //  금일 부정 감성 누적적횟수
         let query5 = `SELECT
             eei.login_id,
             eui.user_name,
@@ -1540,7 +1538,7 @@ app.post('/coachingAdmin/sendMsg', (req, res) => {
                 connection.query(upt_pass_query, (err, results) => {
                     if (err) {
                         logger.error(`[ app.js:/coachingAdmin/sendMsg ] ${err}`);
-                        connection.end();
+                        throw err;
                     }
 
                     // 소켓을 통해 메세지 전송
@@ -2549,6 +2547,7 @@ conn = amqp.connect({
                     logger.info(`[ app.js:updatingUserSubmit ] 사용자 정보 수정 요청 ${JSON.stringify(req.query, null, 2)}`);
             
                     let getOrgName_parse = jsonData.getOrgName.trim();
+
                     let updatingUserSubmit_query  = `UPDATE emo_user_info SET
                     org_name = '${getOrgName_parse}',
                     user_id = ${Number(jsonData.getUserId)},
@@ -2580,7 +2579,7 @@ conn = amqp.connect({
                                 results.forEach(user => {
                                     let uptUsrMsg = ErkApiMsg.create({
                                         UpdUserInfoRQ: {
-                                            MsgType: 11,
+                                            MsgType: 13,
                                             QueueInfo: ErkQueueInfo,
                                             OrgName: user.org_name,
                                             UserName: user.login_id,
@@ -2599,6 +2598,20 @@ conn = amqp.connect({
                                             New_UserType,
                                             New_ServiceType
                                         }
+                                    });
+
+                                    let uptUsrMsg_buf2 = ErkApiMsg.encode(uptUsrMsg).finish();
+                                    ch.sendToQueue("ERK_API_QUEUE", uptUsrMsg_buf2);
+                                    
+                                    // 전송 이력 DB 저장 후 메세지 송신
+                                    let upt_add_usr_info = `UPDATE emo_user_info SET update_dt = NOW(3), userinfo_send_dt = NOW(3) WHERE login_id = "${user.login_id}"`;
+                                    connection.query(upt_add_usr_info, (err, results) => {
+                                        if(err) {
+                                            logger.error(`[ AMQP:upt_addUsr_info ] ${err}`);
+                                            throw err;
+                                        }
+                
+                                        logger.info(`[ AMQP:sendToqueue ] 송신한 메세지\n${JSON.stringify(addUsrMsg, null, 4)}`);
                                     });
                                 });
                             } else{
@@ -2623,25 +2636,25 @@ conn = amqp.connect({
                     logger.info(`[ app.js:deletingUserSubmit ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
                     res.redirect(`/`, { title: `로그인` });
                 }
-                logger.info(`[ app.js:deletingUserSubmit ] 받은 조건: ${JSON.stringify(req.body)}`);
+                logger.info(`[ app.js:deletingUserSubmit ] 요청받은 삭제 조건: ${JSON.stringify(req.body)}`);
 
                 let del_user_id = req.body.userinfo_id;
                 let del_user_name = req.body.user_name;
 
-                try {                
+                try {
                     for(let i=0; i<del_user_id.length; i++) {
                         let delete_usr_info = `SELECT * FROM emo_user_info WHERE user_name = '${del_user_name[i]}';`;
                         connection.query(delete_usr_info, (err, results) => {
                             if(err) {
                                 logger.error(`[ app.js:delete_usr_info ] ${err}`);
-                                connection.end();
+                                throw err;
                             }
             
                             if(results.length > 0) {
                                 results.forEach(user => {
                                     let delUsrMsg = ErkApiMsg.create({
                                         DelUserInfoRQ: {
-                                            MsgType: 9,
+                                            MsgType: 15,
                                             QueueInfo: ErkQueueInfo,
                                             OrgName: user.org_name,
                                             UserName: user.login_id,

@@ -36,12 +36,6 @@ class EnhancedFSWatcher {
         this.watcher = null;
         this.activeFiles = new Map();
         this.audioFileManager = new AudioFileManager(); // 기존 AudioFileManager 연동
-
-        // this.ErkApiMsg = ErkApiMsg;
-        // this.ch = ch;
-        // this.ch2 = ch2;
-        // this.ErkQueueInfo = ErkQueueInfo11;
-        // this.ErkQueueInfo2 = ErkQueueInfo22;
     }
 
     //  디렉토리 유무 파악
@@ -107,10 +101,19 @@ class EnhancedFSWatcher {
 
                     //  3. 통합본 파일에 대해 EmoServiceStartRQ 수행 
                     const serviceResponse = await EmoServiceStartRQ(fileName);
-                    logger.info(`[ watchFileAdd:EmoServiceStartRQ ] Received response for ${fileName} (Response: ${serviceResponse.return_type} - ${serviceResponse.message})`);
+                    // response가 제대로 있는지 확인
+                    if (!serviceResponse) {
+                        logger.warn(`[ watchFileAdd ] No response from EmoServiceStartRQ for ${fileName}`);
+                        return;
+                    }
 
+                    logger.info(`[ watchFileAdd:EmoServiceStartRQ ] Received response for ${fileName} (Response: ${serviceResponse.return_type} - ${serviceResponse.message})`);
+                    
                     //   - 응답 검증: 더 엄격한 체크
                     if (serviceResponse.return_type === 1) {
+                        const channelResults = serviceResponse.data; // channelResults에 접근
+                        logger.info(`[ watchFileAdd:EmoServiceStartRQ ] 성공적인 응답 수신: ${JSON.stringify(channelResults)}`);
+
                         //   - rx/tx 파일명 생성
                         const baseFileName = path.basename(fileName, '.wav');
                         const fileTypes = ['rx', 'tx'];
@@ -121,13 +124,18 @@ class EnhancedFSWatcher {
                             const typedFilePath = path.join(path.dirname(filePath), typedFileName);
                             
                             try {
-                                const result = await handleNewFile(typedFilePath, serviceResponse.userinfo_userId, { fileType: type });
-                                logger.info(`[ watchFileAdd:handleNewFile ] ${type.toUpperCase()} processing complete:`, result);
+                                // serviceResponse 전체와 fileType을 전달하여 파일 처리
+                                const result = await handleNewFile(
+                                    typedFilePath, 
+                                    serviceResponse.data[0]?.userinfo_userId, // userinfo_userId 접근 수정
+                                    serviceResponse, // 전체 응답 전달
+                                    type // 파일 유형 전달
+                                );
+                                logger.info(`[ watchFileAdd:handleNewFile ] ${type.toUpperCase()} 처리 완료:`, result);
 
                                 return { type, success: true, result };
                             } catch (error) {
-                                logger.error(`[ watchFileAdd:handleNewFile ] ${type.toUpperCase()} processing failed:`, error);
-
+                                logger.error(`[ watchFileAdd:handleNewFile ] ${type.toUpperCase()} 처리 실패:`, error);
                                 return { type, success: false, error };
                             }
                         }));
@@ -137,12 +145,11 @@ class EnhancedFSWatcher {
                         if (failures.length > 0) { throw new Error(`[ watchFileAdd:handleNewFile ] Failed to process: ${failures.map(f => f.type).join(', ')}`); }
 
                         return results;
+                    } else {
+                        logger.error(`[ watchFileAdd:EmoServiceStartRQ ] 실패 응답: ${serviceResponse.error}`);
                     }
-                    
-                    throw new Error(`[ watchFileAdd:EmoServiceStartRQ ] Service failed: ${serviceResponse.message || 'Unknown error'}`);
                 } catch (error) {
                     logger.error(`[ watchFileAdd:EmoServiceStartRQ ] Error processing file ${filePath}:`, error);
-                    throw error;
                 }
             })
             .on('error', error => logger.error(`[ EnhancedFSWatcher.js:watchDirectoryError ] ${error}`))

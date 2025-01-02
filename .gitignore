@@ -3,6 +3,75 @@ node_modules/
 
 # 데이터베이스 비밀번호, API 키와 같은 민감한 정보를 담고 있는 환경설정 파일
 .env
+.env.local
+.env.*
+config.js
+*.config.js
 
-# Mac OS에서 자동으로 생성되는 시스템 파일
+# 운영체제 파일
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 압축 파일
+*.zip
+*.gz
+*.tar
+*.rar
+
+# 마운트된 디렉토리 제외
+ms_nfs_mount/
+
+# SSL/TLS 인증서 및 키 파일
+*.crt
+*.key
+*.pem
+*.csr
+*.srl
+*.der
+*.priv
+*.p12
+*.pfx
+
+# 로컬 데이터베이스
+*.sqlite
+*.db
+
+
+# IDE/편집기 설정 파일
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.project
+.classpath
+.settings/
+*.sublime-*
+
+# 임시 파일
+tmp/
+temp/
+.temp/
+*.tmp
+.cache/
+.eslintcache
+
+# 테스트 커버리지
+coverage/
+.nyc_output/
+junit.xml
+
+# 로그 파일
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+error.log
+access.log
