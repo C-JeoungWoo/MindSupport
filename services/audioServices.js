@@ -331,8 +331,8 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         let EmoServiceStartMsg_buf = ErkApiMsg.encode(EmoServiceStartMsg).finish();
         let EmoServiceStartMsg_buf_cus = ErkApiMsg.encode(EmoServiceStartMsg_cus).finish();
 
-        logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
-        logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg_cus\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
+        // logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
+        // logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg_cus\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
 
         // 3. DB 업데이트 및 메시지 전송 후 응답 대기
         const sendAndWaitForResponse = () => {
@@ -340,8 +340,13 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                 const channelPromises = [
                     // Channel 1 전송 및 응답 대기
                     new Promise((resolveChannel) => {
-                        connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
-                            WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId)};`, (error, results) => {
+                        const userId = parseInt(joinedData[0].userinfo_userId);
+                        const query = `UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3) WHERE userinfo_userId = ${userId}`;
+
+                        // 실행되는 쿼리 확인
+                        logger.info(`[ audioServices.js:EmoServiceStartRQ ] Executing query: ${query}`);
+
+                        connection1.query(query, (error, results) => {
                             if (error) reject(error);
         
                             // 메시지 전송
@@ -353,9 +358,16 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                     }),
                     // Channel 2 전송 및 응답 대기
                     new Promise((resolveChannel) => {
-                        connection1.query(`UPDATE emo_user_info SET erkEmoSrvcStart_send_dt = NOW(3)
-                            WHERE userinfo_userId = ${parseInt(joinedData[0].userinfo_userId) + 11};`, (error, results) => {
-                            if (error) reject(error);
+                        const userId = parseInt(joinedData[0].userinfo_userId)+10;
+                        const query = `UPDATE emo_user_info 
+                        SET erkEmoSrvcStart_send_dt = NOW(3)
+                        WHERE userinfo_userId = ${userId}`;
+
+                        // 실행되는 쿼리 확인
+                        logger.info(`[ audioServices.js:EmoServiceStartRQ ] Executing query: ${query}`);
+
+                        connection1.query(query, (error, results) => {
+                            if (error) { reject(error); }
         
                             // 메시지 전송
                             logger.info(`[ audioServices.js:EmoServiceStartRQ ] cus 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
@@ -374,19 +386,24 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                     try {
                         // 상담원/고객 큐 정보 설정 여부 확인
                         const [queueStatus] = await new Promise((resolveQuery, rejectQuery) => {
-                            connection1.query(`
-                                SELECT COUNT(*) as count
+                            connection1.query(`SELECT COUNT(*) as count
                                 FROM emo_user_info 
                                 WHERE (
                                     (userinfo_userId = ? AND erkengineInfo_return_recvQueueName IS NOT NULL)
                                     OR
-                                    (userinfo_userId = ? AND erkengineInfo_returnCustomer_recvQueueName IS NOT NULL);`,
+                                    (userinfo_userId = ? AND erkengineInfo_returnCustomer_recvQueueName IS NOT NULL)
+                                )`,
                                 [
                                     parseInt(joinedData[0].userinfo_userId), 
                                     parseInt(joinedData[0].userinfo_userId) + 10
                                 ],
                                 (error, results) => {
-                                    if (error) rejectQuery(error);
+                                    if (error) {
+                                        logger.error(`Queue check query error: ${error.message}`);
+                                        rejectQuery(error);
+                                    }
+
+                                    // logger.debug(`Queue check results: ${JSON.stringify(results)}`);
                                     resolveQuery(results);
                                 }
                             );
@@ -403,44 +420,58 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                     }
                 }, 100);
 
-                // 타임아웃 설정
+                // 타임아웃 설정(10초)
                 setTimeout(() => {
                     clearInterval(checkQueueInterval);
-                    logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Queue setup timeout`);
+                    logger.info(`[ audioServices.js:EmoServiceStartRQ ] Queue setup timeout`);
+
                     resolve([null, null]);
-                }, 5000);
+                }, 10000);
             });
         }
 
-        const response = await sendAndWaitForResponse();
+        try {
+            const response = await sendAndWaitForResponse();
 
-        if (!response) {
-            logger.warn(`[ audioServices.js:EmoServiceStartRQ ] ${response}`);
+            if (!response || !Array.isArray(response) || response.some(r => !r)) {
+                logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Invalid response: ${JSON.stringify(response)}`);
+                return {
+                    message: 'error',
+                    return_type: 0,
+                    error: 'Invalid response from sendAndWaitForResponse'
+                };
+            }
+
+            return {
+                message: 'success',
+                return_type: 1,
+                userinfo_userId: joinedData[0].userinfo_userId,
+                login_id: joinedData[0].login_id,
+                org_id: parseInt(joinedData[0].user_orgid),
+                user_uuid: joinedData[0].user_uuid
+            };
+        } catch(err) {
+            logger.error(`[ audioServices.js:EmoServiceStartRQ ] Error in final response: ${error}`);
+
+            return {
+                message: 'error',
+                return_type: 0,
+                error: err.message
+            };
         }
-
-        return {
-            message: 'success',
-            return_type: 1,
-            data: response
-        };
     } catch(err) {
         logger.error(`[ audioServices.js:EmoServiceStartRQ ] ${err}`);
-        return {
-            message: 'error',
-            return_type: 0,
-            error: err.message
-        };
     }
 }
 
 //  생성된 wav 통화 파일에 대한 데이터 처리가 더 없을 경우
 const EmoServiceStopRQ = async function EmoServiceStopRQ(userinfo_userId) {
+    // getErkApiMsg 함수로 ErkApiMsg 상태 검증
+    const currentErkApiMsg = getErkApiMsg();
+    logger.debug(`[ audioServices.js:EmoServiceStopRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
+
     try {
         logger.info(`[ audioServices.js:EmoServiceStopRQ ] Stopping service for user: ${userinfo_userId}`);
-
-        // getErkApiMsg 함수로 ErkApiMsg 상태 검증
-        const currentErkApiMsg = getErkApiMsg();
-        logger.debug(`[ audioServices.js:EmoServiceStopRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
 
         return Promise.all([
             new Promise((resolve) => {
@@ -449,7 +480,6 @@ const EmoServiceStopRQ = async function EmoServiceStopRQ(userinfo_userId) {
                     resolve(null);
                 }, 5000);
 
-                //
                 connection1.query(`SELECT
                     session_id,
                     JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.org_id')) as user_orgid,

@@ -111,8 +111,7 @@ class EnhancedFSWatcher {
                     
                     //   - 응답 검증: 더 엄격한 체크
                     if (serviceResponse.return_type === 1) {
-                        const channelResults = serviceResponse.data; // channelResults에 접근
-                        logger.info(`[ watchFileAdd:EmoServiceStartRQ ] 성공적인 응답 수신: ${JSON.stringify(channelResults)}`);
+                        logger.info(`[ watchFileAdd:EmoServiceStartRQ ] 성공적인 응답 수신: ${JSON.stringify(serviceResponse, null, 2)}`);
 
                         //   - rx/tx 파일명 생성
                         const baseFileName = path.basename(fileName, '.wav');
@@ -127,7 +126,7 @@ class EnhancedFSWatcher {
                                 // serviceResponse 전체와 fileType을 전달하여 파일 처리
                                 const result = await handleNewFile(
                                     typedFilePath, 
-                                    serviceResponse.data[0]?.userinfo_userId, // userinfo_userId 접근 수정
+                                    serviceResponse.userinfo_userId, // userinfo_userId 접근 수정
                                     serviceResponse, // 전체 응답 전달
                                     type // 파일 유형 전달
                                 );
@@ -142,7 +141,7 @@ class EnhancedFSWatcher {
 
                         // 4. 결과 검증
                         const failures = results.filter(r => !r.success);
-                        if (failures.length > 0) { throw new Error(`[ watchFileAdd:handleNewFile ] Failed to process: ${failures.map(f => f.type).join(', ')}`); }
+                        if (failures.length > 0) { logger.error(`[ watchFileAdd:handleNewFile ] Failed to process: ${failures.map(f => f.type).join(', ')}`); }
 
                         return results;
                     } else {
@@ -150,6 +149,14 @@ class EnhancedFSWatcher {
                     }
                 } catch (error) {
                     logger.error(`[ watchFileAdd:EmoServiceStartRQ ] Error processing file ${filePath}:`, error);
+
+                    // if (error.message.includes('Invalid response') || error.message.includes('Queue setup timeout')) {
+                    //     logger.warn(`[ watchFileAdd ] Will retry processing later`);
+                    //     // 나중에 재시도 로직 추가 가능
+                    // }
+                    
+                    // 에러가 발생해도 프로세스는 중단하지 않음
+                    return;
                 }
             })
             .on('error', error => logger.error(`[ EnhancedFSWatcher.js:watchDirectoryError ] ${error}`))

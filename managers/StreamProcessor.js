@@ -284,20 +284,6 @@ class StreamProcessor {
                 throw new Error(`Failed to send message to ${fileType.toUpperCase()} queue: ERK_API_QUEUE`);
             }
 
-            // 5. 로깅
-            // await this.logChunkProcessing({
-            //     // chunkIndex,
-            //     // totalChunks,
-            //     paddedChunk,
-            //     timestamp,
-            //     logDir: options.logDir,
-            //     queueName: options.queueName,
-            //     messageSize: sendSpeechMsg_buf.length,
-            //     fileType    // 로그에 파일 타입 추가
-            // });
-
-            // logger.info(`[ StreamProcessor:sendAndLog ] Successfully sent ${fileType.toUpperCase()} chunk ${chunkIndex + 1}/${totalChunks}`);
-
             return {
                 success: true,
                 message: `Successfully sent ${fileType} chunk ${chunkNumber}`
@@ -309,25 +295,6 @@ class StreamProcessor {
             throw new Error(`${fileType.toUpperCase()} chunk processing failed: ${err.message}`);
         }
     }
-
-    // async logChunkProcessing(options) {
-    //     const { chunkIndex, paddedChunk, timestamp, logDir } = options;
-
-    //     // 1. PCM 파일 저장
-    //     const chunkFileName = path.join(logDir, `chunk_${chunkIndex + 1}_${timestamp}.pcm`);
-    //     await fsp.writeFile(chunkFileName, Buffer.from(paddedChunk.data.buffer, 0, paddedChunk.samplesToCopy * this.bytesPerSample));
-
-    //     // 2. Array 데이터 저장
-    //     const arrayFileName = path.join(logDir, `chunk_${chunkIndex + 1}_${timestamp}.txt`);
-    //     const arrayString = Array.from(paddedChunk.data).join('  ');
-    //     await fsp.writeFile(arrayFileName, arrayString);
-
-    //     // 3. 메타데이터 로깅
-    //     const logMessage = this.createLogMessage(options);
-    //     await fsp.appendFile(path.join(logDir, 'transmission_log.txt'), logMessage);
-
-    //     logger.info(`[ StreamProcessor:logChunkProcessing ] Chunk ${chunkIndex + 1} sent and logged`);
-    // }
 
     // 긴급 상황 시 리소스 정리
     cleanup() {
