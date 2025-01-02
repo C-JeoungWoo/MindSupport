@@ -6,11 +6,6 @@
     "auditLog": "/home/241212_MindSupport/MindSupport/logs/log/.279b622fa002dc73ed6950e7041b07cf1d3a1b90-audit.json",
     "files": [
         {
-            "date": 1734314591995,
-            "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_11.log",
-            "hash": "085ff1f24a14c756b8d375ef1601f582401c8d4b35d9e085ce8a705e35818c62"
-        },
-        {
             "date": 1734319224478,
             "name": "/home/241212_MindSupport/MindSupport/logs/log/241216_12.log",
             "hash": "38979b18714504817581b616906eba2a8beff827cd4c6a20a97ad0ca8bb07339"
@@ -154,6 +149,11 @@
             "date": 1735801205492,
             "name": "/home/241212_MindSupport/MindSupport/logs/log/250102_16.log",
             "hash": "ad7caef8a868fa3dc52dab8b6ecbb5c974739067105b7227d410ae0df3a5d03b"
+        },
+        {
+            "date": 1735807996380,
+            "name": "/home/241212_MindSupport/MindSupport/logs/log/250102_17.log",
+            "hash": "7fcf51eef231300f291d055fb0ec3df9eb612f28a9bfae95c0d5d19912e4c80e"
         }
     ],
     "hashType": "sha256"
