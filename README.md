@@ -13,9 +13,11 @@
 | **app.js**         | MySQLoptions 부분 IP 및 port, user, password 변경                 | `host: 'http://192.168.x.x'` |
 | **consultant.ejs** | 소켓 연결하는 부분 IP 변경                  | `url: 'http://192.168.x.x'`   |
 | **index.ejs**      | 소켓 연결하는 부분 IP 변경      | `url: 'http://192.168.x.x'`   |
-| ****      | **nfs-server systemctl status 확인**      |   |
-| ****      | **nfs-client 마운트 상태 확인**      |  |
-| ****      | **DB 쿼리 코드에 들어있는 DB명 전부를 ETRI_EMOTION => MindSupport로 변경**       |    |
+|      | **nfs-server systemctl status 확인**      |   |
+|      | **nfs-client 마운트 상태 확인**      |  |
+|       | **DB 쿼리 코드에 들어있는 DB명 전부를 ETRI_EMOTION => MindSupport로 변경**       |    |
+|       | **load.proto() 경로 변경**       |    |
+|       | **config 디렉토리 내부의 directories.js 경로 변경**       |    |
 
 ### 작업 순서
 1. `git pull` 명령어를 사용하여 최신 코드를 가져옵니다.
