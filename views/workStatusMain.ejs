@@ -225,10 +225,6 @@
     <div class="modalTitle spaceBtwn">
       <h4><!-- AJAX로 데이터 채움 --></h4>
       <div>
-        <div class="searchArea">
-          <input type="search" name="상담원명 검색" placeholder="상담원 명" aria-label="상담사명 검색">
-          <button type="button" class="searchBtn" aria-label="검색버튼"><img src="../images/ic_search_w.svg" alt="검색"></button>
-        </div>
         <button type="button" class="modal-close" onclick="baseModalClose()" aria-label="근무현황 모달 닫기"></button>
       </div>
     </div>
@@ -303,7 +299,6 @@
             <th rowspan="2">통화시간</th>
             <th colspan="5" class="nonBorder" style="padding-bottom: 1%;">감성(고객)</th>
             <th colspan="5" class="nonBorder" style="padding-bottom: 1%;">감성(상담원)</th>
-            <th colspan="5" class="nonBorder" style="padding-bottom: 1%;">코칭(유형별)</th>
           </tr>
           <tr>
             <th class="bottom">행복</th>
@@ -316,8 +311,6 @@
             <th class="bottom">화남</th>
             <th class="bottom">슬픔</th>
             <th class="bottom">무응답</th>
-            <th class="bottom">자동</th>
-            <th class="bottom">수동</th>
           </tr>
         </thead>
 
@@ -343,9 +336,6 @@
             <td scope="row">6</td>
             <td scope="row">3</td>
             <td scope="row">29</td>
-            <!-- 자동 / 수동 -->
-            <td scope="row">6</td>
-            <td scope="row">3</td>
           </tr>
 
           <tr>
@@ -369,9 +359,6 @@
             <td>0</td>
             <td>0</td>
             <td>8</td>
-            <!-- 자동 / 수동 -->
-            <td>0</td>
-            <td>0</td>
           </tr>
 
           <tr>
@@ -395,9 +382,6 @@
             <td>4</td>
             <td>1</td>
             <td>8</td>
-            <!-- 자동 / 수동 -->
-            <td>4</td>
-            <td>0</td>
           </tr>
 
           <tr>
@@ -421,9 +405,6 @@
             <td>4</td>
             <td>1</td>
             <td>8</td>
-            <!-- 자동 / 수동 -->
-            <td>4</td>
-            <td>0</td>
           </tr>
 
         </tbody>
@@ -493,7 +474,7 @@
         <div class="grid twin">
           <div>
             <label>상담원 명</label>
-            <input type="text" name="" id="getAgentName2" value="상담사3" disabled  aria-label="상담사 아이디"/>
+            <input style="text-align: left;" type="text" name="" id="getAgentName2" value="상담사3" disabled  aria-label="상담사 아이디"/>
           </div>
           <div>
             <label>기준시간(초)</label>
@@ -1139,6 +1120,7 @@
 
             // 모달이 완전히 열린 후 alert 실행
           setTimeout(function() {
+            resetCharts();
             alert("[ MindSupport ] 금일 데이터는 없습니다.");
           }, 400);
         } else {
@@ -1152,6 +1134,14 @@
       }
     });
   }
+
+  // 차트 초기화 함수
+function resetCharts() {
+  createOrUpdateChart('customerStatus', { data: { labels: [], datasets: [] } });
+  createOrUpdateChart('counselorStatus', { data: { labels: [], datasets: [] } });
+  createOrUpdateChart('callStatus', { data: { labels: [], datasets: [] } });
+  console.log("차트가 초기화되었습니다.");
+}
 
   //검색 조건을 전달하여 관리자 코칭 페이지로 이동하기 버튼
   function moveTocoachingAdmin() {
@@ -1187,14 +1177,17 @@
 
   //  - 기존 차트가 있다면 제거 후 새로 생성
   function createOrUpdateChart(chartId, config) {
-    const ctx = document.getElementById(chartId).getContext('2d');
-
-    document.getElementById(chartId).style.width = '100%';
-    
-    if (charts[chartId]) {
-      charts[chartId].destroy();
+    if (Chart.getChart(chartId)) {
+      // 기존 차트가 있으면 업데이트
+      const chart = Chart.getChart(chartId);
+      chart.data = config.data;
+      chart.options = config.options;
+      chart.update();
+    } else {
+      // 새로 생성
+      const ctx = document.getElementById(chartId).getContext('2d');
+      new Chart(ctx, config);
     }
-    charts[chartId] = new Chart(ctx, config);
   }
 
   //  고객, 통화흐름, 상담원 감성 차트
@@ -1797,14 +1790,15 @@
 </script>
 <!-- 근무 현황 페이지 2초마다 AJAX를 이용하여 화면 깜빡임 없이 데이터 재 랜더링하여 표출하기 -->
 <script>
-  // 데이터를 렌더링하는 함수
-  function renderAgents(data) {
-    // 감성코칭이 필요한 상담원
-    const needcoachingAgentsDiv = $('.slick-list');
-    // 현재 근무 중인 상담원
-    const presentAgentsDiv = $('#presentAgents');
-    // 비접속 인원
-    const not_presentAgentsDiv = $('#not_presentAgents');
+// 데이터를 렌더링하는 함수
+function renderAgents(data) {
+  // 감성코칭이 필요한 상담원
+  const needcoachingAgentsDiv = $('.slick-list');
+
+  // 현재 근무 중인 상담원
+  const presentAgentsDiv = $('#presentAgents');
+  // 비접속 인원
+  const not_presentAgentsDiv = $('#not_presentAgents');
 
     // 현재 슬라이더의 현재 슬라이드 인덱스 저장
     let currentSlide = needcoachingAgentsDiv.length > 0 && 
@@ -1826,35 +1820,51 @@
     presentAgentsDiv.empty();
     not_presentAgentsDiv.empty();
 
-    // 현재 접속 인원 렌더링
-    data.present_agent.forEach(agent => {
-      presentAgentsDiv.append(
-        `
-        <div class="item ${agent.last_call_status === 1 ? 'border-purple' : 'border-gray'}">
-          <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
-            <div class="imgArea ${
-              agent.emotion_type === '6' ? 'happy' :
-              agent.emotion_type === '7' ? 'sad' :
-              agent.emotion_type === '8' ? 'angry' :
-              agent.emotion_type === '11' ? 'calm' : 'offline'
-            }">
-              ${
-                agent.emotion_type === '6' ? '<img src="../images/ic_happy.svg">' :
-                agent.emotion_type === '7' ? '<img src="../images/ic_sad.svg">' :
-                agent.emotion_type === '8' ? '<img src="../images/ic_angry.svg">' :
-                agent.emotion_type === '11' ? '<img src="../images/ic_calm.svg">' : ''
-              }
-            </div>
-            <div class="textArea">
-              <p class="agents agents2" data-username="${agent.emo_user_name}" data-loginid="${agent.login_id}">
-                ${agent.emo_user_name}(${agent.login_id})
-              </p>
-            </div>
-          </a>
-        </div>
-      `
-      );
-    });
+  // 현재 접속 인원 렌더링
+  data.present_agent.forEach(agent => {
+    presentAgentsDiv.append(`
+      <div class="item ${agent.last_call_status === 1 ? 'border-purple' : 'border-gray'}">
+        <a href="#" role="button" title="상담사 상세 팝업창" onclick="baseModalopen(this.querySelector('.agents2').dataset)">
+          <div class="imgArea ${
+            agent.emotion_type === '5' ? 'happy' :
+            agent.emotion_type === '6' ? 'happy' :
+            agent.emotion_type === '4' ? 'sad' :
+            agent.emotion_type === '7' ? 'sad' :
+            agent.emotion_type === '12' ? 'sad' :
+            agent.emotion_type === '13' ? 'sad' :
+            agent.emotion_type === '3' ? 'angry' :
+            agent.emotion_type === '8' ? 'angry' :
+            agent.emotion_type === '14' ? 'angry' :
+            agent.emotion_type === '2' ? 'calm' :
+            agent.emotion_type === '9' ? 'calm' :
+            agent.emotion_type === '10' ? 'calm' :
+            agent.emotion_type === '11' ? 'calm' : 'offline'
+          }">
+            ${
+              agent.emotion_type === '5' ? '<img src="../images/ic_happy.svg">' :
+              agent.emotion_type === '6' ? '<img src="../images/ic_happy.svg">' :
+              agent.emotion_type === '4' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '7' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '12' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '13' ? '<img src="../images/ic_sad.svg">' :
+              agent.emotion_type === '3' ? '<img src="../images/ic_angry.svg">' :
+              agent.emotion_type === '8' ? '<img src="../images/ic_angry.svg">' :
+              agent.emotion_type === '14' ? '<img src="../images/ic_angry.svg">' :
+              agent.emotion_type === '2' ? '<img src="../images/ic_calm.svg">' :
+              agent.emotion_type === '9' ? '<img src="../images/ic_calm.svg">' :
+              agent.emotion_type === '10' ? '<img src="../images/ic_calm.svg">' :
+              agent.emotion_type === '11' ? '<img src="../images/ic_calm.svg">' : ''
+            }
+          </div>
+          <div class="textArea">
+            <p class="agents agents2" data-username="${agent.emo_user_name}" data-loginid="${agent.login_id}">
+              ${agent.emo_user_name}(${agent.login_id})
+            </p>
+          </div>
+        </a>
+      </div>
+    `);
+  });
 
     // 비접속 인원 렌더링
     data.notPresent_agent.forEach(agent => {

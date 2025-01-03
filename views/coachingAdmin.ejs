@@ -98,7 +98,7 @@
             <th>감성(화남)</th>
             <th>감성(슬픔)</th>
             <th>통화건수</th>
-            <th>판단</th>
+            <th>코칭유형</th>
           </tr>
         </thead>
         <tbody>
@@ -141,7 +141,7 @@
                 <!-- 통화횟수 -->
                 <td scope="row"><%= data.call_count %></td>
 
-                <!-- 판단 -->
+                <!-- 코칭유형 -->
                 <% if (data.auto_coach == 'P') { %> 
                   <td scope="row"><button style="display: block; margin: 0 auto;" 
                     class="primaryBtn needCoaching" type="button" onclick="coachingModalOpen()">코칭하기</button></td>

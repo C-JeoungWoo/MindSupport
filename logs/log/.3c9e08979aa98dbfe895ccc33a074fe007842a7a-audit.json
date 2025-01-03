@@ -1,0 +1,125 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/.3c9e08979aa98dbfe895ccc33a074fe007842a7a-audit.json",
+    "files": [
+        {
+            "date": 1734683994708,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241220_17.log",
+            "hash": "1f6da429d3be66207fb31b085ba3839baf43e664503d369f84ad394f56cbd67b"
+        },
+        {
+            "date": 1734912782044,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241223_09.log",
+            "hash": "4f9965ba5e39ea2ba3f55d94028fd03057dbd8cae6614e07a3459c250706fb16"
+        },
+        {
+            "date": 1734915601546,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241223_10.log",
+            "hash": "3b3918b315b57b9fe3db2eff043a4fb0daaa49c359203e0b166a692a1b3dd1d3"
+        },
+        {
+            "date": 1734919200853,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241223_11.log",
+            "hash": "cc56863bb900c51dc488299d1b4052e2695260c164663c7942ddd4e9f9a4c0fc"
+        },
+        {
+            "date": 1734924502209,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241223_12.log",
+            "hash": "b9d97e6f3fa2dc3f5190fed83eaa1bc7a0703c1babfc35f0177802bfab903976"
+        },
+        {
+            "date": 1735517149257,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_09.log",
+            "hash": "5c22804b0b282d46625b2c1bdc87b8d68661ec6630f0b315783d639580998593"
+        },
+        {
+            "date": 1735520401375,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_10.log",
+            "hash": "b1de5a135e6468cebb5ab5679b94b9035deea7b6b5fe40b0f01d25dddb310c62"
+        },
+        {
+            "date": 1735524050391,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_11.log",
+            "hash": "7b752d216ad38dddd009ed415d2a69dcc7124eb497b4e3378277766f10a0468a"
+        },
+        {
+            "date": 1735527600439,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_12.log",
+            "hash": "25ad5156e256d67400438a82eb2a586782ad999bcaf5e7a517a368811bc3f553"
+        },
+        {
+            "date": 1735531201381,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_13.log",
+            "hash": "bb2465c8e11cfbed352215d5bf56f5425c1839731a726ee864156fcbfc12552e"
+        },
+        {
+            "date": 1735542203463,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_16.log",
+            "hash": "92f6453b61d36afbd927500e2d2b3ddd0018bbdf939231087617fea57333fa44"
+        },
+        {
+            "date": 1735545600200,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241230_17.log",
+            "hash": "fab2657fb51ac2f962b6f814b60472f4f48589df68f208d2d7a2706931bd708d"
+        },
+        {
+            "date": 1735607746579,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241231_10.log",
+            "hash": "56602f3441bf0574a979c634e9acbe6202ec80e8cd938ef11641f279bc7494c6"
+        },
+        {
+            "date": 1735610650449,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241231_11.log",
+            "hash": "ae8787ff646d453c2980b7f12b3497a1570380a32fe9b8bb616c3e860620ba58"
+        },
+        {
+            "date": 1735614096814,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/241231_12.log",
+            "hash": "84828b75d6fe89f3e8febe6a9b46605d180e58f628677cdcfc5146943dd4533f"
+        },
+        {
+            "date": 1735776647203,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_09.log",
+            "hash": "29f241cc9836c281b212a8a8c3f2fa93ba2f50f7ce2627012f9dad9df0c3f399"
+        },
+        {
+            "date": 1735779605879,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_10.log",
+            "hash": "e5a1f14f7172f56e375eccc2aaee92b3fdb6625562bfd04bec4bc96bf6b462b7"
+        },
+        {
+            "date": 1735783270983,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_11.log",
+            "hash": "b7fc029e9fc20b0531f9e06b20693c693779a351c35f3dbd8f8b0950014bd452"
+        },
+        {
+            "date": 1735786800248,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_12.log",
+            "hash": "5f4816dd6aa7634310d503bcee1e46aceca5bfdf1db80f8d667670e4cfb5df13"
+        },
+        {
+            "date": 1735799529034,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_15.log",
+            "hash": "930496aaad7295598091aadb800129bdd6de9b023a1d13b5544c9c455e6e3ba7"
+        },
+        {
+            "date": 1735801284766,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_16.log",
+            "hash": "cabc14e20ed97cdc7262980d015119e65262d36dd94352a6d99346a6958ad244"
+        },
+        {
+            "date": 1735804829779,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_17.log",
+            "hash": "5f0a43aaf24a218dcda5142cc2dec92b17a753891976afeb1cdbc10a710b413d"
+        },
+        {
+            "date": 1735808400908,
+            "name": "/home/neighbor/MindSupport/MindSupport_v1.0.0/logs/log/250102_18.log",
+            "hash": "ad6b77827f13ef1abdc8e0d76a4aa9109a03a42b34b3546c2235e9ff16b89be8"
+        }
+    ],
+    "hashType": "sha256"
+}

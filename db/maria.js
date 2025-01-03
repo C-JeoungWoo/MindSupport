@@ -7,10 +7,10 @@ module.exports = () => {
     return {
         init: () => {
             return mysql.createConnection({
-                host: '192.168.0.30',
+                host: '192.168.0.29',
                 port: '3306',
-                user: 'emo10',
-                password: 'nb1234',
+                user: 'root',
+                password: 'spdlqj21',
                 database: 'ETRI_EMOTION',
                 multipleStatements: true
             })
@@ -20,9 +20,10 @@ module.exports = () => {
             con.connect(err => {
                 if (err) {
                     logger.error(`[ db:maria.js ] MindSupport DB CONNECTION ERROR : ${err}`);
+                } else {
+                    logger.info(`[ db:maria.js ] MindSupport DB CONNECTION SUCCESSFULLY`);
+                    return;
                 }
-
-                return;
             })
         }
     }

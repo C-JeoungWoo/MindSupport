@@ -48,30 +48,9 @@ ms_nfs_mount/
 *.swp
 *.swo
 .DS_Store
-Thumbs.db
-.project
-.classpath
-.settings/
-*.sublime-*
 
-# 임시 파일
-tmp/
-temp/
-.temp/
-*.tmp
-.cache/
-.eslintcache
-
-# 테스트 커버리지
-coverage/
-.nyc_output/
-junit.xml
-
-# 로그 파일
+# log 파일은 올릴 필요가 없음
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-logs/
-error.log
-access.log
+*.gz
+*.pcm
+*.txt

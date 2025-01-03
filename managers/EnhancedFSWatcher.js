@@ -18,21 +18,10 @@ class EnhancedFSWatcher {
     constructor(config = {}) {
         this.config = {
             basePath: DIRECTORIES.NFS_MOUNT,
-            pollingInterval: config.pollingInterval || 50,
-            stabilityThreshold: config.stabilityThreshold || 200,
-            maxPollingInterval: config.maxPollingInterval || 500,
-            minPollingInterval: config.minPollingInterval || 20,
-            adaptivePolling: config.adaptivePolling || true,
-            useParallelProcessing: config.useParallelProcessing || true // 추가
+            pollingInterval: config.pollingInterval || 50,  // chokidar watching 용
+            useParallelProcessing: config.useParallelProcessing || true  // 병렬 처리 옵션 유지
         };
-        
-        this.metrics = {
-            eventDelays: [],
-            missedEvents: 0,
-            successfulEvents: 0,
-            lastEventTime: null
-        };
-
+    
         this.watcher = null;
         this.activeFiles = new Map();
         this.audioFileManager = new AudioFileManager(); // 기존 AudioFileManager 연동
@@ -203,6 +192,7 @@ class EnhancedFSWatcher {
     async handleFileAddition(filePath, fileInfo) {
         const fileName = path.basename(filePath);
         const fileKey = fileName;
+
         // getErkApiMsg()의 반환값 구조 분해
         const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
 
@@ -259,8 +249,6 @@ class EnhancedFSWatcher {
                     this.metrics.missedEvents++;
                 }
             }
-    
-            this.updateMetrics('add', filePath, fileInfo);
         } catch (error) {
             logger.error(`[ app.js:EnhancedFSWatcher ] Error in file addition handler: ${error}`);
             this.metrics.missedEvents++;
@@ -280,15 +268,18 @@ class EnhancedFSWatcher {
     
             try {
                 // rx 파일 처리
-                const rxResult = await handleNewFile(rxFilePath, serviceResponse.userinfo_userId, { fileType: 'rx' });
+                // const rxResult = await handleNewFile(rxFilePath, serviceResponse.userinfo_userId, { fileType: 'rx' });
+                const rxResult = await handleNewFile(rxFilePath, serviceResponse.userinfo_userId, serviceResponse, 'rx');
                 logger.warn(`[ app.js:handleNewFileResult ] ${rxFileName} RX 처리 완료 ${rxResult}`);
     
                 // tx 파일 처리
-                const txResult = await handleNewFile(txFilePath, serviceResponse.userinfo_userId, { fileType: 'tx' });
+                // const txResult = await handleNewFile(txFilePath, serviceResponse.userinfo_userId, { fileType: 'tx' });
+                const txResult = await handleNewFile(txFilePath, serviceResponse.userinfo_userId, serviceResponse, 'tx');
                 logger.warn(`[ app.js:handleNewFileResult ] ${txFileName} TX 처리 완료 ${txResult}`);
     
             } catch (processError) {
                 logger.error(`[ app.js:watchFileAdd ] Error processing rx/tx files: ${processError}`);
+                throw processError;  // 상위로 에러 전파
             }
         } catch (error) {
             logger.error(`[ app.js:handleFileProcessing ] Error: ${error}`);
@@ -305,15 +296,17 @@ class EnhancedFSWatcher {
             const stopResult = await EmoServiceStopRQ(userId);
             if (stopResult === 'success') {
                 logger.info(`[ app.js:handleProcessingCompletion ] EmoService stopped successfully for ${callId}`);
+
+                // 파일 상태 업데이트
+                if (this.activeFiles.has(callId)) {
+                    this.activeFiles.get(callId).status = 'completed';
+                }
             } else {
                 logger.error(`[ app.js:handleProcessingCompletion ] Failed to stop EmoService for ${callId}`);
             }
-
-            // 파일 상태 업데이트
-            this.activeFiles.get(callId).status = 'completed';
-            
         } catch (error) {
             logger.error(`[ app.js:handleProcessingCompletion ] Error in completion handling for ${callId}:`, error);
+            throw error;
         }
     }
 
@@ -342,89 +335,6 @@ class EnhancedFSWatcher {
         }
     }
 
-    updateMetrics(event, path, details) {
-        const currentTime = Date.now();
-        
-        if (this.metrics.lastEventTime) {
-            const delay = currentTime - this.metrics.lastEventTime;
-            
-            // 유효한 지연시간인지 확인
-            if (typeof delay === 'number' && !isNaN(delay) && delay >= 0) {
-                this.metrics.eventDelays.push(delay);
-                logger.info(`[ app.js:EnhancedFSWatcher ] Added delay metric: ${delay}ms`);
-    
-                // 최근 100개의 이벤트만 유지
-                if (this.metrics.eventDelays.length > 100) {
-                    this.metrics.eventDelays.shift();
-                }
-            } else {
-                logger.warn(`[ app.js:EnhancedFSWatcher ] Invalid delay value calculated: ${delay}`);
-            }
-        }
-    
-        this.metrics.lastEventTime = currentTime;
-        this.adjustPollingIntervalIfNeeded();
-    }
-
-    adjustPollingIntervalIfNeeded() {
-        if (!this.config.adaptivePolling || this.metrics.eventDelays.length < 10) {
-            return;
-        }
-
-        const avgDelay = this.calculateAverageDelay();
-        let newInterval = this.config.pollingInterval;
-
-        if (avgDelay < this.config.pollingInterval / 2) {
-            newInterval = Math.max(
-                this.config.minPollingInterval,
-                this.config.pollingInterval * 0.8
-            );
-        } else if (avgDelay > this.config.pollingInterval * 1.5) {
-            newInterval = Math.min(
-                this.config.maxPollingInterval,
-                this.config.pollingInterval * 1.2
-            );
-        }
-
-        if (newInterval !== this.config.pollingInterval) {
-            this.updatePollingInterval(newInterval);
-        }
-    }
-
-    calculateAverageDelay() {
-        // 배열이 비어있는지 체크
-        if (!this.metrics.eventDelays || this.metrics.eventDelays.length === 0) {
-            logger.info('[ app.js:EnhancedFSWatcher ] No delay metrics available yet');
-            return 0;  // 또는 다른 기본값
-        }
-
-        // 유효한 숫자값만 필터링
-        const validDelays = this.metrics.eventDelays.filter(delay => 
-            typeof delay === 'number' && !isNaN(delay)
-        );
-
-        if (validDelays.length === 0) {
-            logger.warn('[ app.js:EnhancedFSWatcher ] No valid delay metrics found');
-            return 0;  // 또는 다른 기본값
-        }
-
-        // 평균 계산
-        const sum = validDelays.reduce((a, b) => a + b, 0);
-        const average = sum / validDelays.length;
-
-        // 결과 로깅
-        logger.info(`[ app.js:EnhancedFSWatcher ] Average delay calculated: ${average}ms from ${validDelays.length} events`);
-
-        return average;
-    }
-
-    updatePollingInterval(newInterval) {
-        this.config.pollingInterval = newInterval;
-        this.watcher.close();
-        this.initializeWatcher();
-        logger.info(`[ app.js:EnhancedFSWatcher ] Polling interval adjusted to ${newInterval}ms`);
-    }
-
     cleanup() {
         for (const [fileKey, fileInfo] of this.activeFiles) {
             if (fileInfo.monitorInterval) {
@@ -433,9 +343,11 @@ class EnhancedFSWatcher {
         }
         
         this.activeFiles.clear();
+
         if (this.watcher) {
             this.watcher.close();
         }
+
         logger.info('[ app.js:EnhancedFSWatcher ] Cleanup completed');
     }
 }
