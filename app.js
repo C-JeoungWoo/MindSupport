@@ -18,7 +18,7 @@ const protobuf = require(`protobufjs`);
 const mysql = require('./db/maria')();//maria.js 연결
 const mysql2 = require('./db/acrV4')();//acr_v4.js 연결
 
-const connection = mysql.init(); //ETRI_EMOTION
+const connection = mysql.init(); //MindSupport
 const connection2 = mysql2.init(); //acr_v4
 
 mysql.db_open(connection); // DB 연결
@@ -94,11 +94,11 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.29",
+    host: "192.168.0.7",
     port: 3306,
-    user: "root",
-    password: "spdlqj21",
-    database: "ETRI_EMOTION" 
+    user: "nbetri2",
+    password: "nb1234",
+    database: "MindSupport" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
 
@@ -180,7 +180,7 @@ app.get(`/consultant`, async (req, res) => {
         let call_history_etri_query = `SELECT
             agent_telno,
             group_type
-        FROM ETRI_EMOTION.emo_user_info
+        FROM MindSupport.emo_user_info
         WHERE login_id = "${req.session.user.login_id}"`;
 
         let call_history_acr_query = `SELECT
@@ -193,9 +193,8 @@ app.get(`/consultant`, async (req, res) => {
         FROM acr_v4.t_rec_data${DateUtils.getYearMonth()};`;
 
         //  마지막으로 전달받은 감성 표출
-        let emotion_type = `SELECT emotion_type FROM ETRI_EMOTION.emo_emotion_info
+        let emotion_type = `SELECT emotion_type FROM MindSupport.emo_emotion_info
         WHERE userinfo_userId = ${send_userinfo_id} ORDER BY send_dt DESC LIMIT 1;`
-        
 
         // 두 데이터베이스에서 데이터를 가져오기
         const etriPromise = new Promise((resolve, reject) => {
@@ -339,8 +338,8 @@ app.get('/workStatusMain', async (req, res) => {
             ecm.auto_coach,
             ecm.send_yn 
         FROM 
-            ETRI_EMOTION.emo_coaching_message ecm
-        LEFT JOIN ETRI_EMOTION.emo_call_count ecc
+            MindSupport.emo_coaching_message ecm
+        LEFT JOIN MindSupport.emo_call_count ecc
         ON ecm.call_date = ecc.call_date
             AND ecm.login_id = ecc.login_id
             AND ecc.call_time >= CONCAT(LEFT(ecm.call_time, 2), 
@@ -364,7 +363,7 @@ app.get('/workStatusMain', async (req, res) => {
         logger.info(`[ app.js:workStatusMain ] need_coach\n${need_coach}`);
 
         //  현재 근무중인 상담원( 현재 접속중이며 테이블에 있는 감성데이터 중 마지막 감성)
-        // ETRI_EMOTION DB 쿼리
+        // MindSupport DB 쿼리
         let etriEmotionQuery = `
             SELECT 
                 s.session_id,
@@ -376,9 +375,9 @@ app.get('/workStatusMain', async (req, res) => {
                 e.loginout_dt AS last_login_time,
                 Latest_Emo.emotion_type
             FROM
-                ETRI_EMOTION.sessions s
+                MindSupport.sessions s
             JOIN 
-                ETRI_EMOTION.emo_loginout_info e 
+                MindSupport.emo_loginout_info e 
                 ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
             JOIN 
                 (
@@ -386,7 +385,7 @@ app.get('/workStatusMain', async (req, res) => {
                         user_name, 
                         MAX(loginout_dt) AS max_login_dt
                     FROM 
-                        ETRI_EMOTION.emo_loginout_info
+                        MindSupport.emo_loginout_info
                     WHERE 
                         loginout_type = 'I'
                     GROUP BY 
@@ -408,7 +407,7 @@ app.get('/workStatusMain', async (req, res) => {
                                 login_id,
                                 ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
                             FROM 
-                                ETRI_EMOTION.emo_emotion_info
+                                MindSupport.emo_emotion_info
                         ) ranked
                     WHERE 
                         rn = 1
@@ -421,16 +420,14 @@ app.get('/workStatusMain', async (req, res) => {
                 AND e.group_manager = 'N';`;
 
         let acrQuery = `
-            SELECT AGENT_ID, REC_END_DATETIME
+            SELECT AGENT_TELNO, REC_END_DATETIME
             FROM (
                 SELECT 
-                    AGENT_ID, 
-                    REC_END_DATETIME,
-                    ROW_NUMBER() OVER (PARTITION BY AGENT_ID ORDER BY REC_START_TIME DESC) AS rn
+                    AGENT_TELNO,
+                    REC_END_DATETIME
                 FROM 
                     acr_v4.t_rec_data${DateUtils.getYearMonth()}
-            ) ranked_calls
-            WHERE rn = 1;`;
+            ) ranked_calls;`;
 
         //  비접속 상담원
         let notPresent_agent = `SELECT eui.user_name, eui.login_id
@@ -608,8 +605,8 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             eei.emotion_type,
             eui.agent_telno,
             COUNT(*) as today_count
-        FROM ETRI_EMOTION.emo_emotion_info eei
-        LEFT JOIN ETRI_EMOTION.emo_user_info eui
+        FROM MindSupport.emo_emotion_info eei
+        LEFT JOIN MindSupport.emo_user_info eui
         ON eui.login_id = eei.login_id
         WHERE eei.send_dt >= CURDATE()
         AND eei.login_id = '${getTodayEmo_loginId}'
@@ -634,8 +631,8 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             eei.emotion_type,
             eui.agent_telno,
             COUNT(*) as yesterday_count
-        FROM ETRI_EMOTION.emo_emotion_info eei
-        LEFT JOIN ETRI_EMOTION.emo_user_info eui
+        FROM MindSupport.emo_emotion_info eei
+        LEFT JOIN MindSupport.emo_user_info eui
         ON eui.login_id = eei.login_id
         WHERE eei.login_id = '${getTodayEmo_loginId}'
         GROUP BY eei.emotion_type;`;
@@ -667,7 +664,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             emotion_type as worker,
             accuracy
         FROM 
-            ETRI_EMOTION.emo_emotion_info
+            MindSupport.emo_emotion_info
         WHERE 
             DATE(send_dt) = CURDATE()  -- 현재 날짜의 데이터만 선택
             AND send_dt BETWEEN CURDATE() + INTERVAL 9 HOUR 
@@ -820,7 +817,7 @@ app.post('/workStatusMain/getTodayEmo/getCallHistory', (req, res) => {
             emotion_type as worker,
             accuracy
         FROM 
-            ETRI_EMOTION.emo_emotion_info
+            MindSupport.emo_emotion_info
         WHERE 
             file_name = '${filename1}.wav'
             AND DATE(send_dt) = CURDATE() 
@@ -867,7 +864,7 @@ app.get('/coachingMain', async (req, res) => {
             SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
             SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
         FROM
-            ETRI_EMOTION.emo_coaching_message ecm
+            MindSupport.emo_coaching_message ecm
         WHERE
             ecm.call_date = CURDATE()
         GROUP BY
@@ -883,7 +880,7 @@ app.get('/coachingMain', async (req, res) => {
                 SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
                 SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
             FROM
-                ETRI_EMOTION.emo_coaching_message ecm
+                MindSupport.emo_coaching_message ecm
             WHERE
                 ecm.call_date = CURDATE();`
 
@@ -893,7 +890,7 @@ app.get('/coachingMain', async (req, res) => {
                 SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
                 SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
             FROM
-                ETRI_EMOTION.emo_coaching_message ecm
+                MindSupport.emo_coaching_message ecm
             WHERE
                 ecm.call_date = CURDATE();`
 
@@ -918,9 +915,9 @@ app.get('/coachingMain', async (req, res) => {
                 eui.user_name,
                 eui.group_type
             FROM
-                ETRI_EMOTION.emo_coaching_message ecm
+                MindSupport.emo_coaching_message ecm
             LEFT JOIN
-                ETRI_EMOTION.emo_user_info eui
+                MindSupport.emo_user_info eui
             ON
                 eui.login_id = ecm.login_id
             ORDER BY
@@ -1074,7 +1071,7 @@ app.get('/emotionStatus', async (req, res) => {
             eui.user_name,
             COUNT(*) AS RECORD_COUNT
         FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
-        LEFT JOIN ETRI_EMOTION.emo_user_info eui
+        LEFT JOIN MindSupport.emo_user_info eui
             ON trd.AGENT_ID = eui.login_id 
         WHERE trd.REC_START_DATE >= CURDATE() 
         AND trd.REC_START_DATE < CURDATE() + 1
@@ -1543,7 +1540,7 @@ app.get(`/coachingAdmin`, (req, res) => {
         let select_user_qry = `SELECT
             login_id,
             user_name
-        FROM ETRI_EMOTION.emo_user_info
+        FROM MindSupport.emo_user_info
         WHERE group_manager != 'Y'
         AND user_type != 3;`
 
@@ -1576,9 +1573,9 @@ app.get(`/coachingAdmin`, (req, res) => {
             COUNT(DISTINCT eei.send_dt) AS call_count,
             ecm.auto_coach
         FROM
-            ETRI_EMOTION.emo_coaching_message ecm
+            MindSupport.emo_coaching_message ecm
         LEFT JOIN
-            ETRI_EMOTION.emo_emotion_info eei ON
+            MindSupport.emo_emotion_info eei ON
             ecm.call_date = DATE(eei.send_dt)
             AND ecm.login_id = eei.login_id
             AND eei.send_dt >= STR_TO_DATE(CONCAT(DATE_FORMAT(ecm.call_date, '%Y-%m-%d'), ' ',
@@ -1790,7 +1787,7 @@ app.get('/statsSummary', (req, res) => {
                 SUM(CASE WHEN emotion_type IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_info_peace,
                 SUM(CASE WHEN emotion_type IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_info_sad,
                 SUM(CASE WHEN emotion_type IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_info_happy
-            FROM ETRI_EMOTION.emo_emotion_info
+            FROM MindSupport.emo_emotion_info
             WHERE 
                 emotion_type IS NOT NULL 
                 AND emotion_type != "0"
@@ -1802,7 +1799,7 @@ app.get('/statsSummary', (req, res) => {
                 DATE_FORMAT(call_date, '%Y-%m-%d') as coach_date,
                 SUM(CASE WHEN auto_coach = 'P' THEN 1 ELSE 0 END) as manual_coach_count,
                 SUM(CASE WHEN auto_coach = 'A' THEN 1 ELSE 0 END) as auto_coach_count
-            FROM ETRI_EMOTION.emo_coaching_message
+            FROM MindSupport.emo_coaching_message
             GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
             ),
         rec_duration_summary AS (
@@ -1837,13 +1834,13 @@ app.get('/statsSummary', (req, res) => {
                     rds.total_duration % 60, ' 초'
                 ) AS total_rec_duration_hms,
                 rds.call_count AS total_records_per_date
-            FROM ETRI_EMOTION.emo_user_info eui
+            FROM MindSupport.emo_user_info eui
             LEFT JOIN emotion_summary es 
                 ON eui.login_id = es.login_id
             LEFT JOIN coaching_summary cs
                 ON eui.login_id = cs.login_id
                 AND cs.coach_date = es.emotion_date
-            LEFT JOIN ETRI_EMOTION.emo_coaching_message ecm 
+            LEFT JOIN MindSupport.emo_coaching_message ecm 
                 ON eui.login_id = ecm.login_id
                 AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = es.emotion_date
             LEFT JOIN rec_duration_summary rds
@@ -1944,7 +1941,7 @@ app.get('/statsDetail', (req, res) => {
                 SUM(CASE WHEN cusEmoType IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_peace,
                 SUM(CASE WHEN cusEmoType IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_sad,
                 SUM(CASE WHEN cusEmoType IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_happy
-            FROM ETRI_EMOTION.emo_emotion_info -- JOIN되는 테이블이 많아 내부 쿼리 출동을 방지하기 위해 WITH절을 이용한 CTE 정의
+            FROM MindSupport.emo_emotion_info -- JOIN되는 테이블이 많아 내부 쿼리 출동을 방지하기 위해 WITH절을 이용한 CTE 정의
             WHERE 
                 emotion_type IS NOT NULL -- 감정 타입이 있는 데이터만 선택
                 AND file_name IS NOT NULL  -- 파일명이 있는 데이터만 선택
@@ -1956,7 +1953,7 @@ app.get('/statsDetail', (req, res) => {
                     DATE_FORMAT(call_date, '%Y-%m-%d') as coach_date, -- 코칭 데이터가 테이블에 INSERT된 날짜
                     SUM(CASE WHEN auto_coach = 'P' THEN 1 ELSE 0 END) as manual_coach_count, -- 수동 코칭 횟수
                     SUM(CASE WHEN auto_coach = 'A' THEN 1 ELSE 0 END) as auto_coach_count -- 자동 코칭 횟수
-                FROM ETRI_EMOTION.emo_coaching_message
+                FROM MindSupport.emo_coaching_message
                 GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
             )
             SELECT 
@@ -1992,14 +1989,14 @@ app.get('/statsDetail', (req, res) => {
                 DATE_FORMAT(ecm.call_date, '%Y-%m-%d') AS formatted_call_date,
                 CONCAT(FLOOR(acr.REC_DURATION / 60), ' 분 ', acr.REC_DURATION % 60, ' 초') AS call_duration
 
-            FROM ETRI_EMOTION.emo_user_info eui -- 상담원 정보 테이블
+            FROM MindSupport.emo_user_info eui -- 상담원 정보 테이블
             LEFT JOIN emotion_summary es 
                 ON eui.login_id = es.login_id
                 
             LEFT JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} acr -- 통화 녹취 테이블
                 ON es.file_name = acr.REC_FILENAME  -- 파일명으로 매핑
 
-            LEFT JOIN ETRI_EMOTION.emo_coaching_message ecm -- 코칭 메세지 테이블
+            LEFT JOIN MindSupport.emo_coaching_message ecm -- 코칭 메세지 테이블
                 ON eui.login_id = ecm.login_id
                 AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = acr.REC_START_DATE
 
@@ -2353,7 +2350,7 @@ app.post('/deleteMemo', (req, res) => {
 let ErkApiMsg;  // 추후 Stream Queue 생성시 proto 파일 중복 로드 방지
 async function loadProto() {
     try {
-        const protobuf_dir = `/home/neighbor/MindSupport/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+        const protobuf_dir = `/home/nbetri2/MindSupport_v1.0.1/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
         const root = await protobuf.load(protobuf_dir);
         logger.info(`[ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공`);
 
@@ -2415,7 +2412,7 @@ conn = amqp.connect({
     //      3) Stream Queue: 높은 처리량과 메시지 순서를 유지할 수 있는 기능을 제공
     //   - durable : true로 설정하면 RabbitMQ가 재시작되어도 생성된 exchange가 그대로 유지
     //   - 화자1 (상담원용 classic queue)
-    const chName = 'NEIGHBOR_SYSTEM3';
+    const chName = 'NEIGHBOR_SYSTEM';
     ch.assertQueue(chName, {
         durable: true,
         arguments: {
@@ -2432,7 +2429,7 @@ conn = amqp.connect({
     });
 
     //   - 화자2 (고객용 classic queue)
-    const chName_2 = 'NEIGHBOR_SYSTEM4';
+    const chName_2 = 'NEIGHBOR_SYSTEM2';
     ch2.assertQueue(chName_2, {
         durable: true,
         arguments: {
@@ -2472,11 +2469,11 @@ conn = amqp.connect({
             // 기본 큐 정보 초기화
             ErkQueueInfo = ErkApiMsg.create({
                 ToQueueName: "ERK_API_QUEUE",
-                FromQueueName: "NEIGHBOR_SYSTEM3"
+                FromQueueName: "NEIGHBOR_SYSTEM"
             });
             ErkQueueInfo2 = ErkApiMsg.create({
                 ToQueueName: "ERK_API_QUEUE",
-                FromQueueName: "NEIGHBOR_SYSTEM4"
+                FromQueueName: "NEIGHBOR_SYSTEM2"
             });
 
             //  Erk 엔진 정보
@@ -2679,7 +2676,7 @@ conn = amqp.connect({
                             results.forEach(user => {
                                 let addUsrMsg = ErkApiMsg.create({
                                     AddUserInfoRQ: {
-                                        MsgType: 7,
+                                        MsgType: 9,
                                         QueueInfo: ErkQueueInfo,
                                         OrgName: user.org_name,
                                         UserName: user.login_id,
@@ -2842,7 +2839,7 @@ conn = amqp.connect({
                                 results.forEach(user => {
                                     let delUsrMsg = ErkApiMsg.create({
                                         DelUserInfoRQ: {
-                                            MsgType: 15,
+                                            MsgType: 11,
                                             QueueInfo: ErkQueueInfo,
                                             OrgName: user.org_name,
                                             UserName: user.login_id,
@@ -3511,7 +3508,7 @@ conn = amqp.connect({
                                 ON a.org_name = b.org_name 
                                 WHERE b.org_id IS NOT NULL
                                 AND a.userinfo_userId IS NULL
-                                AND b.org_name = ${recvMsg.AddServiceProviderInfoRP.OrgName};`;
+                                AND b.org_name = "${recvMsg.AddServiceProviderInfoRP.OrgName}";`;
 
                                 connection.query(select_add_usr_info, (err, results) => {
                                     if(err) {
@@ -3530,7 +3527,7 @@ conn = amqp.connect({
                                         results.forEach(user => {
                                             let addUsrMsg = ErkApiMsg.create({
                                                 AddUserInfoRQ: {
-                                                    MsgType: 7,
+                                                    MsgType: 9,
                                                     QueueInfo: ErkQueueInfo,
                                                     OrgName: user.org_name,
                                                     UserName: user.login_id,
@@ -4098,7 +4095,7 @@ conn = amqp.connect({
                                         results.forEach(user => {
                                             let addUsrMsg = ErkApiMsg.create({
                                                 AddUserInfoRQ: {
-                                                    MsgType: 7,
+                                                    MsgType: 9,
                                                     QueueInfo: ErkQueueInfo,
                                                     OrgName: user.org_name,
                                                     UserName: user.login_id,
