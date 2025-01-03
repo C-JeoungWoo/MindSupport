@@ -7,11 +7,11 @@ module.exports = () => {
     return {
         init: () => {
             return mysql.createConnection({
-                host: '192.168.0.7',
+                host: '192.168.0.29',
                 port: '3306',
-                user: 'nbetri2',
-                password: 'nb1234',
-                database: 'MindSupport',
+                user: 'root',
+                password: 'spdlqj21',
+                database: 'ETRI_EMOTION',
                 multipleStatements: true
             })
         },

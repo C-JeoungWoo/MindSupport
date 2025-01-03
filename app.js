@@ -18,7 +18,7 @@ const protobuf = require(`protobufjs`);
 const mysql = require('./db/maria')();//maria.js 연결
 const mysql2 = require('./db/acrV4')();//acr_v4.js 연결
 
-const connection = mysql.init(); //MindSupport
+const connection = mysql.init(); //ETRI_EMOTION
 const connection2 = mysql2.init(); //acr_v4
 
 mysql.db_open(connection); // DB 연결
@@ -94,11 +94,11 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.7",
+    host: "192.168.0.29",
     port: 3306,
-    user: "nbetri2",
-    password: "nb1234",
-    database: "MindSupport" 
+    user: "root",
+    password: "spdlqj21",
+    database: "ETRI_EMOTION" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
 
@@ -137,7 +137,7 @@ io.use(sharedSession(
 app.get('/', (req, res) => {
     if (!req.session || !req.session.authenticate || !req.session.user) {
         logger.info(`[ app.js:/ ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
-        res.render(`login`, { title: `MindSupport 로그인` });
+        res.render(`login`, { title: `ETRI_EMOTION 로그인` });
     } else {
         if(req.session.user.group_manager === 'Y') {
             res.redirect(`/workStatusMain`)
@@ -180,7 +180,7 @@ app.get(`/consultant`, async (req, res) => {
         let call_history_etri_query = `SELECT
             agent_telno,
             group_type
-        FROM MindSupport.emo_user_info
+        FROM ETRI_EMOTION.emo_user_info
         WHERE login_id = "${req.session.user.login_id}"`;
 
         let call_history_acr_query = `SELECT
@@ -193,7 +193,7 @@ app.get(`/consultant`, async (req, res) => {
         FROM acr_v4.t_rec_data${DateUtils.getYearMonth()};`;
 
         //  마지막으로 전달받은 감성 표출
-        let emotion_type = `SELECT emotion_type FROM MindSupport.emo_emotion_info
+        let emotion_type = `SELECT emotion_type FROM ETRI_EMOTION.emo_emotion_info
         WHERE userinfo_userId = ${send_userinfo_id} ORDER BY send_dt DESC LIMIT 1;`
 
         // 두 데이터베이스에서 데이터를 가져오기
@@ -243,7 +243,7 @@ app.get(`/consultant`, async (req, res) => {
             let call_emotion_agent = results;
 
                 res.render('consultant', {
-                    title:`MindSupport 업무화면`, 
+                    title:`ETRI_EMOTION 업무화면`, 
                     call_history_agent: call_history_agent || {},
                     call_emotion_agent: call_emotion_agent,
                     session_name: req.session.user.user_name
@@ -296,7 +296,7 @@ app.get('/workStatusMain', async (req, res) => {
     //  세션 체크
     if (!req.session || !req.session.authenticate || !req.session.user) {
         logger.info(`[ app.js:/workStatusMain ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
-        res.redirect(`/`, { title: `MindSupport 로그인` });
+        res.redirect(`/`, { title: `ETRI_EMOTION 로그인` });
 
         return;
     }
@@ -338,8 +338,8 @@ app.get('/workStatusMain', async (req, res) => {
             ecm.auto_coach,
             ecm.send_yn 
         FROM 
-            MindSupport.emo_coaching_message ecm
-        LEFT JOIN MindSupport.emo_call_count ecc
+            ETRI_EMOTION.emo_coaching_message ecm
+        LEFT JOIN ETRI_EMOTION.emo_call_count ecc
         ON ecm.call_date = ecc.call_date
             AND ecm.login_id = ecc.login_id
             AND ecc.call_time >= CONCAT(LEFT(ecm.call_time, 2), 
@@ -363,7 +363,7 @@ app.get('/workStatusMain', async (req, res) => {
         logger.info(`[ app.js:workStatusMain ] need_coach\n${need_coach}`);
 
         //  현재 근무중인 상담원( 현재 접속중이며 테이블에 있는 감성데이터 중 마지막 감성)
-        // MindSupport DB 쿼리
+        // ETRI_EMOTION DB 쿼리
         let etriEmotionQuery = `
             SELECT 
                 s.session_id,
@@ -375,9 +375,9 @@ app.get('/workStatusMain', async (req, res) => {
                 e.loginout_dt AS last_login_time,
                 Latest_Emo.emotion_type
             FROM
-                MindSupport.sessions s
+                ETRI_EMOTION.sessions s
             JOIN 
-                MindSupport.emo_loginout_info e 
+                ETRI_EMOTION.emo_loginout_info e 
                 ON JSON_UNQUOTE(JSON_EXTRACT(s.data, '$.user.user_name')) = e.user_name
             JOIN 
                 (
@@ -385,7 +385,7 @@ app.get('/workStatusMain', async (req, res) => {
                         user_name, 
                         MAX(loginout_dt) AS max_login_dt
                     FROM 
-                        MindSupport.emo_loginout_info
+                        ETRI_EMOTION.emo_loginout_info
                     WHERE 
                         loginout_type = 'I'
                     GROUP BY 
@@ -407,7 +407,7 @@ app.get('/workStatusMain', async (req, res) => {
                                 login_id,
                                 ROW_NUMBER() OVER (PARTITION BY login_id ORDER BY send_dt DESC) AS rn
                             FROM 
-                                MindSupport.emo_emotion_info
+                                ETRI_EMOTION.emo_emotion_info
                         ) ranked
                     WHERE 
                         rn = 1
@@ -605,8 +605,8 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             eei.emotion_type,
             eui.agent_telno,
             COUNT(*) as today_count
-        FROM MindSupport.emo_emotion_info eei
-        LEFT JOIN MindSupport.emo_user_info eui
+        FROM ETRI_EMOTION.emo_emotion_info eei
+        LEFT JOIN ETRI_EMOTION.emo_user_info eui
         ON eui.login_id = eei.login_id
         WHERE eei.send_dt >= CURDATE()
         AND eei.login_id = '${getTodayEmo_loginId}'
@@ -619,7 +619,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
         SELECT
             *
         FROM
-            acr_v4.t_rec_data202501
+            acr_v4.t_rec_data${DateUtils.getYearMonth()}
         WHERE REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f');`
 
         console.log('getTodayEmo_acr_today_qry : ',getTodayEmo_acr_today_qry);
@@ -631,8 +631,8 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             eei.emotion_type,
             eui.agent_telno,
             COUNT(*) as yesterday_count
-        FROM MindSupport.emo_emotion_info eei
-        LEFT JOIN MindSupport.emo_user_info eui
+        FROM ETRI_EMOTION.emo_emotion_info eei
+        LEFT JOIN ETRI_EMOTION.emo_user_info eui
         ON eui.login_id = eei.login_id
         WHERE eei.login_id = '${getTodayEmo_loginId}'
         GROUP BY eei.emotion_type;`;
@@ -642,7 +642,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
         SELECT
             *
         FROM
-            acr_v4.t_rec_data202501
+            acr_v4.t_rec_data${DateUtils.getYearMonth()}
         WHERE REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
         AND REC_START_DATE < STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')`;
 
@@ -664,7 +664,7 @@ app.post('/workStatusMain/getTodayEmo', async (req, res) => {
             emotion_type as worker,
             accuracy
         FROM 
-            MindSupport.emo_emotion_info
+            ETRI_EMOTION.emo_emotion_info
         WHERE 
             DATE(send_dt) = CURDATE()  -- 현재 날짜의 데이터만 선택
             AND send_dt BETWEEN CURDATE() + INTERVAL 9 HOUR 
@@ -817,7 +817,7 @@ app.post('/workStatusMain/getTodayEmo/getCallHistory', (req, res) => {
             emotion_type as worker,
             accuracy
         FROM 
-            MindSupport.emo_emotion_info
+            ETRI_EMOTION.emo_emotion_info
         WHERE 
             file_name = '${filename1}.wav'
             AND DATE(send_dt) = CURDATE() 
@@ -864,7 +864,7 @@ app.get('/coachingMain', async (req, res) => {
             SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
             SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
         FROM
-            MindSupport.emo_coaching_message ecm
+            ETRI_EMOTION.emo_coaching_message ecm
         WHERE
             ecm.call_date = CURDATE()
         GROUP BY
@@ -880,7 +880,7 @@ app.get('/coachingMain', async (req, res) => {
                 SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
                 SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
             FROM
-                MindSupport.emo_coaching_message ecm
+                ETRI_EMOTION.emo_coaching_message ecm
             WHERE
                 ecm.call_date = CURDATE();`
 
@@ -890,7 +890,7 @@ app.get('/coachingMain', async (req, res) => {
                 SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
                 SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
             FROM
-                MindSupport.emo_coaching_message ecm
+                ETRI_EMOTION.emo_coaching_message ecm
             WHERE
                 ecm.call_date = CURDATE();`
 
@@ -915,9 +915,9 @@ app.get('/coachingMain', async (req, res) => {
                 eui.user_name,
                 eui.group_type
             FROM
-                MindSupport.emo_coaching_message ecm
+                ETRI_EMOTION.emo_coaching_message ecm
             LEFT JOIN
-                MindSupport.emo_user_info eui
+                ETRI_EMOTION.emo_user_info eui
             ON
                 eui.login_id = ecm.login_id
             ORDER BY
@@ -1071,8 +1071,8 @@ app.get('/emotionStatus', async (req, res) => {
             eui.user_name,
             COUNT(*) AS RECORD_COUNT
         FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
-        LEFT JOIN MindSupport.emo_user_info eui
-            ON trd.AGENT_ID = eui.login_id 
+        LEFT JOIN ETRI_EMOTION.emo_user_info eui
+            ON trd.AGENT_TELNO = eui.agent_telno
         WHERE trd.REC_START_DATE >= CURDATE() 
         AND trd.REC_START_DATE < CURDATE() + 1
         GROUP BY AGENT_ID
@@ -1087,7 +1087,7 @@ app.get('/emotionStatus', async (req, res) => {
             IFNULL(COUNT(*), 0) as count
         FROM emo_user_info as A
         INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} AS B 
-        ON B.AGENT_ID = A.login_id 
+        ON B.AGENT_TELNO = A.agent_telno 
         INNER JOIN emo_emotion_info AS C
         ON C.file_name = B.REC_FILENAME 
         WHERE STR_TO_DATE(CONCAT(B.REC_START_DATE, ' ', B.REC_START_TIME), '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(NOW(3),'%Y-%m-%d')
@@ -1540,7 +1540,7 @@ app.get(`/coachingAdmin`, (req, res) => {
         let select_user_qry = `SELECT
             login_id,
             user_name
-        FROM MindSupport.emo_user_info
+        FROM ETRI_EMOTION.emo_user_info
         WHERE group_manager != 'Y'
         AND user_type != 3;`
 
@@ -1573,9 +1573,9 @@ app.get(`/coachingAdmin`, (req, res) => {
             COUNT(DISTINCT eei.send_dt) AS call_count,
             ecm.auto_coach
         FROM
-            MindSupport.emo_coaching_message ecm
+            ETRI_EMOTION.emo_coaching_message ecm
         LEFT JOIN
-            MindSupport.emo_emotion_info eei ON
+            ETRI_EMOTION.emo_emotion_info eei ON
             ecm.call_date = DATE(eei.send_dt)
             AND ecm.login_id = eei.login_id
             AND eei.send_dt >= STR_TO_DATE(CONCAT(DATE_FORMAT(ecm.call_date, '%Y-%m-%d'), ' ',
@@ -1763,7 +1763,7 @@ app.post('/searchEmoCon', (req, res) => {
 })
 
 //  요약통계
-app.get('/statsSummary', (req, res) => {
+app.get('/statsSummary', async (req, res) => {
     //  세션 체크
     if (!req.session || !req.session.authenticate || !req.session.user) {
         logger.info(`[ app.js:/statsSummary ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
@@ -1775,100 +1775,82 @@ app.get('/statsSummary', (req, res) => {
     logger.info(`[ app.js:/statsSummary ] 현재 경로: ${sessionUser.current_path}`);
 
     try{
-        let select_statsSummary_query = `
-        WITH
-        emotion_summary AS (
-            SELECT 
-                login_id,
-                DATE_FORMAT(send_dt, '%Y-%m-%d') as emotion_date,
-                COUNT(*) as emotion_records_per_date,
-                SUM(CASE WHEN emotion_type = "1" THEN 1 ELSE 0 END) AS eei_emotion_info_none,
-                SUM(CASE WHEN emotion_type IN ("3", "8", "14") THEN 1 ELSE 0 END) AS eei_emotion_info_angry,
-                SUM(CASE WHEN emotion_type IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_info_peace,
-                SUM(CASE WHEN emotion_type IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_info_sad,
-                SUM(CASE WHEN emotion_type IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_info_happy
-            FROM MindSupport.emo_emotion_info
-            WHERE 
-                emotion_type IS NOT NULL 
-                AND emotion_type != "0"
-            GROUP BY login_id, DATE_FORMAT(send_dt, '%Y-%m-%d')
+        let select_statsSummary_etri_query = `
+                WITH 
+            emotion_summary AS (
+                SELECT 
+                    login_id,
+                    DATE_FORMAT(send_dt, '%Y-%m-%d') as emotion_date,
+                    COUNT(*) as emotion_records_per_date,
+                    SUM(CASE WHEN emotion_type = "1" THEN 1 ELSE 0 END) AS eei_emotion_info_none,
+                    SUM(CASE WHEN emotion_type IN ("3", "8", "14") THEN 1 ELSE 0 END) AS eei_emotion_info_angry,
+                    SUM(CASE WHEN emotion_type IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_info_peace,
+                    SUM(CASE WHEN emotion_type IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_info_sad,
+                    SUM(CASE WHEN emotion_type IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_info_happy
+                FROM ETRI_EMOTION.emo_emotion_info
+                WHERE 
+                    emotion_type IS NOT NULL 
+                    AND emotion_type != "0"
+                GROUP BY login_id, DATE_FORMAT(send_dt, '%Y-%m-%d')
             ),
-        coaching_summary AS (
+            coaching_summary AS (
+                SELECT 
+                    login_id,
+                    DATE_FORMAT(call_date, '%Y-%m-%d') as coach_date,
+                    SUM(CASE WHEN auto_coach = 'P' THEN 1 ELSE 0 END) as manual_coach_count,
+                    SUM(CASE WHEN auto_coach = 'A' THEN 1 ELSE 0 END) as auto_coach_count
+                FROM ETRI_EMOTION.emo_coaching_message
+                GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
+            )
+        SELECT 
+            eui.user_name,
+            eui.group_type,
+            eui.login_id,
+            eui.agent_telno,
+            eui.age,
+            eui.sex,
+            eui.mbti_type,
+            es.emotion_date,
+            es.eei_emotion_info_none,
+            es.eei_emotion_info_angry,
+            es.eei_emotion_info_peace,
+            es.eei_emotion_info_sad,
+            es.eei_emotion_info_happy,
+            es.emotion_records_per_date,
+            cs.manual_coach_count,
+            cs.auto_coach_count,
+            ecm.call_date
+        FROM ETRI_EMOTION.emo_user_info eui
+        LEFT JOIN emotion_summary es 
+            ON eui.login_id = es.login_id
+        LEFT JOIN coaching_summary cs
+            ON eui.login_id = cs.login_id
+            AND cs.coach_date = es.emotion_date
+        LEFT JOIN ETRI_EMOTION.emo_coaching_message ecm 
+            ON eui.login_id = ecm.login_id
+            AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = es.emotion_date
+        WHERE 
+            ecm.call_date IS NOT NULL
+        GROUP BY
+            emotion_date;`
+        
+        let select_statsSummary_acr_query = `
+        WITH rec_duration_summary AS (
             SELECT 
-                login_id,
-                DATE_FORMAT(call_date, '%Y-%m-%d') as coach_date,
-                SUM(CASE WHEN auto_coach = 'P' THEN 1 ELSE 0 END) as manual_coach_count,
-                SUM(CASE WHEN auto_coach = 'A' THEN 1 ELSE 0 END) as auto_coach_count
-            FROM MindSupport.emo_coaching_message
-            GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
-            ),
-        rec_duration_summary AS (
-            SELECT 
-                AGENT_ID,
+                AGENT_TELNO,
                 REC_START_DATE,
                 SUM(REC_DURATION) as total_duration,
                 COUNT(DISTINCT REC_START_TIME) as call_count
             FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
             GROUP BY AGENT_ID, REC_START_DATE
-            )
-            SELECT 
-                eui.user_name,
-                eui.group_type,
-                eui.login_id,
-                eui.age,
-                eui.sex,
-                eui.mbti_type,
-                acr.REC_START_DATE,
-                es.eei_emotion_info_none,
-                es.eei_emotion_info_angry,
-                es.eei_emotion_info_peace,
-                es.eei_emotion_info_sad,
-                es.eei_emotion_info_happy,
-                es.emotion_records_per_date,
-                cs.manual_coach_count,
-                cs.auto_coach_count,
-                DATE_FORMAT(ecm.call_date, '%Y-%m-%d') AS formatted_call_date,
-                CONCAT(
-                    FLOOR(rds.total_duration / 3600), ' 시간 ',
-                    FLOOR((rds.total_duration % 3600) / 60), ' 분 ',
-                    rds.total_duration % 60, ' 초'
-                ) AS total_rec_duration_hms,
-                rds.call_count AS total_records_per_date
-            FROM MindSupport.emo_user_info eui
-            LEFT JOIN emotion_summary es 
-                ON eui.login_id = es.login_id
-            LEFT JOIN coaching_summary cs
-                ON eui.login_id = cs.login_id
-                AND cs.coach_date = es.emotion_date
-            LEFT JOIN MindSupport.emo_coaching_message ecm 
-                ON eui.login_id = ecm.login_id
-                AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = es.emotion_date
-            LEFT JOIN rec_duration_summary rds
-                ON eui.login_id = rds.AGENT_ID
-                AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = DATE_FORMAT(rds.REC_START_DATE, '%Y-%m-%d')
-            LEFT JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} acr 
-                ON ecm.login_id = acr.AGENT_ID
-                AND es.emotion_date = acr.REC_START_DATE
-            WHERE 
-                ecm.call_date IS NOT NULL
-                AND acr.REC_DURATION IS NOT NULL
-                AND acr.REC_START_DATE IS NOT NULL
-            GROUP BY 
-                acr.REC_START_DATE,
-                eui.user_name,
-                eui.group_type,
-                eui.login_id,
-                formatted_call_date,
-                es.eei_emotion_info_none,
-                es.eei_emotion_info_angry,
-                es.eei_emotion_info_peace,
-                es.eei_emotion_info_sad,
-                es.eei_emotion_info_happy,
-                cs.manual_coach_count,
-                cs.auto_coach_count,
-                rds.total_duration,
-                rds.call_count
-            ORDER BY formatted_call_date DESC;`
+        )
+        SELECT 
+            AGENT_TELNO AS login_id,
+            REC_START_DATE,
+            SUM(REC_DURATION) AS total_duration,
+            COUNT(DISTINCT REC_START_TIME) AS call_count
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
+        GROUP BY AGENT_ID, REC_START_DATE;`    
 
         let select_user_info_query = `
         SELECT user_name,
@@ -1877,18 +1859,52 @@ app.get('/statsSummary', (req, res) => {
         WHERE group_manager != 'Y' 
         AND user_type != 3;`
 
-        connection.query(select_statsSummary_query+select_user_info_query, (err, results) => {
+        // 두 데이터베이스에서 데이터를 가져오기
+        const etriPromise = new Promise((resolve, reject) => {
+            connection.query(select_statsSummary_etri_query, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:etriEmotionQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        const acrPromise = new Promise((resolve, reject) => {
+            connection2.query(select_statsSummary_acr_query, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:acrQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        // 결과 병합
+        const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
+
+        const select_statsSummary = etriResults.map(etri => {
+            const acrData = acrResults.find(acr =>
+                acr.AGENT_TELNO === etri.agent_telno) || {};
+            return {
+                ...etri,
+                ...acrData,
+            };
+        });
+
+        connection.query(select_user_info_query, (err, results) => {
             if (err){
                 logger.error(`[] app.js:statsSumarry_query ] ${err}`);
             }
 
-            let stats_summary = results[0];
-            let stats_summary_user_info = results[1];
+            let stats_summary_user_info = results;
 
             res.render('index', {
                 title: 'MindSupport  요약통계',
                 body: 'statsSummary',
-                stats_summary: stats_summary,
+                stats_summary: select_statsSummary,
                 stats_summary_user_info: stats_summary_user_info,
                 session_id: req.session.user.user_name
             }, (err, html) => {
@@ -1909,7 +1925,7 @@ app.get('/statsSummary', (req, res) => {
 });
 
 //  상세통계
-app.get('/statsDetail', (req, res) => {
+app.get('/statsDetail', async (req, res) => {
     //  세션 체크
     if (!req.session || !req.session.authenticate || !req.session.user) {
         logger.info(`[ app.js:/statsDetail ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
@@ -1921,116 +1937,83 @@ app.get('/statsDetail', (req, res) => {
     logger.info(`[ app.js:/statsDetail ] 현재 경로: ${sessionUser.current_path}`);
 
     try{
-        let select_statsDetail_query = `
-        WITH emotion_summary AS (
-            SELECT 
-                login_id, -- 로그인 ID
-                file_name,  -- 파일명
-                COUNT(*) as emotion_records_per_file,  -- 파일별 감성요청 횟수
-                
-                -- 상담원 감정 상태
-                SUM(CASE WHEN emotion_type = "1" THEN 1 ELSE 0 END) AS eei_emotion_info_none,
-                SUM(CASE WHEN emotion_type IN ("3", "8", "14") THEN 1 ELSE 0 END) AS eei_emotion_info_angry,
-                SUM(CASE WHEN emotion_type IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_info_peace,
-                SUM(CASE WHEN emotion_type IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_info_sad,
-                SUM(CASE WHEN emotion_type IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_info_happy,
-
-                -- 고객 감정 상태
-                SUM(CASE WHEN cusEmoType = "1" THEN 1 ELSE 0 END) AS eei_emotion_cus_info_none,
-                SUM(CASE WHEN cusEmoType IN ("3", "8", "14") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_angry,
-                SUM(CASE WHEN cusEmoType IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_peace,
-                SUM(CASE WHEN cusEmoType IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_sad,
-                SUM(CASE WHEN cusEmoType IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_happy
-            FROM MindSupport.emo_emotion_info -- JOIN되는 테이블이 많아 내부 쿼리 출동을 방지하기 위해 WITH절을 이용한 CTE 정의
-            WHERE 
-                emotion_type IS NOT NULL -- 감정 타입이 있는 데이터만 선택
-                AND file_name IS NOT NULL  -- 파일명이 있는 데이터만 선택
-            GROUP BY login_id, file_name  -- 파일명 기준으로 그룹화
-            ),
-            coaching_summary AS (
-                SELECT 
-                    login_id,
-                    DATE_FORMAT(call_date, '%Y-%m-%d') as coach_date, -- 코칭 데이터가 테이블에 INSERT된 날짜
-                    SUM(CASE WHEN auto_coach = 'P' THEN 1 ELSE 0 END) as manual_coach_count, -- 수동 코칭 횟수
-                    SUM(CASE WHEN auto_coach = 'A' THEN 1 ELSE 0 END) as auto_coach_count -- 자동 코칭 횟수
-                FROM MindSupport.emo_coaching_message
-                GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
-            )
+        let select_statsDetail_etri_query = `
+            WITH 
+                emotion_summary AS (
+                    SELECT 
+                        login_id,
+                        file_name,
+                        COUNT(*) AS emotion_records_per_file,
+                        SUM(CASE WHEN emotion_type = "1" THEN 1 ELSE 0 END) AS eei_emotion_info_none,
+                        SUM(CASE WHEN emotion_type IN ("3", "8", "14") THEN 1 ELSE 0 END) AS eei_emotion_info_angry,
+                        SUM(CASE WHEN emotion_type IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_info_peace,
+                        SUM(CASE WHEN emotion_type IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_info_sad,
+                        SUM(CASE WHEN emotion_type IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_info_happy,
+                        SUM(CASE WHEN cusEmoType = "1" THEN 1 ELSE 0 END) AS eei_emotion_cus_info_none,
+                        SUM(CASE WHEN cusEmoType IN ("3", "8", "14") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_angry,
+                        SUM(CASE WHEN cusEmoType IN ("2", "9", "10", "11") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_peace,
+                        SUM(CASE WHEN cusEmoType IN ("4", "7", "12", "13") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_sad,
+                        SUM(CASE WHEN cusEmoType IN ("5", "6") THEN 1 ELSE 0 END) AS eei_emotion_cus_info_happy
+                    FROM ETRI_EMOTION.emo_emotion_info
+                    WHERE 
+                        emotion_type IS NOT NULL
+                        AND file_name IS NOT NULL
+                    GROUP BY login_id, file_name
+                ),
+                coaching_summary AS (
+                    SELECT 
+                        login_id,
+                        DATE_FORMAT(call_date, '%Y-%m-%d') AS coach_date,
+                        SUM(CASE WHEN auto_coach = 'P' THEN 1 ELSE 0 END) AS manual_coach_count,
+                        SUM(CASE WHEN auto_coach = 'A' THEN 1 ELSE 0 END) AS auto_coach_count
+                    FROM ETRI_EMOTION.emo_coaching_message
+                    GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
+                )
             SELECT 
                 eui.user_name,
                 eui.group_type,
                 eui.login_id,
+                eui.agent_telno,
                 eui.age,
                 eui.sex,
                 eui.mbti_type,
-                DATE_FORMAT(acr.REC_START_DATE, '%Y-%m-%d') as formatted_date,
-                acr.TARGET_TELNO,
-                acr.MEMO,
-                -- 시간 형식 변환 ( 24시간 형식을 AM,PM 12시간제로 변환 )
-                DATE_FORMAT(acr.REC_START_TIME, '%H시 %i분 %s초') as formatted_time,
-                acr.REC_FILENAME,
+                es.file_name,
                 es.emotion_records_per_file,
                 es.eei_emotion_info_none,
                 es.eei_emotion_info_angry,
                 es.eei_emotion_info_peace,
                 es.eei_emotion_info_sad,
                 es.eei_emotion_info_happy,
-
                 es.eei_emotion_cus_info_none,
                 es.eei_emotion_cus_info_angry,
                 es.eei_emotion_cus_info_peace,
                 es.eei_emotion_cus_info_sad,
                 es.eei_emotion_cus_info_happy,
-
                 cs.manual_coach_count,
-                cs.auto_coach_count,
-                -- 통화시간을 분,초 형식으로 변환
-                -- 한번의 통화를 1시간 이상 하는 경우는 없을거라고 생각하여 "시간" 표시 제외
-                DATE_FORMAT(ecm.call_date, '%Y-%m-%d') AS formatted_call_date,
-                CONCAT(FLOOR(acr.REC_DURATION / 60), ' 분 ', acr.REC_DURATION % 60, ' 초') AS call_duration
-
-            FROM MindSupport.emo_user_info eui -- 상담원 정보 테이블
-            LEFT JOIN emotion_summary es 
+                cs.auto_coach_count
+            FROM ETRI_EMOTION.emo_user_info eui
+            LEFT JOIN emotion_summary es
                 ON eui.login_id = es.login_id
-                
-            LEFT JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} acr -- 통화 녹취 테이블
-                ON es.file_name = acr.REC_FILENAME  -- 파일명으로 매핑
-
-            LEFT JOIN MindSupport.emo_coaching_message ecm -- 코칭 메세지 테이블
-                ON eui.login_id = ecm.login_id
-                AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = acr.REC_START_DATE
-
             LEFT JOIN coaching_summary cs
                 ON eui.login_id = cs.login_id
-                AND cs.coach_date = acr.REC_START_DATE
+                AND cs.coach_date = DATE_FORMAT(NOW(), '%Y-%m-%d')
+            WHERE eui.agent_telno IS NOT NULL
+            ORDER BY eui.user_name
+            LIMIT 200;`
 
+        let select_statsDetail_acr_query = `
+            SELECT 
+                AGENT_TELNO,
+                DATE_FORMAT(REC_START_DATE, '%Y-%m-%d') AS formatted_date,
+                TARGET_TELNO,
+                MEMO,
+                DATE_FORMAT(REC_START_TIME, '%H시 %i분 %s초') AS formatted_time,
+                REC_FILENAME,
+                CONCAT(FLOOR(REC_DURATION / 60), ' 분 ', REC_DURATION % 60, ' 초') AS call_duration
+            FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
             WHERE 
-                acr.REC_FILENAME IS NOT NULL  -- 파일명이 있는 데이터만 선택
-                AND acr.REC_START_DATE IS NOT NULL -- 통화 날짜가 있는 데이터만 선택
-            GROUP BY 
-                -- 통화 관련 그룹
-                acr.REC_START_DATE,
-                acr.REC_START_TIME,
-                acr.REC_FILENAME,
-
-                -- 상담원 정보별 그룹
-                eui.user_name,
-                eui.group_type,
-                eui.login_id,
-
-                -- 기타 정보 그룹
-                es.eei_emotion_info_none,
-                es.eei_emotion_info_angry,
-                es.eei_emotion_info_peace,
-                es.eei_emotion_info_sad,
-                es.eei_emotion_info_happy,
-                es.emotion_records_per_file,
-                cs.manual_coach_count,
-                cs.auto_coach_count,
-                acr.REC_DURATION
-            ORDER BY 
-                acr.REC_START_DATE DESC, -- 최신 날짜부터
-                acr.REC_START_TIME DESC;` //최신 시간부터
+                REC_FILENAME IS NOT NULL
+                AND REC_START_DATE IS NOT NULL;`
 
         let select_user_info_query = `
             SELECT user_name,
@@ -2039,18 +2022,54 @@ app.get('/statsDetail', (req, res) => {
             WHERE group_manager != 'Y'
             AND user_type != 3;`
 
-        connection.query(select_statsDetail_query+select_user_info_query, (err,results) => {
+        // 두 데이터베이스에서 데이터를 가져오기
+        const etriPromise = new Promise((resolve, reject) => {
+            connection.query(select_statsDetail_etri_query, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:etriEmotionQuery ] ${err}`);
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        const acrPromise = new Promise((resolve, reject) => {
+            connection2.query(select_statsDetail_acr_query, (err, results) => {
+                if (err) {
+                    logger.error(`[ app.js:acrQuery ] ${err}`);
+                    
+                    logger.error('2');
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+
+        // 결과 병합
+        const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
+
+        const select_statsDetail = etriResults.map(etri => {
+            const acrData = acrResults.find(acr =>
+                 etri.agent_telno === acr.AGENT_TELNO) || {};
+            return {
+                ...etri,
+                ...acrData,
+            };
+        });
+
+        connection.query(select_user_info_query, (err,results) => {
             if (err){
                 logger.warn(`[] app.js:statsDetail_query ${err}`);
             }
 
-            let stats_detail = results[0];
-            let stats_detail_user_info = results[1];
+            let stats_detail_user_info = results;
 
             res.render('index', {
                 title: 'MindSupport 상세통계',
                 body: 'statsDetail',
-                stats_detail: stats_detail,
+                stats_detail: select_statsDetail,
                 stats_detail_user_info: stats_detail_user_info,
                 session_id: req.session.user.user_name
             }, (err, html) => {
@@ -2350,7 +2369,7 @@ app.post('/deleteMemo', (req, res) => {
 let ErkApiMsg;  // 추후 Stream Queue 생성시 proto 파일 중복 로드 방지
 async function loadProto() {
     try {
-        const protobuf_dir = `/home/nbetri2/MindSupport_v1.0.1/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+        const protobuf_dir = `/home/neighbor/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
         const root = await protobuf.load(protobuf_dir);
         logger.info(`[ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공`);
 

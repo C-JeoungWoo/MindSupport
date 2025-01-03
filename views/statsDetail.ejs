@@ -87,7 +87,6 @@
               <th rowspan="2">NO</th>
               <th rowspan="2">날짜</th>
               <th rowspan="2">상담사 명</th>
-              <th rowspan="2">그룹명</th>
               <th rowspan="2">연령</th>
               <th rowspan="2">성별</th>
               <th rowspan="2">MBTI</th>
@@ -97,7 +96,6 @@
               <th rowspan="2">감성요청수</th>
               <th colspan="5" class="nonBorder">고객 감성</th>
               <th colspan="5" class="nonBorder">상담원 감성</th>
-              <th colspan="2" class="nonBorder">코칭유형</th>
             </tr>
             <tr>
               <th class="bottom">화남</th>
@@ -110,8 +108,6 @@
               <th class="bottom">행복</th>
               <th class="bottom">평온</th>
               <th class="bottom">무응답</th>
-              <th class="bottom">자동</th>
-              <th class="bottom">수동</th>
             </tr>
           </thead>
 
@@ -128,7 +124,6 @@
                   <td><%= i+1 %></td>
                   <td><%= data.formatted_date %></td>
                   <td data-login-id="<%= data.login_id %>"><%= data.user_name %></td>
-                  <td><%= data.MEMO %></td>
                   <td><%= data.age %></td>
                   <td><%= data.sex %></td>
                   <td><%= data.mbti_type %></td>
@@ -148,9 +143,6 @@
                   <td><%= data.eei_emotion_info_happy %></td>
                   <td><%= data.eei_emotion_info_peace %></td>
                   <td><%= data.eei_emotion_info_none %></td>
-
-                  <td><%= data.auto_coach_count %></td>
-                  <td><%= data.manual_coach_count %></td>
                 </tr>
 
               <% } %>
