@@ -117,7 +117,7 @@ class StreamProcessor {
         }
     }
 
-    async processChunk(filePath, currentErkApiMsg, remainingDataSize, gsmHeaderLength, isLastChunk, fileType, userId) {
+    async processChunk(filePath, currentErkApiMsg, remainingDataSize, gsmHeaderLength, isLastChunk, fileType, userId, header) {
         const MAX_RETRIES = 3;  // 최대 재시도 횟수
         const RETRY_DELAY = 1000;  // 재시도 간격 (1초)
         let retryCount = 0;
@@ -140,6 +140,7 @@ class StreamProcessor {
                 // 3. DB 기록 및 메시지 전송
                 const sendResult = await this.sendAndLog(paddedChunk, {
                     currentErkApiMsg,
+                    header,
                     fileType,
                     userId,
                     timestamp: currentTimestamp,
@@ -185,6 +186,7 @@ class StreamProcessor {
         //     const samplesToCopy = Math.min(chunk.length, rawChunkSize / bytesPerSample);
         //     paddedChunk.set(chunk.subarray(0, samplesToCopy));
         // }
+        
         // remainingDataSize가 gsm610ChunkSize보다 작은 경우 (마지막 청크)
         if (remainingDataSize < gsm610ChunkSize) {
             logger.info(`[ StreamProcessor:preparePaddedChunk ] Last chunk detected - Remaining data: ${remainingDataSize} bytes`);

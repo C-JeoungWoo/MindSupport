@@ -145,18 +145,23 @@ const handleNewFile = async function handleNewFile(filePath, userid, serviceResp
                         //  EmoServiceStopRQ-RP
                         try {
                             // StreamProcessor를 통한 마지막 청크 처리
-                            const processResult = await streamProcessor.processFileStream(filePath, currentErkApiMsg, {
-                                isLastChunk: true,
-                                remainingDataSize: remainingDataSize,
-                                totalFileSize: currentSize,
-                                gsmHeaderLength: gsmHeaderLength,
-                                fileType: type.toUpperCase(),
-                                userId: userid,
-                                chunkNumber,
-                                login_id: serviceResponse.login_id,    // 추가
-                                org_id: serviceResponse.org_id,        // 추가
-                                user_uuid: serviceResponse.user_uuid    // 추가
-                            });
+                            const processResult = await streamProcessor.processFileStream(
+                                filePath, 
+                                currentErkApiMsg,
+                                {
+                                    isLastChunk: true,
+                                    remainingDataSize: remainingDataSize,
+                                    totalFileSize: currentSize,
+                                    gsmHeaderLength: gsmHeaderLength,
+                                    fileType: type.toUpperCase(),
+                                    userId: userid,
+                                    chunkNumber,
+                                    login_id: serviceResponse.login_id,    // 추가
+                                    org_id: serviceResponse.org_id,        // 추가
+                                    user_uuid: serviceResponse.user_uuid,    // 추가
+                                    header
+                                }
+                            );
 
                             if (processResult.success) {
                                 logger.info(`[ audioServices.js:handleNewFile ] Final chunk processed successfully with ${remainingDataSize} bytes of data`);
@@ -217,10 +222,6 @@ const handleNewFile = async function handleNewFile(filePath, userid, serviceResp
 const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
     // EmoServiceStartRQ 함수 시작 부분에 erkUtils에서 값 가져오기
     const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
-
-    if (connection2.state === 'disconnected') {
-        logger.error('ACR_V4 DB connection is not established');
-    }
 
     try {
         logger.info(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${ErkApiMsg  ? 'defined' : 'undefined'}`);
@@ -284,6 +285,13 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
             })
         ]);
 
+        if (connResults.status === 'rejected') {
+            logger.error(`[ audioServices.js:EmoServiceStartRQ ] Error in connection1 query: ${connResults.reason}`);
+        }
+        if (conn2Results.status === 'rejected') {
+            logger.error(`[ audioServices.js:EmoServiceStartRQ ] Error in connection2 query: ${conn2Results.reason}`);
+        }
+
         // 조인 로직 최적화 (Map 사용)
         const remoteMap = new Map( conn2Results.map(row => [row.rec_id, row]) );
         const joinedData = connResults.map(localRow => ({
@@ -291,15 +299,13 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
             ...remoteMap.get(localRow.rec_id)
         }));
 
-        logger.warn(joinedData)
-
         //  ESSRQ 메세지 헤더 구성
         let ErkMsgHead = ErkApiMsg.create({
             MsgType: 21,
             TransactionId: joinedData[0].user_uuid,
             QueueInfo: ErkQueueInfo,
-            OrgId: parseInt(joinedData[0].user_orgid),  // OrgId: parseInt(joinedData[0].user_orgid)
-            UserId: parseInt(joinedData[0].userinfo_userId)  // 상담원10명 셋팅(고객은 userinfo_userId + 10 로 매핑) UserId: parseInt(joinedData[0].userinfo_userId)
+            OrgId: parseInt(joinedData[0].user_orgid),
+            UserId: parseInt(joinedData[0].userinfo_userId)  // 상담원10명 셋팅(고객은 userinfo_userId+10 로 매핑)
         });
         let ErkMsgHead_cus = ErkApiMsg.create({
             MsgType: 21,
@@ -331,9 +337,6 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         let EmoServiceStartMsg_buf = ErkApiMsg.encode(EmoServiceStartMsg).finish();
         let EmoServiceStartMsg_buf_cus = ErkApiMsg.encode(EmoServiceStartMsg_cus).finish();
 
-        // logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
-        // logger.info(`[ audioServices.js:EmoServiceStartRQ ] EmoServiceStartMsg_cus\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
-
         // 3. DB 업데이트 및 메시지 전송 후 응답 대기
         const sendAndWaitForResponse = () => {
             return new Promise(async (resolve, reject) => {
@@ -347,14 +350,13 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                         logger.info(`[ audioServices.js:EmoServiceStartRQ ] Executing query: ${query}`);
 
                         connection1.query(query, (error, results) => {
-                            if (error) reject(error);
-        
-                            // 메시지 전송
-                            logger.info(`[ audioServices.js:EmoServiceStartRQ ] con 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
-                            ch.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf);
-        
+                            if (error) reject(error);        
                             resolveChannel(results);
                         });
+
+                        // 메시지 전송
+                        logger.info(`[ audioServices.js:EmoServiceStartRQ ] con 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg, null, 4)}`);
+                        ch.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf);
                     }),
                     // Channel 2 전송 및 응답 대기
                     new Promise((resolveChannel) => {
@@ -367,14 +369,13 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                         logger.info(`[ audioServices.js:EmoServiceStartRQ ] Executing query: ${query}`);
 
                         connection1.query(query, (error, results) => {
-                            if (error) { reject(error); }
-        
-                            // 메시지 전송
-                            logger.info(`[ audioServices.js:EmoServiceStartRQ ] cus 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
-                            ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf_cus);
-        
+                            if (error) { reject(error); }        
                             resolveChannel(results);
                         });
+
+                        // 메시지 전송
+                        logger.info(`[ audioServices.js:EmoServiceStartRQ ] cus 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStartMsg_cus, null, 4)}`);
+                        ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStartMsg_buf_cus);
                     })
                 ];
 
@@ -395,7 +396,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                                 )`,
                                 [
                                     parseInt(joinedData[0].userinfo_userId), 
-                                    parseInt(joinedData[0].userinfo_userId) + 10
+                                    parseInt(joinedData[0].userinfo_userId)+10
                                 ],
                                 (error, results) => {
                                     if (error) {
@@ -430,35 +431,25 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
             });
         }
 
-        try {
-            const response = await sendAndWaitForResponse();
-
-            if (!response || !Array.isArray(response) || response.some(r => !r)) {
-                logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Invalid response: ${JSON.stringify(response)}`);
-                return {
-                    message: 'error',
-                    return_type: 0,
-                    error: 'Invalid response from sendAndWaitForResponse'
-                };
-            }
-
-            return {
-                message: 'success',
-                return_type: 1,
-                userinfo_userId: joinedData[0].userinfo_userId,
-                login_id: joinedData[0].login_id,
-                org_id: parseInt(joinedData[0].user_orgid),
-                user_uuid: joinedData[0].user_uuid
-            };
-        } catch(err) {
-            logger.error(`[ audioServices.js:EmoServiceStartRQ ] Error in final response: ${error}`);
+        const response = await sendAndWaitForResponse();
+        if (!response || !Array.isArray(response) || response.some(r => !r)) {
+            logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Invalid response: ${JSON.stringify(response)}`);
 
             return {
                 message: 'error',
                 return_type: 0,
-                error: err.message
+                error: 'Invalid response from sendAndWaitForResponse'
             };
         }
+
+        return {
+            message: 'success',
+            return_type: 1,
+            userinfo_userId: joinedData[0].userinfo_userId,
+            login_id: joinedData[0].login_id,
+            org_id: parseInt(joinedData[0].user_orgid),
+            user_uuid: joinedData[0].user_uuid
+        };
     } catch(err) {
         logger.error(`[ audioServices.js:EmoServiceStartRQ ] ${err}`);
     }

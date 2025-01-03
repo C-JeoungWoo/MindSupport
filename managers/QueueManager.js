@@ -67,7 +67,7 @@ class QueueManager {
                         SELECT * FROM emo_user_info eui 
                         INNER JOIN emo_provider_info epi ON eui.org_name = epi.org_name 
                         WHERE eui.userinfo_userId = ?`;
-                    connection1.query(QueueInfoQuery, [this.userId + 10], (err, results) => {
+                    connection1.query(QueueInfoQuery, [this.userId+10], (err, results) => {
                         if (err) {
                             logger.error(`[ QueueManager:fetchQueueInfo ] Customer query error: ${err}`);
                             reject(err);
@@ -100,58 +100,79 @@ class QueueManager {
             userinfo_userId
         } = data;
 
-        // rx/tx에 따른 큐 선택
-        const selectedQueue = this.fileType === 'rx' 
-            ? {
-                toQueue: erkengineInfo_return_recvQueueName,
-                fromQueue: erkengineInfo_return_sendQueueName,
-                userId: userinfo_userId,
-                type: 'rx'
-            } 
-            : {
-                toQueue: erkengineInfo_returnCustomer_recvQueueName,
-                fromQueue: erkengineInfo_returnCustomer_sendQueueName,
-                userId: userinfo_userId + 10,
-                type: 'tx'
-            };
+        //  전달받은 userinfo_userId 로 최근 로그인 이력을 통한 uuid, uuid2 조회
+        const select_uuid_qry = `SELECT uuid, uuid2
+        FROM emo_loginout_info
+        WHERE userinfo_userid = ?
+        AND loginout_type = 'I'
+        ORDER BY loginout_dt DESC
+        LIMIT 1`;
 
-            // 로깅
-            this.logQueueInfo(selectedQueue);
+        connection1.query(select_uuid_qry, [userinfo_userId], (error, results) => {
+                if (error) {
+                    logger.error(`[ QueueManager:formatQueueInfo ] UUID query error: ${error}`);
+                    return;
+                }
+                
+                const { uuid, uuid2 } = results[0];  // uuid: 상담원, uuid2: 고객
+                logger.info(`[ QueueManager:formatQueueInfo ] Found UUIDs - counselor: ${uuid}, customer: ${uuid2}`);
 
-        // ErkApiMsg로 직접 생성
-        const queueInfo = ErkApiMsg.create({
-            ToQueueName: selectedQueue.toQueue,
-            FromQueueName: selectedQueue.fromQueue
-        });
+                // rx/tx에 따른 큐 선택
+                const selectedQueue = this.fileType === 'rx' 
+                ? {
+                    toQueue: erkengineInfo_return_recvQueueName,
+                    fromQueue: erkengineInfo_return_sendQueueName,
+                    TransactionId: uuid,
+                    userId: userinfo_userId,
+                    type: 'rx'
+                } 
+                : {
+                    toQueue: erkengineInfo_returnCustomer_recvQueueName,
+                    fromQueue: erkengineInfo_returnCustomer_sendQueueName,
+                    TransactionId: uuid2,
+                    userId: userinfo_userId+10,
+                    type: 'tx'
+                };
 
-        // 청크 데이터 관련 설정 추가
-        const chunkConfig = {
-            ErkMsgDataHead: ErkApiMsg.create({
-                MsgType: 27,
-                QueueInfo: queueInfo,
-                OrgId: org_id,
-                UserId: selectedQueue.userId,
-            }),
-            // 오디오 데이터 관련 설정
-            AudioRecognitionConfig: ErkApiMsg.create({
-                recognitionType: this.fileType === 'rx' ? 1 : 2,
-                sampleRate: 16000,
-                channels: 1,
-                encoding: 1
-            })
-        };
-    
-        return {
-            selectedQueue,
-            queueInfo,
-            header,
-            chunkConfig
-        };
+                // 로깅
+                this.logQueueInfo(selectedQueue);
+
+                // ErkApiMsg로 직접 생성
+                const queueInfo = ErkApiMsg.create({
+                    ToQueueName: selectedQueue.toQueue,
+                    FromQueueName: selectedQueue.fromQueue
+                });
+
+                // 청크 데이터 관련 설정 추가
+                const chunkConfig = {
+                    ErkMsgDataHead: ErkApiMsg.create({
+                        MsgType: 27,
+                        TransactionId: selectedQueue.TransactionId,
+                        QueueInfo: queueInfo,
+                        OrgId: org_id,
+                        UserId: selectedQueue.userId,
+                    })
+                    // 추후 추가적인 설정이 생긴다면 추가
+                    // AudioRecognitionConfig: ErkApiMsg.create({
+                    //     recognitionType: this.fileType === 'rx' ? 1 : 2,
+                    //     sampleRate: 16000,
+                    //     channels: 1,
+                    //     encoding: 1
+                    // })
+                };
+        
+                return {
+                    selectedQueue,
+                    queueInfo,
+                    header: chunkConfig.ErkMsgDataHead
+                };
+            }
+        );
     }
 
     // 큐 정보 로깅
     logQueueInfo(selectedQueue) {
-        logger.info(`[ QueueManager ] ${this.fileType.toUpperCase()} 파일 처리 - 수신 큐: ${selectedQueue.toQueue}, 송신 큐: ${selectedQueue.fromQueue}`);
+        logger.info(`[ QueueManager:logQueueInfo ] ${this.fileType.toUpperCase()} 파일 처리 - 수신 큐: ${selectedQueue.toQueue}, 송신 큐: ${selectedQueue.fromQueue}`);
     }
 }
 

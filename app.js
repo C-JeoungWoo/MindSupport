@@ -104,12 +104,12 @@ app.use(
     session({
         key: "session_cookie_name",
         secret: '@#@$MYSIGN#@$#$',
-        resave: false, // 세션을 언제나 저장할지 설정함
-        saveUninitialized: false, // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
+        resave: false,  // 세션을 언제나 저장할지 설정함
+        saveUninitialized: false,   // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
         cookie: {
-            secure: true,
+            secure: true,    // HTTPS 사용시에만 `secure` 설정 true
             maxAge: 6 * 60 * 60 * 1000 
-        }, // HTTPS 사용시에만 `secure` 설정 true
+        },
         store : MySQLoptions_sessionStore
     })
 );
@@ -118,12 +118,12 @@ io.use(sharedSession(
     session({
         key: "session_cookie_name",
         secret: '@#@$MYSIGN#@$#$',
-        resave: false, // 세션을 언제나 저장할지 설정함
-        saveUninitialized: false, // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
+        resave: false,  // 세션을 언제나 저장할지 설정함
+        saveUninitialized: false,   // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
         cookie: {
-            secure: true,
+            secure: true,   // HTTPS 사용시에만 `secure` 설정 true
             maxAge: 6 * 60 * 60 * 1000 
-        }, // HTTPS 사용시에만 `secure` 설정 true
+        },
         store : MySQLoptions_sessionStore
     }), {
         autoSave: true
@@ -1363,64 +1363,64 @@ app.get(`/coachingAdmin`, (req, res) => {
 
         //  금일 기준 코칭 대상자 표시
         let coachingAdmin_qry = `SELECT
-        ecm.auto_seq,
-        DATE_FORMAT(ecm.call_date, '%Y-%m-%d') AS call_date,
-        CONCAT(
-            LEFT(ecm.call_time, 2), ':',                                -- 시간 부분 (HH)
-            SUBSTRING(ecm.call_time, 3, 2), ':',                        -- 분 부분 (mm)
-            LPAD(CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10, 2, '0'),
-            '~',
-            LEFT(ecm.call_time, 2), ':',                                -- 시간 부분 (HH)
-            CASE 
-                WHEN SUBSTRING(ecm.call_time, 5, 2) >= '50' THEN 
-                    LPAD(CAST(SUBSTRING(ecm.call_time, 3, 2) AS UNSIGNED) + 1, 2, '0')
-                ELSE 
-                    SUBSTRING(ecm.call_time, 3, 2) 
-            END, ':',
-            LPAD((CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10 + 10) % 60, 2, '0')
-        ) AS time_range,
-        ecm.call_time,
-        ecm.login_id,
-        (SELECT MAX(ui.user_name) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS user_name,
-        (SELECT MAX(ui.group_type) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS group_type,
-        ecm.agent_anger,
-        ecm.auto_over_anger,
-        ecm.agent_sad,
-        ecm.auto_over_sad,
-        COUNT(DISTINCT eei.send_dt) AS call_count,
-        ecm.auto_coach
-    FROM
-        ETRI_EMOTION.emo_coaching_message ecm
-    LEFT JOIN
-        ETRI_EMOTION.emo_emotion_info eei ON
-        ecm.call_date = DATE(eei.send_dt)
-        AND ecm.login_id = eei.login_id
-        AND eei.send_dt >= STR_TO_DATE(CONCAT(DATE_FORMAT(ecm.call_date, '%Y-%m-%d'), ' ',
-            LEFT(ecm.call_time, 2), ':',
-            SUBSTRING(ecm.call_time, 3, 2), ':',
-            LPAD(CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10, 2, '0')
-            ), '%Y-%m-%d %H:%i:%s')
-        AND eei.send_dt < STR_TO_DATE(CONCAT(DATE_FORMAT(ecm.call_date, '%Y-%m-%d'), ' ',
-            LEFT(ecm.call_time, 2), ':',
-            CASE 
-                WHEN SUBSTRING(ecm.call_time, 5, 2) >= '50' THEN 
-                    LPAD(CAST(SUBSTRING(ecm.call_time, 3, 2) AS UNSIGNED) + 1, 2, '0') 
-                ELSE 
-                    SUBSTRING(ecm.call_time, 3, 2) 
-            END, ':',
-            LPAD((CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10 + 10) % 60, 2, '0')
-            ), '%Y-%m-%d %H:%i:%s')
-    WHERE ecm.call_date = '${DateUtils.getYearMonthDay()}'
-        AND ecm.auto_coach = 'P'
-        AND (ecm.agent_anger >= ecm.auto_over_anger OR ecm.agent_sad >= ecm.auto_over_sad)
-        AND send_yn = 'N'
-    GROUP BY
-        ecm.call_date, ecm.call_time,
-        ecm.login_id, ecm.auto_standard,
-        ecm.agent_sad, ecm.agent_anger,
-        ecm.auto_over_sad, ecm.auto_over_anger
-    ORDER BY
-        ecm.call_date, ecm.call_time, ecm.login_id;`;
+            ecm.auto_seq,
+            DATE_FORMAT(ecm.call_date, '%Y-%m-%d') AS call_date,
+            CONCAT(
+                LEFT(ecm.call_time, 2), ':',                                -- 시간 부분 (HH)
+                SUBSTRING(ecm.call_time, 3, 2), ':',                        -- 분 부분 (mm)
+                LPAD(CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10, 2, '0'),
+                '~',
+                LEFT(ecm.call_time, 2), ':',                                -- 시간 부분 (HH)
+                CASE 
+                    WHEN SUBSTRING(ecm.call_time, 5, 2) >= '50' THEN 
+                        LPAD(CAST(SUBSTRING(ecm.call_time, 3, 2) AS UNSIGNED) + 1, 2, '0')
+                    ELSE 
+                        SUBSTRING(ecm.call_time, 3, 2) 
+                END, ':',
+                LPAD((CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10 + 10) % 60, 2, '0')
+            ) AS time_range,
+            ecm.call_time,
+            ecm.login_id,
+            (SELECT MAX(ui.user_name) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS user_name,
+            (SELECT MAX(ui.group_type) FROM emo_user_info ui WHERE ui.login_id = ecm.login_id) AS group_type,
+            ecm.agent_anger,
+            ecm.auto_over_anger,
+            ecm.agent_sad,
+            ecm.auto_over_sad,
+            COUNT(DISTINCT eei.send_dt) AS call_count,
+            ecm.auto_coach
+        FROM
+            ETRI_EMOTION.emo_coaching_message ecm
+        LEFT JOIN
+            ETRI_EMOTION.emo_emotion_info eei ON
+            ecm.call_date = DATE(eei.send_dt)
+            AND ecm.login_id = eei.login_id
+            AND eei.send_dt >= STR_TO_DATE(CONCAT(DATE_FORMAT(ecm.call_date, '%Y-%m-%d'), ' ',
+                LEFT(ecm.call_time, 2), ':',
+                SUBSTRING(ecm.call_time, 3, 2), ':',
+                LPAD(CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10, 2, '0')
+                ), '%Y-%m-%d %H:%i:%s')
+            AND eei.send_dt < STR_TO_DATE(CONCAT(DATE_FORMAT(ecm.call_date, '%Y-%m-%d'), ' ',
+                LEFT(ecm.call_time, 2), ':',
+                CASE 
+                    WHEN SUBSTRING(ecm.call_time, 5, 2) >= '50' THEN 
+                        LPAD(CAST(SUBSTRING(ecm.call_time, 3, 2) AS UNSIGNED) + 1, 2, '0') 
+                    ELSE 
+                        SUBSTRING(ecm.call_time, 3, 2) 
+                END, ':',
+                LPAD((CAST(SUBSTRING(ecm.call_time, 5, 2) AS UNSIGNED) DIV 10 * 10 + 10) % 60, 2, '0')
+                ), '%Y-%m-%d %H:%i:%s')
+        WHERE ecm.call_date = '${DateUtils.getYearMonthDay()}'
+            AND ecm.auto_coach = 'P'
+            AND (ecm.agent_anger >= ecm.auto_over_anger OR ecm.agent_sad >= ecm.auto_over_sad)
+            AND send_yn = 'N'
+        GROUP BY
+            ecm.call_date, ecm.call_time,
+            ecm.login_id, ecm.auto_standard,
+            ecm.agent_sad, ecm.agent_anger,
+            ecm.auto_over_sad, ecm.auto_over_anger
+        ORDER BY
+            ecm.call_date, ecm.call_time, ecm.login_id;`;
 
         connection.query(select_user_qry+coachingAdmin_qry, (err, results) => {
             if (err) {
@@ -2689,15 +2689,16 @@ conn = amqp.connect({
             //    - DB에서 returnCode를 받았다면
             //    - 사용자 로그인(제공된 계정을 사용)
             app.post('/manager/login', (req, res) => {
-                // AJAX로 전달받은 데이터 저장
+                // AJAX로 전달받은 계정, 암호
                 let login_id_t = req.body.login_id;
                 let login_pw_t = req.body.login_pw;
-                let uuid = crypto.randomUUID(); // UUID 생성
-                let uuid2 = crypto.randomUUID(); // UUID 생성
 
-                logger.info('[ app.js:managerLogin ] 로그인 프로세스 호출');        
-                logger.info(`[ app.js:managerLogin ] 입력된 사용자 계정: ${login_id_t}, 입력된 사용자 암호: ${login_pw_t}`);
+                //  상담원, 고객 UUID 각각 생성성
+                let uuid = crypto.randomUUID();
+                let uuid2 = crypto.randomUUID();
         
+                logger.info(`[ app.js:managerLogin ] 로그인 프로세스 호출 → 입력된 사용자 계정: ${login_id_t}, 입력된 사용자 암호: ${login_pw_t}`);
+
                 // 계정 혹은 암호 중 하나라도 입력이 안되었을 경우
                 if (login_id_t.length == 0 && login_pw_t.length == 0) {
                     res.send(`<script type="text/javascript">
@@ -2756,7 +2757,8 @@ conn = amqp.connect({
         
                             // 로그인 이력 저장
                             let login_history_sql = `INSERT INTO emo_loginout_info (loginout_dt, userinfo_userid, login_id, group_manager, user_name, loginout_type, uuid, uuid2)
-                            VALUES (NOW(3), '${req.session.user.userinfo_userId}', '${req.session.user.login_id}', '${req.session.user.group_manager}', '${req.session.user.user_name}', 'I', '${req.session.user.userinfo_uuid}', '${req.session.user.cusinfo_uuid}')`;
+                            VALUES (NOW(3), '${req.session.user.userinfo_userId}', '${req.session.user.login_id}', '${req.session.user.group_manager}',\n
+                            '${req.session.user.user_name}', 'I', '${req.session.user.userinfo_uuid}', '${req.session.user.cusinfo_uuid}')`;
         
                             connection.query(login_history_sql, (err) => {
                                 if (err) {
