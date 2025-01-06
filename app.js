@@ -1217,7 +1217,7 @@ app.get(`/coachingHistory`, (req, res) => {
         login_id
         FROM emo_user_info
         WHERE group_manager != 'Y' 
-        AND user_type != 3;`
+        AND agent_telno IS NOT NULL;`
 
     logger.info(`[ app.js:coachingHistory ] ${counsel_history_sql}`)
 
@@ -1542,7 +1542,7 @@ app.get(`/coachingAdmin`, (req, res) => {
             user_name
         FROM ETRI_EMOTION.emo_user_info
         WHERE group_manager != 'Y'
-        AND user_type != 3;`
+        AND agent_telno IS NOT NULL;`
 
         //  금일 기준 코칭 대상자 표시
         let coachingAdmin_qry = `SELECT
@@ -1857,7 +1857,7 @@ app.get('/statsSummary', async (req, res) => {
         login_id
         FROM emo_user_info
         WHERE group_manager != 'Y' 
-        AND user_type != 3;`
+        AND agent_telno IS NOT NULL;`
 
         // 두 데이터베이스에서 데이터를 가져오기
         const etriPromise = new Promise((resolve, reject) => {
@@ -1885,7 +1885,9 @@ app.get('/statsSummary', async (req, res) => {
         // 결과 병합
         const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
 
-        const select_statsSummary = etriResults.map(etri => {
+        const select_statsSummary = etriResults
+        .filter(etri => acrResults.some(acr => acr.AGENT_TELNO === etri.agent_telno))
+        .map(etri => {
             const acrData = acrResults.find(acr =>
                 acr.AGENT_TELNO === etri.agent_telno) || {};
             return {
@@ -2020,7 +2022,7 @@ app.get('/statsDetail', async (req, res) => {
             login_id
             FROM emo_user_info
             WHERE group_manager != 'Y'
-            AND user_type != 3;`
+            AND agent_telno IS NOT NULL;`
 
         // 두 데이터베이스에서 데이터를 가져오기
         const etriPromise = new Promise((resolve, reject) => {
@@ -2050,7 +2052,9 @@ app.get('/statsDetail', async (req, res) => {
         // 결과 병합
         const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
 
-        const select_statsDetail = etriResults.map(etri => {
+        const select_statsDetail = etriResults
+        .filter(etri => acrResults.some(acr => acr.AGENT_TELNO === etri.agent_telno))
+        .map(etri => {
             const acrData = acrResults.find(acr =>
                  etri.agent_telno === acr.AGENT_TELNO) || {};
             return {
@@ -2118,7 +2122,8 @@ app.get(`/settingUser`, (req, res) => {
         INNER JOIN emo_provider_info as b
         ON a.org_name = b.org_name
         WHERE a.del_yn IS NULL
-        AND a.user_type != 3`;
+        AND a.agent_telno IS NOT NULL
+        AND a.group_manager != 'Y'`;
 
         connection.query(settingUser_query, (err, results) => {
             if (err) {
@@ -2190,7 +2195,7 @@ app.get('/settingMemo', (req, res) => {
             group_type
         FROM emo_user_info
         WHERE group_manager != 'Y'
-        AND user_type != 3;`;
+        AND agent_telno IS NOT NULL;`;
 
         connection.query(settingMemo_query + selected_user_query, (err, results) => {
             if (err) {
@@ -2835,53 +2840,83 @@ conn = amqp.connect({
             //   - 사용자 관리[삭제]
             //   - 해당 라이센스(서비스) ID는 빼놓기
             app.post(`/deletingUserSubmit`, (req, res) => {
-                //  세션 체크
+                // 세션 체크
                 if (!req.session || !req.session.authenticate || !req.session.user) {
                     logger.info(`[ app.js:deletingUserSubmit ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
-                    res.redirect(`/`, { title: `로그인` });
+                    return res.redirect(`/`, { title: `로그인` });
                 }
+                
                 logger.info(`[ app.js:deletingUserSubmit ] 요청받은 삭제 조건: ${JSON.stringify(req.body)}`);
-
-                let del_user_id = req.body.userinfo_id;
-                let del_user_name = req.body.user_name;
-
+            
+                const del_user_id = req.body.userinfo_id;
+                const del_user_name = req.body.user_name;
+            
+                if (!Array.isArray(del_user_id) || !Array.isArray(del_user_name)) {
+                    logger.error(`[ app.js:deletingUserSubmit ] 요청 데이터가 배열 형식이 아닙니다.`);
+                    return res.status(400).json({ error: "잘못된 요청 형식입니다." });
+                }
+            
                 try {
-                    for(let i=0; i<del_user_id.length; i++) {
-                        let delete_usr_info = `SELECT * FROM emo_user_info WHERE user_name = '${del_user_name[i]}';`;
-                        connection.query(delete_usr_info, (err, results) => {
-                            if(err) {
-                                logger.error(`[ app.js:delete_usr_info ] ${err}`);
-                                throw err;
-                            }
+                    // 비동기 작업을 모두 처리하기 위해 Promise.all 사용
+                    const deletionTasks = del_user_id.map((userId, index) => {
+                        const userName = del_user_name[index];
             
-                            if(results.length > 0) {
-                                results.forEach(user => {
-                                    let delUsrMsg = ErkApiMsg.create({
-                                        DelUserInfoRQ: {
-                                            MsgType: 11,
-                                            QueueInfo: ErkQueueInfo,
-                                            OrgName: user.org_name,
-                                            UserName: user.login_id,
-                                            UserPwd: user.login_pw
-                                        }
+                        return new Promise((resolve, reject) => {
+                            // 사용자 조회 쿼리
+                            const selectUserQuery = `SELECT * FROM emo_user_info WHERE login_id = ? AND user_name = ?;`;
+                            connection.query(selectUserQuery, [userId, userName], (err, results) => {
+                                if (err) {
+                                    logger.error(`[ app.js:delete_usr_info ] ${err}`);
+                                    return reject(err);
+                                }
+            
+                                if (results.length > 0) {
+                                    // 사용자 삭제 메시지 생성
+                                    results.forEach(user => {
+                                        const delUsrMsg = ErkApiMsg.create({
+                                            DelUserInfoRQ: {
+                                                MsgType: 11,
+                                                QueueInfo: ErkQueueInfo,
+                                                OrgName: user.org_name,
+                                                UserName: user.login_id,
+                                                UserPwd: user.login_pw,
+                                            }
+                                        });
+                                        const delUsrMsg_buf = ErkApiMsg.encode(delUsrMsg).finish();
+                                        ch.sendToQueue("ERK_API_QUEUE", delUsrMsg_buf);
+                                        logger.info(`[ app.js:delete_usr_info ] 송신한 메시지\n${JSON.stringify(delUsrMsg, null, 4)}`);
                                     });
-                                    let delUsrMsg_buf = ErkApiMsg.encode(delUsrMsg).finish();
-                                    ch.sendToQueue("ERK_API_QUEUE", delUsrMsg_buf);
-
-                                    logger.info(`[ app.js:delete_usr_info ] 송신한 메세지\n${JSON.stringify(delUsrMsg, null, 4)}`);
             
-                                    delUsrMsg = null;
-                                    delUsrMsg_buf = null;
-                                    delete_usr_info = null;
-                                });
-                            } else {
-                                logger.warn(`[ app.js:delete_usr_info ] 검색된 데이터 없음`);
-                            }
+                                    // del_yn 컬럼 업데이트
+                                    const updateDelYnQuery = `UPDATE emo_user_info SET del_yn = 'y', update_dt = NOW(3) WHERE login_id = ? AND user_name = ?;`;
+                                    connection.query(updateDelYnQuery, [userId, userName], (err, updateResults) => {
+                                        if (err) {
+                                            logger.error(`[ app.js:update_del_yn ] ${err}`);
+                                            return reject(err);
+                                        }
+                                        logger.info(`[ app.js:update_del_yn ] del_yn 업데이트 성공: login_id=${userId}, user_name=${userName}`);
+                                        resolve();
+                                    });
+                                } else {
+                                    logger.warn(`[ app.js:delete_usr_info ] 검색된 데이터 없음: login_id=${userId}, user_name=${userName}`);
+                                    resolve();
+                                }
+                            });
                         });
-                    }
-
-                    res.status(200).json({ message: '모두 삭제 성공했습니다.' });
-                } catch(err) {
+                    });
+            
+                    // 모든 작업 완료 후 응답
+                    Promise.all(deletionTasks)
+                        .then(() => {
+                            logger.info(`[ app.js:deletingUserSubmit ] 모든 사용자 삭제(논리 삭제) 성공`);
+                            res.status(200).json({ message: '모두 삭제 성공했습니다.' });
+                        })
+                        .catch(err => {
+                            logger.error(`[ app.js:deletingUserSubmit ] ${err}`);
+                            res.status(500).json({ error: '서버 오류가 발생했습니다.' });
+                        });
+            
+                } catch (err) {
                     logger.error(`[ app.js:deletingUserSubmit ] ${err}`);
                     res.status(500).json({ error: '서버 오류가 발생했습니다.' });
                 }
@@ -4128,7 +4163,7 @@ conn = amqp.connect({
                                                 }
                                             });
 
-                                            let addUsrMsg_buf2 = ErkApiMsg.encode(addUsrMsg).finish();
+                                            let addUsrMsg_buf2 = Burrer.from(ErkApiMsg.encode(addUsrMsg).finish());
                                             let upt_add_usr_info = `UPDATE emo_user_info SET update_dt = NOW(3), userinfo_send_dt = NOW(3) WHERE login_id = "${user.login_id}"`;
 
                                             // 전송 이력 DB 저장 후 메세지 송신

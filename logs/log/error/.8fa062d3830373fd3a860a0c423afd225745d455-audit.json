@@ -9,6 +9,16 @@
             "date": 1735891269186,
             "name": "/home/neighbor/MindSupport_v1.0.0/logs/log/error/250103_17_error.log",
             "hash": "15b4fe3c940c848d5eb8a212f3def26e2e3ecac03fc19dbadbecd4e53c095a76"
+        },
+        {
+            "date": 1736122038345,
+            "name": "/home/neighbor/MindSupport_v1.0.0/logs/log/error/250106_09_error.log",
+            "hash": "4d3b3d53bb396681cdd49c3252f749c8f71d66ba9a27ff4fc55ebb54ca5fe6d1"
+        },
+        {
+            "date": 1736125499921,
+            "name": "/home/neighbor/MindSupport_v1.0.0/logs/log/error/250106_10_error.log",
+            "hash": "29232f1aa3927e1c529c03d5438bcf16ed1cf2ba2dc722beb1d687e0c7424b51"
         }
     ],
     "hashType": "sha256"
