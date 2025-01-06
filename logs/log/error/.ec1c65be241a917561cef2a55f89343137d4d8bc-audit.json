@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/nbetri2/MindSupport_v1.0.1/MindSupport_v1.0.0/logs/log/error/.ec1c65be241a917561cef2a55f89343137d4d8bc-audit.json",
+    "files": [
+        {
+            "date": 1735883755730,
+            "name": "/home/nbetri2/MindSupport_v1.0.1/MindSupport_v1.0.0/logs/log/error/250103_14_error.log",
+            "hash": "ac6568eb7df2bd9240d13d6b5488fc92bc968f44dcbc434ad9f56befb7bed880"
+        },
+        {
+            "date": 1735884068099,
+            "name": "/home/nbetri2/MindSupport_v1.0.1/MindSupport_v1.0.0/logs/log/error/250103_15_error.log",
+            "hash": "9d58fe150e9ab1fc80b48aa0e6f06f1f14e561069a5a69646451666b747cd0e5"
+        },
+        {
+            "date": 1735888363911,
+            "name": "/home/nbetri2/MindSupport_v1.0.1/MindSupport_v1.0.0/logs/log/error/250103_16_error.log",
+            "hash": "4e55b4e5fe214eb145e0f1df10c8737e5f5691072f1c6b4fdf0245711e3d2db4"
+        }
+    ],
+    "hashType": "sha256"
+}

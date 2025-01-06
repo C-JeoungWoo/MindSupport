@@ -7,8 +7,13 @@ module.exports = () => {
     return {
         pool: () => {
             return mysql.createConnection({
+<<<<<<< HEAD
                 host: '192.168.0.24',
                 port: '3306',
+=======
+                host: '192.168.0.3',
+                port: '13307',
+>>>>>>> 34595daff823db6afe8501216d21d14acfbc0c45
                 user: 'acr',
                 password: 'Acr#600',
                 database: 'acr_v4',

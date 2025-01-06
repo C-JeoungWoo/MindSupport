@@ -5,6 +5,7 @@ const logger = require('../logs/logger');
 
 module.exports = () => {
     return {
+<<<<<<< HEAD
         pool: () => {
             return mysql.createPool({
                 host: '192.168.0.30',
@@ -16,6 +17,16 @@ module.exports = () => {
                 waitForConnections: true,
                 connectionLimit: 20,
                 queueLimit: 0
+=======
+        init: () => {
+            return mysql.createConnection({
+                host: '192.168.0.7',
+                port: '3306',
+                user: 'nbetri2',
+                password: 'nb1234',
+                database: 'MindSupport',
+                multipleStatements: true
+>>>>>>> 34595daff823db6afe8501216d21d14acfbc0c45
             })
         },
 
