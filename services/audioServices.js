@@ -5,19 +5,19 @@ const StreamProcessor = require('../managers/StreamProcessor');
 const streamProcessor = new StreamProcessor();
 const StreamingService = require(`../services/streamingService`);
 
-const { setErkApiMsg, getErkApiMsg } = require('../utils/erkUtils');  // erkUtils에서 가져오기
+const { setErkApiMsg, getErkApiMsg } = require('../utils/erkUtils');
 
 const logger = require('../logs/logger');
 const fsp = require('fs').promises;
 const path = require('path');
 
 const mysql = require('../db/maria')();
-const connection1 = mysql.init();
-mysql.db_open(connection1);
+const connection1 = mysql.pool();
+mysql.pool_check(connection1);
 
 const mysql2 = require('../db/acrV4')();
-const connection2 = mysql2.init();  // mysql2의 init 사용
-mysql2.db_open(connection2);  // mysql2의 db_open 사용
+const connection2 = mysql2.pool();  
+mysql2.pool_check(connection2);
 
 //  생성된 WAV 파일 처리
 const handleNewFile = async function handleNewFile(filePath, userid, serviceResponse, type) {
@@ -119,7 +119,7 @@ const handleNewFile = async function handleNewFile(filePath, userid, serviceResp
                     (recordingStatus.REC_END_DATETIME !== null) &&        // DB 종료
                     (unchangedCount >= MAX_UNCHANGED_COUNT);        // 파일 크기 안정화
 
-                // const isRecordingComplete = unchangedCount >= MAX_UNCHANGED_COUNT;        // 파일 크기 안정화(일반 파일 테스트 시)
+                // 파일 크기 안정화(일반 파일 테스트 시)
                 let remainingDataSize = currentSize - (gsmHeaderLength + (1630 * (chunkNumber - 1)));
                 if (isRecordingComplete) {
                     logger.info(`[ audioServices.js:handleNewFile ] Recording completed.

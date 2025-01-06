@@ -15,14 +15,19 @@ const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, 'rmq.env') });
 const protobuf = require(`protobufjs`);
 
-const mysql = require('./db/maria')();//maria.js 연결
-const mysql2 = require('./db/acrV4')();//acr_v4.js 연결
+const mysql = require('./db/maria')();
+const mysql2 = require('./db/acrV4')();
 
+<<<<<<< HEAD
 const connection = mysql.init(); //ETRI_EMOTION
 const connection2 = mysql2.init(); //acr_v4
+=======
+const connection = mysql.pool();
+const connection2 = mysql2.pool();
+>>>>>>> refs/remotes/origin/main
 
-mysql.db_open(connection); // DB 연결
-mysql2.db_open(connection2);
+mysql.pool_check(connection);
+mysql2.pool_check(connection2);
 
 const logger = require(`./logs/logger`);
 const amqp = require(`amqplib/callback_api`);
@@ -94,10 +99,17 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
+<<<<<<< HEAD
     host: "192.168.0.29",
     port: 3306,
     user: "root",
     password: "spdlqj21",
+=======
+    host: "192.168.0.30",
+    port: 3306,
+    user: "emo10",
+    password: "nb1234",
+>>>>>>> refs/remotes/origin/main
     database: "ETRI_EMOTION" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
@@ -2374,7 +2386,11 @@ app.post('/deleteMemo', (req, res) => {
 let ErkApiMsg;  // 추후 Stream Queue 생성시 proto 파일 중복 로드 방지
 async function loadProto() {
     try {
+<<<<<<< HEAD
         const protobuf_dir = `/home/neighbor/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+=======
+        const protobuf_dir = `/home/241212_MindSupport/MindSupport/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+>>>>>>> refs/remotes/origin/main
         const root = await protobuf.load(protobuf_dir);
         logger.info(`[ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공`);
 
