@@ -27,6 +27,11 @@ const handleNewFile = async function handleNewFile(filePath, userid, serviceResp
     const currentErkApiMsg = getErkApiMsg();
     logger.info(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
 
+    // console.log('serviceResponse.login_id : ', serviceResponse.login_id);
+    // console.log('serviceResponse.user_uuid : ', serviceResponse.user_uuid);
+    // console.log('serviceResponse.org_id : ', serviceResponse.org_id);
+    
+
     try {
         const baseFileName = path.basename(filePath, '.wav');
         const caller_id = baseFileName.split('_')[2];
@@ -39,12 +44,13 @@ const handleNewFile = async function handleNewFile(filePath, userid, serviceResp
                         // DB에서 StreamQueue 설정 상태 확인
                         const queueStatus = await new Promise((resolveQuery, rejectQuery) => {
                             connection1.query(`
-                                SELECT erkengineInfo_return_recvQueueName, 
-                                        erkengineInfo_return_sendQueueName
+                                SELECT 
+                                    erkengineInfo_return_sendQueueName,
+                                    erkengineInfo_returnCustomer_sendQueueName,
+                                    erkengineInfo_return_recvQueueName ,
+                                    erkengineInfo_returnCustomer_recvQueueName 
                                 FROM emo_user_info 
-                                WHERE userinfo_userId = ?`,
-                                [serviceResponse.userinfo_userId],
-                                (error, results) => {
+                                WHERE userinfo_userId IN (?, ?)`, [serviceResponse.userinfo_userId, serviceResponse.userinfo_userId+10], (error, results) => {
                                     if (error) rejectQuery(error);
                                     resolveQuery(results[0]);
                                 }
@@ -269,8 +275,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
 
                         // 2. 테이블이 존재하면 데이터 조회
                         connection2.query(
-                            `SELECT * FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} 
-                            WHERE AGENT_TELNO = ?`, [`${caller_id}`], (error, results) => {
+                            `SELECT * FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} WHERE AGENT_TELNO = ?`, [`${caller_id}`], (error, results) => {
                                 if (error) {
                                     logger.error(`[ audioServices.js:EmoServiceStartRQ ] DB Error querying data: ${error}`);
                                     reject(error);

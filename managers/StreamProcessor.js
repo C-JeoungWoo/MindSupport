@@ -7,6 +7,9 @@ const logger = require('../logs/logger');
 
 const { getErkApiMsg } = require('../utils/erkUtils');
 const { options } = require('rhea');
+// const { path } = require('app-root-path');
+const path = require(`path`);
+const { head } = require('request');
 
 const mysql = require('../db/maria')();
 const mysql2 = require('../db/acrV4')();
@@ -26,6 +29,7 @@ class StreamProcessor {
         this.totalChunkSize = options.totalChunkSize || 44000;
         this.rawChunkSize = this.sampleRate * this.bytesPerSample * this.chunkDuration;
         this.maxBufferSize = options.maxBufferSize || 1024 * 1024;
+        this.chunkNumber =1;
     }
 
     // 파일 스트림 처리 시작점
@@ -42,6 +46,12 @@ class StreamProcessor {
             user_uuid
         } = options;
 
+        console.log('filePath : ', filePath);
+        const baseFileName = path.basename(filePath, '.wav');
+        console.log('baseFileName : ', baseFileName);
+        const fileInfo_callId = baseFileName.replace(/_[rt]x$/,''); // rx,tx 제거
+        console.log('fileInfo_callId : ', fileInfo_callId);
+
         // let successCount = 0;
         try {
             // GSM 6.10 청크를 처리하고 PCM으로 변환
@@ -49,6 +59,7 @@ class StreamProcessor {
                 filePath,
                 currentErkApiMsg,
                 remainingDataSize,
+                fileInfo_callId,
                 gsmHeaderLength,
                 isLastChunk,
                 fileType,
@@ -118,7 +129,7 @@ class StreamProcessor {
         }
     }
 
-    async processChunk(filePath, currentErkApiMsg, remainingDataSize, gsmHeaderLength, isLastChunk, fileType, userId, header) {
+    async processChunk(filePath, fileInfo_callId , currentErkApiMsg, remainingDataSize, gsmHeaderLength, isLastChunk, fileType, userId, login_id, header) {
         const MAX_RETRIES = 3;  // 최대 재시도 횟수
         const RETRY_DELAY = 1000;  // 재시도 간격 (1초)
         let retryCount = 0;
@@ -144,6 +155,8 @@ class StreamProcessor {
                     header,
                     fileType,
                     userId,
+                    fileInfo_callId,
+                    login_id,
                     timestamp: currentTimestamp,
                     dateTimeString: currentDateTimeString
                 });
@@ -220,6 +233,7 @@ class StreamProcessor {
         selectedQueue
     }) {
         try {
+            console.log('header : ', header);
             // const { chunkIndex, totalChunks, timestamp, dateTimeString, fileType } = options; // fileType 추가
             const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = currentErkApiMsg;
 
@@ -238,42 +252,44 @@ class StreamProcessor {
             });
 
             // 3. DB 쿼리 수정 (순서와 필드명 명확화)
-            const query = `
-                INSERT INTO emo_emotion_info (
-                    send_dt,
-                    login_id, 
-                    userinfo_userId,
-                    file_name,
-                    sendQueueName,
-                    recvQueueName,
-                    org_id,
-                    file_seq,
-                    data_length
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            // const query = `
+            //     INSERT INTO emo_emotion_info (
+            //         send_dt,
+            //         login_id, 
+            //         userinfo_userId,
+            //         file_name,
+            //         sendQueueName,
+            //         recvQueueName,
+            //         org_id,
+            //         file_seq,
+            //         data_length
+            //     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-                // 수정된 params (쿼리의 VALUES와 순서 일치)
-                const params = [
-                    dateTimeString,                                    // send_dt
-                    login_id,                                         // login_id
-                    userId,                                           // userinfo_userId
-                    fileInfo_callId,                                  // file_name
-                    selectedQueue.fromQueue,                          // sendQueueName
-                    selectedQueue.toQueue,                            // recvQueueName
-                    org_id,                                           // org_id
-                    chunkNumber,                                      // file_seq
-                    paddedChunk.samplesToCopy * this.bytesPerSample  // data_length
-                ];
+            //     // 수정된 params (쿼리의 VALUES와 순서 일치)
+            //     const params = [
+            //         dateTimeString,                                    // send_dt
+            //         login_id,                                         // login_id
+            //         userId,                                           // userinfo_userId
+            //         fileInfo_callId,                                  // file_name
+            //         selectedQueue.fromQueue,                          // sendQueueName
+            //         selectedQueue.toQueue,                            // recvQueueName
+            //         org_id,                                           // org_id
+            //         this.chunkNumber,                                 // file_seq
+            //         paddedChunk.samplesToCopy * this.bytesPerSample   // data_length
+            //     ];
             
-            // DB 쿼리 실행을 Promise로 래핑
-            await new Promise((resolve, reject) => {
-                connection1.query(query, params, (err, result) => {
-                    if (err) {
-                        logger.error(`[ StreamProcessor:sendAndLog ] DB insert error: ${err}`);
-                        reject(err);
-                    }
-                    resolve(result);
-                });
-            });
+            // // DB 쿼리 실행을 Promise로 래핑
+            // await new Promise((resolve, reject) => {
+            //     connection.query(query, params, (err, result) => {
+            //         if (err) {
+            //             logger.error(`[ StreamProcessor:sendAndLog ] DB insert error: ${err}`);
+            //             reject(err);
+            //         } else {
+            //             logger.warn(`[ StreamProcessor:sendAndLog ] DB insert succesfully`);
+            //             resolve(result);
+            //         }
+            //     });
+            // });
 
             // 4. 선택된 채널로 메시지 전송
             const sendSpeechMsg_buf = ErkApiMsg.encode(sendSpeechMsg).finish();
@@ -286,6 +302,9 @@ class StreamProcessor {
             if (!sendResult) {
                 throw new Error(`Failed to send message to ${fileType.toUpperCase()} queue: ERK_API_QUEUE`);
             }
+
+            console.log('sendSpeechMsg : ', JSON.stringify(sendSpeechMsg, null, 2));
+            this.chunkNumber++;
 
             return {
                 success: true,
