@@ -15,14 +15,14 @@ const dotenv = require('dotenv');
 dotenv.config({ path: path.join(__dirname, 'rmq.env') });
 const protobuf = require(`protobufjs`);
 
-const mysql = require('./db/maria')();//maria.js 연결
-const mysql2 = require('./db/acrV4')();//acr_v4.js 연결
+const mysql = require('./db/maria')();
+const mysql2 = require('./db/acrV4')();
 
-const connection = mysql.init(); //ETRI_EMOTION
-const connection2 = mysql2.init(); //acr_v4
+const connection = mysql.pool();
+const connection2 = mysql2.pool();
 
-mysql.db_open(connection); // DB 연결
-mysql2.db_open(connection2);
+mysql.pool_check(connection);
+mysql2.pool_check(connection2);
 
 const logger = require(`./logs/logger`);
 const amqp = require(`amqplib/callback_api`);
@@ -94,10 +94,10 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.29",
+    host: "192.168.0.30",
     port: 3306,
-    user: "root",
-    password: "spdlqj21",
+    user: "emo10",
+    password: "nb1234",
     database: "ETRI_EMOTION" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
@@ -2353,7 +2353,7 @@ app.post('/deleteMemo', (req, res) => {
 let ErkApiMsg;  // 추후 Stream Queue 생성시 proto 파일 중복 로드 방지
 async function loadProto() {
     try {
-        const protobuf_dir = `/home/neighbor/MindSupport/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+        const protobuf_dir = `/home/241212_MindSupport/MindSupport/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
         const root = await protobuf.load(protobuf_dir);
         logger.info(`[ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공`);
 
@@ -2415,7 +2415,7 @@ conn = amqp.connect({
     //      3) Stream Queue: 높은 처리량과 메시지 순서를 유지할 수 있는 기능을 제공
     //   - durable : true로 설정하면 RabbitMQ가 재시작되어도 생성된 exchange가 그대로 유지
     //   - 화자1 (상담원용 classic queue)
-    const chName = 'NEIGHBOR_SYSTEM3';
+    const chName = 'NEIGHBOR_SYSTEM';
     ch.assertQueue(chName, {
         durable: true,
         arguments: {
@@ -2432,7 +2432,7 @@ conn = amqp.connect({
     });
 
     //   - 화자2 (고객용 classic queue)
-    const chName_2 = 'NEIGHBOR_SYSTEM4';
+    const chName_2 = 'NEIGHBOR_SYSTEM2';
     ch2.assertQueue(chName_2, {
         durable: true,
         arguments: {
@@ -2472,11 +2472,11 @@ conn = amqp.connect({
             // 기본 큐 정보 초기화
             ErkQueueInfo = ErkApiMsg.create({
                 ToQueueName: "ERK_API_QUEUE",
-                FromQueueName: "NEIGHBOR_SYSTEM3"
+                FromQueueName: "NEIGHBOR_SYSTEM"
             });
             ErkQueueInfo2 = ErkApiMsg.create({
                 ToQueueName: "ERK_API_QUEUE",
-                FromQueueName: "NEIGHBOR_SYSTEM4"
+                FromQueueName: "NEIGHBOR_SYSTEM2"
             });
 
             //  Erk 엔진 정보
@@ -2842,7 +2842,7 @@ conn = amqp.connect({
                                 results.forEach(user => {
                                     let delUsrMsg = ErkApiMsg.create({
                                         DelUserInfoRQ: {
-                                            MsgType: 15,
+                                            MsgType: 11,
                                             QueueInfo: ErkQueueInfo,
                                             OrgName: user.org_name,
                                             UserName: user.login_id,
@@ -3530,7 +3530,7 @@ conn = amqp.connect({
                                         results.forEach(user => {
                                             let addUsrMsg = ErkApiMsg.create({
                                                 AddUserInfoRQ: {
-                                                    MsgType: 7,
+                                                    MsgType: 9,
                                                     QueueInfo: ErkQueueInfo,
                                                     OrgName: user.org_name,
                                                     UserName: user.login_id,

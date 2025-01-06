@@ -9,12 +9,13 @@ const { getErkApiMsg } = require('../utils/erkUtils');
 const { options } = require('rhea');
 
 const mysql = require('../db/maria')();
-const connection1 = mysql.init();
-mysql.db_open(connection1);
-
 const mysql2 = require('../db/acrV4')();
-const connection2 = mysql.init();
-mysql2.db_open(connection2);
+
+const connection = mysql.pool();
+const connection2 = mysql2.pool();
+
+mysql.pool_check(connection);
+mysql2.pool_check(connection2);
 
 //  청크 처리 및 메모리 관리 클래스
 class StreamProcessor {
