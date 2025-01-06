@@ -1,2 +1,0 @@
-2024-12-30 11:38:50.402 [error] [ app.js:acrQuery ] Error: Can't add new command when connection is in closed state
-2024-12-30 11:38:50.403 [error] [ app.js:/workStatusMain ] Error: Error: Can't add new command when connection is in closed state
