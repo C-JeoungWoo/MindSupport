@@ -113,17 +113,18 @@ class EnhancedFSWatcher {
                             
                             try {
                                 // serviceResponse 전체와 fileType을 전달하여 파일 처리
+                                console.log('serviceResponse.userinfo_userId : ', serviceResponse.userinfo_userId);
                                 const result = await handleNewFile(
                                     typedFilePath, 
                                     serviceResponse.userinfo_userId, // userinfo_userId 접근 수정
                                     serviceResponse, // 전체 응답 전달
                                     type // 파일 유형 전달
                                 );
-                                logger.info(`[ watchFileAdd:handleNewFile ] ${type.toUpperCase()} 처리 완료:`, result);
+                                logger.info(`[ watchFileAdd:handleNewFile ] ${type} 처리 완료:`, result);
 
                                 return { type, success: true, result };
                             } catch (error) {
-                                logger.error(`[ watchFileAdd:handleNewFile ] ${type.toUpperCase()} 처리 실패:`, error);
+                                logger.error(`[ watchFileAdd:handleNewFile ] ${type} 처리 실패:`, error);
                                 return { type, success: false, error };
                             }
                         }));

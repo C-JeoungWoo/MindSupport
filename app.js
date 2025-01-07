@@ -4464,10 +4464,10 @@ conn = amqp.connect({
                                                                     let SpeechEmoRecogRP_qry = `UPDATE emo_emotion_info
                                                                     SET speechEmo_returnCode = '${recvMsg.SpeechEmoRecogRP.ReturnCode}',
                                                                         EmoRecogTime = '${SpeechEmoRecogTime_str}',
-                                                                        emotion_type = ${recvMsg.SpeechEmoRecogRP.Emotion},
+                                                                        cusEmoType = ${recvMsg.SpeechEmoRecogRP.Emotion},
                                                                         accuracy = ${accuracy},
                                                                         recv_dt = NOW(3)
-                                                                    WHERE userinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId}
+                                                                    WHERE userinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId+10}
                                                                     AND send_dt = '${DateUtils.getCurrentDateTimeString(SpeechEmoRecogTime_str)}';`;
 
                                                                     logger.warn(`[ consume:SpeechEmoRecogRP ] 정상 응답\n${SpeechEmoRecogRP_qry}`);

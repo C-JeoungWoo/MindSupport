@@ -9,10 +9,10 @@ const { handleNewFile, EmoServiceStopRQ } = require('../services/audioServices')
 const mysql = require('../db/maria')();
 const mysql2 = require('../db/acrV4')();
 
-const connection = mysql.pool();
+const connection1 = mysql.pool();
 const connection2 = mysql2.pool();
 
-mysql.pool_check(connection);
+mysql.pool_check(connection1);
 mysql2.pool_check(connection2);
 
 //  파일 상태 관리 클래스
@@ -217,6 +217,7 @@ class AudioFileManager {
     async handleServiceStop(userId) {
         try {
             const stopResult = await EmoServiceStopRQ(userId);
+            
             if (stopResult === 'success') {
                 logger.info(`[ AudioFileManager:handleServiceStop ] Service stopped successfully for user ${userId}`);
                 return true;

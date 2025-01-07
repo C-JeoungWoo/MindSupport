@@ -5,10 +5,10 @@
 const mysql = require('../db/maria')();
 const mysql2 = require('../db/acrV4')();
 
-const connection = mysql.pool();
+const connection1 = mysql.pool();
 const connection2 = mysql2.pool();
 
-mysql.pool_check(connection);
+mysql.pool_check(connection1);
 mysql2.pool_check(connection2);
 
 const { setErkApiMsg, getErkApiMsg } = require('../utils/erkUtils');
@@ -45,7 +45,8 @@ class QueueManager {
     //  StreamQueue 정보 조회
     async fetchQueueInfo() {
         try {
-            return Promise.all([
+            // 상담원과 고객의 queue 정보 조회
+            const [counselorData, customerData] = await Promise.all([
                 // 상담원 queue 정보 조회
                 new Promise((resolve, reject) => {
                     const QueueInfoQuery = `
@@ -74,12 +75,22 @@ class QueueManager {
                         resolve(results[0]);
                     });
                 })
-            ]).then(([counselorData, customerData]) => {
-                // formatQueueInfo 호출 시 rx/tx 구분하여 적절한 queue 정보 반환
-                return this.fileType === 'rx' ? this.formatQueueInfo(counselorData) : this.formatQueueInfo(customerData);
+            ]);
+    
+            // 로깅 추가
+            logger.info('[ QueueManager:fetchQueueInfo ] Queue data retrieved:', {
+                counselorData: counselorData ? 'exists' : 'null',
+                customerData: customerData ? 'exists' : 'null'
             });
+    
+            // 두 데이터를 배열로 반환
+            return [counselorData, customerData];
+    
         } catch (error) {
-            logger.error(`[ QueueManager:fetchQueueInfo ] Error:`, error);
+            logger.error(`[ QueueManager:fetchQueueInfo ] Error:`, {
+                error: error.message,
+                stack: error.stack
+            });
             throw error;
         }
     }
@@ -171,11 +182,12 @@ class QueueManager {
 
     // 큐 정보 로깅
     logQueueInfo(selectedQueue) {
-        logger.info(`[ QueueManager:logQueueInfo ] ${this.fileType.toUpperCase()} 파일 처리 - 수신 큐: ${selectedQueue.toQueue}, 송신 큐: ${selectedQueue.fromQueue}`);
+        logger.info(`[ QueueManager:logQueueInfo ] ${this.fileType} 파일 처리 - 수신 큐: ${selectedQueue.toQueue}, 송신 큐: ${selectedQueue.fromQueue}`);
     }
 }
 
-module.exports = {
-    QueueManager,
-    setErkApiMsg  
-}
+// module.exports = {
+//     QueueManager,
+//     setErkApiMsg  
+// }
+module.exports = QueueManager;
