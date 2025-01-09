@@ -3931,7 +3931,7 @@ conn = amqp.connect({
                                                                     accuracy = ${Number(recvMsg.SpeechEmoRecogRP.Accuracy)},
                                                                     recv_dt = NOW(3)
                                                                 WHERE userinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId}
-                                                                AND send_dt = '${DateUtils.getCurrentDateTimeString(recvMsg.SpeechEmoRecogRP.EmoRecogTime)}';`;
+                                                                AND EmoRecogTime = ${Number(recvMsg.SpeechEmoRecogRP.EmoRecogTime)}`;
 
                                                                 logger.warn(`[ consume:SpeechEmoRecogRP ] ${SpeechEmoRecogRP_qry}`);
 
@@ -4095,7 +4095,7 @@ conn = amqp.connect({
                 switch (Object.keys(recvMsg).toString()) {
                     //  사업자 관련 인터페이스
                     case 'AddServiceProviderInfoRP':
-                        logger.info(`[ RMQ:AddServiceProviderInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:AddServiceProviderInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
 
                         // result_type == `OrgProfileResult_ok` or 1이면 사용자 프로파일링 진행
                         if(recvMsg.AddServiceProviderInfoRP.ResultType == 1 || recvMsg.AddServiceProviderInfoRP.ResultType == `OrgProfileResult_ok`) {
@@ -4108,10 +4108,10 @@ conn = amqp.connect({
 
                             connection.query(upt_srvc_provider, (err, results) => {
                                 if(err) {
-                                    logger.error(`[ RMQ:upt_srvc_provider ] ${err}`);
+                                    logger.error(`[ ch2Consume:upt_srvc_provider ] ${err}`);
                                     connection.end();
                                 }
-                                logger.info(`[ RMQ:upt_srvc_provider ] 사업자 등록 정보 업데이트 성공`);
+                                logger.info(`[ ch2Consume:upt_srvc_provider ] 사업자 등록 정보 업데이트 성공`);
 
                                 //  3.4.1. 사용자 등록
                                 let select_add_usr_info = `SELECT
@@ -4140,17 +4140,17 @@ conn = amqp.connect({
 
                                 connection.query(select_add_usr_info, (err, results) => {
                                     if(err) {
-                                        logger.error(`[ AMQP:addUserInfo ] ${err}`);
+                                        logger.error(`[ ch2Consume:addUserInfo ] ${err}`);
                                         connection.end();
                                     }
-                                    logger.info(`[ AMQP:addUserInfo ] 사용자 등록 조회 결과 : ${results.length}건`);
+                                    logger.info(`[ ch2Consume:addUserInfo ] 사용자 등록 조회 결과 : ${results.length}건`);
 
                                     //  조회 결과 0건
                                     if(results.length === 0) {
-                                        logger.info(`[ AMQP:addUserInfo ] 등록할 사용자 없음`);
+                                        logger.info(`[ ch2Consume:addUserInfo ] 등록할 사용자 없음`);
                                     } else {
                                         //  조회 결과 0건 이상
-                                        logger.info(`[ AMQP:addUserInfo ] 상담원 등록 인터페이스 ${results.length}건 진행`);
+                                        logger.info(`[ ch2Consume:addUserInfo ] 상담원 등록 인터페이스 ${results.length}건 진행`);
                                         
                                         results.forEach(user => {
                                             let addUsrMsg = ErkApiMsg.create({
@@ -4175,12 +4175,12 @@ conn = amqp.connect({
                                             // 전송 이력 DB 저장 후 메세지 송신
                                             connection.query(upt_add_usr_info, (err, results) => {
                                                 if(err) {
-                                                    logger.error(`[ AMQP:upt_addUsr_info ] ${err}`);
+                                                    logger.error(`[ ch2Consume:upt_addUsr_info ] ${err}`);
                                                     connection.end();
                                                 }
 
                                                 ch.sendToQueue("ERK_API_QUEUE", addUsrMsg_buf2);
-                                                logger.info(`[ AMQP:sendToqueue ] 송신한 메세지\n${JSON.stringify(addUsrMsg, null, 4)}`);
+                                                logger.info(`[ ch2Consume:sendToqueue ] 송신한 메세지\n${JSON.stringify(addUsrMsg, null, 4)}`);
                                             });
 
                                             addUsrMsg = null;
@@ -4203,19 +4203,19 @@ conn = amqp.connect({
 
                             connection.query(upt_srvc_provider_nok, (err, result) => {
                                 if (err) {
-                                    logger.error(`[ RMQ:upt_srvc_provider ] ${err}`);
+                                    logger.error(`[ ch2Consume:upt_srvc_provider ] ${err}`);
                                     connection.end();
                                 }
-                                logger.info(`[ RMQ:upt_srvc_provider ] noK 정보 업데이트 성공. 사업자 등록 재요청 시작`)
+                                logger.info(`[ ch2Consume:upt_srvc_provider ] noK 정보 업데이트 성공. 사업자 등록 재요청 시작`)
 
                                 //  사업자 등록 재요청
                                 let re_add_provider_query = `SELECT * FROM emo_provider_info WHERE org_id IS NULL;`
                                 connection.query(re_add_provider_query, (err, results) => {
                                     if (err) {
-                                        logger.error(`[ AMQP:re_add_provider_query ] ${err}`);
+                                        logger.error(`[ ch2Consume:re_add_provider_query ] ${err}`);
                                         connection.end();
                                     }
-                                    logger.info(`[ AMQP:re_add_provider_query ] 재요청해야 할 서비스 항목 ${results.length}건`);
+                                    logger.info(`[ ch2Consume:re_add_provider_query ] 재요청해야 할 서비스 항목 ${results.length}건`);
 
                                     for(let i=0; i<results.length; i++) {
                                         let addSrvcMsg = ErkApiMsg.create({
@@ -4246,11 +4246,11 @@ conn = amqp.connect({
                                         //  3.4.2. 사업자 등록 요청 전송
                                         connection.query(upt_add_provider, err => {
                                             if (err) {
-                                                logger.error(`[ AMQP:uptProviderErr ] ${err}`);
+                                                logger.error(`[ ch2Consume:uptProviderErr ] ${err}`);
                                                 connection.end();
                                             }
                                             // 전송 이력 DB 저장 후 메세지 송신
-                                            logger.info(`[ AMQP:sendToqueue ] 메세지 송신 결과\n${JSON.stringify(addSrvcMsg, null, 4)}`);
+                                            logger.info(`[ ch2Consume:sendToqueue ] 메세지 송신 결과\n${JSON.stringify(addSrvcMsg, null, 4)}`);
 
                                             ch.sendToQueue("ERK_API_QUEUE", addSrvcMsg_buf);
 
@@ -4267,16 +4267,16 @@ conn = amqp.connect({
 
                         break;
                     case 'DelServiceProviderInfoRP':
-                        logger.info(`[ RMQ:DelServiceProviderInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:DelServiceProviderInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
 
                         break;
                     case 'UpdServiceProviderInfoRP':
-                        logger.info(`[ RMQ:UpdServiceProviderInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:UpdServiceProviderInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                         
                         break;
                     //  사용자 관련 인터페이스
                     case 'AddUserInfoRP':
-                        logger.info(`[ RMQ:AddUserInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:AddUserInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                         
                         if(recvMsg.AddUserInfoRP.ResultType === 1 || recvMsg.AddUserInfoRP.ResultType === 10) {
                             // userinfo_return_code = '${recvMsg.AddUserInfoRP.ResultType}',
@@ -4294,11 +4294,11 @@ conn = amqp.connect({
 
                             connection.query(upt_addUsrrp_info, (err, result) => {
                                 if (err) {
-                                    logger.error(`[ RMQ:upt_addUsrrp_info ] ${err}`);
+                                    logger.error(`[ ch2Consume:upt_addUsrrp_info ] ${err}`);
                                     connection.end();
                                 }
 
-                                logger.info(`[ RMQ:upt_addUsrrp_info_ok ] 사용자 정보 업데이트 성공\n${upt_addUsrrp_info}`);
+                                logger.info(`[ ch2Consume:upt_addUsrrp_info_ok ] 사용자 정보 업데이트 성공\n${upt_addUsrrp_info}`);
                             });
 
                             recvMsg = null;
@@ -4319,7 +4319,7 @@ conn = amqp.connect({
 
                         break;
                     case 'DelUserInfoRP':
-                        logger.info(`[ RMQ:DelUserInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:DelUserInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
 
                         //  ok 응답이면
                         if(recvMsg.DelUserInfoRP.ResultType === 1 || recvMsg.DelUserInfoRP.Return === 'Success') {
@@ -4329,23 +4329,23 @@ conn = amqp.connect({
 
                             connection.query(deletingUserSubmit_query, (err, results) => {
                                 if(err) {
-                                    logger.error(`[ app.js:deletingUserSubmit_query ] ${err}`);
+                                    logger.error(`[ ch2Consume:deletingUserSubmit_query ] ${err}`);
                                     connection.end();
                                 }
-                                logger.info(`[ app.js:deletingUserSubmit_query ] 사용자 삭제 성공`)
+                                logger.info(`[ ch2Consume:deletingUserSubmit_query ] 사용자 삭제 성공`)
                             });
                         } else {
-                            logger.info(`[ RMQ:DelUserInfoRP ] 다른 응답코드 받음`);
+                            logger.info(`[ ch2Consume:DelUserInfoRP ] 다른 응답코드 받음`);
                         }
                         
                         break;
                     case 'UpdUserInfoRP':
-                        logger.info(`[ RMQ:UpdUserInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:UpdUserInfoRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                         
                         break;
                     //  ERK 서비스 연결관련 인터페이스
                     case 'ErkServiceConnRP':
-                        logger.info(`[ RMQ:ErkServiceConnRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:ErkServiceConnRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
 
                         let upt_erkSrvcConn_ok = `UPDATE emo_user_info
                         SET erkserviceconn_recv_dt = NOW(3),
@@ -4355,17 +4355,17 @@ conn = amqp.connect({
 
                         connection.query(upt_erkSrvcConn_ok, (err, result) => {
                             if (err) {
-                                logger.error(`[ Consume:ErkServiceConnRP ] ${err}`);
+                                logger.error(`[ ch2Consume:ErkServiceConnRP ] ${err}`);
                                 connection.end();
                             }
-                            logger.info(`[ Consume:ErkServiceConnRP ] ReturnCode ok 업데이트 성공\n${upt_erkSrvcConn_ok}`);
+                            logger.info(`[ ch2Consume:ErkServiceConnRP ] ReturnCode ok 업데이트 성공\n${upt_erkSrvcConn_ok}`);
                         });
 
                         recvMsg = null;
 
                         break;
                     case 'ErkServiceDisConnRP':
-                        logger.info(`[ Consume:ErkServiceDisConnRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:ErkServiceDisConnRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                         
                         if (recvMsg.ErkServiceDisConnRP.ReturnCode === 1 || recvMsg.ErkServiceDisConnRP.ReturnCode === `ReturnCode_ok`) {
                             let upt_erkSrvcConn_ok = `UPDATE emo_user_info
@@ -4375,17 +4375,17 @@ conn = amqp.connect({
 
                             connection.query(upt_erkSrvcConn_ok, (err, result) => {
                                 if (err) {
-                                    logger.error(`[ Consume:ErkServiceDisConnRP ] ${err}`);
+                                    logger.error(`[ ch2Consume:ErkServiceDisConnRP ] ${err}`);
                                     connection.end();
                                 }
 
-                                logger.info(`[ Consume:ErkServiceDisConnRP ] 사용자 정보 업데이트 성공\n${upt_erkSrvcConn_ok}`);
+                                logger.info(`[ ch2Consume:ErkServiceDisConnRP ] 사용자 정보 업데이트 성공\n${upt_erkSrvcConn_ok}`);
                             });
 
                             recvMsg = null;
                         } else {
-                            logger.info(`[ Consume:ErkServiceDisConnRP ] 일단 다른 응답 처리`);
-                            logger.info(`[ Consume:ErkServiceDisConnRP ] recvMsg.ErkServiceDisConnRP.ReturnCode: ${recvMsg.ErkServiceDisConnRP.ReturnCode}`);
+                            logger.info(`[ ch2Consume:ErkServiceDisConnRP ] 일단 다른 응답 처리`);
+                            logger.info(`[ ch2Consume:ErkServiceDisConnRP ] recvMsg.ErkServiceDisConnRP.ReturnCode: ${recvMsg.ErkServiceDisConnRP.ReturnCode}`);
                             
                             //  그 외의 응답 결과 저장
                             let upt_erkSrvcConn_nok = `UPDATE emo_user_info SET erkservicedisconn_recv_dt = NOW(3),
@@ -4393,11 +4393,11 @@ conn = amqp.connect({
 
                             connection.query(upt_erkSrvcConn_nok, (err, results) => {
                                 if (err) {
-                                    logger.error(`[ Consume:ErkServiceDisConnRP ] ${err}`);
+                                    logger.error(`[ ch2Consume:ErkServiceDisConnRP ] ${err}`);
                                     connection.end();
                                 }
 
-                                logger.info(`[ Consume:ErkServiceDisConnRP ] DB 업데이트 완료\n${upt_erkSrvcConn_nok}`);
+                                logger.info(`[ ch2Consume:ErkServiceDisConnRP ] DB 업데이트 완료\n${upt_erkSrvcConn_nok}`);
                             });
 
                             recvMsg = null;
@@ -4406,7 +4406,7 @@ conn = amqp.connect({
                         break;
                     //  감성인지 Erk 엔진 관련 인터페이스
                     case 'EmoServiceStartRP':
-                        logger.info(`[ Consume:ch2EmoServiceStartRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:ch2EmoServiceStartRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
 
                         try {
                             if (recvMsg.EmoServiceStartRP.ReturnCode === 1 || recvMsg.EmoServiceStartRP.ReturnCode === `ReturnCode_ok`) {
@@ -4427,10 +4427,10 @@ conn = amqp.connect({
     
                                 connection.query(upt_engine_info, (err, results) => {
                                     if (err) {
-                                        logger.error(`[ Consume:ch2EmoServiceStartRP ] ${err}`);
+                                        logger.error(`[ ch2Consume:EmoServiceStartRP ] ${err}`);
                                         throw err;
                                     }
-                                    logger.info(`[ Consume:ch2EmoServiceStartRP ] ch2EmoServiceStartRP 수신 정보 업데이트 성공`);
+                                    logger.info(`[ ch2Consume:EmoServiceStartRP ] ch2EmoServiceStartRP 수신 정보 업데이트 성공`);
                                 });
 
                                 //  Stream Queue 생성 함수 호출 (채널, EmoSrvcStartRP로 받은 ERK 큐, 현재 요청하는 세션 유저)
@@ -4438,7 +4438,7 @@ conn = amqp.connect({
                                 getMyStreamQueue(ch, receiveQueueName, getMyStreamQueueUser)
                                     .then(async (result) => {
                                         if (result.success) {
-                                            logger.info(`[ app.js:getMyStreamQueue ] 스트림 큐 생성 성공`);
+                                            logger.info(`[ ch2Consume:getMyStreamQueue ] 스트림 큐 생성 성공`);
 
                                             //  전달받은 recvQueue 로 CH2 메세지 소비
                                             ch2.consume(`${sendQueueName}`, async (streamMsg) => {
@@ -4450,10 +4450,10 @@ conn = amqp.connect({
                                                     switch (Object.keys(recvMsg).toString()) {
                                                         //  감성 분석 인터페이스 response
                                                         case 'PhysioEmoRecogRP':
-                                                            logger.info(`[ consume:PhysioEmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                                                            logger.info(`[ ch2Consume:PhysioEmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                                                             break;
                                                         case 'SpeechEmoRecogRP':
-                                                            logger.info(`[ consume:SpeechEmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                                                            logger.info(`[ ch2Consume:SpeechEmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                                                             let SpeechEmoRecogTime_str = `${recvMsg.SpeechEmoRecogRP.EmoRecogTime}`;
 
                                                             if (recvMsg.SpeechEmoRecogRP.ReturnCode === 1 || recvMsg.SpeechEmoRecogRP.ReturnCode === `ReturnCode_ok`) {
@@ -4463,28 +4463,24 @@ conn = amqp.connect({
 
                                                                     let SpeechEmoRecogRP_qry = `UPDATE emo_emotion_info
                                                                     SET speechEmo_returnCode = '${recvMsg.SpeechEmoRecogRP.ReturnCode}',
-                                                                        EmoRecogTime = '${SpeechEmoRecogTime_str}',
                                                                         cusEmoType = ${recvMsg.SpeechEmoRecogRP.Emotion},
                                                                         accuracy = ${accuracy},
                                                                         recv_dt = NOW(3)
-                                                                    WHERE userinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId+10}
-                                                                    AND send_dt = '${DateUtils.getCurrentDateTimeString(SpeechEmoRecogTime_str)}';`;
-
-                                                                    logger.warn(`[ consume:SpeechEmoRecogRP ] 정상 응답\n${SpeechEmoRecogRP_qry}`);
+                                                                    WHERE cusinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId}
+                                                                    AND EmoRecogTime = ${Number(recvMsg.SpeechEmoRecogRP.EmoRecogTime)};`;
 
                                                                     connection.query(SpeechEmoRecogRP_qry, (err, results) => {
                                                                         if (err) {
-                                                                            logger.error(`[ consume:SpeechEmoRecogRP_qry ] ${err}`);
+                                                                            logger.error(`[ ch2Consume:SpeechEmoRecogRP_qry ] ${err}`);
                                                                             return err;
                                                                         }
-
-                                                                        logger.info(`[ consume:SpeechEmoRecogRP_qry ] 업데이트 성공`);
+                                                                        logger.info(`[ ch2Consume:SpeechEmoRecogRP_qry ] 업데이트 성공\n${SpeechEmoRecogRP_qry}`);
                                                                     });
                                                                 } catch (err) {
-                                                                    logger.error(`[ consume:SpeechEmoRecogRP ] 데이터 처리 오류 ${err}`);
+                                                                    logger.error(`[ ch2Consume:SpeechEmoRecogRP ] 데이터 처리 오류 ${err}`);
                                                                 }
                                                             } else {
-                                                                logger.error('[ consume:SpeechEmoRecogRP ] 다른 응답');
+                                                                logger.error('[ ch2Consume:SpeechEmoRecogRP ] 다른 응답');
 
                                                                 if (isNaN(recvMsg.SpeechEmoRecogRP.SpeechEngineInfo.Accuracy)) {
                                                                     recvMsg.SpeechEmoRecogRP.Accuracy = 0;
@@ -4494,42 +4490,41 @@ conn = amqp.connect({
                                                                 //  현재 전송중인 음원파일의 key는 datetime으로 매핑하여 구분
                                                                 let SpeechEmoRecogRP_qry = `UPDATE emo_emotion_info
                                                                 SET speechEmo_returnCode = '${recvMsg.SpeechEmoRecogRP.ReturnCode}',
-                                                                    EmoRecogTime = '${recvMsg.SpeechEmoRecogRP.EmoRecogTime}',
-                                                                    emotion_type = ${recvMsg.SpeechEmoRecogRP.Emotion},
+                                                                    cusEmoType = ${recvMsg.SpeechEmoRecogRP.Emotion},
                                                                     accuracy = ${Number(recvMsg.SpeechEmoRecogRP.Accuracy)},
                                                                     recv_dt = NOW(3)
-                                                                WHERE userinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId}
-                                                                AND send_dt = '${DateUtils.getCurrentDateTimeString(recvMsg.SpeechEmoRecogRP.EmoRecogTime)}';`;
+                                                                WHERE cusinfo_userId = ${recvMsg.SpeechEmoRecogRP.ErkMsgDataHead.UserId}
+                                                                AND EmoRecogTime = '${recvMsg.SpeechEmoRecogRP.EmoRecogTime}'`;
 
-                                                                logger.warn(`[ consume:SpeechEmoRecogRP ] ${SpeechEmoRecogRP_qry}`);
+                                                                logger.warn(`[ ch2Consume:SpeechEmoRecogRP ] ${SpeechEmoRecogRP_qry}`);
 
                                                                 connection.query(SpeechEmoRecogRP_qry, (err, results) => {
                                                                     if (err) {
-                                                                        logger.error(`[ consume:SpeechEmoRecogRP_qry ] ${err}`);
+                                                                        logger.error(`[ ch2Consume:SpeechEmoRecogRP_qry ] ${err}`);
                                                                         connection.end();
                                                                     }
 
-                                                                    logger.info(`[ consume:SpeechEmoRecogRP_qry ] 업데이트 성공`);
+                                                                    logger.info(`[ ch2Consume:SpeechEmoRecogRP_qry ] 업데이트 성공`);
                                                                 });
                                                             }
                                                             
                                                             break;
                                                         case 'FaceEmoRecogRP':
-                                                            logger.info(`[ consume:FaceEmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                                                            logger.info(`[ ch2Consume:FaceEmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                                                             break;
                                                         case 'EmoRecogRP':
-                                                            logger.info(`[ consume:EmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                                                            logger.info(`[ ch2Consume:EmoRecogRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                                                             break;
                                                         //  기타
                                                         case 'ErkMsgType_reserved1':
-                                                            logger.info(`[ consume:ErkMsgType_reserved1 ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                                                            logger.info(`[ ch2Consume:ErkMsgType_reserved1 ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                                                             break;
                                                         case 'ErkMsgType_reserved2':
-                                                            logger.info(`[ consume:ErkMsgType_reserved2 ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                                                            logger.info(`[ ch2Consume:ErkMsgType_reserved2 ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
                                                             break;
                                                         //  기본
                                                         default:
-                                                            logger.warn(`[ consume:streamConsume ] 잘못된 메세지 형식 혹은 오류`);
+                                                            logger.warn(`[ ch2Consume:default ] 잘못된 메세지 형식 혹은 오류`);
                                                             return;
                                                     }
 
@@ -4544,16 +4539,16 @@ conn = amqp.connect({
                                                 }
                                             });
                                         } else {
-                                            logger.warn(`[ app.js:getMyStreamQueue ] 스트림 큐 생성 실패`);
+                                            logger.warn(`[ ch2Consume:getMyStreamQueue ] 스트림 큐 생성 실패`);
                                             return null;
                                         }
                                     }).catch(err => {
-                                        logger.error(`[ app.js:getMyStreamQueue ] ${err}`);
+                                        logger.error(`[ ch2Consume:getMyStreamQueue ] ${err}`);
                                         return err;
                                     });
                             } else {
-                                logger.info(`[ Consume:chEmoServiceStartRP ] recvMsg.EmoServiceStartRP.ReturnCode: ${recvMsg.EmoServiceStartRP.ReturnCode}`);
-                                logger.info(`[ Consume:chEmoServiceStartRP ] recvMsg.EmoServiceStartRP.SpeechEngineInfo: ${recvMsg.EmoServiceStartRP.SpeechEngineInfo}`); // 값 안들어옴'
+                                logger.info(`[ ch2Consume:EmoServiceStartRP ] recvMsg.EmoServiceStartRP.ReturnCode: ${recvMsg.EmoServiceStartRP.ReturnCode}`);
+                                logger.info(`[ ch2Consume:EmoServiceStartRP ] recvMsg.EmoServiceStartRP.SpeechEngineInfo: ${recvMsg.EmoServiceStartRP.SpeechEngineInfo}`); // 값 안들어옴'
 
                                 //  데이터 저장(receiveQueueName가 ERK로 보내기 위해 사용하는 큐 네임)
                                 let upt_engine_info = `UPDATE emo_user_info
@@ -4569,23 +4564,23 @@ conn = amqp.connect({
 
                                 connection.query(upt_engine_info, (err, results) => {
                                     if (err) {
-                                        logger.error(`[ Consume:ch2EmoServiceStartRP ] ${err}`);
+                                        logger.error(`[ ch2Consume:EmoServiceStartRP ] ${err}`);
                                         throw err;
                                     }
     
-                                    logger.info(`[ Consume:ch2EmoServiceStartRP ] ${JSON.stringify(results, null, 4)}`);
+                                    logger.info(`[ ch2Consume:EmoServiceStartRP ] ${JSON.stringify(results, null, 4)}`);
                                 });
     
                                 return;
                             }
                         } catch(err) {
-                            logger.error(`[ Consume:ch2EmoServiceStartRP ] Consume Error: ${err}`);
+                            logger.error(`[ ch2Consume:EmoServiceStartRP ] ch2Consume Error: ${err}`);
                             return;
                         }
                         
                         break;
                     case 'EmoServiceStopRP':
-                        logger.info(`[ app.js:ch2EmoServiceStopRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
+                        logger.info(`[ ch2Consume:EmoServiceStopRP ] 메세지 수신 결과\n${JSON.stringify(recvMsg, null, 4)}`);
 
                         try {
                             if (recvMsg.EmoServiceStopRP.ReturnCode === 1 || recvMsg.EmoServiceStopRP.ReturnCode === `ReturnCode_ok`) {                                
@@ -4602,18 +4597,18 @@ conn = amqp.connect({
                                     erkEmoSrvcStop_recv_dt = NOW(3)
                                 WHERE userinfo_userId = ${recvMsg.EmoServiceStopRP.ErkMsgHead.UserId};`;
 
-                                logger.info(`[ app.js:ch2EmoServiceStopRP ] ${EmoServiceStop_qry}`);
+                                logger.info(`[ ch2Consume:EmoServiceStopRP ] ${EmoServiceStop_qry}`);
 
                                 connection.query(EmoServiceStop_qry, (err, results) => {
                                     if (err) {
-                                        logger.error(`[ app.js:ch2EmoServiceStopRP ] ${err}`);
+                                        logger.error(`[ ch2Consume:EmoServiceStopRP ] ${err}`);
                                         connection.end();
                                     }
 
-                                    logger.info(`[ app.js:ch2EmoServiceStopRP ] 상태 업데이트 성공`);
+                                    logger.info(`[ ch2Consume:EmoServiceStopRP ] 상태 업데이트 성공`);
                                 });
                             } else {
-                                logger.info(`[ app.js:ch2EmoServiceStopRP ] 다른 응답(정상)`);
+                                logger.info(`[ ch2Consume:EmoServiceStopRP ] 다른 응답(정상)`);
                                 
                                 let EmoServiceStop_qry = `UPDATE emo_user_info
                                 SET erkEmoSrvcStopRP_returnCode = '${recvMsg.EmoServiceStopRP.ReturnCode}',
@@ -4628,25 +4623,25 @@ conn = amqp.connect({
                                     erkEmoSrvcStop_recv_dt = NOW(3)
                                 WHERE userinfo_userId = ${recvMsg.EmoServiceStopRP.ErkMsgHead.UserId};`;
 
-                                logger.info(`[ app.js:ch2EmoServiceStopRP ] ${EmoServiceStop_qry}`);
+                                logger.info(`[ ch2Consume:EmoServiceStopRP ] ${EmoServiceStop_qry}`);
 
                                 connection.query(EmoServiceStop_qry, (err, results) => {
                                     if (err) {
-                                        logger.error(`[ app.js:ch2EmoServiceStopRP ] ${err}`);
+                                        logger.error(`[ ch2Consume:EmoServiceStopRP ] ${err}`);
                                         connection.end();
                                     }
 
-                                    logger.info(`[ app.js:ch2EmoServiceStopRP ] 상태 업데이트 성공`);
+                                    logger.info(`[ ch2Consume:EmoServiceStopRP ] 상태 업데이트 성공`);
                                 });
                             }
                         } catch(err) {
-                            logger.error(`[ app.js:ch2EmoServiceStopRP ] Error saving data ${err}`);
+                            logger.error(`[ ch2Consume:EmoServiceStopRP ] Error saving data ${err}`);
                         }
 
                         break;
                     //  기본
                     default:
-                        logger.warn(`[ app.js:consumeDefault ] 잘못된 메세지 형식 혹은 오류`);
+                        logger.warn(`[ ch2Consume:default ] 잘못된 메세지 형식 혹은 오류`);
                         return;
                 }
 

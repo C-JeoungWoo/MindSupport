@@ -43,7 +43,7 @@ class QueueManager {
     }
 
     //  StreamQueue 정보 조회
-    async fetchQueueInfo() {
+    async fetchQueueInfo(currentErkApiMsg) {
         try {
             // 상담원과 고객의 queue 정보 조회
             const [counselorData, customerData] = await Promise.all([

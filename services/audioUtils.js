@@ -83,22 +83,36 @@ async function attemptConversion(filePath, chunkNumber) {
                 await fsp.mkdir(DIRECTORIES.PCM_OUTPUT, { recursive: true });
                 logger.info(`[ app.js:attemptConversion ] Created PCM output directory`);
             }
+
+            // DEBUG 디렉토리 생성 확인
+            if (!fs.existsSync(DIRECTORIES.PCM_DEBUG)) {
+                await fsp.mkdir(DIRECTORIES.PCM_DEBUG, { recursive: true });
+                logger.info(`[ app.js:attemptConversion ] Created PCM debug directory`);
+            }
             
             // 이벤트가 발생한 파일명
             const fileName = path.basename(filePath);
             
             // PCM_OUTPUT 디렉토리 사용
             localCopyPath = path.join(DIRECTORIES.PCM_OUTPUT, fileName);
+            // DEBUG 디렉토리 추가 사용
+            const DEBUG_DIR = path.join(DIRECTORIES.PCM_OUTPUT, 'debug');
+            if (!fs.existsSync(DEBUG_DIR)) {
+                await fsp.mkdir(DEBUG_DIR, { recursive: true });
+            }
             
-            // 출력 파일 경로 설정 (PCM WAV)
-            // 청크 정보를 포함한 출력 파일명 생성
+            // 출력 파일 경로 설정 (PCM WAV): 청크 정보를 포함한 출력 파일명 생성
+            console.log('chunkNumber:', chunkNumber);
+            
             const startTime = (chunkNumber - 1) * 3;
             const endTime = chunkNumber * 3;
             const chunkInfo = `_chunk${chunkNumber}_${startTime}-${endTime}sec`;
             outputFile = path.join(DIRECTORIES.PCM_OUTPUT, `${path.parse(fileName).name}${chunkInfo}_pcm.wav`);
-            // outputFile = path.join(DIRECTORIES.PCM_OUTPUT, `${path.parse(fileName).name}_pcm.wav`);
 
-            // 기존 파일 정리
+            // 디버그용 파일 경로
+            const debugOutputFile = path.join(DEBUG_DIR, `${path.parse(fileName).name}${chunkInfo}_pcm.wav`);
+
+            // 기존 파일 정리 (디버그 파일은 유지)
             await Promise.all([
                 fs.existsSync(localCopyPath) ? fsp.unlink(localCopyPath) : Promise.resolve(),
                 fs.existsSync(outputFile) ? fsp.unlink(outputFile) : Promise.resolve()
@@ -112,6 +126,9 @@ async function attemptConversion(filePath, chunkNumber) {
             const ffmpegProcess = spawn('ffmpeg', [
                 '-y',   // 덮어쓰기 옵션(설정하지 않으면 직접 입력해줘야 함)
                 '-i', localCopyPath,
+                // 시작 시간과 지속 시간 지정
+                '-ss', `${startTime}`,  // 시작 시간(초)
+                '-t', '3',              // 3초 단위 청크
                 '-c:a', 'pcm_s16le',
                 '-ar', '16000',
                 '-ac', '1',
@@ -129,6 +146,11 @@ async function attemptConversion(filePath, chunkNumber) {
             ffmpegProcess.on('close', async (code) => {
                 try {
                     if (code === 0) {
+                        // 디버그용 파일 복사
+                        await fsp.copyFile(outputFile, debugOutputFile);
+                        logger.info(`[ app.js:attemptConversion ] Debug file saved: ${debugOutputFile}`);
+
+                        //  PCM_OUTPUT 디렉토리에서는 삭제 
                         await fsp.unlink(localCopyPath);
                         logger.info(`[ app.js:attemptConversion ] File converted and saved to: ${outputFile}`);
                         
@@ -136,14 +158,21 @@ async function attemptConversion(filePath, chunkNumber) {
                             success: true,
                             inputFile: filePath,
                             outputFile: outputFile,
+                            debugFile: debugOutputFile,
                             message: 'Conversion completed successfully!'
                         });
                     } else {
+                        // 에러 시에도 디버그용 파일 저장 시도
+                        if (fs.existsSync(outputFile)) {
+                            await fsp.copyFile(outputFile, debugOutputFile).catch(() => {});
+                            logger.info(`[ app.js:attemptConversion ] Error case debug file saved: ${debugOutputFile}`);
+                        }
+
                         await Promise.all([
                             fsp.unlink(localCopyPath).catch(() => {}),
                             fs.existsSync(outputFile) ? fsp.unlink(outputFile).catch(() => {}) : Promise.resolve()
                         ]);
-                        
+
                         reject(new Error(`[ app.js:attemptConversion ] FFmpeg process exited with code ${code}`));
                     }
                 } catch (error) {
@@ -160,13 +189,13 @@ async function attemptConversion(filePath, chunkNumber) {
             }
             
             logger.error(`[ app.js:attemptConversion ] Streaming conversion error: ${err}`);
-            reject(err);
+            throw new Error(`[ app.js:attemptConversion ] FFmpeg process exited with code`); //250109 수정
         }
     });
 }
 
 //  GSM -> PCM 변환
-async function convertGsmToPcm(inputFile) {
+async function convertGsmToPcm(inputFile, chunkNumber) {
     const CONVERSION_TIMEOUT = 300000; // 5 minutes timeout
     logger.info(`[ app.js:convertGsmToPcm ] convertGsmToPcm 함수 호출`);
     
@@ -183,7 +212,7 @@ async function convertGsmToPcm(inputFile) {
             progressEmitter.on('progress', (progress) => { logger.info(`Conversion progress: ${progress}%`); });
 
             // CONVERTING 형식 변환
-            const conversionResult = await attemptConversion(inputFile);
+            const conversionResult = await attemptConversion(inputFile, chunkNumber);
             if (conversionResult.message === 'Conversion completed successfully!') {
                 logger.info(`[ app.js:attemptConversion ] attemptConversion 결과\n${JSON.stringify(conversionResult, null, 2)}`);
 

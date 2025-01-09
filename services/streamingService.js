@@ -14,17 +14,26 @@ const path = require('path');
 const { getErkApiMsg, setErkApiMsg } = require('../utils/erkUtils');
 
 //  오디오 청크(데이터) 전송
-async function sendAudioChunks(filePath, userId, options = {
-    remainingDataSize: 0,
-    totalFileSize: 0,
-    gsmHeaderLength: 0,
-    fileType: '', // 'rx' 또는 'tx',
-    selectedQueue, // 누락된 인자 추가 (250107_최정우)
-    login_id,
-    org_id,
-    user_uuid
+async function sendAudioChunks(
+    filePath, 
+    userId,
+    chunkNumber,
+    options = {
+        remainingDataSize: 0,
+        totalFileSize: 0,
+        gsmHeaderLength: 0,
+        fileType: '', // 'rx' 또는 'tx',
+        selectedQueue, // 누락된 인자 추가 (250107_최정우)
+        login_id,
+        org_id,
+        user_uuid
 }) {
-    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 filePath: ${filePath}`);
+    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 filePath: ${filePath}`);
+    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 totalFileSize: ${options.totalFileSize} 바이트`);
+    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 gsmHeaderLength: ${options.gsmHeaderLength} 바이트`);
+    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 remainingDataSize: ${options.remainingDataSize} 바이트`);
+    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 userId: ${userId}`);
+    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 selectedQueue: ${JSON.stringify(options.selectedQueue, null, 2)}`);
 
     try {
         const currentErkApiMsg = getErkApiMsg();
@@ -42,8 +51,18 @@ async function sendAudioChunks(filePath, userId, options = {
         const checkedFilePath = filePath;
         const fileInfo_callId = path.basename(checkedFilePath, '.wav');
 
-        // PCM 파일 읽기
-        const data = await fsp.readFile(checkedFilePath);
+        // GSM -> PCM 변환
+        const conversionResult = await convertGsmToPcm(checkedFilePath, chunkNumber);
+        if (!conversionResult.message === "success") {
+            logger.error('[ streamingService.js : convertGsmToPcm ] File conversion failed:', {
+                error: conversionResult.message,
+                filePath: checkedFilePath
+            });
+            throw new Error(`[ streamingService.js : convertGsmToPcm ] Failed to convert file: ${conversionResult.message}`);
+        }
+
+        // PCM 파일 읽기 (변환된 파일일)
+        const data = await fsp.readFile(conversionResult.outputFile);
         const file_audio = data.slice(PCM_HEADER_SIZE);    // 헤더 제거 후 raw PCM 데이터
 
         // Int16Array로 변환
@@ -55,11 +74,11 @@ async function sendAudioChunks(filePath, userId, options = {
 
         // 청크 수 계산
         const numberOfChunks = Math.ceil(file_audio.byteLength / RAW_CHUNK_SIZE);
-        logger.info(`FILEPATH: ${checkedFilePath}, PCM Header: ${PCM_HEADER_SIZE}, Chunks: ${numberOfChunks}`);
-        logger.info(`FILENAME: ${fileInfo_callId}, Total size: ${data.byteLength}, Raw data size: ${file_audio.byteLength}`);
+        logger.info(`[ streamingService:sendAudioChunks ] FILEPATH: ${checkedFilePath}, PCM Header: ${PCM_HEADER_SIZE}, Chunks: ${numberOfChunks}`);
+        logger.info(`[ streamingService:sendAudioChunks ] FILENAME: ${fileInfo_callId}, Total size: ${data.byteLength}, Raw data size: ${file_audio.byteLength}`);
 
         // 큐 정보 설정
-        const queueManager = new QueueManager(userId, options.fileType, currentErkApiMsg);
+        const queueManager = new QueueManager(userId, currentErkApiMsg, options.fileType);
         const queueConfig = await queueManager.fetchQueueInfo(currentErkApiMsg);
 
         // StreamProcessor 초기화 및 처리
@@ -67,16 +86,23 @@ async function sendAudioChunks(filePath, userId, options = {
         const processResult = await streamProcessor.processFileStream(
             checkedFilePath, 
             currentErkApiMsg,
+            chunkNumber,
             {
                 audioData: fullData,
-                totalChunks: numberOfChunks,
+                pcmDataSize: file_audio.byteLength,  // 전체 PCM 데이터 크기 추가 __20250109 수정
+                numberOfChunks: numberOfChunks,
                 rawChunkSize: RAW_CHUNK_SIZE,
                 totalChunkSize: TOTAL_CHUNK_SIZE,
-                userId,
+                remainingDataSize: options.remainingDataSize,
+                gsmHeaderLength: options.gsmHeaderLength,
+                userId, // userinfo_userId or cusinfo_userId
                 fileInfo_callId,
                 ...queueConfig,
-                // isLastChunk: options.isLastChunk,
-                fileType: options.fileType
+                fileType: options.fileType,
+                login_id: options.login_id,
+                org_id: options.org_id,
+                user_uuid: options.user_uuid,
+                selectedQueue: options.selectedQueue
             }
         );
 

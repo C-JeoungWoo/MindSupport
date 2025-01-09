@@ -77,47 +77,57 @@ class EnhancedFSWatcher {
                 logger.info(`[ EnhancedFSWatcher.js:watchFileAdd ] File ${filePath} has been added`);
     
                 try {
+
                     // 1. validateFileEvent를 통한 파일 검증
                     const validationResult = await this.validateFileEvent(filePath);
                     if (!validationResult.isValid) {
-                        logger.warn(`[ EnhancedFSWatcher.js:watchFileAdd ] File validation failed: ${validationResult.reason} for ${filePath}`);
+                        logger.warn(`[ EnhancedFSWatcher.js:watchFileAdd ] ${validationResult.reason} for ${filePath}`);
                         return;
                     }
 
-                    const fileName = path.basename(filePath);
+
                     // 2. rx 또는 tx 파일은 Skip (통합본의 파일명으로 이미 처리됨)
+                    const fileName = path.basename(filePath);
                     if (fileName.includes('_rx') || fileName.includes('_tx')) { return; }
+
 
                     //  3. 통합본 파일에 대해 EmoServiceStartRQ 수행 
                     const serviceResponse = await EmoServiceStartRQ(fileName);
-                    // response가 제대로 있는지 확인
                     if (!serviceResponse) {
                         logger.warn(`[ watchFileAdd ] No response from EmoServiceStartRQ for ${fileName}`);
                         return;
                     }
-
                     logger.info(`[ watchFileAdd:EmoServiceStartRQ ] Received response for ${fileName} (Response: ${serviceResponse.return_type} - ${serviceResponse.message})`);
                     
-                    //   - 응답 검증: 더 엄격한 체크
+                    //   - 3.1. 응답 검증: 더 엄격한 체크
                     if (serviceResponse.return_type === 1) {
                         logger.info(`[ watchFileAdd:EmoServiceStartRQ ] 성공적인 응답 수신: ${JSON.stringify(serviceResponse, null, 2)}`);
-
                         //   - rx/tx 파일명 생성
                         const baseFileName = path.basename(fileName, '.wav');
                         const fileTypes = ['rx', 'tx'];
 
-                        //   - 병렬 처리로 성능 개선
+                        //   - 병렬 처리
                         const results = await Promise.all(fileTypes.map(async (type) => {
+                            logger.warn(`[ EnhancedFSWatcher.js:setupEventHandlers ] baseFileName : ${baseFileName}`);
+                            logger.warn(`[ EnhancedFSWatcher.js:setupEventHandlers ] type : ${type}`);
                             const typedFileName = `${baseFileName}_${type}.wav`;
                             const typedFilePath = path.join(path.dirname(filePath), typedFileName);
                             
                             try {
+                                // 유효성 검사
+                                if (!serviceResponse.userinfo_userId) {
+                                    throw new Error('userinfo_userId is undefined in serviceResponse');
+                                }
+
                                 // serviceResponse 전체와 fileType을 전달하여 파일 처리
-                                console.log('serviceResponse.userinfo_userId : ', serviceResponse.userinfo_userId);
+                                logger.warn(`[ watchFileAdd:EmoServiceStartRQ ] serviceResponse.userinfo_userId : ${serviceResponse.userinfo_userId}`);
+                                logger.warn(`[ watchFileAdd:EmoServiceStartRQ ] typedFileName : ${typedFileName}`);
+                                logger.warn(`[ watchFileAdd:EmoServiceStartRQ ] typedFilePath : ${typedFilePath}`);
+
                                 const result = await handleNewFile(
                                     typedFilePath, 
-                                    serviceResponse.userinfo_userId, // userinfo_userId 접근 수정
-                                    serviceResponse, // 전체 응답 전달
+                                    serviceResponse.userinfo_userId, // userinfo_userId 접근
+                                    serviceResponse, // EmoServiceStartRQ 전체 응답 전달
                                     type // 파일 유형 전달
                                 );
                                 logger.info(`[ watchFileAdd:handleNewFile ] ${type} 처리 완료:`, result);
@@ -139,11 +149,6 @@ class EnhancedFSWatcher {
                     }
                 } catch (error) {
                     logger.error(`[ watchFileAdd:EmoServiceStartRQ ] Error processing file ${filePath}:`, error);
-
-                    // if (error.message.includes('Invalid response') || error.message.includes('Queue setup timeout')) {
-                    //     logger.warn(`[ watchFileAdd ] Will retry processing later`);
-                    //     // 나중에 재시도 로직 추가 가능
-                    // }
                     
                     // 에러가 발생해도 프로세스는 중단하지 않음
                     return;
@@ -187,152 +192,6 @@ class EnhancedFSWatcher {
         } catch (error) {
             logger.error(`[ app.js:EnhancedFSWatcher ] File validation error: ${error}`);
             return { isValid: false, reason: 'validation_error' };
-        }
-    }
-
-    async handleFileAddition(filePath, fileInfo) {
-        const fileName = path.basename(filePath);
-        const fileKey = fileName;
-
-        // getErkApiMsg()의 반환값 구조 분해
-        const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
-
-        try {
-            // 파일 상태 추적 시작
-            this.activeFiles.set(fileKey, {
-                time: Date.now(),
-                size: fileInfo.stats.size,
-                status: 'monitoring',
-                path: filePath
-            });
-
-            // 파일명 형식 검증 (20230823142311200_A_2501.wav)
-            const filePattern = /^\d{17}_[A-Z]_\d+\.wav$/;
-            if (!filePattern.test(fileName)) {
-                logger.error(`[ EnhancedFSWatcher:handleFileAddition ] Invalid filename format: ${fileName}`);
-                return;
-            }
-
-            // AudioFileManager를 통한 파일 처리
-            const { ready, files } = await this.audioFileManager.trackFile(filePath);
-            
-            if (ready) {
-                const callId = fileName.replace(/(_rx|_tx)?\.wav$/, '');
-                logger.info(`[ app.js:watchFileAdd ] Starting parallel processing for call ${callId}`);
-    
-                try {
-                    // EmoServiceStartRQ 호출
-                    const serviceResponse = await EmoServiceStartRQ(filePath);
-    
-                    if (serviceResponse.return_type === 1 || serviceResponse.message === "success") {
-                        // 병렬 처리 시작
-                        const results = await this.audioFileManager.processChannelFiles(callId, files);
-    
-                        // 처리 결과 확인
-                        const success = results.every(r => r.success);
-                        if (success) {
-                            logger.info(`[ app.js:watchFileAdd ] Successfully processed all channels for ${callId}`);
-                            await this.handleProcessingCompletion(callId, results);
-                            this.metrics.successfulEvents++;
-                        } else {
-                            logger.error(`[ app.js:watchFileAdd ] Some channels failed processing for ${callId}`, results);
-                            await this.handleProcessingError(callId, results);
-                            this.metrics.missedEvents++;
-                        }
-                    } else {
-                        logger.error(`[ app.js:watchFileAdd ] EmoServiceStartRQ failed for ${callId}: ${serviceResponse.message}`);
-                        await this.handleProcessingError(callId, { error: 'EmoService start failed' });
-                        this.metrics.missedEvents++;
-                    }
-                } catch (error) {
-                    logger.error(`[ app.js:watchFileAdd ] Error in processing file ${filePath}:`, error);
-                    await this.handleProcessingError(callId, { error: error.message });
-                    this.metrics.missedEvents++;
-                }
-            }
-        } catch (error) {
-            logger.error(`[ app.js:EnhancedFSWatcher ] Error in file addition handler: ${error}`);
-            this.metrics.missedEvents++;
-        }
-    }
-
-    async handleFileProcessing(filePath, fileName, serviceResponse) {
-        try {
-            // rx, tx 파일명 생성
-            const baseFileName = path.basename(fileName, '.wav');
-            const rxFileName = `${baseFileName}_rx.wav`;
-            const txFileName = `${baseFileName}_tx.wav`;
-    
-            // rx, tx 파일 경로
-            const rxFilePath = path.join(path.dirname(filePath), rxFileName);
-            const txFilePath = path.join(path.dirname(filePath), txFileName);
-    
-            try {
-                // rx 파일 처리
-                // const rxResult = await handleNewFile(rxFilePath, serviceResponse.userinfo_userId, { fileType: 'rx' });
-                const rxResult = await handleNewFile(rxFilePath, serviceResponse.userinfo_userId, serviceResponse, 'rx');
-                logger.warn(`[ app.js:handleNewFileResult ] ${rxFileName} RX 처리 완료 ${rxResult}`);
-    
-                // tx 파일 처리
-                // const txResult = await handleNewFile(txFilePath, serviceResponse.userinfo_userId, { fileType: 'tx' });
-                const txResult = await handleNewFile(txFilePath, serviceResponse.userinfo_userId, serviceResponse, 'tx');
-                logger.warn(`[ app.js:handleNewFileResult ] ${txFileName} TX 처리 완료 ${txResult}`);
-    
-            } catch (processError) {
-                logger.error(`[ app.js:watchFileAdd ] Error processing rx/tx files: ${processError}`);
-                throw processError;  // 상위로 에러 전파
-            }
-        } catch (error) {
-            logger.error(`[ app.js:handleFileProcessing ] Error: ${error}`);
-        }
-    }
-
-    // 처리 완료 후 정리 함수
-    async handleProcessingCompletion(callId, results) {
-        try {
-            // 사용자 정보 가져오기
-            const userId = await this.getUserIdFromCallId(callId);
-            
-            // EmoServiceStopRQ 호출
-            const stopResult = await EmoServiceStopRQ(userId);
-            if (stopResult === 'success') {
-                logger.info(`[ app.js:handleProcessingCompletion ] EmoService stopped successfully for ${callId}`);
-
-                // 파일 상태 업데이트
-                if (this.activeFiles.has(callId)) {
-                    this.activeFiles.get(callId).status = 'completed';
-                }
-            } else {
-                logger.error(`[ app.js:handleProcessingCompletion ] Failed to stop EmoService for ${callId}`);
-            }
-        } catch (error) {
-            logger.error(`[ app.js:handleProcessingCompletion ] Error in completion handling for ${callId}:`, error);
-            throw error;
-        }
-    }
-
-    // 에러 처리 함수
-    async handleProcessingError(callId, error) {
-        try {
-            logger.error(`[ app.js:handleProcessingError ] Processing error for ${callId}:`, error);
-            
-            // 파일 상태 업데이트
-            const fileInfo = this.activeFiles.get(callId);
-            if (fileInfo) {
-                fileInfo.status = 'error';
-                fileInfo.error = error;
-            }
-
-            // 필요한 경우 cleanup 수행
-            try {
-                const userId = await this.getUserIdFromCallId(callId);
-                await EmoServiceStopRQ(userId);
-            } catch (cleanupError) {
-                logger.error(`[ app.js:handleProcessingError ] Cleanup error for ${callId}:`, cleanupError);
-            }
-
-        } catch (error) {
-            logger.error(`[ app.js:handleProcessingError ] Error handling failure for ${callId}:`, error);
         }
     }
 

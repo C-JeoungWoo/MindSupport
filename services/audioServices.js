@@ -26,16 +26,34 @@ mysql2.pool_check(connection2);
 //  생성된 WAV 파일 처리
 const handleNewFile = async function handleNewFile(filePath, userInfoUserId, serviceResponse, type) {
     logger.info(`[ audioServices.js:handleNewFile ] 처리요청 받은 RX/TX 파일경로: ${filePath}`);
-    logger.info(`[ audioServices.js:handleNewFile ] userinfo_userId: ${userInfoUserId}`);
-            
+
+    const baseFileName = path.basename(filePath, '.wav');
+    const caller_id = baseFileName.split('_')[2];
+
+    let fileType = filePath.includes('rx') ? 'rx' : 'tx';
+    
+    if (filePath.includes('_tx')) {
+        userInfoUserId = userInfoUserId+10;
+    }
+
+    // 통화 파일 정보 등록 //20250109 추가
+    audioFileManager.pendingFiles.set(filePath, {
+       fileTypeInfo : { fileType: '' }
+    });
+
+    // 통화 정보 등록/업데이트 //20250109 추가
+    if (!audioFileManager.callTracker.has(caller_id)) {
+        audioFileManager.callTracker.set(caller_id, {
+            rx: { status: 'pending' },
+            tx: { status: 'pending' }
+        });
+    }
+
     // ErkApiMsg 상태 확인
     const currentErkApiMsg = getErkApiMsg();
     logger.info(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
 
     try {
-        const baseFileName = path.basename(filePath, '.wav');
-        const caller_id = baseFileName.split('_')[2];
-
         // 4. StreamQueue 설정 완료 대기
         const waitForStreamQueue = () => {
             return new Promise((resolve, reject) => {
@@ -43,22 +61,23 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     try {
                         // DB에서 StreamQueue 설정 상태 확인
                         const queueStatus = await new Promise((resolveQuery, rejectQuery) => {
-                            connection1.query(`
-                                SELECT 
+                            const chk_queue_qry = `SELECT 
                                     erkengineInfo_return_sendQueueName,
                                     erkengineInfo_returnCustomer_sendQueueName,
                                     erkengineInfo_return_recvQueueName,
                                     erkengineInfo_returnCustomer_recvQueueName 
                                 FROM emo_user_info 
-                                WHERE userinfo_userId IN (?, ?)`, [userInfoUserId, userInfoUserId+10], (error, results) => {
+                                WHERE userinfo_userId = ${userInfoUserId}`;
+                            connection1.query(chk_queue_qry, (error, results) => {
                                     if (error) rejectQuery(error);
+                                    logger.warn(chk_queue_qry);
                                     resolveQuery(results);
                                 }
                             );
                         });
 
-                        // StreamQueue가 설정되었는지 확인 (상담원 것만)
-                        if (queueStatus[0].erkengineInfo_return_recvQueueName && queueStatus[0].erkengineInfo_return_sendQueueName) {
+                        // StreamQueue가 설정되었는지 확인
+                        if (queueStatus[0].erkengineInfo_return_recvQueueName || queueStatus[0].erkengineInfo_returnCustomer_recvQueueName) {
                             logger.warn(`[ audioServices.js:handleNewFile ] Check Stream Queue ${JSON.stringify(queueStatus, null, 2)}`);
                             clearInterval(checkInterval);
                             resolve(queueStatus);
@@ -69,11 +88,11 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     }
                 }, 100); // 100ms 간격으로 체크
 
-                // 15초 타임아웃 설정
+                // 10초 타임아웃 설정
                 setTimeout(() => {
                     clearInterval(checkInterval);
                     reject(new Error('StreamQueue setup timeout'));
-                }, 15000);
+                }, 10000);
             });
         };
 
@@ -84,19 +103,21 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
         // GSM 6.10 WAV 파일 무결성 및 헤더 길이 체크
         const result  = await checkGsm610WavFileIntegrity(filePath);
         if (result.status !== 'valid') {
-            logger.warn(`[ audioServices.js:handleNewFile ] New file is invalid`);
+            logger.warn(`[ audioServices.js:checkGsm610WavFileIntegrity ] New file is invalid`);
             return null;
         }
         const { gsmHeaderLength } = result;  // result에서 gsmHeaderLength 추출
-        logger.info(`[ audioServices.js:handleNewFile ] File integrity check passed, header length: ${gsmHeaderLength} bytes`);
+        logger.info(`[ audioServices.js:checkGsm610WavFileIntegrity ] File integrity check passed, header length: ${gsmHeaderLength} bytes`);
 
         let previousSize = 0;
         let unchangedCount = 0;
-        let chunkNumber = 1;  // 추가 필요
+        let chunkNumber = 1;
+        let lastSize = 0;
         const MAX_UNCHANGED_COUNT = 30;  // 3초
         
         while (true) {
             try {
+
                 // 1. 현재 상태 체크
                 const [fileStats, recordingStatus] = await Promise.all([
                     fsp.stat(filePath),
@@ -116,27 +137,35 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                 // 2. 파일 크기 변화 체크
                 const currentSize = fileStats.size;
                 const isFileSizeUnchanged = currentSize === previousSize;
+
+                const originalDataSize = currentSize - gsmHeaderLength;
+                const expectedChunks = Math.ceil(originalDataSize / 1630);
+
+                logger.info('Data size check:', {
+                    originalSize: originalDataSize,
+                    expectedChunks,
+                    currentChunk: chunkNumber
+                });
                 
                 // 3. 파일 크기 안정화 카운트
                 if (isFileSizeUnchanged) unchangedCount++;
                 else unchangedCount = 0;
 
-                // 4. 녹취 종료 조건 체크
-                const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null) && (unchangedCount >= MAX_UNCHANGED_COUNT); // DB 종료 및 파일 크기 안정화
+                // 4. 녹취 종료 조건 체크(DB 종료 및 파일 크기 안정화)
+                const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null) && (unchangedCount >= MAX_UNCHANGED_COUNT);
 
-                // 파일 크기 안정화(일반 파일 테스트 시)
+                // 파일 크기 안정화
                 let remainingDataSize = currentSize - (gsmHeaderLength + (1630 * (chunkNumber - 1)));
                 
-                if (isRecordingComplete) {
+                if (isRecordingComplete) {  // 마지막 청크 처리
                     logger.info(`[ audioServices.js:handleNewFile ] Recording completed.
-                        DB Status: ${!!recordingStatus.REC_END_DATETIME},
-                        File Stable: ${unchangedCount >= MAX_UNCHANGED_COUNT}`
-                    );
+                    DB Status: ${!!recordingStatus.REC_END_DATETIME}, File Stable: ${unchangedCount >= MAX_UNCHANGED_COUNT}`);
                     
                     // 마지막 청크 처리를 위한 sendAudioChunks 호출
                     const sendResult = await StreamingService.sendAudioChunks(
-                        filePath, 
+                        filePath,
                         userInfoUserId,
+                        chunkNumber,
                         {
                             remainingDataSize: remainingDataSize,   // 남은 데이터 크기
                             totalFileSize: currentSize, // 전체 파일 크기
@@ -151,47 +180,23 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
                     if (!sendResult.success) {
-                        logger.error(`[ audioServices.js:handleNewFile ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
+                        logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
                     } else {
-                        logger.info(`[ audioServices.js:handleNewFile ] Successfully processed chunk ${chunkNumber}`);
-                        await audioFileManager.handleProcessingComplete(filePath, userid);
-                        //  EmoServiceStopRQ/RP
-                        // try {
-                        //     // StreamProcessor를 통한 마지막 청크 처리
-                        //     const processResult = await streamProcessor.processFileStream(
-                        //         filePath, 
-                        //         currentErkApiMsg,
-                        //         {
-                        //             isLastChunk: true,
-                        //             remainingDataSize: remainingDataSize,
-                        //             totalFileSize: currentSize,
-                        //             gsmHeaderLength: gsmHeaderLength,
-                        //             fileType: filePath.includes('rx') ? 'rx' : 'tx',
-                        //             userId: userInfoUserId,
-                        //             chunkNumber,
-                        //             login_id: serviceResponse.login_id,    // 추가
-                        //             org_id: serviceResponse.org_id,        // 추가
-                        //             user_uuid: serviceResponse.user_uuid,    // 추가
-                        //             selectedQueue: queueStatus // 큐 이름 전달
-                        //         }
-                        //     );
-
-                        //     if (processResult.success) {
-                        //         logger.info(`[ audioServices.js:handleNewFile ] Final chunk processed successfully with ${remainingDataSize} bytes of data`);
-                                
-                        //         // AudioFileManager를 통한 종료 처리
-                        //         await AudioFileManager.handleProcessingComplete(filePath, userid);
-                        //     } else {
-                        //         logger.error(`[ audioServices.js:handleNewFile ] Failed to process final chunk: ${processResult.message}`);
-                        //     }
-                        // } catch (error) {
-                        //     logger.error(`[ audioServices.js:handleNewFile ] Error sending EmoServiceStop request: ${error}`);
-                        // }
+                            logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed final chunk ${chunkNumber}`);
+                            
+                            const handleProcessingComplete_result = await audioFileManager.handleProcessingComplete(filePath, userInfoUserId);
+                            if(!handleProcessingComplete_result) {
+                                logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 실패.`);
+                            }
+                            logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 완료.`);
+                            break;
                     }
                 } else {
+                    logger.info(`[ audioServices.js:handleNewFile ] Recording uncompleted.`);
                     const sendResult = await StreamingService.sendAudioChunks(
                         filePath, 
                         userInfoUserId,
+                        chunkNumber,
                         {
                             remainingDataSize: remainingDataSize,   // 남은 데이터 크기
                             totalFileSize: currentSize, // 전체 파일 크기
@@ -203,50 +208,26 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                             user_uuid: serviceResponse.user_uuid
                         }
                     );
-                    logger.info(`[ audioServices.js:handleNewFile ] Final chunk processed with ${remainingDataSize} bytes of data`);
+                    logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
                     if (!sendResult.success) {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
-                    } else {
-                        logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed chunk ${chunkNumber}`);
-                        chunkNumber++;
                     }
-                    
-                    // // StreamProcessor를 통한 일반 청크 처리
-                    // const processResult = await streamProcessor.processFileStream(filePath, currentErkApiMsg, {
-                    //     isLastChunk: false,
-                    //     remainingDataSize: remainingDataSize,
-                    //     totalFileSize: currentSize,
-                    //     gsmHeaderLength: gsmHeaderLength,
-                    //     fileType: filePath.includes('rx') ? 'rx' : 'tx',
-                    //     userId: userInfoUserId,
-                    //     chunkNumber,
-                    //     login_id: serviceResponse.login_id,    // 추가
-                    //     org_id: serviceResponse.org_id,        // 추가
-                    //     user_uuid: serviceResponse.user_uuid,    // 추가
-                    //     selectedQueue: queueStatus
-                    // });
-
-                    // if (!processResult.success) {
-                    //     logger.error(`[ audioServices.js:handleNewFile ] Failed to process chunk ${chunkNumber}: ${processResult.message}`);
-                    // } else {
-                    //     logger.info(`[ audioServices.js:handleNewFile ] Successfully processed chunk ${chunkNumber}`);
-
-                    //     chunkNumber++;  // 성공 시 청크 번호 증가
-                    // }
+                    logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed chunk ${chunkNumber}`);
+                    chunkNumber++;
                 }
 
                 // 7. 상태 업데이트
                 previousSize = currentSize;
                 await new Promise(resolve => setTimeout(resolve, 100));
             } catch (error) {
-                if (error.message.includes('Timeout waiting for')) {
-                    // 타임아웃이 발생하면 다음 데이터를 기다림
-                    logger.warn(`[ audioServices.js:handleNewFile ] Waiting for more data after chunk ${chunkNumber - 1}`);
-                    continue;
-                } else {
-                    throw error;
-                }
+                logger.error('[ audioServices.js:handleNewFile ] Error:', {
+                    error: error.message,
+                    stack: error.stack,
+                    filePath,    // filePath만 접근 가능
+                    userInfoUserId  // 어느 상담원 통화에서 문제가 발생했는지
+                });
+                continue;
             }
         }
     } catch(err) {
@@ -255,7 +236,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
     }
 }
 
-//  생성된 wav 파일 처리에 대해 엔진 사용 요청
+//  생성된 wav 파일 처리에 대해 스트림 채널 할당 요청
 const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
     // EmoServiceStartRQ 함수 시작 부분에 erkUtils에서 값 가져오기
     const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
@@ -306,7 +287,8 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
 
                         // 2. 테이블이 존재하면 데이터 조회
                         connection2.query(
-                            `SELECT * FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} WHERE AGENT_TELNO = ?`, [`${caller_id}`], (error, results) => {
+                            `SELECT * FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} 
+                            WHERE AGENT_TELNO = ?`, [`${caller_id}`], (error, results) => {
                                 if (error) {
                                     logger.error(`[ audioServices.js:EmoServiceStartRQ ] DB Error querying data: ${error}`);
                                     reject(error);
@@ -470,9 +452,8 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
         }
 
         const response = await sendAndWaitForResponse();
-        logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Invalid response121212: ${JSON.stringify(response)}`);
         if (!response || !Array.isArray(response) || response.some(r => !r)) {
-            logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Invalid response: ${JSON.stringify(response)}`);
+            logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Invalid response: ${JSON.stringify(response, null, 2)}`);
 
             return {
                 message: 'error',
@@ -480,6 +461,8 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                 error: 'Invalid response from sendAndWaitForResponse'
             };
         }
+
+        logger.info(`[ audioServices.js:EmoServiceStartRQ ] 유효한 응답: ${JSON.stringify(response, null, 2)}`);
 
         return {
             message: 'success',
@@ -495,18 +478,19 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
 }
 
 //  생성된 wav 통화 파일에 대한 데이터 처리가 더 없을 경우
-const EmoServiceStopRQ = async function EmoServiceStopRQ(userinfo_userId) {
+//  할당되어 있는 스트림 채널 할당 취소 요청
+const EmoServiceStopRQ = async function EmoServiceStopRQ (userinfo_userId) {
     // getErkApiMsg 함수로 ErkApiMsg 상태 검증
     const currentErkApiMsg = getErkApiMsg();
     logger.debug(`[ audioServices.js:EmoServiceStopRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
 
     try {
-        logger.info(`[ audioServices.js:EmoServiceStopRQ ] Stopping service for user: ${userinfo_userId}`);
+        logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Stopping service for user: ${userinfo_userId}`);
 
         return Promise.all([
             new Promise((resolve, reject) => {
                 const timeout = setTimeout(() => {
-                    logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Channel 2 response timeout`);
+                    logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Channel 2 response timeout`);
                     resolve(null);
                 }, 5000);
 
@@ -575,7 +559,7 @@ const EmoServiceStopRQ = async function EmoServiceStopRQ(userinfo_userId) {
             }),
             new Promise((resolve) => {
                 const timeout = setTimeout(() => {
-                    logger.warn(`[ audioServices.js:EmoServiceStartRQ ] Channel 2 response timeout`);
+                    logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Channel 2 response timeout`);
                     resolve(null);
                 }, 5000);
 
@@ -584,7 +568,7 @@ const EmoServiceStopRQ = async function EmoServiceStopRQ(userinfo_userId) {
                 FROM emo_user_info 
                 WHERE userinfo_userid = ${userinfo_userId + 10}`, (err, results) => {
                     if(err) {
-                        logger.error(`[ app.js:EmoServiceStopRQ ] ${err}`);
+                        logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
                         reject(err);
                     }
 

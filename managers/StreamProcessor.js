@@ -30,23 +30,26 @@ class StreamProcessor {
         this.totalChunkSize = options.totalChunkSize || 44000;
         this.rawChunkSize = this.sampleRate * this.bytesPerSample * this.chunkDuration;
         this.maxBufferSize = options.maxBufferSize || 1024 * 1024;
-        this.gsm610ChunkSize = options.gsm610ChunkSize || this.rawChunkSize;
-        this.chunkNumber =1;
+        this.chunkNumber = 1;
     }
 
     // 파일 스트림 처리 시작점
-    async processFileStream(filePath, currentErkApiMsg, options) {
+    async processFileStream(filePath, currentErkApiMsg, chunkNumber, options) {
         // 1. 매개변수 검증
         if (!filePath || typeof filePath !== 'string') { throw new Error('Invalid filePath parameter'); }
         if (!currentErkApiMsg) { throw new Error('Invalid currentErkApiMsg parameter'); }
 
         const {
-            // isLastChunk,
+            audioData,
+            pcmDataSize,
+            numberOfChunks, // numberOfChunks
+            rawChunkSize,
+            totalChunkSize,
             remainingDataSize, // audioData
-            totalFileSize, // numberOfChunks
             gsmHeaderLength,
-            fileType,
             userId, // useinfoUserId
+            fileInfo_callId,
+            fileType,
             login_id,
             org_id,
             user_uuid,
@@ -61,11 +64,12 @@ class StreamProcessor {
             userId,
             login_id,
             org_id, 
-            user_uuid
+            user_uuid,
+            selectedQueue
         };
 
         //필수 매개변수 검증
-        if (!remainingDataSize || !gsmHeaderLength || !fileType || !userId || !login_id || !org_id || !user_uuid || !selectedQueue){
+        if (!remainingDataSize || !numberOfChunks || !gsmHeaderLength || !fileType || !userId || !login_id || !org_id || !user_uuid || !selectedQueue){
             throw new Error('Missing required parameters');
         }
 
@@ -76,179 +80,169 @@ class StreamProcessor {
         }
 
         // selectedQueue 검증
-        if (!Array.isArray(selectedQueue) || selectedQueue.length < 1 || 
-        !selectedQueue[0].erkengineInfo_return_recvQueueName || 
-        !selectedQueue[1].erkengineInfo_returnCustomer_sendQueueName) {
+        if (!Array.isArray(selectedQueue) || selectedQueue.length < 1) {
             throw new Error('Invalid selectedQueue structure'); 
         }
 
         try {
+            // 파일 유효성 검증
             const baseFileName = path.basename(filePath);
-            if (!baseFileName.endsWith('.wav')) { throw new Error('Invalid file format - only .wav files are supported'); }
+            if (!baseFileName.endsWith('.wav')) {throw new Error('Invalid file format - only .wav files are supported');}
      
             const fileInfo_callId = baseFileName.replace(/\.[^/.]+$/, '').replace(/_[rt]x$/,'');
-            if (!fileInfo_callId) { throw new Error('Failed to extract valid callId from filename'); }
+            if (!fileInfo_callId) {throw new Error('Failed to extract valid callId from filename');}
 
-            // GSM 6.10 청크를 처리하고 PCM으로 변환
             const processResult = await this.processChunk(
                 filePath,
-                currentErkApiMsg,
-                remainingDataSize,
                 fileInfo_callId,
+                remainingDataSize,
                 gsmHeaderLength,
-                // isLastChunk,
                 fileType,
                 options.userId,
                 options.login_id,
                 options.org_id,
                 user_uuid,
-                selectedQueue
+                selectedQueue,
+                currentErkApiMsg,
+                pcmDataSize, // 20250109 수정
+                chunkNumber
             );
 
-            // 녹취 완료 여부 확인
-            const isRecordingComplete = (remainingDataSize < this.gsm610ChunkSize);
-
+            // 결과 반환
             if (processResult.success) {
                 return {
                     success: true,
-                    isComplete: isRecordingComplete,  // 녹취 완료 여부 전달
-                    message: isRecordingComplete ? 'Final chunk processed successfully' : 'Chunk processed successfully'
+                    message: 'Chunk processed successfully'
                 };
-            } else {
-                return {
-                    success: false,
-                    isComplete: false,
-                    message: processResult.message
-                };
-            }
+            } 
+            
+            return {
+                success: false,
+                message: processResult.message
+            };
         } catch (error) {
             // 2. 에러 처리 강화
-            logger.error(`[ StreamProcessor:processFileStream ] Error processing file stream:`, {
+            logger.error('[ StreamProcessor:processFileStream ] Error:', {
                 error: error.message,
                 stack: error.stack,
                 filePath,
-                userId
+                userId: options.userId
             });
 
             return {
                 success: false,
                 message: error.message
-            };
+            };        
         }
     }
 
-    async processChunk(filePath, fileInfo_callId, currentErkApiMsg, remainingDataSize, gsmHeaderLength,
-        /*isLastChunk,*/ fileType, userId, login_id, org_id, user_uuid, selectedQueue) {
+    // 청크 처리
+    async processChunk(filePath, fileInfo_callId, remainingDataSize, gsmHeaderLength,
+        fileType, userId, login_id, org_id, user_uuid, selectedQueue, currentErkApiMsg, pcmDataSize, chunkNumber) {
 
         // 1. 매개변수 검증
-        if (!filePath || !fileInfo_callId || !currentErkApiMsg || !userId || !login_id) {
-            throw new Error('Missing required parameters');
-        }
+        if (!filePath || !fileInfo_callId || !userId || !login_id) { throw new Error('[ StreamProcessor:processFileStream ] Missing required parameters'); }
+        if (!this.totalChunkSize || !this.bytesPerSample) { throw new Error('[ StreamProcessor:processFileStream ] Invalid StreamProcessor configuration'); }
 
-        if (!this.gsm610ChunkSize || !this.bytesPerSample) {
-            throw new Error('Invalid StreamProcessor configuration');
-        }
+        try {
+            // 1. 청크 데이터 준비
+            const paddedChunk = await this.preparePaddedChunk({
+                filePath,
+                gsmHeaderLength,
+                remainingDataSize,
+                totalChunkSize: this.totalChunkSize,
+                bytesPerSample: this.bytesPerSample
+            });
 
-        const MAX_RETRIES = 3;  // 최대 재시도 횟수
-        const RETRY_DELAY = 1000;  // 재시도 간격 (1초)
-        let retryCount = 0;
+            // 2. 메시지 생성 및 전송
+            const currentTimestamp = DateUtils.getCurrentTimestamp();
+            const currentDateTimeString = DateUtils.getCurrentDateTimeString(currentTimestamp);
 
-        while (retryCount < MAX_RETRIES) {
-            try {
-                // 1. 청크 데이터 준비
-                const paddedChunk = await this.preparePaddedChunk({
+            // 3. DB 기록 및 메시지 전송
+            const sendResult = await this.sendAndLog(paddedChunk, {
+                fileType,
+                userId,
+                timestamp: currentTimestamp,
+                dateTimeString: currentDateTimeString,
+                fileInfo_callId,
+                login_id,
+                selectedQueue,
+                user_uuid,
+                org_id,
+                pcmDataSize, // 20250109 수정
+                chunkNumber
+            });
+
+            if (sendResult.success) { 
+                return sendResult;
+            } else {
+                throw new Error(`[ StreamProcessor:processFileStream ] Failed to send chunk: ${sendResult.message}`);
+            }
+        } catch (error) {
+            logger.error(`[ StreamProcessor:processFileStream ] Error: `, {
+                error: error.message,
+                stack: error.stack,
+                context: {
                     filePath,
-                    gsmHeaderLength,
-                    remainingDataSize,
-                    gsm610ChunkSize: this.gsm610ChunkSize,
-                    bytesPerSample: this.bytesPerSample
-                });
-
-                // 2. 메시지 생성 및 전송
-                const currentTimestamp = DateUtils.getCurrentTimestamp();
-                const currentDateTimeString = DateUtils.getCurrentDateTimeString(currentTimestamp);
-
-                // 3. DB 기록 및 메시지 전송
-                const sendResult = await this.sendAndLog(paddedChunk, {
-                    // currentErkApiMsg,
                     fileType,
                     userId,
-                    fileInfo_callId,
-                    login_id,
-                    selectedQueue,
-                    user_uuid,
-                    org_id,
-                    timestamp: currentTimestamp,
-                    dateTimeString: currentDateTimeString
-                    // isLastChunk
-                });
-
-                if (sendResult.success) { return sendResult; }
-
-                // 전송은 됐지만 실패한 경우
-                throw new Error(`Failed to send chunk: ${sendResult.message}`);
-            } catch (error) {
-                retryCount++;
-                logger.error(`[ StreamProcessor:processChunk ] Attempt ${retryCount}/${MAX_RETRIES} failed: ${error}`);
-
-                if (retryCount === MAX_RETRIES) {
-                    throw new Error(`Failed to process chunk after ${MAX_RETRIES} attempts`);
+                    chunkNumber: this.chunkNumber,
+                    remainingDataSize
                 }
-
-                // 재시도 전 대기
-                await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-            }
+            });
         }
     }
 
+    // 분할된 오디오 청크 준비
     async preparePaddedChunk({
         filePath,
         gsmHeaderLength,
         remainingDataSize,
-        gsm610ChunkSize,
-        bytesPerSample
+        totalChunkSize,
+        bytesPerSample,
+        chunkNumber
     }) {
         try {
-            // 2. 파일에서 데이터 읽기
+            // 파일 데이터 읽기
             const fileData = await fs.promises.readFile(filePath);
-
-            // 3. GSM 헤더 이후의 데이터 추출
             const audioData = fileData.slice(gsmHeaderLength);
             
-            // 4. 청크 크기 계산
-            const chunkSize = Math.min(remainingDataSize, gsm610ChunkSize);
-            const samplesCount = Math.ceil(chunkSize / bytesPerSample);
-
-            // 5. GSM 청크를 위한 버퍼 준비
-            let paddedChunk = new Uint16Array(gsm610ChunkSize / bytesPerSample);
-
-            // 6. 실제 데이터 복사
-            const rawChunk = new Uint16Array(audioData.buffer, 0, samplesCount);
-            paddedChunk.set(rawChunk);
+            // 청크 크기 계산
+            const chunkSize = Math.min(remainingDataSize, totalChunkSize);
+            const samplesCount = Math.floor(chunkSize / bytesPerSample);    // 홀수 바이트의 데이터를 할당할 때 오류 발생할 수 있음. ceil(x)
             
-            // remainingDataSize가 gsm610ChunkSize보다 작은 경우 (마지막 청크)
-            // 7. 마지막 청크 처리
-            if (remainingDataSize < gsm610ChunkSize) {
+            // GSM 청크를 위한 버퍼 준비
+            const currentOffset = (chunkNumber-1) + this.rawChunkSize;
+            let paddedChunk = new Uint16Array(totalChunkSize / bytesPerSample);
+            
+            // 실제 데이터 복사 (바이트 정렬 보장)
+            const rawChunk = new Uint16Array(
+                audioData.buffer.slice(
+                    audioData.byteOffset + currentOffset, 
+                    audioData.byteOffset + currentOffset + (samplesCount * bytesPerSample)
+                )
+            );
+            paddedChunk.set(rawChunk.subarray(0, samplesCount));
+    
+            // 마지막 청크 로깅
+            if (remainingDataSize < totalChunkSize) {
                 logger.info('[ StreamProcessor:preparePaddedChunk ]', {
                     message: 'Last chunk detected',
                     remainingDataSize,
                     actualDataSize: remainingDataSize,
-                    paddedSize: gsm610ChunkSize
+                    paddedSize: totalChunkSize,
+                    samplesCount,
+                    paddedLength: paddedChunk.length
                 });
             }
-
-            logger.info('[ StreamProcessor:processChunk ] Padded chunk created:', {
-                samplesToCopy: paddedChunk.samplesToCopy,
-                byteArrayLength: paddedChunk.byteArray?.length
-            });
-
-            // 8. 결과 반환
+    
+            // 결과 반환
             return {
                 data: paddedChunk,
                 samplesToCopy: paddedChunk.length,
                 byteArray: new Uint8Array(paddedChunk.buffer),
                 actualDataSize: remainingDataSize,
-                paddedSize: gsm610ChunkSize
+                paddedSize: totalChunkSize
             };
         } catch (error) {
             logger.error('[ StreamProcessor:preparePaddedChunk ] Error:', {
@@ -257,38 +251,34 @@ class StreamProcessor {
                 filePath,
                 remainingDataSize
             });
-
-            throw new Error(`Failed to prepare padded chunk: ${error.message}`);
+            throw error;
         }
     }
 
     //  오디오 청크 전송
     async sendAndLog(paddedChunk, {
-        // currentErkApiMsg,
         fileType,
         userId,
         timestamp,
         dateTimeString,
-        chunkNumber,
         login_id,
         org_id,
         user_uuid,
         fileInfo_callId,
-        selectedQueue
+        selectedQueue,
+        pcmDataSize,
+        chunkNumber
     }) {
         try {
             const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
+            const currentChunkSize = (pcmDataSize / paddedChunk.paddedSize); // 20
 
-            // 로깅 추가
-            logger.info(`[ StreamProcessor:sendAndLog ] Queue data: ${JSON.stringify(selectedQueue, null, 2)}`);
-            logger.info(`[ StreamProcessor:sendAndLog ] Type data: ${JSON.stringify(fileType, null, 2)}`);
-
-            // 1. RX/TX에 따른 헤더와 채널 설정
+            // 1. RX/TX에 값 설정
             const channel = fileType === 'rx' ? ch : ch2;
-            // MindSupport 수신 시
-            const fromQueue = fileType === 'rx' ? selectedQueue[0].erkengineInfo_return_sendQueueName : selectedQueue[1].erkengineInfo_returnCustomer_sendQueueName ;
-            // ETRI로 송신 시
-            const toQueue = fileType === 'rx' ? selectedQueue[0].erkengineInfo_return_recvQueueName : selectedQueue[1].erkengineInfo_returnCustomer_recvQueueName ;
+            //      - MindSupport 수신 시
+            const fromQueue = fileType === 'rx' ? selectedQueue[0].erkengineInfo_return_sendQueueName : selectedQueue[0].erkengineInfo_returnCustomer_sendQueueName;
+            //      - ETRI로 송신 시
+            const toQueue = fileType === 'rx' ? selectedQueue[0].erkengineInfo_return_recvQueueName : selectedQueue[0].erkengineInfo_returnCustomer_recvQueueName;
 
             const ErkDataQueueInfo = ErkApiMsg.create({
                 ToQueueName: toQueue,
@@ -296,7 +286,7 @@ class StreamProcessor {
             });
 
             const ErkMsgDataHead = ErkApiMsg.create({
-                MsgType: 27,    // v3.3: 17, 전시회:13
+                MsgType: 27,
                 QueueInfo: ErkDataQueueInfo,
                 TransactionId: user_uuid,
                 OrgId: org_id,
@@ -311,33 +301,37 @@ class StreamProcessor {
                     MsgDataLength: paddedChunk.samplesToCopy * this.bytesPerSample,
                     MsgDataFrame: [paddedChunk.byteArray]
                 }
-            });            
+            });
 
-            // 3. DB 쿼리 수정 (순서와 필드명 명확화)
+            // 3. 음성 데이터 송신 정보 저장(순서, 필드명 명확화!)
             const query = `
                 INSERT INTO emo_emotion_info (
                     send_dt,
                     login_id, 
                     userinfo_userId,
+                    cusinfo_userId,
                     file_name,
                     sendQueueName,
                     recvQueueName,
                     org_id,
                     file_seq,
-                    data_length
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                    data_length,
+                    EmoRecogTime
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
             // 수정된 params (쿼리의 VALUES와 순서 일치)
             const params = [
                 dateTimeString,                                   // send_dt
                 login_id,                                         // login_id
-                userId,                                           // userinfo_userId
+                fileType === 'rx' ? userId : null,                // userinfo_userId
+                fileType === 'tx' ? userId : null,                // cusinfo_userId
                 fileInfo_callId,                                  // file_name
                 fromQueue,                                        // sendQueueName
                 toQueue,                                          // recvQueueName
                 org_id,                                           // org_id
-                this.chunkNumber,                                 // file_seq
-                paddedChunk.samplesToCopy * this.bytesPerSample   // data_length
+                chunkNumber,                                      // file_seq
+                currentChunkSize,                                 // data_length
+                timestamp                                         // EmoRecogTime
             ];
 
             // DB 쿼리 실행을 Promise로 래핑
@@ -377,10 +371,8 @@ class StreamProcessor {
             }, 4)}`);
 
             if (!sendResult) {
-                throw new Error(`Failed to send message to ${fileType} queue: ERK_API_QUEUE`);
+                throw new Error(`Failed to send message to ${fileType} queue: ${toQueue}`);
             }
-
-            this.chunkNumber++;
 
             return {
                 success: true,
