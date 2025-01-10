@@ -54,3 +54,4 @@ ms_nfs_mount/
 *.gz
 *.pcm
 *.txt
+*.wav

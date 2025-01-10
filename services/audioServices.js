@@ -20,7 +20,7 @@ const connection1 = mysql.pool();
 mysql.pool_check(connection1);
 
 const mysql2 = require('../db/acrV4')();
-const connection2 = mysql2.pool();  
+const connection2 = mysql2.pool();
 mysql2.pool_check(connection2);
 
 //  생성된 WAV 파일 처리
@@ -114,10 +114,23 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
         let chunkNumber = 1;
         let lastSize = 0;
         const MAX_UNCHANGED_COUNT = 30;  // 3초
+
+        while (true) {
+            const currentSize = fs.statSync(filePath).size;
+            if (currentSize === lastSize) {
+                unchangedCount++;
+                if (unchangedCount >= MAX_UNCHANGED_COUNT) {
+                    break;
+                }
+            } else {
+                unchangedCount = 0;
+                lastSize = currentSize;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
         
         while (true) {
             try {
-
                 // 1. 현재 상태 체크
                 const [fileStats, recordingStatus] = await Promise.all([
                     fsp.stat(filePath),
@@ -141,11 +154,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                 const originalDataSize = currentSize - gsmHeaderLength;
                 const expectedChunks = Math.ceil(originalDataSize / 1630);
 
-                logger.info('Data size check:', {
-                    originalSize: originalDataSize,
-                    expectedChunks,
-                    currentChunk: chunkNumber
-                });
+                logger.info(`Data size check: ${originalDataSize}, ${expectedChunks}, ${chunkNumber}`);//250110 수정
                 
                 // 3. 파일 크기 안정화 카운트
                 if (isFileSizeUnchanged) unchangedCount++;
@@ -213,7 +222,12 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     if (!sendResult.success) {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
                     }
-                    logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed chunk ${chunkNumber}`);
+                    logger.info('Chunk processing:', {
+                        chunkNumber,
+                        remainingDataSize,
+                        expectedChunks,
+                        isComplete: isRecordingComplete
+                    });
                     chunkNumber++;
                 }
 
@@ -221,12 +235,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                 previousSize = currentSize;
                 await new Promise(resolve => setTimeout(resolve, 100));
             } catch (error) {
-                logger.error('[ audioServices.js:handleNewFile ] Error:', {
-                    error: error.message,
-                    stack: error.stack,
-                    filePath,    // filePath만 접근 가능
-                    userInfoUserId  // 어느 상담원 통화에서 문제가 발생했는지
-                });
+                logger.error(`[ audioServices.js:handleNewFile ] 9999 Error\n ${error.message} \n${error.stack}\n${filePath}\n${userInfoUserId} `);
                 continue;
             }
         }
@@ -477,157 +486,6 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
     }
 }
 
-//  생성된 wav 통화 파일에 대한 데이터 처리가 더 없을 경우
-//  할당되어 있는 스트림 채널 할당 취소 요청
-const EmoServiceStopRQ = async function EmoServiceStopRQ (userinfo_userId) {
-    // getErkApiMsg 함수로 ErkApiMsg 상태 검증
-    const currentErkApiMsg = getErkApiMsg();
-    logger.debug(`[ audioServices.js:EmoServiceStopRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
-
-    try {
-        logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Stopping service for user: ${userinfo_userId}`);
-
-        return Promise.all([
-            new Promise((resolve, reject) => {
-                const timeout = setTimeout(() => {
-                    logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Channel 2 response timeout`);
-                    resolve(null);
-                }, 5000);
-
-                connection1.query(`SELECT
-                    session_id,
-                    JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.org_id')) as user_orgid,
-                    JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.userinfo_uuid')) as user_uuid,
-                    JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.cusinfo_uuid')) as user_uuid2,
-                    eui.*
-                FROM sessions s
-                LEFT JOIN emo_user_info eui
-                    ON eui.login_id = JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.login_id'))
-                WHERE eui.userinfo_userid = ${userinfo_userId};`, (err, results) => {
-                    if(err) {
-                        logger.error(`[ app.js:EmoServiceStopRQ ] ${err}`);
-                        reject(err);
-                    }
-
-                    if (results.length > 0) {
-                        let ErkMsgHead = currentErkApiMsg.create({
-                            MsgType: 23,
-                            TransactionId: results[0].userinfo_uuid,
-                            QueueInfo: ErkQueueInfo,
-                            OrgId: results[0].org_id,
-                            UserId: results[0].userinfo_userId
-                        });
-
-                        let EmoServiceStopMsg = currentErkApiMsg.create({
-                            EmoServiceStopRQ: {
-                                ErkMsgHead: ErkMsgHead,
-                                EmoRecogType: 1,    // 개인감성 or 사회감성
-                                MsgTime: DateUtils.getCurrentTimestamp(),   // 년월일시분초밀리초
-                                ServiceType: results[0].userinfo_serviceType,
-                                PhysioEngine_ReceiveQueueName: "",
-                                PhysioEngine_SendQueueName: "",
-                                SpeechEngine_ReceiveQueueName: `${results[0].erkengineInfo_return_recvQueueName}`,
-                                SpeechEngine_SendQueueName: `${results[0].erkengineInfo_return_sendQueueName}`,
-                                FaceEngine_ReceiveQueueName: "",
-                                FaceEngine_SendQueueName: "",
-                                KnowledgeEngine_ReceiveQueueName: "",
-                                KnowledgeEngine_SendQueueName: "",
-                            }
-                        });
-                        let EmoServiceStopMsg_buf = currentErkApiMsg.encode(EmoServiceStopMsg).finish();
-                        logger.info(`[ audioServices.js:EmoServiceStopRQ ] 생성된 EmoServiceStopRQ 메세지\n${JSON.stringify(EmoServiceStopMsg_buf, null, 4)}`);
-
-                        let emoSerStop_send_rq = `UPDATE emo_user_info
-                        SET erkEmoSrvcStop_send_dt = NOW(3)
-                        WHERE userinfo_userId = ${results[0].userinfo_userId};`;
-                        connection1.query(emoSerStop_send_rq, (err, results) => {
-                            if (err) {
-                                logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
-                                reject(err);
-                                return;
-                            }
-    
-                            logger.info(`[ audioServices.js:EmoServiceStopRQ ] DB 업데이트 후 메세지 송신`);
-                            ch.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf);
-
-                            resolve('success');
-                        });
-                    }
-
-                    resolve(`User not found`);
-                });
-            }),
-            new Promise((resolve) => {
-                const timeout = setTimeout(() => {
-                    logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Channel 2 response timeout`);
-                    resolve(null);
-                }, 5000);
-
-                //  고객 스트림큐 삭제
-                connection1.query(`SELECT *
-                FROM emo_user_info 
-                WHERE userinfo_userid = ${userinfo_userId + 10}`, (err, results) => {
-                    if(err) {
-                        logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
-                        reject(err);
-                    }
-
-                    let ErkMsgHead_cus = currentErkApiMsg.create({
-                        MsgType: 23,
-                        TransactionId: results[0].userinfo_uuid,
-                        QueueInfo: ErkQueueInfo2,
-                        OrgId: results[0].org_id,
-                        UserId: results[0].userinfo_userId + 10
-                    });
-
-                    let EmoServiceStopMsg_cus = currentErkApiMsg.create({
-                        EmoServiceStopRQ: {
-                            ErkMsgHead: ErkMsgHead_cus,
-                            EmoRecogType: 1,    // 개인감성 or 사회감성
-                            MsgTime: DateUtils.getCurrentTimestamp(),   // 년월일시분초밀리초
-                            ServiceType: results[0].userinfo_serviceType,
-                            PhysioEngine_ReceiveQueueName: "",
-                            PhysioEngine_SendQueueName: "",
-                            SpeechEngine_ReceiveQueueName: `${results[0].erkengineInfo_returnCustomer_recvQueueName}`,
-                            SpeechEngine_SendQueueName: `${results[0].erkengineInfo_returnCustomer_sendQueueName}`,
-                            FaceEngine_ReceiveQueueName: "",
-                            FaceEngine_SendQueueName: "",
-                            KnowledgeEngine_ReceiveQueueName: "",
-                            KnowledgeEngine_SendQueueName: "",
-                        }
-                    });
-                    let EmoServiceStopMsg_buf_cus = currentErkApiMsg.encode(EmoServiceStopMsg_cus).finish();
-                    logger.info(`[ audioServices.js:EmoServiceStopRQ ] 생성된 EmoServiceStopRQ 메세지\n${JSON.stringify(EmoServiceStopMsg_cus, null, 4)}`);
-
-                    let emoSerStop_send_rq = `UPDATE emo_user_info
-                    SET erkEmoSrvcStop_send_dt = NOW(3)
-                    WHERE userinfo_userId = ${results[0].userinfo_userId};`;
-                    connection1.query(emoSerStop_send_rq, (err, results) => {
-                        if (err) {
-                            logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
-                            reject(err);
-                            return;
-                        }
-
-                        logger.info(`[ audioServices.js:EmoServiceStopRQ ] DB 업데이트 후 메세지 송신`);
-                        ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf_cus);
-
-                        resolve('success');
-                    });
-                });
-            })
-        ]);
-    } catch (err) {
-        logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
-         
-        return {
-            message: 'error',
-            return_type: 0,
-            error: err.message
-        };
-    }
-}
-
 //  GSM 파일 무결성 체크
 async function checkGsm610WavFileIntegrity(filePath) {
     let fd;
@@ -755,6 +613,5 @@ async function checkGsm610WavFileIntegrity(filePath) {
 
 module.exports = {
     handleNewFile,
-    EmoServiceStartRQ,
-    EmoServiceStopRQ
+    EmoServiceStartRQ
 };

@@ -102,8 +102,6 @@ async function attemptConversion(filePath, chunkNumber) {
             }
             
             // 출력 파일 경로 설정 (PCM WAV): 청크 정보를 포함한 출력 파일명 생성
-            console.log('chunkNumber:', chunkNumber);
-            
             const startTime = (chunkNumber - 1) * 3;
             const endTime = chunkNumber * 3;
             const chunkInfo = `_chunk${chunkNumber}_${startTime}-${endTime}sec`;
@@ -123,15 +121,18 @@ async function attemptConversion(filePath, chunkNumber) {
             logger.info(`[ app.js:attemptConversion ] File copied to local directory: ${localCopyPath}`);
 
             // ffmpeg 명령어 실행
-            const ffmpegProcess = spawn('ffmpeg', [
+            const ffmpegProcess = 
+            spawn('ffmpeg', [
                 '-y',   // 덮어쓰기 옵션(설정하지 않으면 직접 입력해줘야 함)
                 '-i', localCopyPath,
                 // 시작 시간과 지속 시간 지정
                 '-ss', `${startTime}`,  // 시작 시간(초)
                 '-t', '3',              // 3초 단위 청크
-                '-c:a', 'pcm_s16le',
-                '-ar', '16000',
-                '-ac', '1',
+                '-c:a', 'pcm_s16le',    // pcm 포맷
+                '-ar', '16000',         // 샘플레이트
+                '-ac', '1',             // 모노
+                // 무음 부분도 생성하도록 옵션 추가
+                '-af', 'apad',          // 음성이 없는 부분도 패딩
                 outputFile
             ]);
 

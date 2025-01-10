@@ -2,7 +2,7 @@
 //  마운트된 디렉토리의 파일 생성/변경을 감지하고 이벤트를 발생시키는 파일 시스템 와처
 
 const AudioFileManager = require('./AudioFileManager');
-const { handleNewFile, EmoServiceStartRQ, EmoServiceStopRQ } = require('../services/audioServices');
+const { handleNewFile, EmoServiceStartRQ } = require('../services/audioServices');
 
 const DIRECTORIES = require('../config/directories');
 const logger = require('../logs/logger');

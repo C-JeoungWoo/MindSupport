@@ -213,7 +213,7 @@ app.get(`/consultant`, async (req, res) => {
                 if (err) {
                     logger.error(`[ app.js:acrQuery ] ${err}`);
                     
-                    logger.error('2');
+                    logger.error('app.js : 20250110_consultant');
                     reject(err);
                 } else {
                     resolve(results);
@@ -897,8 +897,9 @@ app.get('/coachingMain', async (req, res) => {
         // 통화 및 코칭 현황 통화시간 및 건수 조회 쿼리
             let coaching_call_time_count_query = `
             SELECT
-                CONCAT(FLOOR(trd.REC_DURATION / 60), ' 분 ', trd.REC_DURATION % 60, ' 초') AS sum_call_time,
-                CONCAT(COUNT(*), ' 건') as sum_call_count
+                FLOOR(trd.REC_DURATION / 60) AS total_minutes,        -- 전체 통화 시간의 분
+                trd.REC_DURATION % 60 AS total_seconds,              -- 전체 통화 시간의 초
+                COUNT(*) AS total_calls                              -- 총 통화 건수
             FROM
                 acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
             WHERE
@@ -995,17 +996,14 @@ app.get('/emotionStatus', async (req, res) => {
         logger.info(`[ app.js:/emotionStatus ] 총 근무자 수\n${query2}`);
 
         //  금일 감정의 개수 (근무자 전체)
-        let query3 = `WITH today_data AS (
-        SELECT 
-            eei.login_id,
-            eei.emotion_type,
-            COUNT(*) as today_count
-        FROM emo_emotion_info eei
-        INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
-        ON eei.file_name = trd.REC_FILENAME
-        WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
-        AND eei.send_dt >= CURDATE()
-        GROUP BY eei.emotion_type
+        let query3_etri = `WITH today_data AS (
+            SELECT 
+                eei.login_id,
+                eei.emotion_type,
+                COUNT(*) as today_count
+            FROM emo_emotion_info eei
+            WHERE eei.send_dt >= CURDATE()
+            GROUP BY eei.login_id, eei.emotion_type
         ),
         yesterday_data AS (
             SELECT 
@@ -1013,32 +1011,20 @@ app.get('/emotionStatus', async (req, res) => {
                 eei.emotion_type,
                 COUNT(*) as yesterday_count
             FROM emo_emotion_info eei
-            INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
-            ON eei.file_name = trd.REC_FILENAME
-            WHERE trd.REC_START_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
-            AND trd.REC_START_DATE < STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(), '%Y%m%d'), ' 00:00:00.000'), '%Y%m%d %H:%i:%s.%f')
-            GROUP BY eei.emotion_type
+            WHERE eei.send_dt >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+            AND eei.send_dt < CURDATE()
+            GROUP BY eei.login_id, eei.emotion_type
         )
+        SELECT * 
+        FROM today_data, yesterday_data;`;
+
+        let query3_acr = `
         SELECT 
-            t.login_id,
-            t.emotion_type,
-            t.today_count,
-            COALESCE(y.yesterday_count, 0) as yesterday_count,
-            t.today_count - COALESCE(y.yesterday_count, 0) as count_change
-        FROM today_data t
-        LEFT JOIN yesterday_data y
-        ON t.emotion_type = y.emotion_type
-        UNION
-        SELECT 
-            y.login_id,
-            y.emotion_type,
-            0 as today_count,
-            y.yesterday_count,
-            0 - y.yesterday_count as count_change
-        FROM yesterday_data y
-        WHERE y.emotion_type NOT IN (SELECT emotion_type FROM today_data)
-        ORDER BY emotion_type;`;
-        logger.info(`[ app.js:/emotionStatus ] 금일 감정 개수\n${query3}`);
+            REC_FILENAME,
+            REC_START_DATE
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
+        WHERE REC_START_DATE >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+        AND REC_START_DATE < CURDATE();`
 
         // 1시간 단위 감성 상태 추이
         let query4 = `SELECT
@@ -1066,75 +1052,76 @@ app.get('/emotionStatus', async (req, res) => {
         logger.info(`[ app.js:/emotionStatus ] 금일 누적 부정 감성\n${query5}`);
 
         //  금일 개인 상담 건수
-        let query6 = `SELECT
-            trd.AGENT_ID,
-            eui.user_name,
+        let query6_etri = `
+        SELECT
+            agent_telno,
+            user_name
+        FROM MindSupport.emo_user_info;`;
+
+        let query6_acr = `
+        SELECT
+            AGENT_ID,
+            AGENT_TELNO,
             COUNT(*) AS RECORD_COUNT
-        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()} trd
-        LEFT JOIN MindSupport.emo_user_info eui
-            ON trd.AGENT_TELNO = eui.agent_telno
-        WHERE trd.REC_START_DATE >= CURDATE() 
-        AND trd.REC_START_DATE < CURDATE() + 1
-        GROUP BY AGENT_ID
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
+        WHERE REC_START_DATE >= CURDATE() 
+        AND REC_START_DATE < CURDATE() + 1
+        GROUP BY AGENT_ID, AGENT_TELNO
         ORDER BY RECORD_COUNT DESC
         LIMIT 5;`;
-        logger.info(`[ app.js:/emotionStatus ] 금일 개인 상담 건수\n${query6}`);
+
 
         // 상담 그룹 별 감정 건수
-        let query7 = `SELECT
-            A.group_type,
-            C.emotion_type,
-            IFNULL(COUNT(*), 0) as count
-        FROM emo_user_info as A
-        INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} AS B 
-        ON B.AGENT_TELNO = A.agent_telno 
-        INNER JOIN emo_emotion_info AS C
-        ON C.file_name = B.REC_FILENAME 
-        WHERE STR_TO_DATE(CONCAT(B.REC_START_DATE, ' ', B.REC_START_TIME), '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(NOW(3),'%Y-%m-%d')
-        AND C.send_dt >= CURDATE() 
-        GROUP BY A.group_type, C.emotion_type
-        ORDER BY A.group_type, C.emotion_type;`;
+        let query7_etri = `
+        SELECT
+            eui.agent_telno,
+            eui.group_type,
+            eei.file_name,
+            eei.emotion_type,
+            eei.send_dt
+        FROM emo_user_info eui
+        LEFT JOIN emo_emotion_info eei
+            ON eui.agent_telno = RIGHT(eei.file_name, 4)  -- 파일명 마지막 4자리와 전화번호 매칭
+        WHERE eei.send_dt >= CURDATE();`;
+
+        let query7_acr = `
+        SELECT
+            AGENT_TELNO,
+            REC_FILENAME,
+            STR_TO_DATE(CONCAT(REC_START_DATE, ' ', REC_START_TIME), '%Y-%m-%d %H:%i:%s') AS RECORD_TIMESTAMP
+        FROM acr_v4.t_rec_data202501
+        WHERE STR_TO_DATE(CONCAT(REC_START_DATE, ' ', REC_START_TIME), '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(NOW(3), '%Y-%m-%d');`;
+
         logger.info(`[ app.js:/emotionStatus ] 상담 그룹 별 감정 건수\n${query7}`);
 
         //  직급 or MBTI or 나이 등등 별 감성 건수
-        let query8=`SELECT 
+        let query8_etri=`
+        SELECT
+            eui.login_id,
             CASE 
-                WHEN A.age BETWEEN 20 AND 29 THEN '20대'
-                WHEN A.age BETWEEN 30 AND 39 THEN '30대'
-                WHEN A.age BETWEEN 40 AND 49 THEN '40대'
-                WHEN A.age BETWEEN 50 AND 59 THEN '50대'
-                WHEN A.age >= 60 THEN '60대 이상'
+                WHEN eui.age BETWEEN 20 AND 29 THEN '20대'
+                WHEN eui.age BETWEEN 30 AND 39 THEN '30대'
+                WHEN eui.age BETWEEN 40 AND 49 THEN '40대'
+                WHEN eui.age BETWEEN 50 AND 59 THEN '50대'
+                WHEN eui.age >= 60 THEN '60대 이상'
                 ELSE '기타'
             END AS age_group,
-            C.emotion_type,
-            IFNULL(COUNT(*), 0) as count
-        FROM emo_user_info as A
-        INNER JOIN acr_v4.t_rec_data${DateUtils.getYearMonth()} AS B 
-            ON B.AGENT_ID = A.login_id
-        INNER JOIN emo_emotion_info AS C
-            ON C.file_name = B.REC_FILENAME
-        WHERE STR_TO_DATE(CONCAT(B.REC_START_DATE, ' ', B.REC_START_TIME), '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(NOW(3),'%Y-%m-%d')
-            AND C.send_dt >= CURDATE()
-        GROUP BY 
-            CASE 
-                WHEN A.age BETWEEN 20 AND 29 THEN '20대'
-                WHEN A.age BETWEEN 30 AND 39 THEN '30대'
-                WHEN A.age BETWEEN 40 AND 49 THEN '40대'
-                WHEN A.age BETWEEN 50 AND 59 THEN '50대'
-                WHEN A.age >= 60 THEN '60대 이상'
-                ELSE '기타'
-            END,
-            C.emotion_type
-        ORDER BY 
-            CASE 
-                WHEN age_group = '20대' THEN 1
-                WHEN age_group = '30대' THEN 2
-                WHEN age_group = '40대' THEN 3
-                WHEN age_group = '50대' THEN 4
-                WHEN age_group = '60대 이상' THEN 5
-                ELSE 6
-            END,
-            C.emotion_type;`;
+            eei.file_name,
+            eei.emotion_type,
+            eei.send_dt
+        FROM emo_user_info eui
+        INNER JOIN emo_emotion_info eei
+            ON eui.agent_telno = RIGHT(eei.file_name, 4)  -- 파일명 마지막 4자리와 전화번호 매칭
+        WHERE eei.send_dt >= CURDATE();`;
+
+        let query8_acr=`
+        SELECT
+            AGENT_ID,
+            REC_FILENAME,
+            STR_TO_DATE(CONCAT(REC_START_DATE, ' ', REC_START_TIME), '%Y-%m-%d %H:%i:%s') AS RECORD_TIMESTAMP
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
+        WHERE STR_TO_DATE(CONCAT(REC_START_DATE, ' ', REC_START_TIME), '%Y-%m-%d %H:%i:%s') >= DATE_FORMAT(NOW(3), '%Y-%m-%d');`;
+        
         logger.info(`[ app.js:/emotionStatus ] 상담 그룹 별 감정 건수\n${query8}`);
 
         connection.query(query1+query2+query3+query4+query5+query6+query7+query8, (err, results) => {
@@ -2007,9 +1994,12 @@ app.get('/statsDetail', async (req, res) => {
                 DATE_FORMAT(REC_START_DATE, '%Y-%m-%d') AS formatted_date,
                 TARGET_TELNO,
                 MEMO,
-                DATE_FORMAT(REC_START_TIME, '%H시 %i분 %s초') AS formatted_time,
+                DATE_FORMAT(REC_START_TIME, '%H') AS hours,
+                DATE_FORMAT(REC_START_TIME, '%i') AS minutes,
+                DATE_FORMAT(REC_START_TIME, '%s') AS seconds,
                 REC_FILENAME,
-                CONCAT(FLOOR(REC_DURATION / 60), ' 분 ', REC_DURATION % 60, ' 초') AS call_duration
+                FLOOR(REC_DURATION / 60) AS duration_minutes,
+                REC_DURATION % 60 AS duration_seconds
             FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
             WHERE 
                 REC_FILENAME IS NOT NULL
@@ -2039,7 +2029,7 @@ app.get('/statsDetail', async (req, res) => {
                 if (err) {
                     logger.error(`[ app.js:acrQuery ] ${err}`);
                     
-                    logger.error('2');
+                    logger.error('app.js : 20250110_statsDetail');
                     reject(err);
                 } else {
                     resolve(results);
