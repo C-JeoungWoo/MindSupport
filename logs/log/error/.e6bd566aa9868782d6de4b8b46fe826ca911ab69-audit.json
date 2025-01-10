@@ -6,21 +6,6 @@
     "auditLog": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/.e6bd566aa9868782d6de4b8b46fe826ca911ab69-audit.json",
     "files": [
         {
-            "date": 1736212129684,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_10_error.log",
-            "hash": "d750c17344d3f2c57e2fcc62f5905eca8cb746541a9d16ce55f02460a18194f1"
-        },
-        {
-            "date": 1736215200804,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_11_error.log",
-            "hash": "36473e93277beaea10df966759f80f01753c739f5395d88941fa7c5c6aa2f247"
-        },
-        {
-            "date": 1736219549856,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_12_error.log",
-            "hash": "1562628bd061ac25e91c6cf7377e91d98595915ae7e7544bd24c3b6462762ad5"
-        },
-        {
             "date": 1736224212607,
             "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_13_error.log",
             "hash": "ded790768003a6b43bcf76d0d300fd4a6b7bba53c8ab4875494a35c3c330f0fd"
@@ -154,6 +139,21 @@
             "date": 1736485222511,
             "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_14_error.log",
             "hash": "ec5b395bcc67952c04a2f8f47407d609f36fbf8072682715810bdffb15e98ce4"
+        },
+        {
+            "date": 1736489026574,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_15_error.log",
+            "hash": "02414ff85f278f40300f974cbef959430918ab0773c6c716861755ddcc104179"
+        },
+        {
+            "date": 1736492450120,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_16_error.log",
+            "hash": "9dd68c9214aa931c0c1dff2046425d6a47b53572a2f1a678e25671af01e81628"
+        },
+        {
+            "date": 1736496595585,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_17_error.log",
+            "hash": "14c9900d6064179c1f3e881ff5ee55cb8e6dee35ac84c03b8778cd5bef169bba"
         }
     ],
     "hashType": "sha256"

@@ -91,24 +91,37 @@
         <% } else { %>
           <% 
           // 감정 타입을 원하는 순서로 변경
-          const emotionTypes = ['8', '11', '6', '7']; 
+          const emotionTypes = {
+            '화남':['3', '8', '14'],
+            '슬픔':['4', '7', '12', '13'],
+            '행복':['5', '6'],
+            '평온':['2', '9', '10', '11']
+          }; 
           const emotionNames = {
-            '8': '화남',
-            '11': '슬픔',
-            '6': '행복',
-            '7': '평온'
+            '화남': '화남',
+            '슬픔': '슬픔',
+            '행복': '행복',
+            '평온': '평온'
           };
 
           const emotionIcons = {
-            '8': 'ic_angry@2x.png',
-            '11': 'ic_sad@2x.png',
-            '6': 'ic_happy@2x.png',
-            '7': 'ic_calm@2x.png'
+            '화남': 'ic_angry@2x.png',
+            '슬픔': 'ic_sad@2x.png',
+            '행복': 'ic_happy@2x.png',
+            '평온': 'ic_calm@2x.png'
           };
 
-          emotionTypes.forEach(type => {
-            const data = result_todayEmo.find(item => item.emotion_type === type) || { emotion_type: type, today_count: 0, count_change: 0 };
-          %>
+          // 감정 그룹을 순차적으로 처리
+        Object.keys(emotionTypes).forEach(group => {
+          // 그룹에 속한 감정 타입의 데이터를 찾아서 합침
+          const groupData = emotionTypes[group].map(type => {
+            return result_todayEmo.find(item => item.emotion_type === type) || { emotion_type: type, today_count: 0, count_change: 0 };
+          });
+
+          // 그룹의 총 합산 데이터를 계산
+          const totalCount = groupData.reduce((sum, item) => sum + item.today_count, 0);
+          const totalChange = groupData.reduce((sum, item) => sum + item.count_change, 0);
+        %>
           <div class="facialItem" style="grid-template-columns: 25%;">
             <img src="../images/<%= emotionIcons[type] %>" alt="<%= emotionNames[type] %>" style="width: 200%;">
             <div class="textArea">

@@ -6,21 +6,6 @@
     "auditLog": "/home/nbetri2/MindSupport_v1.0.0/logs/log/.2fa38820785ab6c0a410c6ee609da388e10a57bd-audit.json",
     "files": [
         {
-            "date": 1736212069857,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250107_10.log",
-            "hash": "794d8a1f99fdfe8bae9f399048507173fea5be9ddc7c7d2000e32cacd4712551"
-        },
-        {
-            "date": 1736215200149,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250107_11.log",
-            "hash": "b1bec4d6f905f7afb8c8d9ce889d90845010e7edd07e7569506203d4835c0376"
-        },
-        {
-            "date": 1736219549855,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250107_12.log",
-            "hash": "1416b2f8c67814abbe5909c37dd92d6a1fcfcb01e193a31d2a0f4a4aa453c4f8"
-        },
-        {
             "date": 1736224212606,
             "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250107_13.log",
             "hash": "090e593400ce17e9cf35fab5b9e3a44f86f34f487608d48abb7bb86ea7be31cf"
@@ -154,6 +139,21 @@
             "date": 1736485200818,
             "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250110_14.log",
             "hash": "eda05abdd8e1ecb947ee11102b868fcffbbe809077992b0b988a71b94f98706a"
+        },
+        {
+            "date": 1736489026573,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250110_15.log",
+            "hash": "84bd18e2b774de3717ba489883c64dfb86d1e1a9bb6206b48cfe07341748b7c1"
+        },
+        {
+            "date": 1736492402675,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250110_16.log",
+            "hash": "03c03d7a066c24c3848c45d6dcda1f81a2804e5140aca122968e2d38dfbe9b96"
+        },
+        {
+            "date": 1736496595583,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/250110_17.log",
+            "hash": "d9767ce731ed7cd95015efff4ca208e99a548b9f46409bb5122953514324dad1"
         }
     ],
     "hashType": "sha256"

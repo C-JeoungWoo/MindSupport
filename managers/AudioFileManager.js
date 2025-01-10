@@ -57,10 +57,9 @@ class AudioFileManager {
             if (callInfo.rx.status === 'completed' && callInfo.tx.status === 'completed') {
                 const handleServiceStop_result = await this.handleServiceStop(userId);
 
-                if(!handleServiceStop_result) {
+                if(!handleServiceStop_result === true) { // 250110 true 값 받는거 수정
                     logger.warn(`[ AudioFileManager:handleProcessingComplete ] Error completing process`);
                 } else {
-                    logger.error('++++++++++++++++++++++++++++++++2++++++++++++++++++++');
                     this.callTracker.delete(callId);  // 통화 추적 정보 삭제
                     return true;
                 }
@@ -78,13 +77,17 @@ class AudioFileManager {
         try {
             const stopResult = await this.EmoServiceStopRQ(userId);
             
-            if (stopResult === 'success') {
+            // stopResult가 성공 메시지인 경우만 true 반환
+            if (stopResult.includes('success')) {
+                if (stopResult.includes('User not found')) {
+                    logger.error(`[ AudioFileManager:handleServiceStop ] User not found for user ${userId}`);
+                    return false;
+                }
+                
                 logger.info(`[ AudioFileManager:handleServiceStop ] Service stopped successfully for user ${userId}`);
-
                 return true;
             } else {
                 logger.error(`[ AudioFileManager:handleServiceStop ] Failed to stop service: ${stopResult}`);
-
                 return false;
             }
         } catch (error) {
@@ -102,108 +105,112 @@ class AudioFileManager {
         logger.debug(`[ audioServices.js:EmoServiceStopRQ ] userinfo_userId : ${userinfo_userId}`);
 
         try {
-            logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Stopping service for user: ${userinfo_userId}`);
+            // const queries = {
+            //     userinfo_userId: userinfo_userId >= 10 ? userinfo_userId-10 : userinfo_userId,
+            //     queueInfo: userinfo_userId <= 10 ? ErkQueueInfo : ErkQueueInfo2,
+            //     recvQueueNameField: userinfo_userId <= 10 ? 'erkengineInfo_return_recvQueueName' : 'erkengineInfo_returnCustomer_recvQueueName',
+            //     sendQueueNameField: userinfo_userId <= 10 ? 'erkengineInfo_return_sendQueueName' : 'erkengineInfo_returnCustomer_sendQueueName'
+            // };
+            if( userinfo_userId >= 10) { return }
+            let stop_userinfo_userId = userinfo_userId >= 10 ? userinfo_userId-10 : userinfo_userId;
+            let test_qry = `SELECT
+                session_id,
+                JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.org_id')) as user_orgid,
+                JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.userinfo_uuid')) as user_uuid,
+                JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.cusinfo_uuid')) as user_uuid2,
+                eui.*
+            FROM sessions s
+            LEFT JOIN emo_user_info eui
+                ON eui.login_id = JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.login_id'))
+            WHERE eui.userinfo_userid = ${stop_userinfo_userId};`;
+            connection1.query(test_qry, (err, results) => {
+                if(err) {
+                    logger.error(`[ app.js:EmoServiceStopRQ ] ${err}`);
+                    throw err;
+                }
+                logger.info(`[ app.js:EmoServiceStopRQ ] 조회 결과 ${results.length}건`);
 
-            return new Promise((resolve, reject) => {
-                const timeout = setTimeout(() => {
-                    logger.warn(`[ audioServices.js:EmoServiceStopRQ ] Channel response timeout`);
-                    resolve(null);
-                }, 5000);
-            
-                const queries = [
-                    {
-                        userinfo_userId: userinfo_userId,
-                        queueInfo: ErkQueueInfo,
-                        recvQueueNameField: 'erkengineInfo_return_recvQueueName',
-                        sendQueueNameField: 'erkengineInfo_return_sendQueueName',
-                    },
-                    {
-                        userinfo_userId: userinfo_userId - 10,
-                        queueInfo: ErkQueueInfo2,
-                        recvQueueNameField: 'erkengineInfo_returnCustomer_recvQueueName',
-                        sendQueueNameField: 'erkengineInfo_returnCustomer_sendQueueName',
-                    },
-                ];
-            
-                let promises = queries.map((queryInfo) => {
-                    return new Promise((resolveQuery, rejectQuery) => {
-                        connection1.query(
-                            `SELECT
-                                session_id,
-                                JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.org_id')) as user_orgid,
-                                JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.userinfo_uuid')) as user_uuid,
-                                JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.cusinfo_uuid')) as user_uuid2,
-                                eui.*
-                            FROM sessions s
-                            LEFT JOIN emo_user_info eui
-                                ON eui.login_id = JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.login_id'))
-                            WHERE eui.userinfo_userid = ${queryInfo.userinfo_userId};`,
-                            (err, results) => {
-                                if (err) {
-                                    logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
-                                    rejectQuery(err);
-                                    return;
-                                }
-            
-                                if (results.length > 0) {
-                                    let ErkMsgHead = ErkApiMsg.create({
-                                        MsgType: 23,
-                                        TransactionId: queryInfo.userinfo_userId === userinfo_userId ? results[0].user_uuid : results[0].user_uuid2,
-                                        QueueInfo: queryInfo.queueInfo,
-                                        OrgId: results[0].user_orgid,
-                                        UserId: queryInfo.userinfo_userId,
-                                    });
-            
-                                    let EmoServiceStopMsg = ErkApiMsg.create({
-                                        EmoServiceStopRQ: {
-                                            ErkMsgHead: ErkMsgHead,
-                                            EmoRecogType: 1,
-                                            MsgTime: DateUtils.getCurrentTimestamp(),
-                                            ServiceType: results[0].userinfo_serviceType,
-                                            PhysioEngine_ReceiveQueueName: "",
-                                            PhysioEngine_SendQueueName: "",
-                                            SpeechEngine_ReceiveQueueName: `${results[0][queryInfo.recvQueueNameField]}`,
-                                            SpeechEngine_SendQueueName: `${results[0][queryInfo.sendQueueNameField]}`,
-                                            FaceEngine_ReceiveQueueName: "",
-                                            FaceEngine_SendQueueName: "",
-                                            KnowledgeEngine_ReceiveQueueName: "",
-                                            KnowledgeEngine_SendQueueName: "",
-                                        },
-                                    });
-            
-                                    let EmoServiceStopMsg_buf = ErkApiMsg.encode(EmoServiceStopMsg).finish();
-                                    logger.info(`[ audioServices.js:EmoServiceStopRQ ] 생성된 EmoServiceStopRQ 메세지\n${JSON.stringify(EmoServiceStopMsg_buf, null, 4)}`);
-            
-                                    let emoSerStop_send_rq = `UPDATE emo_user_info
-                                    SET erkEmoSrvcStop_send_dt = NOW(3)
-                                    WHERE userinfo_userId = ${queryInfo.userinfo_userId};`;
-            
-                                    connection1.query(emoSerStop_send_rq, (err, updateResults) => {
-                                        if (err) {
-                                            logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
-                                            rejectQuery(err);
-                                            return;
-                                        }
-            
-                                        logger.info(`[ audioServices.js:EmoServiceStopRQ ] DB 업데이트 후 메세지 송신`);
-                                        (queryInfo.queueInfo === ErkQueueInfo ? ch : ch2).sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf);
-            
-                                        resolveQuery('success');
-                                    });
-                                } else {
-                                    resolveQuery(`User not found`);
-                                }
-                            }
-                        );
+                if (results.length > 0) {
+                    //  상담원
+                    let ErkMsgHead = ErkApiMsg.create({
+                        MsgType: 23,
+                        TransactionId: results[0].user_uuid,
+                        QueueInfo: ErkQueueInfo,
+                        OrgId: results[0].user_orgid,
+                        UserId: results[0].userinfo_userId
                     });
-                });
-            
-                Promise.all(promises)
-                    .then(resolve)
-                    .catch(reject);
-            });            
+
+                    //  고객
+                    let ErkMsgHead_cus = ErkApiMsg.create({
+                        MsgType: 23,
+                        TransactionId: results[0].user_uuid2,
+                        QueueInfo: ErkQueueInfo2,
+                        OrgId: results[0].user_orgid,
+                        UserId: results[0].userinfo_userId + 10
+                    });
+
+                    let EmoServiceStopMsg = ErkApiMsg.create({
+                        EmoServiceStopRQ: {
+                            ErkMsgHead: ErkMsgHead,
+                            EmoRecogType: 1,    // 개인감성 or 사회감성
+                            MsgTime: DateUtils.getCurrentTimestamp(), // 년월일시분초밀리초
+                            ServiceType: results[0].service_type,
+                            PhysioEngine_ReceiveQueueName: "",
+                            PhysioEngine_SendQueueName: "",
+                            SpeechEngine_ReceiveQueueName: `${results[0].erkengineInfo_return_recvQueueName}`,
+                            SpeechEngine_SendQueueName: `${results[0].erkengineInfo_return_sendQueueName}`,
+                            FaceEngine_ReceiveQueueName: "",
+                            FaceEngine_SendQueueName: "",
+                            KnowledgeEngine_ReceiveQueueName: "",
+                            KnowledgeEngine_SendQueueName: "",
+                        }
+                    });
+
+                    let EmoServiceStopMsg_cus = ErkApiMsg.create({
+                        EmoServiceStopRQ: {
+                            ErkMsgHead: ErkMsgHead_cus,
+                            EmoRecogType: 1,    // 개인감성 or 사회감성
+                            MsgTime: DateUtils.getCurrentTimestamp(), // 년월일시분초밀리초
+                            ServiceType: results[0].service_type,
+                            PhysioEngine_ReceiveQueueName: "",
+                            PhysioEngine_SendQueueName: "",
+                            SpeechEngine_ReceiveQueueName: `${results[0].erkengineInfo_returnCustomer_recvQueueName}`,
+                            SpeechEngine_SendQueueName: `${results[0].erkengineInfo_returnCustomer_sendQueueName}`,
+                            FaceEngine_ReceiveQueueName: "",
+                            FaceEngine_SendQueueName: "",
+                            KnowledgeEngine_ReceiveQueueName: "",
+                            KnowledgeEngine_SendQueueName: "",
+                        }
+                    });
+
+                    let EmoServiceStopMsg_buf = ErkApiMsg.encode(EmoServiceStopMsg).finish();
+                    let EmoServiceStopMsg_buf_cus = ErkApiMsg.encode(EmoServiceStopMsg_cus).finish();
+
+                    let emoSerStop_send_rq = `UPDATE emo_user_info
+                    SET erkEmoSrvcStop_send_dt = NOW(3)
+                    WHERE userinfo_userId IN(${results[0].userinfo_userId}, ${results[0].userinfo_userId+10});`;
+
+                    connection1.query(emoSerStop_send_rq, (err, results) => {
+                        if (err) {
+                            logger.error(`[ app.js:emoSerStop_send_rq ] ${err}`);
+                            return null;
+                        }
+                        logger.info(`[ app.js:emoSerStop_send_rq ] 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStopMsg, null, 4)}`);
+                        logger.info(`[ app.js:emoSerStop_send_rq ] 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStopMsg_cus, null, 4)}`);
+                        
+                        ch.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf);
+                        ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf_cus);
+                    });
+
+                    return 'success';
+                } else {
+                    logger.warn(`[ AudioFileManager.js : hahaha]`);
+
+                    return;
+                }
+            });
         } catch (err) {
-            logger.error(`[ audioServices.js:EmoServiceStopRQ ] ${err}`);
+            logger.error(`[ AudioFileManager.js : EmoServiceStopRQ ] ${err}`);
             
             return {
                 message: 'error',
