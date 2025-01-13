@@ -15,7 +15,6 @@
 | **index.ejs**      | 소켓 연결하는 부분 IP 변경      | `url: 'http://192.168.x.x'`   |
 |      | **nfs-server systemctl status 확인**      |   |
 |      | **nfs-client 마운트 상태 확인**      |  |
-|       | **DB 쿼리 코드에 들어있는 DB명 전부를 ETRI_EMOTION => MindSupport로 변경**       |    |
 |       | **load.proto() 경로 변경**       |    |
 |       | **config 디렉토리 내부의 directories.js 경로 변경**       |    |
 
@@ -27,9 +26,3 @@
 ### 참고
 - IP 주소 변경 후 프로젝트를 실행하기 전, 수정한 파일을 다시 한번 확인하세요.
 - 서버 간 IP 주소 혼동으로 인한 오류를 방지하기 위해, 각 서버에 고유한 환경설정을 유지하세요.
-
-GIT 사용시 꿀팁
-git pull 은 git fetch + git merge 작업을 합쳐서 한번에 병행하는 작업으로
-코드 충돌시 에러가 나는 경우가 많다. 이를 안전하게 수행하기 위해선
-git pull 대신 git merge로 먼저 파일 충돌을 resolve 해준 후 git commit을 실시하고
-그 후 git push 할 경우 순조롭게 GitHub push가 가능하다.
