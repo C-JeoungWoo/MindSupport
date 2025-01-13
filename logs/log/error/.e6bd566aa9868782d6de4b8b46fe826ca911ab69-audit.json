@@ -6,121 +6,6 @@
     "auditLog": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/.e6bd566aa9868782d6de4b8b46fe826ca911ab69-audit.json",
     "files": [
         {
-            "date": 1736224212607,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_13_error.log",
-            "hash": "ded790768003a6b43bcf76d0d300fd4a6b7bba53c8ab4875494a35c3c330f0fd"
-        },
-        {
-            "date": 1736226082913,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_14_error.log",
-            "hash": "7860a3c1c4f1ee0aa620eb37177af8ed40e6b475968d5705ee2848b367d3b5f8"
-        },
-        {
-            "date": 1736230435764,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_15_error.log",
-            "hash": "b217b2acd8720f9d9df7515bc841931519fd1823eb200df91190a8da529abf46"
-        },
-        {
-            "date": 1736233448572,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_16_error.log",
-            "hash": "5a73e2ea89483d8d459267ba2101d0b679623c67f2019a8448b6f6fcb12f803c"
-        },
-        {
-            "date": 1736238635150,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_17_error.log",
-            "hash": "74a55852a12ff00445ce0a67e7c5f6ff3ce7ebbdb445cd43077ea7c0e04cb4c3"
-        },
-        {
-            "date": 1736245270831,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_19_error.log",
-            "hash": "99b438a7e20aec49ae12906f2658e7139392e3d4388ce5146dde83696f1bdc23"
-        },
-        {
-            "date": 1736247912100,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250107_20_error.log",
-            "hash": "79470a346e30f50af4f39fe93d91b3a4d93bd0bacb871f2f9d82a9c1959930ed"
-        },
-        {
-            "date": 1736295740498,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_09_error.log",
-            "hash": "f085ddd9176357ef1367985fcb905bfff52b541fed5bdde3067c6319d0095a94"
-        },
-        {
-            "date": 1736298758438,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_10_error.log",
-            "hash": "76c28f9482e3726fe325529f6decd30a69b47b26ebff5ce7f45120225dc33f1c"
-        },
-        {
-            "date": 1736302542957,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_11_error.log",
-            "hash": "093a46dead510121f14b2608d37fb09094513191a532a06d9b679dcd79cfee83"
-        },
-        {
-            "date": 1736312689412,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_14_error.log",
-            "hash": "3fcf237928e2214023ca5a1c700c175cdcb0b3fb51200eaf8163bd4606fb8841"
-        },
-        {
-            "date": 1736316883973,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_15_error.log",
-            "hash": "60bdf9fcf912aa12f5353997c3c1165cc19da41a72aed2032217ac348d597893"
-        },
-        {
-            "date": 1736320058211,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_16_error.log",
-            "hash": "bda1ff99d3e3cee22eb87b9a9e4fa7f782c2775eb6002218150265838ac5d6f4"
-        },
-        {
-            "date": 1736323285036,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_17_error.log",
-            "hash": "cec9cea0f0d41ced2735d08b6702586b80f95756403a994e26795c397ca17b69"
-        },
-        {
-            "date": 1736331714372,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250108_19_error.log",
-            "hash": "5b02c9e81203c922b7eb3b1a3d55715d7946dec157b1d78b475e3b3501d9443e"
-        },
-        {
-            "date": 1736390083231,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_11_error.log",
-            "hash": "53dbc42cd6de69db8cff549a6d39c73472af7e1419bdc960f2cbb20d5e34e825"
-        },
-        {
-            "date": 1736392371431,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_12_error.log",
-            "hash": "f7d97ddba7efa8bbb92c477b5647723cd16eeb2f76935da3285f29bc4c47d4e2"
-        },
-        {
-            "date": 1736398701864,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_13_error.log",
-            "hash": "d5369a93a40f80b5ae78d687c4f5cff9ebe54d4191cd514156efdab3aa9965c5"
-        },
-        {
-            "date": 1736398998660,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_14_error.log",
-            "hash": "12798c98cf62e44b9917f3c5c70b2eaa501349db27976c1d103cc583211f0e42"
-        },
-        {
-            "date": 1736402489591,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_15_error.log",
-            "hash": "83a55d629e72c4ff97a24de6e66347abffb4465a43050df55dea3b663b6025d3"
-        },
-        {
-            "date": 1736406057743,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_16_error.log",
-            "hash": "739ac36408498a7e87237a30bded23252e6559649310cb52cb0300e98fba8aa6"
-        },
-        {
-            "date": 1736409611620,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250109_17_error.log",
-            "hash": "4139fa18123b3c44296255d04a684b907f0023df01a142ad2267a4d0b13be073"
-        },
-        {
-            "date": 1736471893081,
-            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_10_error.log",
-            "hash": "54dac521855c5772232574f2ab879c1f7314cd08d6629a42834e3cd9d672d7a8"
-        },
-        {
             "date": 1736475595411,
             "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_11_error.log",
             "hash": "722f886e588d0a699f9819502941f9ab4fb84887e105702dbbbae1c2b46b12e4"
@@ -154,6 +39,121 @@
             "date": 1736496595585,
             "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250110_17_error.log",
             "hash": "14c9900d6064179c1f3e881ff5ee55cb8e6dee35ac84c03b8778cd5bef169bba"
+        },
+        {
+            "date": 1736575726684,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250111_15_error.log",
+            "hash": "d624003d9431aa355b92398371a74b16a4090f819780572d5a8cc34ff63fa7db"
+        },
+        {
+            "date": 1736578807754,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250111_16_error.log",
+            "hash": "979a2916c0a797f5b47f55bd14d03930ee61127f516d22d7dc866ddd0914456d"
+        },
+        {
+            "date": 1736587081171,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250111_18_error.log",
+            "hash": "1d4a7dc1452e4c275629d20df23357e5643f6426f9c775e0b85e63bdf8e9fa0c"
+        },
+        {
+            "date": 1736652437313,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_12_error.log",
+            "hash": "dcf043ad4e42263abbd9a17fb0e68d091dea57e8b4f6b7f8f2eb53659c359220"
+        },
+        {
+            "date": 1736654421019,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_13_error.log",
+            "hash": "050d79d4856e84c078abf4a7da270c858c9aa56ca2838ea1d5939088a32c5aff"
+        },
+        {
+            "date": 1736658040269,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_14_error.log",
+            "hash": "ddc5f4244f84563ef48bcd4291e242931f99fe7fcb8633a51c9c3ec9e12231db"
+        },
+        {
+            "date": 1736662070719,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_15_error.log",
+            "hash": "efeff93fbbd1b23e6b10791c7637218fcba297be951896368fa316100d2decd3"
+        },
+        {
+            "date": 1736665259036,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_16_error.log",
+            "hash": "fa81dfd0b9d36f6b8b7b101e45582010e5ac161848a88d45b5627be71e1e8bbf"
+        },
+        {
+            "date": 1736677289532,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_19_error.log",
+            "hash": "bded76990b25a69e529e4f517c100ea44ceb0133f81c36d4c366c2d4105e66ea"
+        },
+        {
+            "date": 1736679935195,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_20_error.log",
+            "hash": "a27ecc16b48e5bcbb1831d52db86bde402feafce23ce9c98294e6878a36b2fe5"
+        },
+        {
+            "date": 1736684164613,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250112_21_error.log",
+            "hash": "0f14d75d56f8f9ef1a1c37310047cbf28e7b901560dd84efb2df3cffef6fdfb2"
+        },
+        {
+            "date": 1736726089878,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_08_error.log",
+            "hash": "59ebd21c7a48bd71d65999038581e9aa61ba0a91f5610f4969d07965e6d4d168"
+        },
+        {
+            "date": 1736726530506,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_09_error.log",
+            "hash": "e5ab23338736a843e5b8316de6c490a18e27a07802a92fdf46fdd6c42cf5d3f3"
+        },
+        {
+            "date": 1736730064414,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_10_error.log",
+            "hash": "b9d081aa7a7780d20e9519fffb64630c2af113d85d7df89a3458c7eab37399ee"
+        },
+        {
+            "date": 1736733875799,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_11_error.log",
+            "hash": "e5bf8b161a6997147a23c90a67fb1660ff062ec29fcdc3943b7f73d6bb5fb9bd"
+        },
+        {
+            "date": 1736738347688,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_12_error.log",
+            "hash": "dcde3304578c47084d936ffdefe118f50d63c5f7e605df8938024e658d0b93df"
+        },
+        {
+            "date": 1736747825776,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_14_error.log",
+            "hash": "a45f787951a2762bae32b70ac8a10650be5df23a21ddf2f6d061e20074fdb6f5"
+        },
+        {
+            "date": 1736748599252,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_15_error.log",
+            "hash": "1ffaa63584aec56a0ec2ac429d94c7a83effbaecfaec36c5588b3d558148e87e"
+        },
+        {
+            "date": 1736752233324,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_16_error.log",
+            "hash": "1edbd48b3e738a97eb0cb230055fba331b3eaa57c788d1285f4f4292e0d7bfa5"
+        },
+        {
+            "date": 1736755500971,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_17_error.log",
+            "hash": "f3ffa797a6828c8179691592e61a9845354f04be862a7c2924759f7fb14ede72"
+        },
+        {
+            "date": 1736758913039,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_18_error.log",
+            "hash": "96e7f03dad431bf25f76872803b2c179cb8751503a664036ab3d289f7f974810"
+        },
+        {
+            "date": 1736763031901,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_19_error.log",
+            "hash": "50d1d4f228f98fd291ea9c1979bd8da601133c31b8b4240beffb3e55109cb45a"
+        },
+        {
+            "date": 1736766269930,
+            "name": "/home/nbetri2/MindSupport_v1.0.0/logs/log/error/250113_20_error.log",
+            "hash": "407a822fd11354d74e5ba28e04f84d622a3113da5408cf8ee6bdf8ef1f6f4f5d"
         }
     ],
     "hashType": "sha256"

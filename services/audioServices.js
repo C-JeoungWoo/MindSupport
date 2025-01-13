@@ -109,17 +109,23 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
         const { gsmHeaderLength } = result;  // result에서 gsmHeaderLength 추출
         logger.info(`[ audioServices.js:checkGsm610WavFileIntegrity ] File integrity check passed, header length: ${gsmHeaderLength} bytes`);
 
-        let previousSize = 0;
+        // let previousSize = 0;
         let unchangedCount = 0;
         let chunkNumber = 1;
         let lastSize = 0;
         const MAX_UNCHANGED_COUNT = 30;  // 3초
 
         while (true) {
-            const currentSize = fs.statSync(filePath).size;
+            const fileStats = await fsp.stat(filePath);
+            const currentSize = fileStats.size;
+
             if (currentSize === lastSize) {
                 unchangedCount++;
                 if (unchangedCount >= MAX_UNCHANGED_COUNT) {
+                    const originalDataSize = currentSize - gsmHeaderLength;
+                    const pcmDataSize = originalDataSize * (32000/1630);  // 1초 GSM(1630) -> PCM(32000) 비율
+                    const totalMessages = Math.ceil(pcmDataSize / 44000);  // 44000바이트 단위로 분할
+
                     break;
                 }
             } else {
@@ -149,22 +155,43 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
 
                 // 2. 파일 크기 변화 체크
                 const currentSize = fileStats.size;
-                const isFileSizeUnchanged = currentSize === previousSize;
+                // 3. 파일 크기 안정화 카운트
+                if (currentSize !== lastSize) {
+                    lastSize = currentSize;
+                    unchangedCount = 0;
+                } else {
+                    unchangedCount++;
+                }     
 
-                const originalDataSize = currentSize - gsmHeaderLength;
+                const originalDataSize = currentSize - gsmHeaderLength; // GSM 원본 데이터
+                const pcmDataSize = originalDataSize * (32000/1630);  // 1초 GSM(1630) -> PCM(32000) 비율
+                const totalMessages = Math.ceil(pcmDataSize / 44000);  // 44000바이트 단위로 분할
+                // const isFileSizeUnchanged = currentSize === previousSize;
+                let remainingDataSize = pcmDataSize - (44000 * (chunkNumber - 1));// 파일 크기 안정화
+
                 const expectedChunks = Math.ceil(originalDataSize / 1630);
 
-                logger.info(`Data size check: ${originalDataSize}, ${expectedChunks}, ${chunkNumber}`);//250110 수정
+
+                logger.info(`Data size check: ${originalDataSize}, ${expectedChunks}, ${totalMessages}, ${chunkNumber}`);//250113 수정
                 
-                // 3. 파일 크기 안정화 카운트
-                if (isFileSizeUnchanged) unchangedCount++;
-                else unchangedCount = 0;
+                
+                // if (isFileSizeUnchanged) unchangedCount++;
+                // else unchangedCount = 0;
 
                 // 4. 녹취 종료 조건 체크(DB 종료 및 파일 크기 안정화)
-                const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null) && (unchangedCount >= MAX_UNCHANGED_COUNT);
+                const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null) && (unchangedCount >= MAX_UNCHANGED_COUNT); // 청크 31찍히는거 의심
 
-                // 파일 크기 안정화
-                let remainingDataSize = currentSize - (gsmHeaderLength + (1630 * (chunkNumber - 1)));
+                
+                logger.info('handleNewFile calculations:', {
+                    currentSize,
+                    gsmHeaderLength,
+                    originalDataSize,
+                    pcmDataSize,
+                    totalMessages,
+                    currentChunk: chunkNumber,
+                    remainingDataSize: pcmDataSize - (44000 * (chunkNumber - 1))
+                });
+
                 
                 if (isRecordingComplete) {  // 마지막 청크 처리
                     logger.info(`[ audioServices.js:handleNewFile ] Recording completed.
@@ -177,7 +204,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                         chunkNumber,
                         {
                             remainingDataSize: remainingDataSize,   // 남은 데이터 크기
-                            totalFileSize: currentSize, // 전체 파일 크기
+                            totalFileSize: pcmDataSize, // 전체 파일 크기
                             gsmHeaderLength: gsmHeaderLength,   // WAV 헤더 크기
                             fileType: filePath.includes('rx') ? 'rx' : 'tx',  // rx 또는 tx
                             selectedQueue: queueStatus, // 큐 이름 전달
@@ -186,19 +213,20 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                             user_uuid: serviceResponse.user_uuid
                         }
                     );
+                    logger.error(`[ audioServices.js:sendAudioChunks ] totalFileSize(pcmDataSize) : ${totalFileSize}`);
                     logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
-                    if (!sendResult.success) {
+                    if (!sendResult.message === 'success') {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
                     } else {
-                            logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed final chunk ${chunkNumber}`);
-                            
-                            const handleProcessingComplete_result = await audioFileManager.handleProcessingComplete(filePath, userInfoUserId);
-                            if(!handleProcessingComplete_result) {
-                                logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 실패.`);
-                            }
-                            logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 완료.`);
-                            break;
+                        logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed final chunk ${chunkNumber}`);
+                        
+                        const handleProcessingComplete_result = await audioFileManager.handleProcessingComplete(filePath, userInfoUserId);
+                        if(!handleProcessingComplete_result === true) {
+                            logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 실패.`);
+                        }
+                        logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 완료.`);
+                        break;
                     }
                 } else {
                     logger.info(`[ audioServices.js:handleNewFile ] Recording uncompleted.`);
@@ -208,7 +236,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                         chunkNumber,
                         {
                             remainingDataSize: remainingDataSize,   // 남은 데이터 크기
-                            totalFileSize: currentSize, // 전체 파일 크기
+                            totalFileSize: pcmDataSize, // 전체 파일 크기
                             gsmHeaderLength: gsmHeaderLength,   // WAV 헤더 크기
                             fileType: filePath.includes('rx') ? 'rx' : 'tx',  // rx 또는 tx
                             selectedQueue: queueStatus, // 큐 이름 전달
@@ -219,7 +247,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     );
                     logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
-                    if (!sendResult.success) {
+                    if (!sendResult.message === 'success') {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
                     }
                     logger.info('Chunk processing:', {
@@ -232,7 +260,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                 }
 
                 // 7. 상태 업데이트
-                previousSize = currentSize;
+                // previousSize = currentSize;
                 await new Promise(resolve => setTimeout(resolve, 100));
             } catch (error) {
                 logger.error(`[ audioServices.js:handleNewFile ] 9999 Error\n ${error.message} \n${error.stack}\n${filePath}\n${userInfoUserId} `);

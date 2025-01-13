@@ -72,7 +72,7 @@ async function findWavHeaderLength(filePath) {
 }
 
 //  GSM 포맷 변환 시도
-async function attemptConversion(filePath, chunkNumber) {
+async function attemptConversion(filePath, chunkNumber, pcmDataSize) {
     return new Promise(async (resolve, reject) => {
         let localCopyPath = null;
         let outputFile = null;
@@ -92,9 +92,10 @@ async function attemptConversion(filePath, chunkNumber) {
             
             // 이벤트가 발생한 파일명
             const fileName = path.basename(filePath);
-            
+        
             // PCM_OUTPUT 디렉토리 사용
             localCopyPath = path.join(DIRECTORIES.PCM_OUTPUT, fileName);
+
             // DEBUG 디렉토리 추가 사용
             const DEBUG_DIR = path.join(DIRECTORIES.PCM_OUTPUT, 'debug');
             if (!fs.existsSync(DEBUG_DIR)) {
@@ -103,8 +104,11 @@ async function attemptConversion(filePath, chunkNumber) {
             
             // 출력 파일 경로 설정 (PCM WAV): 청크 정보를 포함한 출력 파일명 생성
             const startTime = (chunkNumber - 1) * 3;
-            const endTime = chunkNumber * 3;
+            const actualDuration = pcmDataSize / 32000;  // PCM 데이터 길이 (초) 250113_11시 수정 pcmDataSize 인자 넘겨줘야함
+            
+            const endTime = Math.min(chunkNumber * 3, actualDuration);
             const chunkInfo = `_chunk${chunkNumber}_${startTime}-${endTime}sec`;
+
             outputFile = path.join(DIRECTORIES.PCM_OUTPUT, `${path.parse(fileName).name}${chunkInfo}_pcm.wav`);
 
             // 디버그용 파일 경로
@@ -196,7 +200,7 @@ async function attemptConversion(filePath, chunkNumber) {
 }
 
 //  GSM -> PCM 변환
-async function convertGsmToPcm(inputFile, chunkNumber) {
+async function convertGsmToPcm(inputFile, chunkNumber, totalFileSize) {
     const CONVERSION_TIMEOUT = 300000; // 5 minutes timeout
     logger.info(`[ app.js:convertGsmToPcm ] convertGsmToPcm 함수 호출`);
     
@@ -213,7 +217,7 @@ async function convertGsmToPcm(inputFile, chunkNumber) {
             progressEmitter.on('progress', (progress) => { logger.info(`Conversion progress: ${progress}%`); });
 
             // CONVERTING 형식 변환
-            const conversionResult = await attemptConversion(inputFile, chunkNumber);
+            const conversionResult = await attemptConversion(inputFile, chunkNumber, totalFileSize);
             if (conversionResult.message === 'Conversion completed successfully!') {
                 logger.info(`[ app.js:attemptConversion ] attemptConversion 결과\n${JSON.stringify(conversionResult, null, 2)}`);
 

@@ -41,7 +41,7 @@ class StreamProcessor {
 
         const {
             audioData,
-            pcmDataSize,
+            pcmDataSize, // options.totalFileSize
             numberOfChunks, // numberOfChunks
             rawChunkSize,
             totalChunkSize,
@@ -55,6 +55,8 @@ class StreamProcessor {
             user_uuid,
             selectedQueue
         } = options;
+
+        logger.error(`processFileStream options.pcmDatasize : ${options.pcmDataSize}`);
 
         // options 필수값 검증
         const requiredParams = {
@@ -92,6 +94,13 @@ class StreamProcessor {
             const fileInfo_callId = baseFileName.replace(/\.[^/.]+$/, '').replace(/_[rt]x$/,'');
             if (!fileInfo_callId) {throw new Error('Failed to extract valid callId from filename');}
 
+            logger.info('processFileStream data:', {
+                pcmDataSize : options.pcmDatasize,
+                remainingDataSize,
+                currentChunk: chunkNumber,
+                expectedTotalChunks: Math.ceil(pcmDataSize / 44000)
+            });
+
             const processResult = await this.processChunk(
                 filePath,
                 fileInfo_callId,
@@ -104,7 +113,7 @@ class StreamProcessor {
                 user_uuid,
                 selectedQueue,
                 currentErkApiMsg,
-                pcmDataSize, // 20250109 수정
+                pcmDataSize, // 20250113 수정 processFileStream으로부터 options.totalFileSize를 전달받음
                 chunkNumber
             );
 
@@ -142,7 +151,7 @@ class StreamProcessor {
 
         // 1. 매개변수 검증
         if (!filePath || !fileInfo_callId || !userId || !login_id) { throw new Error('[ StreamProcessor:processFileStream ] Missing required parameters'); }
-        if (!this.totalChunkSize || !this.bytesPerSample) { throw new Error('[ StreamProcessor:processFileStream ] Invalid StreamProcessor configuration'); }
+        if (!pcmDataSize || !this.bytesPerSample) { throw new Error('[ StreamProcessor:processFileStream ] Invalid StreamProcessor configuration'); }
 
         try {
             // 1. 청크 데이터 준비
@@ -150,7 +159,7 @@ class StreamProcessor {
                 filePath,
                 gsmHeaderLength,
                 remainingDataSize,
-                totalChunkSize: this.totalChunkSize,
+                totalChunkSize: pcmDataSize,
                 bytesPerSample: this.bytesPerSample
             });
 
@@ -169,7 +178,7 @@ class StreamProcessor {
                 selectedQueue,
                 user_uuid,
                 org_id,
-                pcmDataSize, // 20250109 수정
+                pcmDataSize, // 202501 수정 options.totalFileSize 를 넘겨받음
                 chunkNumber
             });
 
@@ -198,7 +207,7 @@ class StreamProcessor {
         filePath,
         gsmHeaderLength,
         remainingDataSize,
-        totalChunkSize,
+        totalChunkSize, // pcmDatasize를 받아옴
         bytesPerSample,
         chunkNumber
     }) {
@@ -209,24 +218,31 @@ class StreamProcessor {
             
             // 청크 크기 계산
             const chunkSize = Math.min(remainingDataSize, totalChunkSize);
-            const samplesCount = Math.floor(chunkSize / bytesPerSample);    // 홀수 바이트의 데이터를 할당할 때 오류 발생할 수 있음. ceil(x)
+            logger.error(`[ StreamProcessor.js:preparePaddedChunk ] pcmDataSize(totalChunkSize) 체크 용 로깅 : ${totalChunkSize}`);
             
             // GSM 청크를 위한 버퍼 준비
-            const currentOffset = (chunkNumber-1) + this.rawChunkSize;
-            let paddedChunk = new Uint16Array(totalChunkSize / bytesPerSample);
-            
+            const currentOffset = (chunkNumber-1) * this.rawChunkSize;
+            let paddedChunk = new Uint16Array(44000 / bytesPerSample); // 44000바이트 고정 버퍼 생성 (22000 samples)
+
+            // 실제 복사할 데이터 크기 계산 (32000바이트 또는 남은 크기)
+            const actualDataSize = Math.min(0, Math.min(32000, remainingDataSize)); // 음수가 나오지 않도록 보장
+            const samplesCount = Math.floor(actualDataSize / bytesPerSample) * 2; // 홀수 바이트의 데이터를 할당할 때 오류 발생할 수 있음. ceil(x)
+
             // 실제 데이터 복사 (바이트 정렬 보장)
             const rawChunk = new Uint16Array(
                 audioData.buffer.slice(
-                    audioData.byteOffset + currentOffset, 
-                    audioData.byteOffset + currentOffset + (samplesCount * bytesPerSample)
+                    audioData.byteOffset - (audioData.byteOffset % 2), //2바이트 정렬 보장
+                    audioData.byteOffset + samplesCount
                 )
             );
             paddedChunk.set(rawChunk.subarray(0, samplesCount));
+
+            const remainingPcm = totalChunkSize - actualDataSize; // 로깅용... 추후 삭제 필요
+            logger.info(`[ StreamProcessor.js:preparePaddedChunk ] Chunk preparation: 44000(totalSize) | remainingDataSize : ${remainingDataSize} | actualDataSize : ${actualDataSize} | samplesCount : ${samplesCount} | remainingPcm : ${remainingPcm}` ); 
     
             // 마지막 청크 로깅
             if (remainingDataSize < totalChunkSize) {
-                logger.info('[ StreamProcessor:preparePaddedChunk ]', {
+                logger.info('[ StreamProcessor.js:preparePaddedChunk ]', {
                     message: 'Last chunk detected',
                     remainingDataSize,
                     actualDataSize: remainingDataSize,
@@ -245,12 +261,7 @@ class StreamProcessor {
                 paddedSize: totalChunkSize
             };
         } catch (error) {
-            logger.error('[ StreamProcessor:preparePaddedChunk ] Error:', {
-                error: error.message,
-                stack: error.stack,
-                filePath,
-                remainingDataSize
-            });
+            logger.error(`[ StreamProcessor:preparePaddedChunk ] Error: ${error}`);
             throw error;
         }
     }

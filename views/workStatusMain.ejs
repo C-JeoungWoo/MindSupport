@@ -293,7 +293,7 @@
             <th rowspan="2">No.</th>
             <th rowspan="2">Call ID</th>
             <th rowspan="2">날짜</th>
-            <th rowspan="2">시간</th>
+            <th rowspan="2">통화 시작 시간</th>
             <th rowspan="2">고객번호</th>
             <th rowspan="2">상담유형</th>
             <th rowspan="2">통화시간</th>
@@ -315,97 +315,40 @@
         </thead>
 
         <tbody>
-          <tr>
-            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
-            <td scope="row">1</td>
-            <td scope="row">20240828091052473_A_2502</td>
-            <td scope="row">2024 10-22</td>
-            <td scope="row">09시10분</td>
-            <td scope="row">1000</td>
-            <td scope="row">민원접수</td>
-            <td scope="row">2분 10초</td>
-            <!-- 고객 -->
-            <td scope="row">0</td>
-            <td scope="row">10</td>
-            <td scope="row">15</td>
-            <td scope="row">1</td>
-            <td scope="row">24</td>
-            <!-- 상담원 -->
-            <td scope="row">0</td>
-            <td scope="row">12</td>
-            <td scope="row">6</td>
-            <td scope="row">3</td>
-            <td scope="row">29</td>
-          </tr>
+          <% if (callhistory.length == 0) { %>
+            <tr>
+              <td colspan="7">금일 통화 데이터는 없습니다.</td>
+            </tr>
+            <% } else { %>
+              <% for(var i=0; i<callhistory.length; i++) {
+                let data = callhistory[i]; %>
 
-          <tr>
-            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
-            <td scope="row">2</td>
-            <td scope="row">20240828104527670_B_2502</td>
-            <td scope="row">2024 10-22</td>
-            <td scope="row">11시 01분</td>
-            <td scope="row">3874</td>
-            <td scope="row">일반문의</td>
-            <td scope="row">1분 4초</td>
-            <!-- 고객 -->
-            <td>8</td>
-            <td>6</td>
-            <td>0</td>
-            <td>0</td>
-            <td>7</td>
-            <!-- 상담원 -->
-            <td>5</td>
-            <td>8</td>
-            <td>0</td>
-            <td>0</td>
-            <td>8</td>
-          </tr>
+                  <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
+                  <td><%= i+1 %></td>
+                  <td><%= data.file_name %></td>
+                  <td><%= data.REC_START_DATE_FORMAT %></td>
+                  <td><%= data.hour %>시 <%= data.minute %>분 <%= data.second %>초</td>
+                  <td><%= data.TARGET_TELNO %></td>
+                  <td><%= data.group_type %></td>
+                  <td><%= data.minutes %>분 <%= data.seconds %>초</td>
 
-          <tr>
-            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
-            <td scope="row">3</td>
-            <td scope="row">20240828132635892_C_2502</td>
-            <td scope="row">2024 10-22</td>
-            <td scope="row">13시 26분</td>
-            <td scope="row">2000</td>
-            <td scope="row">일반문의</td>
-            <td scope="row">2분 46초</td>
-            <!-- 고객 -->
-            <td>0</td>
-            <td>37</td>
-            <td>0</td>
-            <td>0</td>
-            <td>18</td>
-            <!-- 상담원 -->
-            <td>3</td>
-            <td>39</td>
-            <td>4</td>
-            <td>1</td>
-            <td>8</td>
-          </tr>
+                  <!-- 고객 -->
+                  <td><%= data.angry_cusEmo_count %></td>
+                  <td><%= data.sad_cusEmo_count %></td>
+                  <td><%= data.happy_cusEmo_count %></td>
+                  <td><%= data.calm_cusEmo_count %></td>
+                  <td><%= data.no_response_cusEmo_count %></td>
 
-          <tr>
-            <td><input id="chkCondition" type="checkbox" name="row_CheckBox" style="width: 1.2em; height: 1.2em;"></td>
-            <td scope="row">3</td>
-            <td scope="row">20241016132635892_D_2502</td>
-            <td scope="row">2024 10-22</td>
-            <td scope="row">13시 26분</td>
-            <td scope="row">2000</td>
-            <td scope="row">일반문의</td>
-            <td scope="row">2분 46초</td>
-            <!-- 고객 -->
-            <td>0</td>
-            <td>37</td>
-            <td>0</td>
-            <td>0</td>
-            <td>18</td>
-            <!-- 상담원 -->
-            <td>3</td>
-            <td>39</td>
-            <td>4</td>
-            <td>1</td>
-            <td>8</td>
-          </tr>
+                  <!-- 상담원원 -->
+                  <td><%= data.angry_emotion_count %></td>
+                  <td><%= data.sad_emotion_count %></td>
+                  <td><%= data.happy_emotion_count %></td>
+                  <td><%= data.calm_emotion_count %></td>
+                  <td><%= data.no_response_emotion_count %></td>
+                </tr>
+
+              <% } %>
+            <% } %>
 
         </tbody>
       </table>
@@ -658,7 +601,6 @@
       coachingModalOpen(tdArr);
     });
     
-
     //  상담원 상세 근무현황 코칭 모달 창 열기
     $(document).on('click', '.beforeSendingCoach2', function(e) {
       e.preventDefault(); // 기본 링크 동작 방지
@@ -747,18 +689,30 @@
     
    // 재생 버튼 클릭 시 ---------20240905 최정우 연구원 수정
     $(".playBtn").click(function() {
-        // 파일 명에 따라 src 경로를 동적으로 할당하기 위하여 코드 추가
-        const callid = $('#callIdSpan').text().trim();
+        // 파일 명과 통화 시작 시간 가져오기
+        const callid = $(this).closest("tr").find("td:nth-child(3)").text().trim();
+        const recStartDate = $(this).closest("tr").find("td:nth-child(4)").text().trim(); // REC_START_DATE_FORMAT 위치
+
+        // 날짜와 시간 추출 (예: "2025-01-13 10시 30분 40초")
+        const dateMatch = recStartDate.match(/(\d{4})-(\d{2})-(\d{2})/); // 날짜 추출
+        const timeMatch = recStartDate.match(/(\d{1,2})시\s*(\d{1,2})분/); // 시간, 분 추출
+
+        // 날짜를 20250113 형식으로 변환
+        const dateCode = dateMatch ? `${dateMatch[1]}${dateMatch[2]}${dateMatch[3]}` : '';
+
+        // 시간을 1030 형식으로 변환
+        // 시간과 분 추출 후 내림 변환
+        let timeCode = '';
+        if (timeMatch) {
+            const hour = parseInt(timeMatch[1], 10).toString().padStart(2, '0'); // 시
+            const minute = Math.floor(parseInt(timeMatch[2], 10) / 10) * 10; // 10분 단위로 내림
+            timeCode = `${hour}${minute.toString().padStart(2, '0')}`;
+        }
 
         // 파일 경로 설정
-        if (callid === '20240828091052473_A_2502.wav') {
-            document.getElementById('audioPlayer').src = "/music/부정(1).mp3";
-        } else if (callid === '20240828104527670_B_2502.wav') {
-            document.getElementById('audioPlayer').src = "/music/행복(3).mp3";
-        } else if (callid === '20240828132635892_C_2502.wav') {
-            document.getElementById('audioPlayer').src = "/music/긍정_중립(2).mp3";
-        }
-        
+        let filepath = "";
+        filepath = `/ms_nfs_mount/${datecode}/${timeCode}/${callid}.ew2`;
+        document.getElementById('audioPlayer').src = filepath;
         // 오디오 메타데이터가 로드될 때까지 대기
         // audioPlayer.duration 값이 업데이트 되기전에 오디오 파일이 실행될경우
         // audioPlayer.duration 값이 0으로 남아있는 상태에서 시작되기 때문에
@@ -816,9 +770,17 @@
   const emotionTypes = {
     '0': { name: '기타', color: 'rgba(119, 136, 153, 1)'},
     '1': { name: '중립', color: 'rgba(128, 128, 128, 1)' },
+    '5': { name: '행복', color: 'rgba(255, 255, 0, 1)' },
     '6': { name: '행복', color: 'rgba(255, 255, 0, 1)' },
+    '4': { name: '슬픔', color: 'rgba(65, 105, 225, 1)' },
     '7': { name: '슬픔', color: 'rgba(65, 105, 225, 1)' },
+    '12': { name: '슬픔', color: 'rgba(65, 105, 225, 1)' },
+    '13': { name: '슬픔', color: 'rgba(65, 105, 225, 1)' },
+    '3': { name: '화남', color: 'rgba(255, 0, 0, 1)' },
     '8': { name: '화남', color: 'rgba(255, 0, 0, 1)' },
+    '14': { name: '화남', color: 'rgba(255, 0, 0, 1)' },
+    '9': { name: '평온', color: 'rgba(34, 139, 34, 1)' },
+    '10': { name: '평온', color: 'rgba(34, 139, 34, 1)' },
     '11': { name: '평온', color: 'rgba(34, 139, 34, 1)' },
     '99': { name: '대기중', color: 'rgba(255, 255, 255, 1)' },
   };
@@ -1053,7 +1015,7 @@
       data: JSON.stringify({ loginId: loginId, userName:userName }),
       success: function(response) {
         // data가 이미 객체라면 파싱 불필요
-        const { data, counselData, customData, callRecords } = response;
+        const { data, customData, callRecords } = response;
         var obj = data;
 
         console.log('Object keys:', Object.keys(obj));
@@ -1062,7 +1024,6 @@
         let html2 = "";
         html2 += `${userName} 상담원 근무현황`;
 
-        //  테스트 시 acr_v4.t_rec_data* 테이블의 통화 데이터 날짜 금일로 수정 필수
         if (data.length === 0) {
           let html = '';
 
@@ -1125,7 +1086,7 @@
           }, 400);
         } else {
           renderModalContent(obj, userName);
-          renderModalTimeGraph(counselData, customData, callRecords);
+          renderModalTimeGraph(customData, callRecords);
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
@@ -1189,225 +1150,196 @@ function resetCharts() {
       new Chart(ctx, config);
     }
   }
+  
+  //  고객, 통화흐름, 상담원 감성 차트 랜더링 부분
+  function renderModalTimeGraph(customData, callRecords) {
+  // 빈 배열 생성(3초 단위의 총 근무 시간)
+  const callData = Array(10800).fill(0); // 0: 대기중, 1: 통화중
+  const cliData = Array(10800).fill(99); // 99: 대기중
+  const worData = Array(10800).fill(99); // 99: 대기중
 
-  //  고객, 통화흐름, 상담원 감성 차트
-  function renderModalTimeGraph(counselData, customData, callRecords) {
-    //  빈 배열 생성(3초 단위의 총 근무 시간)
-    const callData = Array(10800).fill(0); // 0: 대기중, 1: 통화중
-    const cliData = Array(10800).fill(99) // 99: 대기중
-    const worData = Array(10800).fill(99) // 99: 대기중
+  console.log(`조회된 감성 건수: ${customData.length}건`);
+  console.log(`조회된 통화 건수: ${callRecords.length}건`);
 
-    console.log(`조회된 감성 건수: ${customData.length}건`);
-    console.log(`조회된 통화 건수: ${callRecords.length}건`);
 
-    //  각 감성 데이터를 배열에 배열에 반영
-    customData.forEach(record => {
-      // send_dt를 Date 객체로 변환
-      const sendTime = new Date(`1970-01-01T${record.send_dt}`);
+  // 각 감성 데이터를 배열에 반영
+  customData.forEach(record => {
+    const sendTime = new Date(`1970-01-01T${record.send_dt}`);
 
-      // 날짜 객체인지 확인
-      if (!(sendTime instanceof Date) || isNaN(sendTime)) {
-        console.error("Invalid record format:", record);
-        return;  // 이 record는 건너뜁니다
-      }
+    if (!(sendTime instanceof Date) || isNaN(sendTime)) {
+      console.error("Invalid record format:", record);
+      return;
+    }
 
-      // 9시부터의 밀리초 단위로 인덱스 계산
-      const sendIndex = (
-        (sendTime.getHours() - 9) * 3600000 + 
-        sendTime.getMinutes() * 60000 + 
-        sendTime.getSeconds() * 1000 + 
-        sendTime.getMilliseconds()
-      ) / 3000; // 3초 간격으로 나눔
+    const sendIndex = (
+      (sendTime.getHours() - 9) * 3600000 + 
+      sendTime.getMinutes() * 60000 + 
+      sendTime.getSeconds() * 1000 + 
+      sendTime.getMilliseconds()
+    ) / 3000;
 
-      const validSendIndex = Math.floor(sendIndex);
+    const validSendIndex = Math.floor(sendIndex);
 
-      // 범위 체크 (9시 이전이나 18시 이후 시간을 건너뜁니다)
-      if (validSendIndex < 0 || validSendIndex >= cliData.length) {
-        console.warn("Time out of range:", record);
-        return;
-      }
+    if (validSendIndex < 0 || validSendIndex >= cliData.length) {
+      console.warn("Time out of range:", record);
+      return;
+    }
 
-      // 해당 시점의 데이터를 설정
-      cliData[validSendIndex] = record.client;
-      worData[validSendIndex] = record.worker;
-    });
+    cliData[validSendIndex] = record.client;
+    worData[validSendIndex] = record.worker;
 
-    // 각 통화 기록을 callData 배열에 반영
-    callRecords.forEach(record => {
-      // call_start와 call_end를 Date 객체로 변환
-      const startTime = new Date(`1970-01-01T${record.call_start}`);
-      const endTime = new Date(`1970-01-01T${record.call_end}`);
-    
-      // 날짜 객체인지 확인
-      if (!(startTime instanceof Date) || !(endTime instanceof Date) || isNaN(startTime) || isNaN(endTime)) {
-        console.error("Invalid record format:", record);
-        return;  // 이 record는 건너뜁니다
-      }
-    
-      // 통화 시작 시간
-      const startHour = startTime.getHours();
-      const startMin = startTime.getMinutes();
-      const startSec = startTime.getSeconds();
-    
-      // 통화 종료 시간
-      const endHour = endTime.getHours();
-      const endMin = endTime.getMinutes();
-      const endSec = endTime.getSeconds();
-    
-      // 9시부터의 3초 단위로 인덱스 계산
-      const startIndex = ((startHour - 9) * 3600 + startMin * 60 + startSec) / 3;
-      const endIndex = ((endHour - 9) * 3600 + endMin * 60 + endSec) / 3;
-    
-      // startIndex와 endIndex가 0 이상이고 callData 배열의 길이를 넘지 않도록 조정
-      const validStartIndex = Math.max(0, Math.floor(startIndex));
-      const validEndIndex = Math.min(callData.length, Math.ceil(endIndex));
-    
-      // 범위 체크 (9시 이전이나 18시 이후 시간을 건너뜁니다)
-      if (validStartIndex >= callData.length || validEndIndex <= 0) {
-        console.warn("Time out of range:", record);
-        return;
-      }
-    
-      // 통화 중 구간을 1로 설정 (보라색으로 표시)
-      callData.fill(1, validStartIndex, validEndIndex);
-    });
+  });
 
-    // 고객 상태 차트
-    const customerConfig = {
-      type: 'bar',
-      data: {
-        labels: Array(10800).fill('99'),  // cliData의 길이만큼 빈 라벨 생성
-        datasets: [{
-          data: cliData.map(type => type !== 99 ? 1 : 0),  // 99(대기중)가 아니면 1, 아니면 0
-          backgroundColor: cliData.map(type => {
-            if (type === null || type === undefined) {
-              return emotionTypes['99'].color; // 데이터가 없으면 '대기중' 색상
-            } else if (emotionTypes.hasOwnProperty(type)) {
-              return emotionTypes[type].color; // 매칭되는 감정 타입의 색상
-            } else {
-              return emotionTypes['0'].color; // 매칭되는 타입이 없으면 '기타' 색상
-            }
-          }),
-          borderWidth: 0,
-          barPercentage: 1,
-          categoryPercentage: 1
-        }]
+  // 각 통화 기록을 callData 배열에 반영
+  callRecords.forEach(record => {
+    const startTime = new Date(`1970-01-01T${record.call_start}`);
+    const endTime = new Date(`1970-01-01T${record.call_end}`);
+
+    if (!(startTime instanceof Date) || !(endTime instanceof Date) || isNaN(startTime) || isNaN(endTime)) {
+      console.error("Invalid record format:", record);
+      return;
+    }
+
+    const startIndex = ((startTime.getHours() - 9) * 3600 + startTime.getMinutes() * 60 + startTime.getSeconds()) / 3;
+    const endIndex = ((endTime.getHours() - 9) * 3600 + endTime.getMinutes() * 60 + endTime.getSeconds()) / 3;
+
+    const validStartIndex = Math.max(0, Math.floor(startIndex));
+    const validEndIndex = Math.min(callData.length, Math.ceil(endIndex));
+
+    if (validStartIndex >= callData.length || validEndIndex <= 0) {
+      console.warn("Time out of range:", record);
+      return;
+    }
+
+    callData.fill(1, validStartIndex, validEndIndex);
+  });
+
+  // 고객 상태 차트
+  const customerConfig = {
+    type: 'bar',
+    data: {
+      labels: Array(10800).fill('99'),
+      datasets: [{
+        data: cliData.map(type => type !== 99 ? 1 : 0),
+        backgroundColor: cliData.map(type => {
+          if (type === null || type === undefined) {
+            return emotionTypes['99'].color;
+          } else if (emotionTypes.hasOwnProperty(type)) {
+            return emotionTypes[type].color;
+          } else {
+            return emotionTypes['0'].color;
+          }
+        }),
+        borderWidth: 0,
+        barPercentage: 1,
+        categoryPercentage: 1
+      }]
+    },
+    options: {
+      animation: false,
+      responsive: false,
+      maintainAspectRatio: false,
+      indexAxis: 'x',
+      scales: {
+        x: { stacked: true, display: false, grid: { display: false } },
+        y: { display: false, grid: { display: false }, min: 0, max: 1 }
       },
-      options: {
-        animation: false,
-        responsive: false,
-        maintainAspectRatio: false,
-        indexAxis: 'x',
-        scales: {
-          x: { stacked: true, display: false, grid: { display: false } },
-          y: { display: false, grid: { display: false }, min: 0, max: 1 }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            enabled: true,
-            callbacks: {
-              title: () => '',  // 타이틀은 표시하지 않음
-              label: (context) => {
-                const typeValue = cliData[context.dataIndex];
-                if (typeValue !== null && typeValue !== undefined) {
-                  return emotionTypes[typeValue]?.name || '기타';
-                }
-                return '대기중';
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: true,
+          callbacks: {
+            title: () => '',
+            label: (context) => {
+              const typeValue = cliData[context.dataIndex];
+              if (typeValue !== null && typeValue !== undefined) {
+                return emotionTypes[typeValue]?.name || '기타';
               }
+              return '대기중';
             }
-          },
-          title: { display: false }
-        },
-        layout: { padding: 0 }
-      }
-    };
-    createOrUpdateChart('customerStatus', customerConfig);
-
-    // 상담원 상태 차트
-    const counselorConfig = {
-      type: 'bar',
-      data: {
-        labels: Array(10800).fill('99'),
-        datasets: [{
-          data: worData.map(type => type !== 99 ? 1 : 0),  // 99(대기중)가 아니면 1, 아니면 0
-          backgroundColor: worData.map(type => {
-            if (type === null || type === undefined) {
-              return emotionTypes['99'].color; // 데이터가 없으면 '대기중' 색상
-            } else if (emotionTypes.hasOwnProperty(type)) {
-              return emotionTypes[type].color; // 매칭되는 감정 타입의 색상
-            } else {
-              return emotionTypes['0'].color; // 매칭되는 타입이 없으면 '기타' 색상
-            }
-          }),
-          borderWidth: 0,
-          borderSkipped: false,
-          barPercentage: 1,
-          categoryPercentage: 1
-        }]
-      },
-      options: {
-        animation: false,
-        responsive: false,
-        maintainAspectRatio: false,
-        indexAxis: 'x',
-        scales: {
-          x: { stacked: true, display: false, grid: { display: false } },
-          y: { display: false, grid: { display: false }, min: 0, max: 1 }
-        },
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: true },
-          title: { display: false }
-        },
-        animation: false,
-        layout: { padding: 0 }
-      }
-    };
-    createOrUpdateChart('counselorStatus', counselorConfig);
-
-    // 통화 상태 차트
-    const callConfig = {
-      type: 'bar',
-      data: {
-        labels: Array(10800).fill('0'),
-        datasets: [{
-          data: callData,
-          backgroundColor: callData.map(type => type === 1 ? callTypes['1'].color : callTypes['0'].color),
-          borderWidth: 0,
-          barPercentage: 1.01,  // 약간 겹치게 하여 간격을 없앱니다
-          categoryPercentage: 1.01
-        }]
-      },
-      options: {
-        animation: false,
-        responsive: false,
-        maintainAspectRatio: false,
-        indexAxis: 'x',
-        scales: {
-          x: { 
-            stacked: true, 
-            display: false, 
-            grid: { display: false },
-            ticks: { display: false }  // x축 눈금 숨기기
-          },
-          y: { 
-            display: false, 
-            grid: { display: false }, 
-            min: 0, 
-            max: 1 
           }
         },
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: false },
-          title: { display: false }
-        },
-        layout: { padding: 0 }
-      }
-    };
-    createOrUpdateChart('callStatus', callConfig);
-  }
+        title: { display: false }
+      },
+      layout: { padding: 0 }
+    }
+  };
+  createOrUpdateChart('customerStatus', customerConfig);
+
+  // 상담원 상태 차트
+  const counselorConfig = {
+    type: 'bar',
+    data: {
+      labels: Array(10800).fill('99'),
+      datasets: [{
+        data: worData.map(type => type !== 99 ? 1 : 0),
+        backgroundColor: worData.map(type => {
+          if (type === null || type === undefined) {
+            return emotionTypes['99'].color;
+          } else if (emotionTypes.hasOwnProperty(type)) {
+            return emotionTypes[type].color;
+          } else {
+            return emotionTypes['0'].color;
+          }
+        }),
+        borderWidth: 0,
+        borderSkipped: false,
+        barPercentage: 1,
+        categoryPercentage: 1
+      }]
+    },
+    options: {
+      animation: false,
+      responsive: false,
+      maintainAspectRatio: false,
+      indexAxis: 'x',
+      scales: {
+        x: { stacked: true, display: false, grid: { display: false } },
+        y: { display: false, grid: { display: false }, min: 0, max: 1 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+        title: { display: false }
+      },
+      layout: { padding: 0 }
+    }
+  };
+  createOrUpdateChart('counselorStatus', counselorConfig);
+
+  // 통화 상태 차트
+  const callConfig = {
+    type: 'bar',
+    data: {
+      labels: Array(10800).fill('0'),
+      datasets: [{
+        data: callData,
+        backgroundColor: callData.map(type => type === 1 ? callTypes['1'].color : callTypes['0'].color),
+        borderWidth: 0,
+        barPercentage: 1.01,
+        categoryPercentage: 1.01
+      }]
+    },
+    options: {
+      animation: false,
+      responsive: false,
+      maintainAspectRatio: false,
+      indexAxis: 'x',
+      scales: {
+        x: { stacked: true, display: false, grid: { display: false }, ticks: { display: false } },
+        y: { display: false, grid: { display: false }, min: 0, max: 1 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false },
+        title: { display: false }
+      },
+      layout: { padding: 0 }
+    }
+  };
+  createOrUpdateChart('callStatus', callConfig);
+}
+
 
   //  특정 상담원의 금일 감성현황 표출
   //   - 20240909 최정우 연구원 수정
@@ -1415,36 +1347,67 @@ function resetCharts() {
     let html = '';
     let html2 = `${name} 상담원 근무현황`;
 
-    //  감정 타입별 정보
-    const emotionTypes = {
-      '6': { name: '행복', img: '../images/ic_happy@2x.png', alt: '기쁨' },
-      '7': { name: '슬픔', img: '../images/ic_sad@2x.png', alt: '슬픔' },
-      '8': { name: '화남', img: '../images/ic_angry@2x.png', alt: '화남' },
-      '11': { name: '평온', img: '../images/ic_calm@2x.png', alt: '평온' }
-    };
+        //  감정 타입별 정보
+        const emotionTypes = [
+          {
+              types: ['5', '6'], // 행복 그룹
+              name: '행복',
+              img: '../images/ic_happy@2x.png',
+              alt: '기쁨',
+          },
+          {
+              types: ['3', '8', '14'], // 화남 그룹
+              name: '화남',
+              img: '../images/ic_angry@2x.png',
+              alt: '화남',
+          },
+          {
+              types: ['4', '7', '12', '13'], // 슬픔 그룹
+              name: '슬픔',
+              img: '../images/ic_sad@2x.png',
+              alt: '슬픔',
+          },
+          {
+              types: ['2', '9', '10', '11'], // 평온 그룹
+              name: '평온',
+              img: '../images/ic_calm@2x.png',
+              alt: '평온',
+          }
+      ];
 
-    const orderedEmotionTypes = ['8', '7', '6', '11']; // 원하는 순서
-    //화남 > 슬픔 > 행복 > 평온 순서대로 나타내기 위함
-    //  각 감정 타입에 대해 div 생성
-    orderedEmotionTypes.forEach(emotionType => {
-      const item = data.find(d => d.emotion_type === emotionType);
-      const emotion = emotionTypes[emotionType];
+    // 감정 타입별 데이터를 찾는 함수
+    function getEmotionType(emotionType) {
+        return emotionTypes.find(group => group.types.includes(emotionType));
+    }
 
-      const count = item ? item.today_count : 0;
-      const countChange = item ? item.count_change : 0;
-      const statusClass = countChange > 0 ? 'up' : (countChange < 0 ? 'down' : 'same');
+    // 화남 > 슬픔 > 행복 > 평온 순서대로 나타내기 위함
+    const orderedEmotionGroups = ['화남', '슬픔', '행복', '평온']; // 원하는 순서
 
-      html += `
-        <div class="facialItem">
-          <img src="${emotion.img}" alt="${emotion.alt}">
-          <div class="textArea">
-            <strong>${emotion.name}</strong>
-            <p>${count}</p>
-            <p class="compare"><span class="status ${statusClass}">${Math.abs(countChange)}</span><span class="grey">(전일대비)</span></p>
+    // 각 감정 타입에 대해 div 생성
+    orderedEmotionGroups.forEach(groupName => {
+        // 해당 그룹의 데이터를 찾음
+        const emotionGroup = emotionTypes.find(group => group.name === groupName);
+
+        // 그룹 내의 타입들에 해당하는 데이터를 합산하여 계산
+        const groupData = data.filter(d => emotionGroup.types.includes(d.emotion_type));
+        const totalCount = groupData.reduce((sum, d) => sum + (d.today_count || 0), 0);
+        const totalChange = groupData.reduce((sum, d) => sum + (d.count_change || 0), 0);
+
+        const statusClass = totalChange > 0 ? 'up' : (totalChange < 0 ? 'down' : 'same');
+
+        // 그룹의 정보를 이용해 HTML 생성
+        html += `
+          <div class="facialItem">
+            <img src="${emotionGroup.img}" alt="${emotionGroup.alt}">
+            <div class="textArea">
+              <strong>${emotionGroup.name}</strong>
+              <p>${totalCount}</p>
+              <p class="compare"><span class="status ${statusClass}">${Math.abs(totalChange)}</span><span class="grey">(전일대비)</span></p>
+            </div>
           </div>
-        </div>
-      `;
+        `;
     });
+
 
     const item_id = data[0].login_id;
 

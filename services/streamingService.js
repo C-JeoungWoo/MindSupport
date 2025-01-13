@@ -20,7 +20,7 @@ async function sendAudioChunks(
     chunkNumber,
     options = {
         remainingDataSize: 0,
-        totalFileSize: 0,
+        totalFileSize: 0, // pcmDataSize
         gsmHeaderLength: 0,
         fileType: '', // 'rx' 또는 'tx',
         selectedQueue, // 누락된 인자 추가 (250107_최정우)
@@ -29,9 +29,9 @@ async function sendAudioChunks(
         user_uuid
 }) {
     // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 filePath: ${filePath}`);
-    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 totalFileSize: ${options.totalFileSize} 바이트`);
+    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 totalFileSize: ${options.totalFileSize} 바이트`);
     // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 gsmHeaderLength: ${options.gsmHeaderLength} 바이트`);
-    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 remainingDataSize: ${options.remainingDataSize} 바이트`);
+    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 remainingDataSize: ${options.remainingDataSize} 바이트`);
     // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 userId: ${userId}`);
     // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 selectedQueue: ${JSON.stringify(options.selectedQueue, null, 2)}`);
 
@@ -52,7 +52,7 @@ async function sendAudioChunks(
         const fileInfo_callId = path.basename(checkedFilePath, '.wav');
 
         // GSM -> PCM 변환
-        const conversionResult = await convertGsmToPcm(checkedFilePath, chunkNumber);
+        const conversionResult = await convertGsmToPcm(checkedFilePath, chunkNumber, options.totalFileSize);
         if (!conversionResult.message === "success") {
             logger.error('[ streamingService.js : convertGsmToPcm ] File conversion failed:', {
                 error: conversionResult.message,
@@ -89,7 +89,7 @@ async function sendAudioChunks(
             chunkNumber,
             {
                 audioData: fullData,
-                pcmDataSize: file_audio.byteLength,  // 전체 PCM 데이터 크기 추가 __20250109 수정
+                pcmDataSize: options.totalFileSize,  // 전체 PCM 데이터 크기 추가 __20250109 수정
                 numberOfChunks: numberOfChunks,
                 rawChunkSize: RAW_CHUNK_SIZE,
                 totalChunkSize: TOTAL_CHUNK_SIZE,
