@@ -769,6 +769,99 @@ $normal : 400;
       }
     }
 
+    .boxWrap2 {
+      margin: 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .grey {
+        background-color: #F9FAFB;
+        border-radius: 10px;
+        padding: 15px 20px;
+
+        h5 {
+          font-size: 18px;
+        }
+
+        .desc {
+          margin: 15px 0 0;
+
+          .cvWrap {
+            padding: 0;
+          }
+
+          .flexEnd {
+            display: flex;
+            justify-content: space-between;
+
+            &.gap {
+              margin: 10px 0 0;
+            }
+
+            .right {
+              text-align: right;
+            }
+
+            p {
+              margin: 10px 0 0;
+              font-size: 1rem;
+              color: #98A2B3;
+
+              strong {
+                font-size: 2rem;
+                color: #101828;
+                margin: 0 4px 0 0;
+
+                &.gap {
+                  margin: 0 4px 0 10px;
+                }
+              }
+            }
+
+            span {
+              position: relative;
+              color: #667085;
+              font-size: 12px;
+              font-weight: 500;
+
+              &.black {
+                color: #101828;
+                font-size: 14px;
+              }
+
+              &.purple {
+                margin: 4px 0 0 6px;
+
+                &::after {
+                  position: absolute;
+                  left: -6px;
+                  top: -11px;
+                  content: "";
+                  width: 1px;
+                  height: 23px;
+                  background-color: #7856E4;
+                }
+              }
+
+              &.yellow {
+                margin: 4px 6px 0 0;
+
+                &::after {
+                  position: absolute;
+                  right: -5px;
+                  top: -11px;
+                  content: "";
+                  width: 1px;
+                  height: 23px;
+                  background-color: #FFB92C;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
     .cvWrap .labelWrap {
       display: grid;
       gap: 28px;

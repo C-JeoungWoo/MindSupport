@@ -590,6 +590,82 @@
   height: 23px;
   background-color: #FFB92C;
 }
+#container .inner .itemWrap .item .boxWrap2 {
+  margin: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey {
+  background-color: #F9FAFB;
+  border-radius: 10px;
+  padding: 15px 20px;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey h5 {
+  font-size: 18px;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc {
+  margin: 15px 0 0;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .cvWrap {
+  padding: 0;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd {
+  display: flex;
+  justify-content: space-between;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd.gap {
+  margin: 10px 0 0;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd .right {
+  text-align: right;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  color: #98A2B3;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd p strong {
+  font-size: 2rem;
+  color: #101828;
+  margin: 0 4px 0 0;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd p strong.gap {
+  margin: 0 4px 0 10px;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd span {
+  position: relative;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 500;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd span.black {
+  color: #101828;
+  font-size: 14px;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd span.purple {
+  margin: 4px 0 0 6px;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd span.purple::after {
+  position: absolute;
+  left: -6px;
+  top: -11px;
+  content: "";
+  width: 1px;
+  height: 23px;
+  background-color: #7856E4;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd span.yellow {
+  margin: 4px 6px 0 0;
+}
+#container .inner .itemWrap .item .boxWrap2 .grey .desc .flexEnd span.yellow::after {
+  position: absolute;
+  right: -5px;
+  top: -11px;
+  content: "";
+  width: 1px;
+  height: 23px;
+  background-color: #FFB92C;
+}
 #container .inner .itemWrap .item .cvWrap .labelWrap {
   display: grid;
   gap: 28px;

@@ -317,7 +317,7 @@
         <tbody>
           <% if (callhistory.length == 0) { %>
             <tr>
-              <td colspan="7">금일 통화 데이터는 없습니다.</td>
+              <td colspan="19">금일 통화 데이터는 없습니다.</td>
             </tr>
             <% } else { %>
               <% for(var i=0; i<callhistory.length; i++) {
@@ -1082,7 +1082,6 @@
             // 모달이 완전히 열린 후 alert 실행
           setTimeout(function() {
             resetCharts();
-            alert("[ MindSupport ] 금일 데이터는 없습니다.");
           }, 400);
         } else {
           renderModalContent(obj, userName);

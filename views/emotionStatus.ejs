@@ -45,24 +45,33 @@
       <div class="pieWrap" style="padding-top: 50px;">
         <%
           let valCount = 0;
-          let circumference = 0;
-          let offset = 0;
-          
-          if (result_totGroup[0].tot_user > 0) {
-            valCount = ((result_nowCount[0].logged_user / result_totGroup[0].tot_user) * 100).toFixed(1);
-            circumference = 2 * Math.PI * 45;
-            offset = circumference - (valCount / 100) * circumference;
+          let circumference = 2 * Math.PI * 45; // 원의 둘레
+          let offset = circumference; // 초기 offset
+    
+          if (result_totGroup[0]?.tot_user > 0) {
+            valCount = ((result_nowCount[0]?.logged_user / result_totGroup[0]?.tot_user) * 100).toFixed(1);
+            offset = circumference * (1 - (valCount / 100)); // 남은 부분 계산
           }
         %>
         <div class="circle_wrap yellow">
           <div class="circle on">
             <div class="pie">
               <svg viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#e0e0e0" stroke-width="10"/>
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="10"
-                  stroke-dasharray="<%= circumference %>"
-                  stroke-dashoffset="<%= offset %>"
-                  transform="rotate(-90 50 50)"/>
+                <!-- 배경 원 -->
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#e0e0e0" stroke-width="10" />
+                
+                <!-- 비율에 따른 원 -->
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="45" 
+                  fill="none" 
+                  stroke="#ffd700" 
+                  stroke-width="10" 
+                  stroke-dasharray="<%= circumference %>" 
+                  stroke-dashoffset="<%= offset %>" 
+                  transform="rotate(-90 50 50)"
+                />
               </svg>
             </div>
             <div class="wrap_txt counter">
@@ -73,8 +82,8 @@
         <div>
           <p style="font-weight: bold;">현재 근무인원(명)</p>
           <p class="values">
-            <span><%= result_nowCount[0].logged_user %></span>
-            <span class="total">/ <%= result_totGroup[0].tot_user %></span>
+            <span><%= result_nowCount[0]?.logged_user %></span>
+            <span class="total">/ <%= result_totGroup[0]?.tot_user %></span>
           </p>
         </div>
       </div>
@@ -87,7 +96,7 @@
       <div class="title"><h4 class="grey">감성 현황</h4></div>
       <div class="facialItemList">
         <% if (result_todayEmo.length === 0) { %>
-          <div>데이터 불러오기 오류. 관리자에게 문의하세요.</div>
+          <div>금일 감성 데이터는 없습니다.</div>
         <% } else { %>
           <% 
             // 감정 타입 그룹 정의
@@ -178,7 +187,7 @@
           <% var maxCount = Math.max(...result_negativeCount.map(item => item.negative_emotion_count), 1); %>
           <ul>
             <% if (result_negativeCount.length === 0) { %>
-              <div>데이터 불러오기 오류. 관리자에게 문의하세요.</div>
+              <div>금일 누적 부정 감성 데이터는 없습니다.</div>
             <% } else { %>
               <% for(var i=0; i<result_negativeCount.length; i++) { %>
                 <% const data = result_negativeCount[i]; %>
@@ -213,7 +222,7 @@
           <% var maxCount = Math.max(...result_todayCallCount.map(item => item.RECORD_COUNT), 1); %>
           <ul>
             <% if (result_todayEmo.length === 0) { %>
-              <div>데이터 불러오기 오류. 관리자에게 문의하세요.</div>
+              <div>금일 개인 상담 데이터는 없습니다.</div>
             <% } else { %>
               <% for(var i=0; i<result_todayCallCount.length; i++) { %>
                 <% const data = result_todayCallCount[i]; %>
@@ -242,10 +251,10 @@
   </div>
 
   <div class="itemWrap twin titlegap ">
-    <!-- 상담 그룹 별 감성 div start -->
+    <!-- 상담원 전체 감성 div start -->
     <div class="item borderGrey">
       <div class="title">
-        <h4 class="grey">상담 그룹 별 감성 현황</h4>
+        <h4 class="grey">상담원 전체 감성 현황</h4>
         <p class="smallGap">
           <span class="dot yellow">행복</span>
           <span class="dot green">평온</span>
@@ -260,7 +269,7 @@
         </div>
       </div>
     </div>
-    <!-- 상담 그룹 별 감성 div end -->
+    <!-- 상담원 전체 감성 div end -->
 
     <!-- 연령 별 감성 div start -->
     <div class="item borderGrey">
@@ -421,7 +430,7 @@
   });
 </script>
 
-<!-- 상담 그룹 별 감성 그래프-->
+<!-- 상담원 전체 감성 그래프-->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Chart.js 설정
@@ -435,7 +444,7 @@
     const result_todayGroupCount = <%- JSON.stringify(result_todayGroupCount) %>;
 
     // 그룹 및 감정 매핑
-    const allGroupTypes = ['일반문의', '민원접수', '제품판매', '기타접수'];
+    const allGroupTypes = ['민원접수'];
     const emotionMapping = {
       행복: ['5', '6'],
       슬픔: ['4', '7', '12', '13'],
@@ -469,7 +478,7 @@
     const myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: allGroupTypes,
+        labels: allGroupTypes.map(groupType => groupType === '민원접수' ? '' : groupType),
         datasets: datasets
       },
       options: {

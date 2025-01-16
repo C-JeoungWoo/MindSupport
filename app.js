@@ -94,10 +94,10 @@ let loginIDsArr = new Map();    // Map 객체로 고유하게 접속자 관리
 
 // MySQL Session store
 const MySQLoptions = {
-    host: "192.168.0.7",
+    host: "192.168.0.29",
     port: 3306,
-    user: "nbetri2",
-    password: "nb1234",
+    user: "root",
+    password: "spdlqj21",
     database: "MindSupport" 
 }
 const MySQLoptions_sessionStore = new MySQLStore(MySQLoptions);
@@ -443,7 +443,7 @@ app.get('/workStatusMain', async (req, res) => {
             AND JSON_EXTRACT(data, '$.user.group_manager') = 'N'
         )
         AND eui.group_manager = 'N'
-        AND eui.user_type != '3'
+        AND eui.group_type IS NOT NULL
         ORDER BY eui.user_name;`;
 
         //  3. 통화 이력 데이터
@@ -1086,7 +1086,8 @@ app.get('/emotionStatus', async (req, res) => {
         let query2 = `
         SELECT COUNT(*) AS tot_user
         FROM emo_user_info
-        WHERE emo_user_info.group_manager != 'Y';`;
+        WHERE emo_user_info.group_manager != 'Y'
+        AND emo_user_info.group_type IS NOT NULL;`;
 
         //  금일 감정의 개수 (근무자 전체)
         let query3_etri = `
@@ -1455,7 +1456,8 @@ app.get(`/coachingHistory`, (req, res) => {
         login_id
         FROM emo_user_info
         WHERE group_manager != 'Y' 
-        AND agent_telno IS NOT NULL;`
+        AND agent_telno IS NOT NULL
+        AND group_type IS NOT NULL;`
 
     logger.info(`[ app.js:coachingHistory ] ${counsel_history_sql}`)
 
@@ -1780,7 +1782,8 @@ app.get(`/coachingAdmin`, (req, res) => {
             user_name
         FROM MindSupport.emo_user_info
         WHERE group_manager != 'Y'
-        AND agent_telno IS NOT NULL;`
+        AND agent_telno IS NOT NULL
+        AND group_type IS NOT NULL;`
 
         //  금일 기준 코칭 대상자 표시
         let coachingAdmin_qry = `SELECT
@@ -2067,6 +2070,7 @@ app.get('/statsSummary', async (req, res) => {
         LEFT JOIN MindSupport.emo_coaching_message ecm 
             ON eui.login_id = ecm.login_id
             AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = es.emotion_date
+        WHERE eui.group_type IS NOT NULL
         GROUP BY 
             eui.login_id, es.emotion_date;`
         
@@ -2091,7 +2095,8 @@ app.get('/statsSummary', async (req, res) => {
         login_id
         FROM emo_user_info
         WHERE group_manager != 'Y' 
-        AND agent_telno IS NOT NULL;`
+        AND agent_telno IS NOT NULL
+        AND group_type IS NOT NULL;`
 
         // 두 데이터베이스에서 데이터를 가져오기
         const etriPromise = new Promise((resolve, reject) => {
@@ -2263,7 +2268,8 @@ app.get('/statsDetail', async (req, res) => {
             login_id
             FROM emo_user_info
             WHERE group_manager != 'Y'
-            AND agent_telno IS NOT NULL;`
+            AND agent_telno IS NOT NULL
+            AND group_type IS NOT NULL;`
 
         // 두 데이터베이스에서 데이터를 가져오기
         const etriPromise = new Promise((resolve, reject) => {
@@ -2371,7 +2377,8 @@ app.get(`/settingUser`, (req, res) => {
         ON a.org_name = b.org_name
         WHERE a.del_yn IS NULL
         AND a.agent_telno IS NOT NULL
-        AND a.group_manager != 'Y'`;
+        AND a.group_manager != 'Y'
+        AND a.group_type IS NOT NULL;`;
 
         connection.query(settingUser_query, (err, results) => {
             if (err) {
@@ -2443,7 +2450,8 @@ app.get('/settingMemo', (req, res) => {
             group_type
         FROM emo_user_info
         WHERE group_manager != 'Y'
-        AND agent_telno IS NOT NULL;`;
+        AND agent_telno IS NOT NULL
+        AND group_type IS NOT NULL;`;
 
         connection.query(settingMemo_query + selected_user_query, (err, results) => {
             if (err) {
@@ -2622,7 +2630,7 @@ app.post('/deleteMemo', (req, res) => {
 let ErkApiMsg;  // 추후 Stream Queue 생성시 proto 파일 중복 로드 방지
 async function loadProto() {
     try {
-        const protobuf_dir = `/home/nbetri2/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
+        const protobuf_dir = `/home/nbetri/MindSupport_v1.0.0/public/proto/241212_ErkApiMsg_ETRI_v3_3.proto`;
         const root = await protobuf.load(protobuf_dir);
         logger.info(`[ app.js:loadProto ] ErkApiMsg.proto 불러오기 성공`);
 
@@ -3298,7 +3306,7 @@ conn = amqp.connect({
                                         QueueInfo: ErkQueueInfo2,
                                         TransactionId: sessionUser.cusinfo_uuid,
                                         OrgId: req.session.user.org_id,
-                                        UserId: sessionUser.userinfo_userId + 10
+                                        UserId: sessionUser.userinfo_userId + 3
                                     });
 
                                     let ErkSrvcMsg_cus = ErkApiMsg.create({
@@ -3337,7 +3345,7 @@ conn = amqp.connect({
                         }
                     });
                 }
-            });
+            });//////////여기까지 gpt에 보내놨음 밑에부터 보내면 됨됨
 
             //   3.9.2 서비스 연결 해제 요청 및 처리
             //    - 사용자 로그아웃
@@ -3384,7 +3392,7 @@ conn = amqp.connect({
                                 TransactionId: req.session.cusinfo_uuid,
                                 QueueInfo: ErkQueueInfo2,
                                 OrgId: results[0].org_id,
-                                UserId: results[0].userinfo_userId + 10
+                                UserId: results[0].userinfo_userId + 3
                             });
 
                             //  상담원 메세지 body
@@ -3564,7 +3572,7 @@ conn = amqp.connect({
                             TransactionId: sessionUser.cusinfo_uuid,
                             QueueInfo: ErkQueueInfo2,
                             OrgId: req.session.user.org_id,
-                            UserId: req.session.user.userinfo_userId+10  // 상담원15명 셋팅(고객은 +15 로 매핑)
+                            UserId: req.session.user.userinfo_userId + 3  // 상담원3명 셋팅(고객은 +3 로 매핑)
                         });
 
                         let EmoServiceStartMsg = ErkApiMsg.create({
@@ -3589,7 +3597,7 @@ conn = amqp.connect({
                         let emoSerStart_send_rq = `UPDATE emo_user_info
                         SET erkEmoSrvcStart_send_dt = NOW(3)
                         WHERE userinfo_userId = ${req.session.user.userinfo_userId}
-                        AND userinfo_userId = ${req.session.user.userinfo_userId + 10};`;
+                        AND userinfo_userId = ${req.session.user.userinfo_userId + 3};`;
     
                         connection.query(emoSerStart_send_rq, (err, results) => {
                             if (err) {
@@ -3620,7 +3628,7 @@ conn = amqp.connect({
 
                 try{
                     let select_engine_info = `SELECT * FROM emo_user_info
-                    WHERE userinfo_userId IN (${req.session.user.userinfo_userId}, ${req.session.user.userinfo_userId + 10})`;
+                    WHERE userinfo_userId IN (${req.session.user.userinfo_userId}, ${req.session.user.userinfo_userId + 3})`;
 
                     if(req.session.authenticate) {
                         connection.query(select_engine_info, (err, results) => {
@@ -3664,7 +3672,7 @@ conn = amqp.connect({
                                     TransactionId: sessionUser.cusinfo_uuid,
                                     QueueInfo: ErkQueueInfo2,
                                     OrgId: req.session.user.org_id,
-                                    UserId: req.session.user.userinfo_userId + 10
+                                    UserId: req.session.user.userinfo_userId + 3
                                 });
 
                                 let EmoServiceStopMsg_cus = ErkApiMsg.create({
@@ -3687,7 +3695,7 @@ conn = amqp.connect({
 
                                 let emoSerStop_send_rq = `UPDATE emo_user_info
                                 SET erkEmoSrvcStop_send_dt = NOW(3)
-                                WHERE userinfo_userId IN(${req.session.user.userinfo_userId}, ${req.session.user.userinfo_userId+10});`;
+                                WHERE userinfo_userId IN(${req.session.user.userinfo_userId}, ${req.session.user.userinfo_userId + 3});`;
 
                                 connection.query(emoSerStop_send_rq, (err, results) => {
                                     if (err) {
@@ -3730,7 +3738,7 @@ conn = amqp.connect({
                     `;
             
                     const sessionUser = await new Promise((resolve, reject) => {
-                        connection.query(sessionUserQry, [req.session.user.login_id, req.session.user.userinfo_userId + 10], (err, results) => {
+                        connection.query(sessionUserQry, [req.session.user.login_id, req.session.user.userinfo_userId + 3], (err, results) => {
                             if (err) {
                                 logger.error(`[ app.js:SpeechEmoRecogRQ ] ${err}`);
                                 reject(err);
@@ -5044,7 +5052,7 @@ conn = amqp.connect({
                     WHERE eui.login_id = ? OR eui.userinfo_userId = ?;`;
         
                     const results = await new Promise((resolve, reject) => {
-                        connection.query(QueueInfoQuery, [userId.login_id, userId.userinfo_userId+10], (err, results) => {
+                        connection.query(QueueInfoQuery, [userId.login_id, userId.userinfo_userId + 3], (err, results) => {
                             if (err) {
                                 logger.error(`[ sendAudioChunks:QueueInfoQuery ] ${err}`);
                                 reject(err);
@@ -5098,7 +5106,7 @@ conn = amqp.connect({
                         TransactionId: sessionUser.cusinfo_uuid,
                         QueueInfo: ErkQueueInfo_cus,
                         OrgId: org_id,
-                        UserId: userinfo_userId+10
+                        UserId: userinfo_userId + 3
                     });
 
                     //  청크 전송

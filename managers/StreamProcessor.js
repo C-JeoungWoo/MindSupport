@@ -56,8 +56,6 @@ class StreamProcessor {
             selectedQueue
         } = options;
 
-        logger.error(`processFileStream options.pcmDatasize : ${options.pcmDataSize}`);
-
         // options 필수값 검증
         const requiredParams = {
             remainingDataSize,
@@ -218,7 +216,6 @@ class StreamProcessor {
             
             // 청크 크기 계산
             const chunkSize = Math.min(remainingDataSize, totalChunkSize);
-            logger.error(`[ StreamProcessor.js:preparePaddedChunk ] pcmDataSize(totalChunkSize) 체크 용 로깅 : ${totalChunkSize}`);
             
             // GSM 청크를 위한 버퍼 준비
             const currentOffset = (chunkNumber-1) * this.rawChunkSize;

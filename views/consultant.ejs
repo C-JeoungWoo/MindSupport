@@ -48,44 +48,8 @@
     <!-- [s] wrap -->
     <div class = "wrap">
         <div class= "left_client">
-            <h5 style="font-weight: bold;">상담정보</h5>
-            <form action= "/consultant/clients_details" method="get" id="clientForm">
-                <div class= "details_3 form-group">
-                    <label for="exampleFormControlInput3">전화번호</label>
-                    <input id="client_phone" class="form-control" type="text" placeholder="번호 입력['-' 제외]" maxlength = "11" oninput= "this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </div>
-
-                <div class= "details_1 form-group">
-                    <label for="exampleFormControlInput1">고객명</label>
-                    <input id="client_name" class="form-control" type="text" placeholder= "이름 입력"/>
-                </div>
-
-                <div class="details_2 form-group">
-                    <label for="exampleFormControlSelect2">상담유형</label>
-                    <select id="exampleFormControlSelect2" class="mySelect form-control custom-select custom-select-sm">
-                        <option value="선택" selected="selected">선택</option>
-                        <option value="일반문의">일반문의</option>
-                        <option value="민원접수">민원접수</option>
-                        <option value="제품판매">제품판매</option>
-                        <option value="기타문의">기타문의</option>
-                    </select>
-                </div>
-                
-                <div class= "counsel_detail form-group">
-                    <label for="exampleFormControlInput3">상담내역</label>
-                    <textarea id="counsel_info" class="form-control" placeholder= "상담 내역을 입력해주세요" cols= "30" rows= "10"></textarea>
-                </div>
-            </form>
-
             <div class="btn-group">
-                <input type= 'button' class= 'client_save btn btn-primary btn-sm'  value= 'EmoServiceStart' style="border-radius: 5%;"/>
                 <input type= 'button' class= 'startButton1 btn btn-danger btn-sm'  value= 'EmoServiceStop' style="border-radius: 5%;"/>
-                <input type= 'button' class= 'stopButton1 btn btn-warning btn-sm' value= 'SpeechEmoRecogRQ' style="border-radius: 5%;"/>
-            </div>
-
-            <div class="btn-group">
-                <input type= 'button' id="pcmStart" class= 'btn btn-success btn-sm'  value= '통화녹음 시작' style="border-radius: 5%;"/>
-                <input type= 'button' id="pcmStop" class= 'btn btn-danger btn-sm'  value= '통화녹음 종료' style="border-radius: 5%;" disabled="disabled"/>
             </div>
         </div>
         <div class="srchBox">
@@ -125,7 +89,6 @@
             <div class="counseling_list">
                 <div>
                     <p class="text_left">상담원 통화 이력</p>
-                    <p class="button_right"><input type= "button" value= "통화이력 조회" class= "btn btn-primary btn-sm callHistoryButton"/></p>
                 </div>
                 <div class="pagelist">
                 <div id="resetTable">
@@ -133,21 +96,17 @@
                         <colgroup>
                             <col span= "1" style= "width: 5%">
                             <col span= "1" style= "width: 12%">
-                            <col span= "1" style= "width: 10%">
+                            <col span= "1" style= "width: auto">
+                            <col span= "1" style= "width: auto">
                             <col span= "1" style= "width: 15%">
-                            <col span= "1" style= "width: 15%">
-                            <col span= "1" style= "width: 15%">
-                            <col span= "1" style= "width: 28%">
                         </colgroup>
                         <thead class="thead-light">
                             <tr>
                                 <th>번호</th>
                                 <th>고객 번호</th>
-                                <th>문의 유형</th>
                                 <th>통화 시작</th>
                                 <th>통화 종료</th>
                                 <th>통화 시간</th>
-                                <th>상담 내용</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -167,9 +126,6 @@
                                         <!-- 고객 번호 -->
                                         <td scope="row"><%= data.TARGET_TELNO %></td>
 
-                                        <!-- 문의 유형 -->
-                                        <td scope="row"><%= data.group_type %></td>
-
                                         <!-- 통화 시작 -->
                                         <td scope="row"><%= data.REC_START_DATETIME %></td>
 
@@ -183,9 +139,6 @@
                                             data.REC_DURATION = `${minutes}분 ${remainSeconds}초` 
                                         %>
                                         <td scope="row"><%= data.REC_DURATION %></td>
-
-                                        <!-- 메모 -->
-                                        <td scope="row"><%= data.MEMO %></td>
                                     </tr>
                                 <% } %>
                             <% } %>
@@ -223,7 +176,7 @@
 
             // 소켓 연결
             <!-- const web_socket = io.connect('https://129.254.86.110:8888', { path: '/socket.io', transports: ['websocket'] }); -->
-            const web_socket = io.connect('https://192.168.0.7:8888', { path: '/socket.io', transports: ['websocket'] });
+            const web_socket = io.connect('https://192.168.0.29:8888', { path: '/socket.io', transports: ['websocket'] });
             web_socket.on('connect', () => { console.log('웹 소켓 연결 성공'); });
 
             // 연결 해제(disconnect) 이벤트 처리
@@ -334,70 +287,6 @@
                 },
                 error: (xhr, status, error) => {
                     console.error("Error:", status, error);
-                }
-            });
-        });
-        
-        // 3. 통화 이력 조회
-        $('.callHistoryButton').click(function() {
-            $.ajax({
-                type: 'GET',
-                url: '/consultant/call_history',
-                async: true,
-                dataType: 'JSON',
-                error: function() {
-                    alert('통신 실패');
-                },
-                success: function(result) {
-                    if(result == "") {
-                        $('#myTable tbody tr').empty();
-
-                        let row = `<tr id="hide"><td colspan="8">표시할 데이터가 없습니다</td></tr>`;
-                        $('#myTable').append(row);
-                    } else {
-                        $('#myTable tbody tr').empty();
-
-                        for (let i=0; i<result.length; i++) {
-                            call_seq++;
-
-                            if(result[i].client_id == null) {
-                                result[i].client_id = '';
-                            }
-
-                            if(result[i].client_phone == null) {
-                                result[i].client_phone = '';
-                            }
-
-                            if (result[i].group_type == 1) {
-                                result[i].group_type = '일반문의';
-                            } else if (result[i].group_type == 2) {
-                                result[i].group_type = '민원접수';
-                            } else if (result[i].group_type == 3) {
-                                result[i].group_type = '제품판매';
-                            } else if (result[i].group_type == 4) {
-                                result[i].group_type = '기타문의';
-                            } else {
-                                result[i].group_type = '';
-                            }
-
-                            if(result[i].disconnect_dt == null) {
-                                result[i].disconnect_dt = '';
-                            }
-
-                            if(result[i].counsel_detail == null) {
-                                result[i].counsel_detail = '';
-                            }
-
-                            let row = $(`<tr class="hidden"><td>${call_seq}</td><td>${result[i].client_id}</td><td>${result[i].client_phone}</td><td>${result[i].group_type}</td>
-                                <td>${result[i].connect_dt}</td><td>${result[i].disconnect_dt}</td><td>${result[i].call_time}</td><td>${result[i].counsel_detail}</td></tr>`);
-                            
-                            if ( $('#myTable > tbody tr').length >= 5 ) {
-                                return false;
-                            } else {
-                                $('#myTable').append(row);
-                            }
-                        }
-                    }
                 }
             });
         });

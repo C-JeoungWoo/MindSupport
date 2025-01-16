@@ -7,12 +7,11 @@ module.exports = () => {
     return {
         pool: () => {
             return mysql.createPool({
-                host: '192.168.0.3',
-                port: '13307',
-                user: 'acr',
-                password: 'Acr#600',
+                host: '192.168.0.16',
+                port: '3306',
+                user: 'root',
+                password: 'spdlqj21',
                 database: 'acr_v4',
-                charset: 'utf8mb4',
                 multipleStatements: true,
                 waitForConnections: true,
                 connectionLimit: 20,

@@ -27,7 +27,7 @@ async function sendAudioChunks(
         login_id,
         org_id,
         user_uuid
-}) {
+    }) {
     // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 filePath: ${filePath}`);
     logger.info(`[ streamingService:sendAudioChunks ] 전달받은 totalFileSize: ${options.totalFileSize} 바이트`);
     // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 gsmHeaderLength: ${options.gsmHeaderLength} 바이트`);

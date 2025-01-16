@@ -31,9 +31,11 @@ class AudioFileManager {
         try {
             const fileName = path.basename(filePath, '.wav'); //home/nb~~~ 여기서 가장 마지막 경로인 2025~~~~._tx.wav 만 가져옴
             const callId = fileName.split('_')[2]; //위의 파일에서 '_' 를 기준으로 2번째 스플릿한 데이터를 가져옴
-
-            const fileInfo = this.pendingFiles.get(filePath); // 20250109 일단 주석 처리
+            const fileInfo = this.pendingFiles.get(filePath);
             const callInfo = this.callTracker.get(callId);
+
+            // 디버깅 로깅 추가
+            logger.error(`[ AudioFileManager:handleProcessingComplete ] \ncallId: ${callId}\n fileInfo: ${JSON.stringify(fileInfo)}\n callInfo: ${JSON.stringify(callInfo)}`);
 
             if (!fileName.endsWith('_rx') && !fileName.endsWith('_tx')) {
                 throw new Error(`Invalid filePath format: ${fileName}. Must end with '_rx' or '_tx'.`);
@@ -57,9 +59,11 @@ class AudioFileManager {
             if (callInfo.rx.status === 'completed' && callInfo.tx.status === 'completed') {
                 const handleServiceStop_result = await this.handleServiceStop(userId);
 
-                if(!handleServiceStop_result === true) { // 250110 true 값 받는거 수정
-                    logger.error(`[ AudioFileManager:handleProcessingComplete ] Error completing process`);
+                // 디버깅 로깅 추가
+                logger.error(`[ AudioFileManager:handleProcessingComplete ] handleServiceStop 반환값: ${handleServiceStop_result}`);
 
+                if(handleServiceStop_result !== true) { // 250110 true 값 받는거 수정
+                    logger.error(`[ AudioFileManager:handleProcessingComplete ] Error completing process.......`);
                     return false;
                 } else {
                     this.callTracker.delete(callId);  // 통화 추적 정보 삭제
@@ -77,22 +81,15 @@ class AudioFileManager {
     async handleServiceStop(userId) {
         try {
             const stopResult = await this.EmoServiceStopRQ(userId);
-            
-            if (stopResult === 'success') {  // 조건문 수정 250113
-                logger.info(`[ AudioFileManager:handleServiceStop ] Service stopped successfully for user ${userId}`);
-                return true;
-            } 
-            
-            if (stopResult === 'User not found') {
-                logger.error(`[ AudioFileManager:handleServiceStop ] User not found for user ${userId}`);
+
+            if (!stopResult) {
+                logger.warn(`[ AudioFileManager:handleServiceStop ] Received undefined result from EmoServiceStopRQ`);
                 return false;
             }
-    
-            logger.warn(`[ AudioFileManager:handleServiceStop ] Failed to stop service: ${stopResult}`);
-            return false;    
+
         } catch (error) {
             logger.error(`[ AudioFileManager.js:handleServiceStop ] Error stopping service: ${error}`);
-            throw error;    
+            throw error;  // 상위 로직에서 처리하도록 전달   
         }
     }
 
@@ -159,7 +156,7 @@ class AudioFileManager {
                     let cus_stop_qry = `
                     SELECT * 
                     FROM emo_user_info
-                    WHERE userinfo_userId = ${stop_userinfo_userId + 10};`;
+                    WHERE userinfo_userId = ${stop_userinfo_userId + 3};`;
 
                     connection1.query(cus_stop_qry, (err, cus_results) => {
                         if(err) {
@@ -174,7 +171,7 @@ class AudioFileManager {
                             TransactionId: results[0].user_uuid2,
                             QueueInfo: ErkQueueInfo2,
                             OrgId: results[0].user_orgid,
-                            UserId: results[0].userinfo_userId+10
+                            UserId: results[0].userinfo_userId + 3
                         });
 
                         let EmoServiceStopMsg_cus = ErkApiMsg.create({
@@ -208,7 +205,7 @@ class AudioFileManager {
 
                         let emoSerStop_send_rq = `UPDATE emo_user_info
                         SET erkEmoSrvcStop_send_dt = NOW(3)
-                        WHERE userinfo_userId IN(${results[0].userinfo_userId}, ${results[0].userinfo_userId+10});`;
+                        WHERE userinfo_userId IN(${results[0].userinfo_userId}, ${results[0].userinfo_userId + 3});`;
                         connection1.query(emoSerStop_send_rq, (err, results) => {
                             if (err) {
                                 logger.error(`[ AudioFileManager.js:emoSerStop_send_rq ] ${err}`);

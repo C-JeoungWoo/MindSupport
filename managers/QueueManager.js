@@ -67,7 +67,7 @@ class QueueManager {
                         SELECT * FROM emo_user_info eui 
                         INNER JOIN emo_provider_info epi ON eui.org_name = epi.org_name 
                         WHERE eui.userinfo_userId = ?`;
-                    connection1.query(QueueInfoQuery, [this.userId+10], (err, results) => {
+                    connection1.query(QueueInfoQuery, [this.userId + 3], (err, results) => {
                         if (err) {
                             logger.error(`[ QueueManager:fetchQueueInfo ] Customer query error: ${err}`);
                             reject(err);
@@ -140,7 +140,7 @@ class QueueManager {
                     toQueue: erkengineInfo_returnCustomer_recvQueueName,
                     fromQueue: erkengineInfo_returnCustomer_sendQueueName,
                     TransactionId: uuid2,
-                    userId: userinfo_userId+10,
+                    userId: userinfo_userId + 3,
                     type: 'tx'
                 };
 

@@ -33,7 +33,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
     let fileType = filePath.includes('rx') ? 'rx' : 'tx';
     
     if (filePath.includes('_tx')) {
-        userInfoUserId = userInfoUserId+10;
+        userInfoUserId = userInfoUserId + 3;
     }
 
     // 통화 파일 정보 등록 //20250109 추가
@@ -213,23 +213,26 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                             user_uuid: serviceResponse.user_uuid
                         }
                     );
-                    logger.error(`[ audioServices.js:sendAudioChunks ] totalFileSize(pcmDataSize) : ${totalFileSize}`);
-                    logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
-                    if (!sendResult.message === 'success') {
+                    if (sendResult.message !== 'Chunk processed successfully') {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
+                        logger.error(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 실패.`);
                     } else {
                         logger.info(`[ audioServices.js:sendAudioChunks ] Successfully processed final chunk ${chunkNumber}`);
                         
                         const handleProcessingComplete_result = await audioFileManager.handleProcessingComplete(filePath, userInfoUserId);
-                        if(!handleProcessingComplete_result === true) {
-                            logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 실패.`);
+                        // 디버깅용 로깅 추가
+                        logger.error(`[ audioServices.js:sendAudioChunks ] handleProcessingComplete 반환값: ${handleProcessingComplete_result}`);
+
+                        if(handleProcessingComplete_result === false) {
+                            logger.error(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 실패 2 : ${handleProcessingComplete_result}`);
+                        } else {
+                            logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 완료.`);
                         }
-                        logger.info(`[ audioServices.js:sendAudioChunks ] 모든 청크 처리 완료.`);
-                        break;
                     }
-                } else {
+                } else { // 미완료된 청크 처리
                     logger.info(`[ audioServices.js:handleNewFile ] Recording uncompleted.`);
+
                     const sendResult = await StreamingService.sendAudioChunks(
                         filePath, 
                         userInfoUserId,
@@ -247,7 +250,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     );
                     logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
-                    if (!sendResult.message === 'success') {
+                    if (sendResult.message !== 'success') {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
                     }
                     logger.info('Chunk processing:', {
@@ -360,14 +363,14 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
             TransactionId: joinedData[0].user_uuid,
             QueueInfo: ErkQueueInfo,
             OrgId: parseInt(joinedData[0].user_orgid),
-            UserId: parseInt(joinedData[0].userinfo_userId)  // 상담원10명 셋팅(고객은 userinfo_userId+10 로 매핑)
+            UserId: parseInt(joinedData[0].userinfo_userId)  // 상담원3명 셋팅(고객은 userinfo_userId+ 3 로 매핑)
         });
         let ErkMsgHead_cus = ErkApiMsg.create({
             MsgType: 21,
             TransactionId: joinedData[0].user_uuid2,
             QueueInfo: ErkQueueInfo2,
             OrgId: parseInt(joinedData[0].user_orgid),
-            UserId: parseInt(joinedData[0].userinfo_userId) + 10
+            UserId: parseInt(joinedData[0].userinfo_userId) + 3
         });
 
         //  ESSRQ 메세지 구성
@@ -415,7 +418,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                     }),
                     // Channel 2 전송 및 응답 대기
                     new Promise((resolveChannel) => {
-                        const userId = parseInt(joinedData[0].userinfo_userId)+10;
+                        const userId = parseInt(joinedData[0].userinfo_userId)+ 3;
                         const query = `UPDATE emo_user_info 
                         SET erkEmoSrvcStart_send_dt = NOW(3)
                         WHERE userinfo_userId = ${userId}`;
@@ -451,7 +454,7 @@ const EmoServiceStartRQ = async function EmoServiceStartRQ (path) {
                                 )`,
                                 [
                                     parseInt(joinedData[0].userinfo_userId), 
-                                    parseInt(joinedData[0].userinfo_userId)+10
+                                    parseInt(joinedData[0].userinfo_userId)+ 3
                                 ],
                                 (error, results) => {
                                     if (error) {

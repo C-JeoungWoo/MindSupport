@@ -26,21 +26,6 @@
       <h3>감성판단</h3>
       <div class="flex gap">
         <div class="searchFilterLines solo">
-          <label>상담그룹</label>
-          <div class="selectWrap">
-            <div class="select">
-              <button type="button" class="boxLabel" id='searchGroup' onclick="selectBox(this)" aria-label="상담그룹 선택">전체</button>
-              <ul class="list">
-                <li class="item"><a>전체</a></li>
-                <li class="item"><a>일반문의</a></li>
-                <li class="item"><a>민원접수</a></li>
-                <li class="item"><a>제품판매</a></li>
-                <li class="item"><a>기타접수</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="searchFilterLines solo">
           <label>상담사 명</label>
           <div class="selectWrap">
             <div class="select">
@@ -509,7 +494,6 @@ try {
     const result = await response.json();
 
     if (result.success) {
-        alert('메모가 성공적으로 삭제되었습니다.');
         coachingModalClose();
         location.reload(); // 새로운 메모 동기화
     } else {

@@ -5,6 +5,10 @@ const fs = require('fs');
 const fsp = require('fs').promises;
 const { EventEmitter } = require('events');
 
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
+ffmpeg.setFfmpegPath(ffmpegPath);
+
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -125,8 +129,7 @@ async function attemptConversion(filePath, chunkNumber, pcmDataSize) {
             logger.info(`[ app.js:attemptConversion ] File copied to local directory: ${localCopyPath}`);
 
             // ffmpeg 명령어 실행
-            const ffmpegProcess = 
-            spawn('ffmpeg', [
+            const ffmpegProcess = spawn('ffmpeg', [
                 '-y',   // 덮어쓰기 옵션(설정하지 않으면 직접 입력해줘야 함)
                 '-i', localCopyPath,
                 // 시작 시간과 지속 시간 지정
