@@ -47,17 +47,12 @@
     
     <!-- [s] wrap -->
     <div class = "wrap">
-        <div class= "left_client">
-            <div class="btn-group">
-                <input type= 'button' class= 'startButton1 btn btn-danger btn-sm'  value= 'EmoServiceStop' style="border-radius: 5%;"/>
-            </div>
-        </div>
         <div class="srchBox">
             <div class="fromManager">
                 <p class= "emotion_status">
                     <% if (call_emotion_agent.length == 0) { %>
                         <span class = "agent_emotion" style="padding-bottom: 1.2%;">
-                            금일 마지막 감성 데이터가 없습니다. <img src="/images/smile.png" alt="기쁨" width="30px" height="30px">
+                            마지막 감성 데이터가 없습니다. <img src="/images/close.png" alt="없음" width="30px" height="30px">
                         </span>
                     <% } else { %>
                         <% for(var i=0; i<call_emotion_agent.length; i++) { 
@@ -67,7 +62,7 @@
                                 최근 감성상태
                                 <% if (data.emotion_type == '5') { %>
                                     최근 감성상태 <img src="/images/smile.png" alt="기쁨" width="25px" height="25px">
-                                <% } else if (data.emotion_type == '6') { %>
+                                <% } else if (data.emotion_type == '6', '13') { %>
                                     최근 감성상태 <img src="/images/sad.png" alt="슬픔" width="25px" height="25px">
                                 <% } else if (data.emotion_type == '7') { %>
                                     최근 감성상태 <img src="/images/angry.png" alt="화남" width="25px" height="25px">
@@ -84,6 +79,9 @@
                 <textarea class="form-control" name= "content" id= "EventMsg" cols= "100" rows= "8" wrap= "on" readonly style="font-size:1.3rem"></textarea>
             </div>
         </div><!-- [e] srchBox -->
+
+        <!-- 테스트 완료시 버튼 주석처리 or 삭제 -->
+        <input type= 'button' class= 'startButton1 btn btn-danger btn-sm'  value= 'EmoServiceStop'/>
 
         <div class= "bottom_emotion_table">
             <div class="counseling_list">
@@ -112,7 +110,7 @@
                         <tbody>
                             <% if (call_history_agent.length === 0) { %> 
                                 <tr>
-                                    <td colspan="11">표시할 데이터가 없습니다</td>
+                                    <td colspan="11">통화 이력 데이터가 존재하지 않습니다.</td>
                                 </tr>
                             <% } else { %>
                                 <% for(var i=0; i<call_history_agent.length; i++) {
@@ -250,21 +248,8 @@
     </script>
     <!-- [end] 소켓 통신 -->
     
-    <!-- 버튼 이벤트 -->
+    <!-- 버튼 이벤트============================ -->
     <script>
-        //  EmoServiceStart
-        $('.client_save').click(() => {
-            $.ajax({
-                url: `/EmoServiceStartRQ`,
-                dataType: 'json',
-                method: 'GET',
-                success: result => {
-                    if(result) { console.log(result); }
-                }
-            });
-        });
-
-        //  EmoServiceStop
         $('.startButton1').click(() => {
             $.ajax({
                 url: `/EmoServiceStopRQ`,
@@ -272,21 +257,6 @@
                 method: 'GET',
                 success: result => {
                     if(result) { console.log(result); }
-                }
-            });
-        });
-        
-        //  SpeechEmoRecog
-        $('.stopButton1').click(() => {
-            $.ajax({
-                url: `/SpeechEmoRecogRQ`,
-                dataType: 'json',
-                method: 'GET',
-                success: result => {
-                    if(result) { console.log(result); }
-                },
-                error: (xhr, status, error) => {
-                    console.error("Error:", status, error);
                 }
             });
         });

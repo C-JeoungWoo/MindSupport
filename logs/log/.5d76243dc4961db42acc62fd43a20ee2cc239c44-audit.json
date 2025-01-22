@@ -6,36 +6,6 @@
     "auditLog": "/home/nbetri/MindSupport_v1.0.0/logs/log/.5d76243dc4961db42acc62fd43a20ee2cc239c44-audit.json",
     "files": [
         {
-            "date": 1736924971196,
-            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250115_16.log",
-            "hash": "ce15e6d082a60ccb6b236170a562cb970bc9381e587fe89e1e95a7a9ab9421bc"
-        },
-        {
-            "date": 1736928030430,
-            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250115_17.log",
-            "hash": "e9adc5c8fe5f8eb70dab0a3422355421c9422fe1b6763b2ddd60a47cd1fc4a1b"
-        },
-        {
-            "date": 1736985501254,
-            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250116_08.log",
-            "hash": "0f1adc327c53661ae263d6535f708f2fe624bd1953dab3c67dbcadbe8e5d6331"
-        },
-        {
-            "date": 1736985649056,
-            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250116_09.log",
-            "hash": "14a2726f2110bdc2c6597be0a5836dabdce19a78482a8499e93bbc4420eba60c"
-        },
-        {
-            "date": 1736989235741,
-            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250116_10.log",
-            "hash": "ba51f4a8e434b81dda9cce6d6caf26f649ab975393616c6af9dd29df8f693afe"
-        },
-        {
-            "date": 1736992887447,
-            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250116_11.log",
-            "hash": "c40c1c1f2cc0ba76b0c8bfb1275527ae9edb17b0933adad5314f88519c3bdfb2"
-        },
-        {
             "date": 1736996448532,
             "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250116_12.log",
             "hash": "e3cf84ad5702eff671f2d0190fc23b9f7b17c2ece271aff13d1d87617eda7060"
@@ -64,6 +34,126 @@
             "date": 1737014682161,
             "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250116_17.log",
             "hash": "6fc3293694d96733f28ed518c01f01df4463eaba9076ed53f8af2a9633379c76"
+        },
+        {
+            "date": 1737071978780,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_08.log",
+            "hash": "3ad6bd7296972f10f36a8b4b55876a6c834f3a40f92f545dbd1b44c9408959ef"
+        },
+        {
+            "date": 1737072179722,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_09.log",
+            "hash": "831b1eacea9ccfcd57b978f54aaaacfd91f887da386da6a299a142aa0fde2855"
+        },
+        {
+            "date": 1737075600968,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_10.log",
+            "hash": "a1dd5c4f4e132ca1a87ce7f051bcff2bd126356f19bff7203117bb71d65a902d"
+        },
+        {
+            "date": 1737080812855,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_11.log",
+            "hash": "f9a95d24d772940ca2c578bca6a928caa116b6d4e3a2c8a856bf71a055f8d151"
+        },
+        {
+            "date": 1737083423658,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_12.log",
+            "hash": "fe7c3a3bd80a475fa200de034fd28ad1aa66f11c60bf036076b04a2ab0446b16"
+        },
+        {
+            "date": 1737089173742,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_13.log",
+            "hash": "ab31e9524d662c369a8018f77d17ca798e6495d1bd8e6c10a95d496cece2c29a"
+        },
+        {
+            "date": 1737090001126,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_14.log",
+            "hash": "73b23a69e842cc94bf262205edf7b37d1f72d9f426739018e668e0781ddfd323"
+        },
+        {
+            "date": 1737093612216,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_15.log",
+            "hash": "2acaab0abc9e21e90bcf7323c6a9c30fb9c24b48eb2b04f824a53c4a974cb308"
+        },
+        {
+            "date": 1737097371885,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_16.log",
+            "hash": "0ca118a5492e7455d992394310db434f2ad9884edd608ecd560957c0ca48b89b"
+        },
+        {
+            "date": 1737102307345,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250117_17.log",
+            "hash": "72144de87ea850fb8baae2a8b2ef2c1c099646698b80c5684ce3eebcb71e045e"
+        },
+        {
+            "date": 1737348932468,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250120_13.log",
+            "hash": "13a204bd773b5ce87f1cd79458cc0cf4651f83f111fc4e1be85aecc167c28f28"
+        },
+        {
+            "date": 1737349651986,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250120_14.log",
+            "hash": "1abe3260bcc02b32e05b9dce057eb2d2ba161f02a049ad0719d3f273294122ac"
+        },
+        {
+            "date": 1737357591686,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250120_16.log",
+            "hash": "87eccd9dd2ef79213b1c2cbd5e498f7ccda3007b382cd793c4ab103eb7d9f1b2"
+        },
+        {
+            "date": 1737360008464,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250120_17.log",
+            "hash": "c8c36359320521d5fd62a00664bf9e2d55f3c4e3dec920c4492ffe9300f77281"
+        },
+        {
+            "date": 1737419840544,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_09.log",
+            "hash": "6a01eab362ba7d37f79307d66702416d01a892dd1028a9bb67cc1a57d7e098d4"
+        },
+        {
+            "date": 1737422442510,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_10.log",
+            "hash": "a7f9d9d3308c28e659f2599c72df09ae295715659bb7019bc33fbd9a8a4e49ab"
+        },
+        {
+            "date": 1737426411167,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_11.log",
+            "hash": "3918400bdde39b496857a23775c0858eaabf69f8f0cb74806d1dd5cb45ccae85"
+        },
+        {
+            "date": 1737428648214,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_12.log",
+            "hash": "34df902017c0749e4e14386666e71d3800ca4097e364765d5c8e2c03299adf30"
+        },
+        {
+            "date": 1737435113903,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_13.log",
+            "hash": "2571a6a3e0bfb5c05ccbad60ad66315ef908504f4e239811c29b959fe88885b3"
+        },
+        {
+            "date": 1737435649308,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_14.log",
+            "hash": "de26de313d1921c516f5c986cef7ea73c2ef452645a4fd88d3a78e1aa98ff3d5"
+        },
+        {
+            "date": 1737439439883,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_15.log",
+            "hash": "678ea83737db51ffecd99cf7f1ff380ab0e072a1602d38d8c7659d77a97784b5"
+        },
+        {
+            "date": 1737446871845,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250121_17.log",
+            "hash": "8702406177513265a759217d21ebc4ea89b48fe9f08f22c62d2ee97123dea4e3"
+        },
+        {
+            "date": 1737532314065,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250122_16.log",
+            "hash": "00161a165c12c7522e590c7107702d357516ea8d85b33f8b549f96b02f19a70c"
+        },
+        {
+            "date": 1737533390960,
+            "name": "/home/nbetri/MindSupport_v1.0.0/logs/log/250122_17.log",
+            "hash": "2fe7505cfa8b45ec8a23e6b31b03e58afac1628b7704bf987a7ebcaecc955a8d"
         }
     ],
     "hashType": "sha256"

@@ -22,8 +22,33 @@ const path = require('path');
 class AudioFileManager {
     //  구조체 선언
     constructor() {
-        this.pendingFiles = new Map();   // 파일 처리 상태 관리
-        this.callTracker = new Map();      // 통화별 rx/tx 상태 추적 추가
+        this.pendingFiles = new Map();        // 파일 처리 상태 관리
+        this.callTracker = new Map();         // 통화별 rx/tx 상태 추적 추가
+        // 20250117 추가
+        this.processedFiles = new Set();     // 처리 완료된 파일 추적용 Set
+        this.processingAttempts = new Map(); // 처리 시도 횟수 추적
+        this.MAX_PROCESSING_ATTEMPTS = 3;    // 최대 처리 시도 횟수
+    }
+
+     // 파일 처리 시도 횟수 확인 및 증가 // 20250117 추가
+     _incrementProcessingAttempt(filePath) {
+        const attempts = this.processingAttempts.get(filePath) || 0;
+        this.processingAttempts.set(filePath, attempts + 1);
+        return attempts + 1;
+    }   
+
+    // 파일 처리 상태 초기화 // 20250117 추가
+    initializeFileProcessing(filePath, fileType) {
+        if (this.processedFiles.has(filePath)) {
+            logger.warn(`File ${filePath} has already been processed`);
+            return false;
+        }
+
+        this.pendingFiles.set(filePath, {
+            fileTypeInfo: { fileType: fileType },
+            processingStartTime: Date.now()
+        });
+        return true;
     }
 
     // 파일 처리 완료 핸들러 수정
@@ -33,27 +58,59 @@ class AudioFileManager {
             const callId = fileName.split('_')[2]; //위의 파일에서 '_' 를 기준으로 2번째 스플릿한 데이터를 가져옴
             const fileInfo = this.pendingFiles.get(filePath);
             const callInfo = this.callTracker.get(callId);
-
+            
             // 디버깅 로깅 추가
-            logger.error(`[ AudioFileManager:handleProcessingComplete ] \ncallId: ${callId}\n fileInfo: ${JSON.stringify(fileInfo)}\n callInfo: ${JSON.stringify(callInfo)}`);
+            // logger.error(`[ AudioFileManager:handleProcessingComplete ] fileName 반환값: ${JSON.stringify(fileName)}`);
+            // logger.error(`[ AudioFileManager:handleProcessingComplete ] fileInfo 반환값: ${JSON.stringify(fileInfo)}`);
+            // logger.error(`[ AudioFileManager:handleProcessingComplete ] callInfo 반환값: ${JSON.stringify(callInfo)}`);
 
-            if (!fileName.endsWith('_rx') && !fileName.endsWith('_tx')) {
-                throw new Error(`Invalid filePath format: ${fileName}. Must end with '_rx' or '_tx'.`);
+            // 이미 처리 완료된 파일인지 확인
+            if (!fileInfo || fileInfo.fileTypeInfo.fileType === 'completed') {
+                logger.error(`File already processed: ${fileName}`);
+                return false; // 중복 처리 시도 시 false 반환
+            }   
+
+            // 처리 시도 횟수 확인 //202517
+            const attempts = this._incrementProcessingAttempt(filePath);
+            if (attempts > this.MAX_PROCESSING_ATTEMPTS) {
+                logger.error(`Maximum processing attempts reached for file: ${fileName}`);
+                this.cleanup(filePath);
+                return false;
             }
 
-            //callId 는 fileName에서 상담사의 번호를 추출하여 저장한 함수 EX) 2501, 2502, ...
-            if (!callId) { throw new Error(`No call info found for ${callId}`); }
+            // 파일 유효성 검사
+            if (!fileName.endsWith('_rx') && !fileName.endsWith('_tx')) {
+                logger.error(`Invalid filePath format: ${fileName}. Must end with '_rx' or '_tx'.`);
+                return false;
+            }
+
+            if (!callInfo) { 
+                logger.error(`No call info found for ${callId}`);
+                return false; // callInfo가 없으면 종료
+            }
+
+            // if (!callInfo.rx || !callInfo.tx) {
+            //     logger.error(`[ AudioFileManager:handleProcessingComplete ] Incomplete callInfo: ${JSON.stringify(callInfo)}`);
+            //     return false; // 정보가 완전하지 않으면 종료
+            // }
+
+            // if (fileName.endsWith('_rx')) {
+            //     // 현재 파일 타입의 상태를 완료로 변경
+            //     callInfo.rx.status = 'completed'; //20250117 수정
+            // } else if (fileName.endsWith('_tx')) {
+            //     // 현재 파일 타입의 상태를 완료로 변경
+            //     callInfo.tx.status = 'completed'; //20250117 수정
+            // }
+
+            const fileType = fileName.endsWith('_rx') ? 'rx' : 'tx';
+            callInfo[fileType].status = 'completed';
+            
 
             // 현재 파일 타입의 상태를 완료로 변경
             if (fileInfo && fileInfo.fileTypeInfo) {
                 fileInfo.fileTypeInfo.fileType = 'completed'; //20250109 수정
             }
 
-            // 현재 파일 타입의 상태를 완료로 변경
-            if (callInfo && callInfo.rx && callInfo.tx) {
-                callInfo.rx.status = 'completed'; //20250109 수정
-                callInfo.tx.status = 'completed'; //20250109 수정
-            }
             
             // rx와 tx 모두 완료된 경우에만 EmoServiceStop 호출
             if (callInfo.rx.status === 'completed' && callInfo.tx.status === 'completed') {
@@ -62,15 +119,22 @@ class AudioFileManager {
                 // 디버깅 로깅 추가
                 logger.error(`[ AudioFileManager:handleProcessingComplete ] handleServiceStop 반환값: ${handleServiceStop_result}`);
 
-                if(handleServiceStop_result !== true) { // 250110 true 값 받는거 수정
-                    logger.error(`[ AudioFileManager:handleProcessingComplete ] Error completing process.......`);
+                // rx와 tx 모두 완료 확인
+                if (callInfo.rx.status === 'completed' && callInfo.tx.status === 'completed') {
+                    const serviceStopResult = await this.handleServiceStop(userId);
+                    
+                    if (serviceStopResult === true) {
+                        // 모든 처리가 완료되면 cleanup 수행
+                        this.processedFiles.add(filePath);
+                        this.cleanup(filePath, callId);
+                        return true;
+                    }
                     return false;
-                } else {
-                    this.callTracker.delete(callId);  // 통화 추적 정보 삭제
-                    return true;
                 }
+
+                return true;
             }
-            this.markFileComplete(filePath);
+            return true; // 부분 처리 완료
         } catch (error) {
             logger.error(`[ AudioFileManager:handleProcessingComplete ] Error completing process: ${error}`);
             return false;
@@ -82,10 +146,15 @@ class AudioFileManager {
         try {
             const stopResult = await this.EmoServiceStopRQ(userId);
 
-            if (!stopResult) {
-                logger.warn(`[ AudioFileManager:handleServiceStop ] Received undefined result from EmoServiceStopRQ`);
+            // 디버깅 로깅 추가
+            logger.error(`[ AudioFileManager:handleServiceStop ] EmoServiceStopRQ 반환값 확인용 로그 : ${JSON.stringify(stopResult)}`); // success or failed
+
+            if (stopResult !== 'success') {
                 return false;
             }
+
+            // 성공시 true 반환
+            return true;
 
         } catch (error) {
             logger.error(`[ AudioFileManager.js:handleServiceStop ] Error stopping service: ${error}`);
@@ -95,16 +164,13 @@ class AudioFileManager {
 
     //  생성된 wav 통화 파일에 대한 데이터 처리가 더 없을 경우
     //  할당되어 있는 스트림 채널 할당 취소 요청
-    async EmoServiceStopRQ (userinfo_userId) {
+    async EmoServiceStopRQ(userinfo_userId) {
         // getErkApiMsg 함수로 ErkApiMsg 상태 검증
         const { ErkApiMsg, ch, ch2, ErkQueueInfo, ErkQueueInfo2 } = getErkApiMsg();
-        logger.debug(`[ audioServices.js:EmoServiceStopRQ ] Current ErkApiMsg status: ${ErkApiMsg  ? 'defined' : 'undefined'}`);
-        logger.debug(`[ audioServices.js:EmoServiceStopRQ ] userinfo_userId : ${userinfo_userId}`);
-
+    
         try {
-            if( userinfo_userId > 10) { return 'success' }
-            let stop_userinfo_userId = userinfo_userId >= 10 ? userinfo_userId-10 : userinfo_userId;
-
+            let stop_userinfo_userId = userinfo_userId > 4 ? userinfo_userId - 3 : userinfo_userId;
+    
             let test_qry = `
             SELECT
                 session_id,
@@ -117,118 +183,105 @@ class AudioFileManager {
                 ON eui.login_id = JSON_UNQUOTE(JSON_EXTRACT(CONVERT(s.data USING utf8), '$.user.login_id'))
             WHERE eui.userinfo_userid = ${stop_userinfo_userId};
             `;
-
-            connection1.query(test_qry, (err, results) => {
-                if(err) {
-                    logger.error(`[ AudioFileManager.js:EmoServiceStopRQ ] ${err}`);
-                    throw err;
-                }
-                logger.info(`[ AudioFileManager.js:EmoServiceStopRQ ] 상담원 현재 상태 조회 결과 ${results.length}건`);
-
-                if (results.length > 0) {
-                    //  상담원
-                    let ErkMsgHead = ErkApiMsg.create({
-                        MsgType: 23,
-                        TransactionId: results[0].user_uuid,
-                        QueueInfo: ErkQueueInfo,
-                        OrgId: results[0].user_orgid,
-                        UserId: results[0].userinfo_userId
-                    });
-
-                    let EmoServiceStopMsg = ErkApiMsg.create({
-                        EmoServiceStopRQ: {
-                            ErkMsgHead: ErkMsgHead,
-                            EmoRecogType: 1,    // 개인감성 or 사회감성
-                            MsgTime: DateUtils.getCurrentTimestamp(), // 년월일시분초밀리초
-                            ServiceType: results[0].userinfo_serviceType,
-                            PhysioEngine_ReceiveQueueName: "",
-                            PhysioEngine_SendQueueName: "",
-                            SpeechEngine_ReceiveQueueName: `${results[0].erkengineInfo_return_recvQueueName}`,
-                            SpeechEngine_SendQueueName: `${results[0].erkengineInfo_return_sendQueueName}`,
-                            FaceEngine_ReceiveQueueName: "",
-                            FaceEngine_SendQueueName: "",
-                            KnowledgeEngine_ReceiveQueueName: "",
-                            KnowledgeEngine_SendQueueName: "",
-                        }
-                    });
-
-                    //  고객 정보도 조회 250113
-                    let cus_stop_qry = `
-                    SELECT * 
-                    FROM emo_user_info
-                    WHERE userinfo_userId = ${stop_userinfo_userId + 3};`;
-
-                    connection1.query(cus_stop_qry, (err, cus_results) => {
-                        if(err) {
-                            logger.error(`[ AudioFileManager.js:EmoServiceStopRQ ] ${err}`);
-                            throw err;
-                        }
-                        logger.info(`[ AudioFileManager.js:EmoServiceStopRQ ] 매핑된 고객 데이터 조회 결과 ${cus_results.length}건`);
-
-                        //  고객
-                        let ErkMsgHead_cus = ErkApiMsg.create({
-                            MsgType: 23,
-                            TransactionId: results[0].user_uuid2,
-                            QueueInfo: ErkQueueInfo2,
-                            OrgId: results[0].user_orgid,
-                            UserId: results[0].userinfo_userId + 3
-                        });
-
-                        let EmoServiceStopMsg_cus = ErkApiMsg.create({
-                            EmoServiceStopRQ: {
-                                ErkMsgHead: ErkMsgHead_cus,
-                                EmoRecogType: 1,    // 개인감성 or 사회감성
-                                MsgTime: DateUtils.getCurrentTimestamp(), // 년월일시분초밀리초
-                                ServiceType: cus_results[0].userinfo_serviceType,
-                                PhysioEngine_ReceiveQueueName: "",
-                                PhysioEngine_SendQueueName: "",
-                                SpeechEngine_ReceiveQueueName: `${cus_results[0].erkengineInfo_returnCustomer_recvQueueName}`,
-                                SpeechEngine_SendQueueName: `${cus_results[0].erkengineInfo_returnCustomer_sendQueueName}`,
-                                FaceEngine_ReceiveQueueName: "",
-                                FaceEngine_SendQueueName: "",
-                                KnowledgeEngine_ReceiveQueueName: "",
-                                KnowledgeEngine_SendQueueName: "",
-                            }
-                        });
-                        //  EmoServiceStop 메세지 인코딩 251113
-                        let EmoServiceStopMsg_buf = ErkApiMsg.encode(EmoServiceStopMsg).finish();
-                        let EmoServiceStopMsg_buf_cus = ErkApiMsg.encode(EmoServiceStopMsg_cus).finish();
-
-                        // 150ms 대기 후 두 번째 큐에 메세지 송신
-                        ch.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf);
-                        setTimeout(() => {
-                            ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf_cus);
-                        }, 150);
-
-                        logger.info(`[ AudioFileManager.js:emoSerStop_send_rq ] 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStopMsg, null, 4)}`);
-                        logger.info(`[ AudioFileManager.js:emoSerStop_send_rq ] 업데이트 후 메세지 송신\n${JSON.stringify(EmoServiceStopMsg_cus, null, 4)}`);
-
-                        let emoSerStop_send_rq = `UPDATE emo_user_info
-                        SET erkEmoSrvcStop_send_dt = NOW(3)
-                        WHERE userinfo_userId IN(${results[0].userinfo_userId}, ${results[0].userinfo_userId + 3});`;
-                        connection1.query(emoSerStop_send_rq, (err, results) => {
-                            if (err) {
-                                logger.error(`[ AudioFileManager.js:emoSerStop_send_rq ] ${err}`);
-                                return null;
-                            }
-                            logger.info(`[ AudioFileManager.js:emoSerStop_send_rq ] EmoServieStop 송신 시간 업데이트 성공`);
-                        });
-
-                        return 'success';
-                    });
-                } else {
-                    logger.warn(`[ AudioFileManager.js:EmoServiceStopRQ] 현재 접속되어 있는 상담원 없음`);
-
-                    return 'failed';
-                }
+    
+            // 상담원 조회 Promise 처리
+            const results = await new Promise((resolve, reject) => {
+                connection1.query(test_qry, (err, results) => {
+                    if (err) return reject(err);
+                    resolve(results);
+                });
             });
+    
+            if (results.length > 0) {
+                // ErkMsgHead 생성
+                let ErkMsgHead = ErkApiMsg.create({
+                    MsgType: 23,
+                    TransactionId: results[0].user_uuid,
+                    QueueInfo: ErkQueueInfo,
+                    OrgId: results[0].user_orgid,
+                    UserId: results[0].userinfo_userId,
+                });
+    
+                let EmoServiceStopMsg = ErkApiMsg.create({
+                    EmoServiceStopRQ: {
+                        ErkMsgHead: ErkMsgHead,
+                        EmoRecogType: 1,
+                        MsgTime: DateUtils.getCurrentTimestamp(),
+                        ServiceType: results[0].userinfo_serviceType,
+                        SpeechEngine_ReceiveQueueName: `${results[0].erkengineInfo_return_recvQueueName}`,
+                        SpeechEngine_SendQueueName: `${results[0].erkengineInfo_return_sendQueueName}`,
+                    },
+                });
+    
+                let EmoServiceStopMsg_buf = ErkApiMsg.encode(EmoServiceStopMsg).finish();
+    
+                // 고객 데이터 조회 Promise 처리
+                let cus_stop_qry = `
+                SELECT * 
+                FROM emo_user_info
+                WHERE userinfo_userId = ${stop_userinfo_userId + 3};
+                `;
+    
+                const cus_results = await new Promise((resolve, reject) => {
+                    connection1.query(cus_stop_qry, (err, results) => {
+                        if (err) return reject(err);
+                        resolve(results);
+                    });
+                });
+    
+                if (cus_results.length > 0) {
+                    let ErkMsgHead_cus = ErkApiMsg.create({
+                        MsgType: 23,
+                        TransactionId: results[0].user_uuid2,
+                        QueueInfo: ErkQueueInfo2,
+                        OrgId: results[0].user_orgid,
+                        UserId: results[0].userinfo_userId + 3,
+                    });
+    
+                    let EmoServiceStopMsg_cus = ErkApiMsg.create({
+                        EmoServiceStopRQ: {
+                            ErkMsgHead: ErkMsgHead_cus,
+                            EmoRecogType: 1,
+                            MsgTime: DateUtils.getCurrentTimestamp(),
+                            ServiceType: cus_results[0].userinfo_serviceType,
+                            SpeechEngine_ReceiveQueueName: `${cus_results[0].erkengineInfo_returnCustomer_recvQueueName}`,
+                            SpeechEngine_SendQueueName: `${cus_results[0].erkengineInfo_returnCustomer_sendQueueName}`,
+                        },
+                    });
+    
+                    let EmoServiceStopMsg_buf_cus = ErkApiMsg.encode(EmoServiceStopMsg_cus).finish();
+    
+                    // RabbitMQ 큐로 메시지 전송
+                    ch.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf);
+                    setTimeout(() => {
+                        ch2.sendToQueue("ERK_API_QUEUE", EmoServiceStopMsg_buf_cus);
+                    }, 150);
+    
+                    // 송신 시간 업데이트
+                    let emoSerStop_send_rq = `
+                    UPDATE emo_user_info
+                    SET erkEmoSrvcStop_send_dt = NOW(3)
+                    WHERE userinfo_userId IN(${results[0].userinfo_userId}, ${results[0].userinfo_userId + 3});
+                    `;
+                    await new Promise((resolve, reject) => {
+                        connection1.query(emoSerStop_send_rq, (err, results) => {
+                            if (err) return reject(err);
+                            resolve(results);
+                        });
+                    });
+    
+                    return 'success';
+                }
+            } else {
+                logger.warn(`[ AudioFileManager.js:EmoServiceStopRQ] 현재 접속되어 있는 상담원 없음`);
+                return 'failed';
+            }
         } catch (err) {
             logger.error(`[ AudioFileManager.js:EmoServiceStopRQ ] ${err}`);
-            
             return {
                 message: 'error',
                 return_type: 0,
-                error: err.message
+                error: err.message,
             };
         }
     }
@@ -237,11 +290,28 @@ class AudioFileManager {
     markFileComplete(filePath) {
         if (this.pendingFiles.has(filePath)) {
             const fileInfo = this.pendingFiles.get(filePath);
-
             logger.info(`[ AudioFileManager:markFileComplete ] Completed: ${fileInfo}`);
-
             this.pendingFiles.delete(filePath);
         }
+    }
+
+    // 리소스 정리
+    cleanup(fileKey) {
+        this.pendingFiles.delete(fileKey);
+        this.processedFiles.delete(fileKey);
+        this.callTracker.delete(fileKey.split('_')[2]); // callId 기반 정리
+    
+        logger.info(`[ AudioFileManager:cleanup ] Cleaned up resources for ${fileKey}`);
+    }
+
+    // 처리 상태 조회
+    getProcessingStatus(filePath) {
+        return {
+            isProcessed: this.processedFiles.has(filePath),
+            attempts: this.processingAttempts.get(filePath) || 0,
+            pendingInfo: this.pendingFiles.get(filePath),
+            maxAttempts: this.MAX_PROCESSING_ATTEMPTS
+        };
     }
     
 }

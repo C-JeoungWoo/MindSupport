@@ -88,7 +88,9 @@ class EnhancedFSWatcher {
 
                     // 2. rx 또는 tx 파일은 Skip (통합본의 파일명으로 이미 처리됨)
                     const fileName = path.basename(filePath);
-                    if (fileName.includes('_rx') || fileName.includes('_tx')) { return; }
+                    if (fileName.includes('_rx') || fileName.includes('_tx')) {
+                        return; 
+                    }
 
 
                     //  3. 통합본 파일에 대해 EmoServiceStartRQ 수행 
@@ -164,9 +166,15 @@ class EnhancedFSWatcher {
         const fileName = path.basename(filePath);
         const currentTime = Date.now();
         
-        // 파일명 패턴 검증 추가 필요
+        // 파일명 패턴 검증 (파일명만 체크하도록 수정)
         const filePattern = /^\d{17}_[A-Z]_\d+\.wav$/;
-        if (!filePattern.test(fileName)) { return { isValid: false, reason: 'invalid_filename_format' }; }
+        // rx/tx 파일명 패턴 ( 얘는 테스트가 끝날시 지워도 됨 20250120 )
+        const splitPattern = /^\d{17}_[A-Z]_\d+_(rx|tx)\.wav$/;
+
+        if (!filePattern.test(fileName) && !splitPattern.test(fileName)) { 
+            logger.error(`Invalid filename format: ${fileName}`);
+            return { isValid: false, reason: 'invalid_filename_format' }; 
+        }
 
         const fileKey = fileName; // fileKey 정의 추가
 
@@ -179,7 +187,9 @@ class EnhancedFSWatcher {
         }
 
         // WAV 파일 검증
-        if (!fileName.toLowerCase().endsWith('.wav')) { return { isValid: false, reason: 'not_wav_file' }; }
+        if (!fileName.toLowerCase().endsWith('.wav')) {
+            return { isValid: false, reason: 'not_wav_file' };
+        }
 
         try {
             const stats = await fsp.stat(filePath);

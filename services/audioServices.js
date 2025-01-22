@@ -14,6 +14,7 @@ const { setErkApiMsg, getErkApiMsg } = require('../utils/erkUtils');
 const logger = require('../logs/logger');
 const fsp = require('fs').promises;
 const path = require('path');
+const { userInfo } = require('os');
 
 const mysql = require('../db/maria')();
 const connection1 = mysql.pool();
@@ -27,14 +28,78 @@ mysql2.pool_check(connection2);
 const handleNewFile = async function handleNewFile(filePath, userInfoUserId, serviceResponse, type) {
     logger.info(`[ audioServices.js:handleNewFile ] 처리요청 받은 RX/TX 파일경로: ${filePath}`);
 
+    const chunkNumber = 1;
+
     const baseFileName = path.basename(filePath, '.wav');
     const caller_id = baseFileName.split('_')[2];
 
-    let fileType = filePath.includes('rx') ? 'rx' : 'tx';
+    const fileKey = path.basename(filePath);
+
+    // let fileType = filePath.includes('rx') ? 'rx' : 'tx'; 안쓰이고있음
+
+    // 이미 처리 중인 파일 체크 20250117
+    if (audioFileManager.processedFiles.has(fileKey)) {
+        logger.warn(`[ audioServices:handleNewFile ] File ${fileKey} is already being processed`);
+        return null;
+    }
     
     if (filePath.includes('_tx')) {
         userInfoUserId = userInfoUserId + 3;
     }
+
+    // 파일 존재 확인
+    try {
+        await fsp.access(filePath);
+        const stats = await fsp.stat(filePath);
+        
+        logger.info(`[ audioServices:handleNewFile ] File verified : 
+            path : ${filePath}, 
+            size : ${stats.size}, 
+            exists : true`
+        );
+
+        const queueStatus = await waitForStreamQueue(userInfoUserId);
+
+        // 파일 무결성 및 헤더 길이 체크
+        const result = await checkGsm610WavFileIntegrity(filePath);
+        if (result.status !== 'valid') {
+            logger.warn(`[ audioServices:checkGsm610WavFileIntegrity ] New file is invalid`);
+            return null;
+        }
+
+        // sendAudioChunks 호출 시 명시적으로 chunkNumber 전달
+        const sendResult = await StreamingService.sendAudioChunks(
+            filePath,
+            userInfoUserId,
+            chunkNumber,  // 명시적으로 chunkNumber 전달
+            {
+                remainingDataSize: stats.size,
+                totalFileSize: stats.size,
+                gsmHeaderLength: result.gsmHeaderLength,
+                fileType: type,
+                selectedQueue: queueStatus,
+                login_id: serviceResponse.login_id,
+                org_id: serviceResponse.org_id,
+                user_uuid: serviceResponse.user_uuid
+            }
+        );
+
+        if (!sendResult.success) {
+            logger.error(`[ audioServices:sendAudioChunks ] Failed to send audio chunk: ${sendResult.message}`);
+            return false;
+        }
+
+    } catch (error) {
+        logger.error(`[ audioServices:handleNewFile ] File access error : ${error.message}, path : ${filePath}` );
+        return null;
+    }
+
+    // sendAudioChunks 호출 시점 로깅
+    logger.error(`[ audioServices:handleNewFile ] Calling sendAudioChunks:
+        filePath : ${filePath}, 
+        userInfoUserId : ${userInfoUserId}, 
+        chunkNumber : ${chunkNumber}`
+    );
 
     // 통화 파일 정보 등록 //20250109 추가
     audioFileManager.pendingFiles.set(filePath, {
@@ -54,6 +119,11 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
     logger.info(`[ audioServices.js:EmoServiceStartRQ ] Current ErkApiMsg status: ${currentErkApiMsg  ? 'defined' : 'undefined'}`);
 
     try {
+        // 파일 처리 초기화
+        if (!audioFileManager.initializeFileProcessing(filePath, type)) {
+            return null;
+        }
+
         // 4. StreamQueue 설정 완료 대기
         const waitForStreamQueue = () => {
             return new Promise((resolve, reject) => {
@@ -104,8 +174,10 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
         const result  = await checkGsm610WavFileIntegrity(filePath);
         if (result.status !== 'valid') {
             logger.warn(`[ audioServices.js:checkGsm610WavFileIntegrity ] New file is invalid`);
+            audioFileManager.cleanup(fileKey); // 20250117
             return null;
         }
+
         const { gsmHeaderLength } = result;  // result에서 gsmHeaderLength 추출
         logger.info(`[ audioServices.js:checkGsm610WavFileIntegrity ] File integrity check passed, header length: ${gsmHeaderLength} bytes`);
 
@@ -179,8 +251,8 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                 // else unchangedCount = 0;
 
                 // 4. 녹취 종료 조건 체크(DB 종료 및 파일 크기 안정화)
-                const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null) && (unchangedCount >= MAX_UNCHANGED_COUNT); // 청크 31찍히는거 의심
-
+                // const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null) && (unchangedCount >= MAX_UNCHANGED_COUNT);
+                const isRecordingComplete = (recordingStatus.REC_END_DATETIME !== null); // 파일 통합본 업로드 테스트용
                 
                 logger.info('handleNewFile calculations:', {
                     currentSize,
@@ -194,8 +266,10 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
 
                 
                 if (isRecordingComplete) {  // 마지막 청크 처리
+                    // logger.info(`[ audioServices.js:handleNewFile ] Recording completed.
+                    // DB Status: ${!!recordingStatus.REC_END_DATETIME}, File Stable: ${unchangedCount >= MAX_UNCHANGED_COUNT}`);
                     logger.info(`[ audioServices.js:handleNewFile ] Recording completed.
-                    DB Status: ${!!recordingStatus.REC_END_DATETIME}, File Stable: ${unchangedCount >= MAX_UNCHANGED_COUNT}`);
+                    DB Status: ${!!recordingStatus.REC_END_DATETIME}`);
                     
                     // 마지막 청크 처리를 위한 sendAudioChunks 호출
                     const sendResult = await StreamingService.sendAudioChunks(
@@ -205,7 +279,7 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                         {
                             remainingDataSize: remainingDataSize,   // 남은 데이터 크기
                             totalFileSize: pcmDataSize, // 전체 파일 크기
-                            gsmHeaderLength: gsmHeaderLength,   // WAV 헤더 크기
+                            gsmHeaderLength: result.gsmHeaderLength,   // WAV 헤더 크기
                             fileType: filePath.includes('rx') ? 'rx' : 'tx',  // rx 또는 tx
                             selectedQueue: queueStatus, // 큐 이름 전달
                             login_id: serviceResponse.login_id,
@@ -250,8 +324,9 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                     );
                     logger.info(`[ audioServices.js:sendAudioChunks ] Final chunk processed with ${remainingDataSize} bytes of data`);
                     
-                    if (sendResult.message !== 'success') {
+                    if (!sendResult.success) {
                         logger.error(`[ audioServices.js:sendAudioChunks ] Failed to send audio chunk ${chunkNumber}: ${sendResult.message}`);
+                        return false;
                     }
                     logger.info('Chunk processing:', {
                         chunkNumber,
@@ -260,14 +335,18 @@ const handleNewFile = async function handleNewFile(filePath, userInfoUserId, ser
                         isComplete: isRecordingComplete
                     });
                     chunkNumber++;
-                }
 
+                    return true;
+                }
                 // 7. 상태 업데이트
                 // previousSize = currentSize;
                 await new Promise(resolve => setTimeout(resolve, 100));
+
+                return true;
             } catch (error) {
                 logger.error(`[ audioServices.js:handleNewFile ] 9999 Error\n ${error.message} \n${error.stack}\n${filePath}\n${userInfoUserId} `);
-                continue;
+                audioFileManager.cleanup(fileKey);
+                return false;
             }
         }
     } catch(err) {

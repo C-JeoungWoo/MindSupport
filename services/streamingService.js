@@ -28,12 +28,56 @@ async function sendAudioChunks(
         org_id,
         user_uuid
     }) {
-    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 filePath: ${filePath}`);
-    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 totalFileSize: ${options.totalFileSize} 바이트`);
-    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 gsmHeaderLength: ${options.gsmHeaderLength} 바이트`);
-    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 remainingDataSize: ${options.remainingDataSize} 바이트`);
-    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 userId: ${userId}`);
-    // logger.info(`[ streamingService:sendAudioChunks ] 전달받은 selectedQueue: ${JSON.stringify(options.selectedQueue, null, 2)}`);
+
+    if (!chunkNumber) {
+        chunkNumber = 1; //명시적으로 기본값 설정
+    }
+    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 filePath: ${filePath}`);
+    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 userId: ${userId}`);
+    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 chunkNumber: ${chunkNumber}`);
+    logger.info(`[ streamingService:sendAudioChunks ] 전달받은 options: ${options} 바이트`);
+
+    // 상세 로깅 추가
+    logger.error(`[ streamingService:sendAudioChunks ] Received filePath: ${filePath}`);
+    logger.error(`[ streamingService:sendAudioChunks ] File exists check at: ${new Date().toISOString()}`);
+
+    // filePath 검증 추가 20250117
+    if (!filePath || typeof filePath !== 'string') {
+        logger.error(`[ streamingService:sendAudioChunks ] Invalid filePath: ${filePath}`);
+        return { 
+            success: false, 
+            message: 'Invalid filePath provided' 
+        };
+    }
+
+    // 3. 파일 존재 여부 확인
+    try {
+        const fileStats = await fsp.stat(filePath);
+        logger.info(`[ streamingService:sendAudioChunks ] File stats:`, {
+            size: fileStats.size,
+            path: filePath,
+            exists: true
+        });
+    } catch (error) {
+        logger.error(`[ streamingService:sendAudioChunks ] File access error:`, {
+            error: error.message,
+            path: filePath,
+            errorCode: error.code
+        });
+        return {
+            success: false,
+            message: `File not accessible: ${error.code}`
+        };
+    }
+
+    // 4. rx/tx 파일 구분 로깅
+    const isRxFile = filePath.includes('_rx.wav');
+    const isTxFile = filePath.includes('_tx.wav');
+    logger.error(`[ streamingService:sendAudioChunks ] File type check:
+         isRx : ${isRxFile}, 
+         isTx : ${isTxFile}, 
+         fileName : ${path.basename(filePath)}`
+    );
 
     try {
         const currentErkApiMsg = getErkApiMsg();
@@ -53,12 +97,31 @@ async function sendAudioChunks(
 
         // GSM -> PCM 변환
         const conversionResult = await convertGsmToPcm(checkedFilePath, chunkNumber, options.totalFileSize);
+
+        if (!conversionResult || !conversionResult.success) {
+            throw new Error(`Conversion failed: ${conversionResult?.message || 'Unknown error'}`);
+        }
+
         if (!conversionResult.message === "success") {
             logger.error('[ streamingService.js : convertGsmToPcm ] File conversion failed:', {
                 error: conversionResult.message,
                 filePath: checkedFilePath
             });
             throw new Error(`[ streamingService.js : convertGsmToPcm ] Failed to convert file: ${conversionResult.message}`);
+        }
+
+        // 변환된 파일 경로 사용
+        const convertedFilePath = conversionResult.outputFile;
+
+        // 변환된 파일 존재 확인
+        try {
+            const fileStats = await fsp.stat(convertedFilePath);
+            logger.info(`Converted file stats:, 
+                path: ${convertedFilePath},
+                size: ${fileStats.size$}
+        `);
+        } catch (error) {
+            throw new Error(`Converted file not accessible: ${error.message}`);
         }
 
         // PCM 파일 읽기 (변환된 파일일)
@@ -74,7 +137,7 @@ async function sendAudioChunks(
 
         // 청크 수 계산
         const numberOfChunks = Math.ceil(file_audio.byteLength / RAW_CHUNK_SIZE);
-        logger.info(`[ streamingService:sendAudioChunks ] FILEPATH: ${checkedFilePath}, PCM Header: ${PCM_HEADER_SIZE}, Chunks: ${numberOfChunks}`);
+        logger.info(`[ streamingService:sendAudioChunks ] FILEPATH: ${convertedFilePath}, PCM Header: ${PCM_HEADER_SIZE}, Chunks: ${numberOfChunks}`);
         logger.info(`[ streamingService:sendAudioChunks ] FILENAME: ${fileInfo_callId}, Total size: ${data.byteLength}, Raw data size: ${file_audio.byteLength}`);
 
         // 큐 정보 설정
@@ -84,7 +147,7 @@ async function sendAudioChunks(
         // StreamProcessor 초기화 및 처리
         const streamProcessor = new StreamProcessor();
         const processResult = await streamProcessor.processFileStream(
-            checkedFilePath, 
+            convertedFilePath, 
             currentErkApiMsg,
             chunkNumber,
             {

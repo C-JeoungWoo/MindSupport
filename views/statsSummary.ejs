@@ -38,7 +38,7 @@
                 <li class="item"><a>전체</a></li>
                 <% if (stats_summary_user_info.length == 0) { %>
                   <tr>
-                    <td colspan="17">표시할 데이터가 없습니다</td>
+                    <td colspan="17">상담사가 존재하지 않습니다.</td>
                   </tr>
                 <% } else { %>
                 <% for(var i=0; i<stats_summary_user_info.length; i++) {
@@ -93,7 +93,7 @@
         <tbody>
           <% if (stats_summary.length == 0) { %>
             <tr>
-              <td colspan="17">표시할 데이터가 없습니다</td>
+              <td colspan="17">통화 요약 내역이 존재하지 않습니다.</td>
             </tr>
           <% } else { %>
             <% for(var i=0; i<stats_summary.length; i++) {
@@ -107,9 +107,14 @@
                 <td scope="row"><%= data.sex %></td>
                 <td scope="row"><%= data.mbti_type %></td>
                 <td scope="row"><%= data.total_records_per_date %> 건</td>
-
-                <td scope="row"><%= data.total_rec_duration_hms %></td>
-
+                <% if (data.total_minutes == "00" && data.total_hours == "00") { %>
+                  <td scope="row"><%= data.total_seconds %> 초</td> <!-- 시간,분이 없을경우 "초" 만 표시 -->
+                <% }
+                if (data.total_hours == "00") { %>
+                    <td scope="row"><%= data.total_minutes %> 분 <%= data.total_seconds %> 초</td> <!-- 시간이 없을경우 "분,초" 만 표시 -->
+                <% } else { %>
+                    <td scope="row"><%= data.total_hours %> 시간 <%= data.total_minutes %> 분 <%= data.total_seconds %> 초</td>
+                <% } %>
                 <td scope="row"><%= data.emotion_records_per_date %> 회</td>
 
                 <td scope="row"><%= data.eei_emotion_info_happy %></td>

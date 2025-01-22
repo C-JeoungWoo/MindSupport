@@ -34,7 +34,7 @@
                 <li class="item"><a>전체</a></li>
                 <% if (selected_user.length == 0) { %>
                   <tr>
-                    <td colspan="7">표시할 데이터가 없습니다</td>
+                    <td colspan="7">상담사가 존재하지 않습니다.</td>
                   </tr>
                 <% } else { %>
                   <% for(var i=0; i<selected_user.length; i++) {
@@ -90,7 +90,7 @@
         <tbody>
           <% if (manage_memo.length == 0) { %> 
             <tr>
-              <td colspan="7">표시할 데이터가 없습니다</td>
+              <td colspan="9">상담사 메모가 존재하지 않습니다.</td>
             </tr>
           <% } else { %>
             <% for(var i=0; i<manage_memo.length; i++) {
@@ -166,7 +166,7 @@
                 <ul class="list">
                   <% if (selected_user.length == 0) { %>
                     <tr>
-                      <td colspan="7">표시할 데이터가 없습니다</td>
+                      <td colspan="7">상담사가 존재하지 않습니다.</td>
                     </tr>
                   <% } else { %>
                     <% for(var i=0; i<selected_user.length; i++) {

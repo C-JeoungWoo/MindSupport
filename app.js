@@ -394,7 +394,7 @@ app.get('/workStatusMain', async (req, res) => {
                 ) latest_login 
                 ON e.user_name = latest_login.user_name 
                 AND e.loginout_dt = latest_login.max_login_dt
-            JOIN 
+            LEFT JOIN 
                 (
                     SELECT 
                         emotion_type, 
@@ -954,8 +954,8 @@ app.get('/coachingMain', async (req, res) => {
             ecm.call_date,
             LEFT(LPAD(call_time, 6, '0'), 2) AS call_hour,
             COUNT(*) AS count_per_hour,
-            SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
-            SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
+            SUM(CASE WHEN ecm.auto_coach = "A" THEN 1 ELSE 0 END) AS auto_coach_count,
+            SUM(CASE WHEN ecm.auto_coach != "A" THEN 1 ELSE 0 END) AS manual_coach_count
         FROM
             MindSupport.emo_coaching_message ecm
         WHERE
@@ -970,8 +970,8 @@ app.get('/coachingMain', async (req, res) => {
         // 금일 코칭 현황 조회 쿼리
         let coaching_type_chart_query = `
             SELECT
-                SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
-                SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
+                SUM(CASE WHEN ecm.auto_coach = "A" THEN 1 ELSE 0 END) AS auto_coach_count,
+                SUM(CASE WHEN ecm.auto_coach != "A" THEN 1 ELSE 0 END) AS manual_coach_count
             FROM
                 MindSupport.emo_coaching_message ecm
             WHERE
@@ -980,8 +980,8 @@ app.get('/coachingMain', async (req, res) => {
         // 통화 및 코칭 현황 자동 및 수동 코칭 조회 쿼리
             let coaching_status_query = `
             SELECT
-                SUM(CASE WHEN ecm.auto_coach = "P" THEN 1 ELSE 0 END) AS auto_coach_count,
-                SUM(CASE WHEN ecm.auto_coach != "P" THEN 1 ELSE 0 END) AS manual_coach_count
+                SUM(CASE WHEN ecm.auto_coach = "A" THEN 1 ELSE 0 END) AS auto_coach_count,
+                SUM(CASE WHEN ecm.auto_coach != "A" THEN 1 ELSE 0 END) AS manual_coach_count
             FROM
                 MindSupport.emo_coaching_message ecm
             WHERE
@@ -1014,6 +1014,7 @@ app.get('/coachingMain', async (req, res) => {
                 MindSupport.emo_user_info eui
             ON
                 eui.login_id = ecm.login_id
+            WHERE ecm.call_date = CURDATE()
             ORDER BY
                 ecm.call_date desc,
                 ecm.call_time desc,
@@ -1988,21 +1989,6 @@ app.post('/coachingAdmin/sendMsg', (req, res) => {
     }
 });
 
-// 감성판단 검색
-app.post('/searchEmoCon', (req, res) => {
-    //  세션 체크
-    if (!req.session || !req.session.authenticate || !req.session.user) {
-        logger.info(`[ app.js:/searchEmoCon ] 세션 정보가 없거나 인증되지 않아 로그인 페이지로 이동`);
-        res.redirect(`/`, { title: `로그인` });
-    }
-    let jsonData = req.body;
-
-    //  검색조건으로 쿼리
-    let search_emo_qry = ``;
-
-    logger.warn(`[ app.js:searchEmoCon ] 조회 요청 조건\n${JSON.stringify(jsonData, null, 2)}`);
-})
-
 //  요약통계
 app.get('/statsSummary', async (req, res) => {
     //  세션 체크
@@ -2043,7 +2029,7 @@ app.get('/statsSummary', async (req, res) => {
             FROM MindSupport.emo_coaching_message
             GROUP BY login_id, DATE_FORMAT(call_date, '%Y-%m-%d')
         )
-        SELECT 
+        SELECT DISTINCT
             eui.user_name,
             eui.group_type,
             eui.login_id,
@@ -2059,36 +2045,49 @@ app.get('/statsSummary', async (req, res) => {
             es.eei_emotion_info_happy,
             es.emotion_records_per_date,
             cs.manual_coach_count,
-            cs.auto_coach_count,
-            ecm.call_date
+            cs.auto_coach_count
         FROM MindSupport.emo_user_info eui
         LEFT JOIN emotion_summary es 
             ON eui.login_id = es.login_id
         LEFT JOIN coaching_summary cs
             ON eui.login_id = cs.login_id
             AND cs.coach_date = es.emotion_date
-        LEFT JOIN MindSupport.emo_coaching_message ecm 
-            ON eui.login_id = ecm.login_id
-            AND DATE_FORMAT(ecm.call_date, '%Y-%m-%d') = es.emotion_date
-        WHERE eui.group_type IS NOT NULL
+        WHERE 
+            eui.group_type IS NOT NULL
+            AND eui.group_manager != 'Y'
+            AND eui.agent_telno IS NOT NULL
+            AND es.emotion_date IS NOT NULL
         GROUP BY 
-            eui.login_id, es.emotion_date;`
+            eui.user_name,
+            eui.group_type,
+            eui.login_id,
+            eui.agent_telno,
+            eui.age,
+            eui.sex,
+            eui.mbti_type,
+            es.emotion_date,
+            es.eei_emotion_info_none,
+            es.eei_emotion_info_angry,
+            es.eei_emotion_info_peace,
+            es.eei_emotion_info_sad,
+            es.eei_emotion_info_happy,
+            es.emotion_records_per_date,
+            cs.manual_coach_count,
+            cs.auto_coach_count;`
         
         let select_statsSummary_acr_query = `
-        SELECT 
+        SELECT DISTINCT
             AGENT_TELNO,
-            REC_START_DATE,
+            DATE_FORMAT(REC_START_DATE, '%Y-%m-%d') as REC_START_DATE,
             COUNT(DISTINCT REC_START_TIME) AS total_records_per_date,
-            SEC_TO_TIME(SUM(REC_DURATION)) AS total_rec_duration_hms
-        FROM (
-            SELECT 
-                AGENT_TELNO,
-                REC_START_DATE,
-                REC_DURATION,
-                REC_START_TIME
-            FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
-        ) AS rec_duration_summary
-        GROUP BY AGENT_TELNO, REC_START_DATE;`    
+            SEC_TO_TIME(SUM(REC_DURATION)) AS total_rec_duration_hms,
+            TIME_FORMAT(SEC_TO_TIME(SUM(REC_DURATION)), '%H') AS total_hours,
+            TIME_FORMAT(SEC_TO_TIME(SUM(REC_DURATION)), '%i') AS total_minutes,
+            TIME_FORMAT(SEC_TO_TIME(SUM(REC_DURATION)), '%s') AS total_seconds
+        FROM acr_v4.t_rec_data${DateUtils.getYearMonth()}
+        GROUP BY 
+            AGENT_TELNO, 
+            DATE_FORMAT(REC_START_DATE, '%Y-%m-%d');`;
 
         let select_user_info_query = `
         SELECT user_name,
@@ -2121,23 +2120,55 @@ app.get('/statsSummary', async (req, res) => {
             });
         });
 
-        // 결과 병합
+        // 결과 병합 로직 수정
         const [etriResults, acrResults] = await Promise.all([etriPromise, acrPromise]);
 
-        const select_statsSummary = etriResults
-        .filter(etri => acrResults.some(acr =>
-            acr.AGENT_TELNO === etri.agent_telno &&
-            acr.formatted_date === acr.coach_date // 통화 날짜와 코칭 날짜 일치 확인)
-        ))
-        .map(etri => {
-            const acrData = acrResults.find(acr =>
-                acr.AGENT_TELNO === etri.agent_telno &&
-                acr.formatted_date === acr.coach_date) || {};
-            return {
-                ...etri,
-                ...acrData,
-            };
+        // 데이터 병합을 위한 새로운 로직
+        const stats_summary = [];
+        
+        etriResults.forEach(etri => {
+            // 데이터 타입 확인을 위한 로그
+            console.log('Matching attempt:', {
+                etri_telno: etri.agent_telno,
+                etri_date: etri.emotion_date,
+                acr_samples: acrResults
+                    .filter(acr => acr.AGENT_TELNO === etri.agent_telno)
+                    .map(acr => acr.REC_START_DATE)
+            });
+        
+            // ACR 데이터에서 매칭되는 모든 레코드 찾기
+            const matchingAcrData = acrResults.filter(acr => {
+                const telnoMatch = String(acr.AGENT_TELNO) === String(etri.agent_telno);
+                const dateMatch = acr.REC_START_DATE === etri.emotion_date;
+                return telnoMatch && dateMatch;
+            });
+        
+            if (matchingAcrData.length === 0) {
+                // 매칭되는 ACR 데이터가 없는 경우
+                stats_summary.push({
+                    ...etri,
+                    total_records_per_date: 0,  // null 대신 0으로 설정
+                    total_rec_duration_hms: '00:00:00',  // null 대신 0시간으로 설정
+                    total_hours: '00',
+                    total_minutes: '00',
+                    total_seconds: '00'
+                });
+            } else {
+                // 매칭되는 ACR 데이터가 있는 경우 각각에 대해 레코드 생성
+                matchingAcrData.forEach(acrData => {
+                    stats_summary.push({
+                        ...etri,
+                        total_records_per_date: acrData.total_records_per_date,
+                        total_rec_duration_hms: acrData.total_rec_duration_hms,
+                        total_hours: acrData.total_hours,
+                        total_minutes: acrData.total_minutes,
+                        total_seconds: acrData.total_seconds
+                    });
+                });
+            }
         });
+
+        console.log(`select_statsSummary : ${JSON.stringify(stats_summary, null, 4)}`);
 
         connection.query(select_user_info_query, (err, results) => {
             if (err){
@@ -2149,7 +2180,7 @@ app.get('/statsSummary', async (req, res) => {
             res.render('index', {
                 title: 'MindSupport  요약통계',
                 body: 'statsSummary',
-                stats_summary: select_statsSummary,
+                stats_summary: stats_summary,
                 stats_summary_user_info: stats_summary_user_info,
                 session_id: req.session.user.user_name
             }, (err, html) => {
@@ -3300,27 +3331,29 @@ conn = amqp.connect({
                                     let ErkSrvcMsg_buf = ErkApiMsg.encode(ErkSrvcMsg).finish();
                                     ch.sendToQueue("ERK_API_QUEUE", ErkSrvcMsg_buf);
 
-                                    //  매핑된 고객 계정도 연결
-                                    let ErkMsgHead_cus = ErkApiMsg.create({
-                                        MsgType: 17,
-                                        QueueInfo: ErkQueueInfo2,
-                                        TransactionId: sessionUser.cusinfo_uuid,
-                                        OrgId: req.session.user.org_id,
-                                        UserId: sessionUser.userinfo_userId + 3
-                                    });
+                                    //  로그인한 사용자가 상담원인 경우에만 매핑된 고객 계정 연결 ( group_manager 값이 N이고, userinfo_userId가 1이 아닐 경우 )
+                                    if (req.session.user.group_manager === 'N' && req.session.user.userinfo_userId !== '1') {
+                                        let ErkMsgHead_cus = ErkApiMsg.create({
+                                            MsgType: 17,
+                                            QueueInfo: ErkQueueInfo2,
+                                            TransactionId: sessionUser.cusinfo_uuid,
+                                            OrgId: req.session.user.org_id,
+                                            UserId: sessionUser.userinfo_userId + 3
+                                        });
 
-                                    let ErkSrvcMsg_cus = ErkApiMsg.create({
-                                        ErkServiceConnRQ: {
-                                            ErkMsgHead: ErkMsgHead_cus,
-                                            MsgTime: DateUtils.getCurrentTimestamp() // 년월일시분초밀리초
-                                        }
-                                    });
+                                        let ErkSrvcMsg_cus = ErkApiMsg.create({
+                                            ErkServiceConnRQ: {
+                                                ErkMsgHead: ErkMsgHead_cus,
+                                                MsgTime: DateUtils.getCurrentTimestamp() // 년월일시분초밀리초
+                                            }
+                                        });
 
-                                    let ErkSrvcMsg_buf_cus = ErkApiMsg.encode(ErkSrvcMsg_cus).finish();
-                                    ch2.sendToQueue("ERK_API_QUEUE", ErkSrvcMsg_buf_cus);
+                                        let ErkSrvcMsg_buf_cus = ErkApiMsg.encode(ErkSrvcMsg_cus).finish();
+                                        ch2.sendToQueue("ERK_API_QUEUE", ErkSrvcMsg_buf_cus);
 
-                                    logger.info(`[ AMQP:sendToqueue ] 메세지 송신 결과\n${JSON.stringify(ErkSrvcMsg, null, 4)}`);
-                                    logger.info(`[ AMQP:sendToqueue ] 메세지 송신 결과\n${JSON.stringify(ErkSrvcMsg_cus, null, 4)}`);
+                                        logger.info(`[ AMQP:sendToqueue ] 고객 계정 연결 메세지 송신 결과\n${JSON.stringify(ErkSrvcMsg_cus, null, 4)}`);
+                                    }
+                                    logger.info(`[ AMQP:sendToqueue ] 사용자 로그인 메세지 송신 결과\n${JSON.stringify(ErkSrvcMsg, null, 4)}`);
     
                                     if (req.session.user.group_manager === 'Y') {
                                         logger.info(`[ app:erkconn_send_rq ] 관리자 페이지로 이동`);
@@ -3345,14 +3378,23 @@ conn = amqp.connect({
                         }
                     });
                 }
-            });//////////여기까지 gpt에 보내놨음 밑에부터 보내면 됨됨
+            });
 
             //   3.9.2 서비스 연결 해제 요청 및 처리
             //    - 사용자 로그아웃
             app.get(`/logout`, (req, res) => {
                 logger.info(`[ API:ManagerLogout ] 로그아웃 프로세스 호출`);
 
-                const userId = req.session.user.login_id;
+                // 세션 정보를 먼저 변수에 저장
+                const sessionData = {
+                    userId: req.session.user.login_id,
+                    userName: req.session.user.user_name,
+                    userInfoId: req.session.user.userinfo_userId,
+                    groupManager: req.session.user.group_manager,
+                    userInfoUuid: req.session.user.userinfo_uuid,
+                    cusInfoUuid: req.session.user.cusinfo_uuid,
+                    serviceType: req.session.user.service_type
+                };
 
                 //  세션이 인증된 상태라면
                 if (req.session.authenticate) {
@@ -3360,15 +3402,15 @@ conn = amqp.connect({
                     FROM emo_user_info a
                     LEFT JOIN emo_provider_info b
                     ON a.org_name = b.org_name
-                    WHERE a.user_name = "${req.session.user.user_name}"
-                    AND a.login_id = "${userId}";`;
+                    WHERE a.user_name = "${sessionData.userName}"
+                    AND a.login_id = "${sessionData.userId}";`;
 
                     let logout_sql = `INSERT INTO emo_loginout_info (loginout_dt, userinfo_userid, login_id, group_manager, user_name, loginout_type, uuid, uuid2) 
-                    VALUES (NOW(3), '${req.session.user.userinfo_userId}', '${userId}', '${req.session.user.group_manager}', '${req.session.user.user_name}', 'O',
-                    '${req.session.user.userinfo_uuid}', '${req.session.user.cusinfo_uuid}')`;
+                    VALUES (NOW(3), '${sessionData.userInfoId}', '${sessionData.userId}', '${sessionData.groupManager}', '${sessionData.userName}', 'O',
+                    '${sessionData.userInfoUuid}', '${sessionData.cusInfoUuid}')`;
 
-                    if(req.session.userinfo_uuid === null || req.session.userinfo_uuid === '') {
-                        req.session.userinfo_uuid === ""
+                    if(sessionData.userInfoUuid === null || sessionData.userInfoUuid === '') {
+                        sessionData.userInfoUuid === ""
                     }
 
                     connection.query(logout_chk_qry, (err, results) => {
@@ -3381,18 +3423,10 @@ conn = amqp.connect({
                             // 로그아웃을 요청한 사용자에 대해 erkServiceDisconnRQ 전송
                             let ErkMsgHead = ErkApiMsg.create({
                                 MsgType: 19,    // v3.3: 19, 전시회: 13
-                                TransactionId: req.session.userinfo_uuid,
+                                TransactionId: sessionData.userInfoUuid,
                                 QueueInfo: ErkQueueInfo,
                                 OrgId: results[0].org_id,
                                 UserId: results[0].userinfo_userId
-                            });
-
-                            let ErkMsgHead_cus = ErkApiMsg.create({
-                                MsgType: 19,
-                                TransactionId: req.session.cusinfo_uuid,
-                                QueueInfo: ErkQueueInfo2,
-                                OrgId: results[0].org_id,
-                                UserId: results[0].userinfo_userId + 3
                             });
 
                             //  상담원 메세지 body
@@ -3400,25 +3434,41 @@ conn = amqp.connect({
                                 ErkServiceDisConnRQ: {
                                     ErkMsgHead: ErkMsgHead,
                                     MsgTime: parseInt(DateUtils.getCurrentTimestamp()), // 년월일시분초밀리초
-                                    ServiceType: req.session.user.service_type
+                                    ServiceType: sessionData.serviceType
                                 }
                             });
                             let ErkSrvcDisConnMsg_buf = ErkApiMsg.encode(ErkSrvcDisConnMsg).finish();
 
-                            //  고객 메세지 body
-                            let ErkSrvcDisConnMsg_cus = ErkApiMsg.create({
-                                ErkServiceDisConnRQ: {
-                                    ErkMsgHead: ErkMsgHead_cus,
-                                    MsgTime: parseInt(DateUtils.getCurrentTimestamp()), // 년월일시분초밀리초
-                                    ServiceType: req.session.user.service_type
-                                }
-                            });
-                            let ErkSrvcDisConnMsg_buf_cus = ErkApiMsg.encode(ErkSrvcDisConnMsg_cus).finish();
+                            let ErkMsgHead_cus;
+                            let ErkSrvcDisConnMsg_cus;
+                            let ErkSrvcDisConnMsg_buf_cus;
+
+                            if (sessionData.groupManager === 'N' && sessionData.userInfoId !== '1'){ // 로그아웃을 요청한 상담원이 관리자가 아닐경우에만 고객 로그아웃 요청
+                                // 고객 메세지 head
+                                    ErkMsgHead_cus = ErkApiMsg.create({
+                                    MsgType: 19,
+                                    TransactionId: sessionData.cusInfoUuid,
+                                    QueueInfo: ErkQueueInfo2,
+                                    OrgId: results[0].org_id,
+                                    UserId: results[0].userinfo_userId + 3
+                                });
+
+                                //  고객 메세지 body
+                                    ErkSrvcDisConnMsg_cus = ErkApiMsg.create({
+                                    ErkServiceDisConnRQ: {
+                                        ErkMsgHead: ErkMsgHead_cus,
+                                        MsgTime: parseInt(DateUtils.getCurrentTimestamp()), // 년월일시분초밀리초
+                                        ServiceType: sessionData.serviceType
+                                    }
+                                });
+                                ErkSrvcDisConnMsg_buf_cus = ErkApiMsg.encode(ErkSrvcDisConnMsg_cus).finish();
+                            }
 
                             let erkDisconn_send_rq = `UPDATE emo_user_info
                             SET erkservicedisconn_send_dt = NOW(3)
-                            WHERE user_name = "${req.session.user.user_name}"
-                            AND userinfo_userId = ${req.session.user.userinfo_userId};`
+                            WHERE user_name = "${sessionData.userName}"
+                            AND userinfo_userId = ${sessionData.userInfoId};`
+
                             connection.query(logout_sql, err => {
                                 if (err) {
                                     logger.error(`[ API:logout_sql ] ${err}`);
@@ -3433,20 +3483,27 @@ conn = amqp.connect({
                                     }
 
                                     ch.sendToQueue("ERK_API_QUEUE", ErkSrvcDisConnMsg_buf);
-                                    ch2.sendToQueue("ERK_API_QUEUE", ErkSrvcDisConnMsg_buf_cus);
 
-                                    logger.info(`[ AMQP:sendToqueue ] 메세지 송신 결과\n${JSON.stringify(ErkSrvcDisConnMsg, null, 4)}`);
-                                    logger.info(`[ AMQP:sendToqueue ] 메세지 송신 결과\n${JSON.stringify(ErkSrvcDisConnMsg_cus, null, 4)}`);
+                                    // 상담원인 경우에만 고객 계정 로그아웃 메세지 전송
+                                    if (sessionData.groupManager === 'N' && sessionData.userInfoId !== '1') {
+                                        ch2.sendToQueue("ERK_API_QUEUE", ErkSrvcDisConnMsg_buf_cus);
+                                        logger.info(`[ AMQP:sendToqueue ] 고객 계정 로그아웃 메세지 송신 결과\n${JSON.stringify(ErkSrvcDisConnMsg_cus, null, 4)}`);
+                                    }
+
+                                    logger.info(`[ AMQP:sendToqueue ] 사용자 로그아웃 메세지 송신 결과\n${JSON.stringify(ErkSrvcDisConnMsg, null, 4)}`);
 
                                     // 변수 초기화
                                     ErkSrvcDisConnMsg = null;
                                     ErkSrvcDisConnMsg_buf = null;
                                     ErkMsgHead = null;
+                                    ErkMsgHead_cus = null;
+                                    ErkSrvcDisConnMsg_cus = null;
+                                    ErkSrvcDisConnMsg_buf_cus = null;
 
                                     // loginIDsArr를 순회하며 해당 socket.id를 가진 사용자를 찾습니다.
                                     for (let [key, value] of loginIDsArr) {
-                                        if ( value.id === `${userId}`) {
-                                            loginIDsArr.delete(userId);
+                                        if ( value.id === `${sessionData.userId}`) {
+                                            loginIDsArr.delete(sessionData.userId);
                                             req.session;
                                             logger.info(`[ API:erkDisconn_send_rq ] 세션 삭제 성공, 현재 사용자 수: ${loginIDsArr.size}명`);
 
@@ -4238,7 +4295,7 @@ conn = amqp.connect({
                                     });
                             } else {
                                 logger.info(`[ Consume:chEmoServiceStartRP ] recvMsg.EmoServiceStartRP.ReturnCode: ${recvMsg.EmoServiceStartRP.ReturnCode}`);
-                                logger.info(`[ Consume:chEmoServiceStartRP ] recvMsg.EmoServiceStartRP.SpeechEngineInfo: ${recvMsg.EmoServiceStartRP.SpeechEngineInfo}`); // 값 안들어옴'
+                                logger.info(`[ Consume:chEmoServiceStartRP ] recvMsg.EmoServiceStartRP.SpeechEngineInfo: ${recvMsg.EmoServiceStartRP.SpeechEngineInfo}`);
 
                                 //  데이터 저장(receiveQueueName가 ERK로 보내기 위해 사용하는 큐 네임)
                                 let upt_engine_info = `UPDATE emo_user_info
@@ -4297,7 +4354,7 @@ conn = amqp.connect({
 
                                     logger.info(`[ app.js:chEmoServiceStopRP ] 상태 업데이트 성공`);
                                 });
-                            } else {
+                            } else { // Return_code 못받았을때는 그냥 받은걸로 처리 하기위한 작업 ==== ReturnCode_unknown  === '0'
                                 logger.info(`[ app.js:chEmoServiceStopRP ] 다른 응답(정상)`);
                                 
                                 let EmoServiceStop_qry = `UPDATE emo_user_info
@@ -5357,7 +5414,7 @@ io.on('connection', (socket) => {
             io.to(room).emit('server_msg', `접속일시: ${DateUtils.getCurrentDate()}`);
         } else {
             // 상담원이면 클라이언트 메세지창에 전송
-            logger.info(`[ app.js:socketConnected ] 상담원: ${room} 접속[${clientIp}]`);
+            logger.info(`[ app.js:socketConnected ] 상담원: ${room} 접속 [${clientIp}]`);
             logger.info(`[ app.js:socketConnected ] 접속일시: ${DateUtils.getCurrentDate()}`);
 
             io.to(room).emit('server_msg', `상담원${room} 접속[${clientIp}]`);
@@ -5487,10 +5544,11 @@ function selectAutoCoach(callDate) {
                     logger.info(`[ app.js:selectAutoCoach ] matchingResult\n${matchingResult}`);
 
                     const autoMoment = moment(matchingResult.call_date);
+                    const formattedDate = moment(matchingResult.insert_dt).format('YYYY-MM-DD dddd HH:mm:ss');
 
                     io.to(matchingResult.login_id).emit('auto_msg', `──────────────── [시스템 메세지] ────────────────\n`+
                     `※ 이 메세지는 시스템에서 자동 발송되는 메세지입니다.\n`+
-                    `[메세지 발생시간] : ${matchingResult.insert_dt}\n`+
+                    `[메세지 발생시간] : ${formattedDate}\n`+
                     `[기준시간 및 날짜] : ${matchingResult.call_time}구간(시분초), ${autoMoment.format('YYYY년 MM월 DD일')}\n`+
                     `[상담원 ID] : ${matchingResult.login_id}\n`+
                     `[감성(화남) 초과 횟수] : ${matchingResult.agent_anger}회\n`+

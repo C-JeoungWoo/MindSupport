@@ -9,6 +9,9 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpegPath = require('ffmpeg-static');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
+// 파일 변환 상태를 추적하기 위한 전역 Map 추가 //20250117
+const convertedFiles = new Map();
+
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -92,6 +95,18 @@ async function attemptConversion(filePath, chunkNumber, pcmDataSize) {
             if (!fs.existsSync(DIRECTORIES.PCM_DEBUG)) {
                 await fsp.mkdir(DIRECTORIES.PCM_DEBUG, { recursive: true });
                 logger.info(`[ app.js:attemptConversion ] Created PCM debug directory`);
+            }
+
+            // 이미 변환된 출력 파일이 있는지 확인
+            if (fs.existsSync(outputFile)) {
+                logger.info(`Output file already exists: ${outputFile}`);
+                return {
+                    success: true,
+                    inputFile: filePath,
+                    outputFile: outputFile,
+                    debugFile: debugOutputFile,
+                    message: 'File already converted!'
+                };
             }
             
             // 이벤트가 발생한 파일명
@@ -205,8 +220,15 @@ async function attemptConversion(filePath, chunkNumber, pcmDataSize) {
 //  GSM -> PCM 변환
 async function convertGsmToPcm(inputFile, chunkNumber, totalFileSize) {
     const CONVERSION_TIMEOUT = 300000; // 5 minutes timeout
-    logger.info(`[ app.js:convertGsmToPcm ] convertGsmToPcm 함수 호출`);
+    logger.info(`[ app.js:convertGsmToPcm ] convertGsmToPcm 함수 호출 : ${inputFile}`);
     
+    // 이미 변환된 파일인지 확인
+    const fileKey = `${inputFile}_${chunkNumber}`;
+    if (convertedFiles.has(fileKey)) {
+        logger.info(`File already converted: ${fileKey}`);
+        return convertedFiles.get(fileKey);
+    }
+
     return new Promise(async (resolve, reject) => {
         let timeoutId;
         const tempFiles = [];
@@ -217,18 +239,25 @@ async function convertGsmToPcm(inputFile, chunkNumber, totalFileSize) {
             }, CONVERSION_TIMEOUT);
 
             const progressEmitter = new EventEmitter();
-            progressEmitter.on('progress', (progress) => { logger.info(`Conversion progress: ${progress}%`); });
+            progressEmitter.on('progress', (progress) => {
+                logger.info(`Conversion progress: ${progress}%`); 
+            });
 
             // CONVERTING 형식 변환
             const conversionResult = await attemptConversion(inputFile, chunkNumber, totalFileSize);
             if (conversionResult.message === 'Conversion completed successfully!') {
                 logger.info(`[ app.js:attemptConversion ] attemptConversion 결과\n${JSON.stringify(conversionResult, null, 2)}`);
 
-                clearTimeout(timeoutId);
-                resolve({
+                const result = {
                     outputFile: conversionResult.outputFile,
                     message: 'success'
-                });
+                };
+
+                // 변환 결과 저장
+                convertedFiles.set(fileKey, result);
+
+                clearTimeout(timeoutId);
+                resolve({result});
             } else {
                 throw new Error('Conversion failed');
             }

@@ -39,7 +39,7 @@
                 <li class="item"><a>전체</a></li>
                 <% if (counsel_history_user_info.length == 0) { %>
                   <tr>
-                    <td colspan="7">표시할 데이터가 없습니다</td>
+                    <td colspan="7">상담사가 존재하지 않습니다.</td>
                   </tr>
                 <% } else { %>
                 <% for(var i=0; i<counsel_history_user_info.length; i++) {
@@ -66,7 +66,7 @@
       <table class="gap" id="myTable">
         <colgroup>
           <col style="width:5%;">
-          <col style="width:5%;">
+          <col style="width:auto;">
           <col style="width:auto;">
           <col style="width:auto;">
           <col style="width:auto;">
@@ -90,7 +90,7 @@
         <tbody>
           <% if (counsel_history.length == 0) { %> 
             <tr>
-              <td colspan="11">표시할 데이터가 없습니다</td>
+              <td colspan="11">코칭 이력이 존재하지 않습니다.</td>
             </tr>
           <% } else { %>
             <% for(var i=0; i<counsel_history.length; i++) {

@@ -34,7 +34,7 @@
                 <li class="item"><a>전체</a></li>
                 <% if (manage_users.length == 0) { %>
                   <tr>
-                    <td colspan="7">표시할 데이터가 없습니다</td>
+                    <td colspan="7">상담사가 존재하지 않습니다.</td>
                   </tr>
                 <% } else { %>
                   <% for(var i=0; i<manage_users.length; i++) {
@@ -96,7 +96,7 @@
         <tbody>
           <% if (manage_users.length == 0) { %> 
             <tr>
-              <td colspan="11">표시할 데이터가 없습니다</td>
+              <td colspan="11">사용자가 존재하지 않습니다.</td>
             </tr>
           <% } else { %>
             <% for(var i=0; i<manage_users.length; i++) { 
@@ -196,26 +196,10 @@
           </div><!-- 상담원 이름 div end -->
         </div>
 
-        <div class="grid twin">
-          <div>
-            <label>상담그룹</label>
-            <div class="selectWrap">
-              <div class="select">
-                <button type="button" class="boxLabel" id="getGroupType" onclick="selectBox(this)" aria-label="상담그룹 선택">선택</button>
-                <ul class="list">
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '일반문의')">일반문의</a></li>
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '민원접수')">민원접수</a></li>
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '제품판매')">제품판매</a></li>
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType', '기타접수')">기타접수</a></li>
-                </ul>
-              </div>
-            </div>
-          </div><!-- 직급 div end -->
-          <div>
-            <label>나이</label>
-            <input type="text" aria-label="나이 입력" id="getAge" value="" />
-          </div><!-- 나이 div end -->
-        </div>
+        <div>
+          <label>나이</label>
+          <input type="text" aria-label="나이 입력" id="getAge" value="" />
+        </div><!-- 나이 div end -->
 
         <div class="grid twin">
           <div>
@@ -301,26 +285,10 @@
           </div><!-- 상담원 이름 div end -->
         </div>
 
-        <div class="grid twin">
-          <div>
-            <label>상담그룹</label>
-            <div class="selectWrap">
-              <div class="select">
-                <button type="button" class="boxLabel" id="getGroupType2" onclick="selectBox(this)" aria-label="상담그룹 선택">선택</button>
-                <ul class="list">
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '일반문의')">일반문의</a></li>
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '민원접수')">민원접수</a></li>
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '제품판매')">제품판매</a></li>
-                  <li class="item"><a onclick="selectItem(event, 'getGroupType2', '기타접수')">기타접수</a></li>
-                </ul>
-              </div>
-            </div>
-          </div><!-- 직급 div end -->
           <div>
             <label>나이</label>
             <input type="text" pattern="[0-9]+" aria-label="나이 입력" id="getAge2" value="" />
           </div><!-- 나이 div end -->
-        </div>
 
         <div class="grid twin">
           <div>
@@ -493,11 +461,6 @@
         return false;
       }
 
-      if (selectedValues.getGroupType === "선택") {
-        alert('상담그룹을 선택해주세요.');
-        return false;
-      }
-
       if (selectedValues.getSex === "선택") {
         alert('성별을 선택해주세요.');
         return false;
@@ -515,7 +478,7 @@
       $.ajax({
         url: `/settingUserSubmit?getOrgId=${selectedValues.getOrgId}&getOrgName=${selectedValues.getOrgName}
         &getUserId=${selectedValues.getUserId}&getUserName=${selectedValues.getUserName}&getManagerAgent=${selectedValues.getManagerAgent}
-        &getGroupType=${selectedValues.getGroupType}&getAge=${selectedValues.getAge}&getSex=${selectedValues.getSex}&getPlatform=${selectedValues.getPlatform}&getNote=${selectedValues.getNote}`,
+        &getAge=${selectedValues.getAge}&getSex=${selectedValues.getSex}&getPlatform=${selectedValues.getPlatform}&getNote=${selectedValues.getNote}`,
         dataType: 'json',
         method: 'GET',
         success: result => {
@@ -538,7 +501,6 @@
         getUserId: document.getElementById('getAgentId2').value,
         getUserName: document.getElementById('getAgentName2').value,
         getManagerAgent: 'N',
-        getGroupType: $("#getGroupType2").text(),
         getAge: document.getElementById('getAge2').value,
         getSex: $("#getSex2").text(),
         getPlatform: $("#getPlatform2").text(),
@@ -561,7 +523,7 @@
       $.ajax({
         url: `/updatingUserSubmit?getOriginOrgId=${getOriginOrgId}&getOrgId=${selectedValues.getOrgId}'&getOrgName=${selectedValues.getOrgName}
         &getUserId=${selectedValues.getAgentId}&getUserName=${selectedValues.getAgentName}&getManagerAgent=${selectedValues.getManagerAgent}
-        &getGroupType=${selectedValues.getGroupType}&getAge=${selectedValues.getAge}&getSex=${selectedValues.getSex}&getPlatform=${selectedValues.getPlatform}&getNote=${selectedValues.getNote}`,
+        &getAge=${selectedValues.getAge}&getSex=${selectedValues.getSex}&getPlatform=${selectedValues.getPlatform}&getNote=${selectedValues.getNote}`,
         dataType: 'json',
         method: 'GET',
         success: result => {
@@ -629,11 +591,10 @@
     $("#getOrgName2").text(tdArr[2]);
     $("#getAgentId2").val(tdArr[3]);
     $("#getAgentName2").val(tdArr[4]);
-    $("#getManagerAgent2").text(tdArr[5]);
-    $("#getAge2").val(tdArr[6]);
-    $("#getSex2").text(tdArr[7]);
-    $("#getPlatform2").text(tdArr[8]);
-    $("#getNote2").val(tdArr[9]);
+    $("#getAge2").val(tdArr[5]);
+    $("#getSex2").text(tdArr[6]);
+    $("#getPlatform2").text(tdArr[7]);
+    $("#getNote2").val(tdArr[8]);
 
     //  수정 모달 창 열기
     $('#updateModal').stop().fadeIn();
